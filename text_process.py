@@ -38,21 +38,20 @@ def extract_names(response_text):
     names = response_text.split(most_common_separator)
 
     # Retornar los nombres y el separador más común
-    return names, most_common_separator
+    return names
 
 
-def save_to_json(names, file_name='names.json'):
-    # Paso 4: Guardar los nombres en un archivo JSON
+# Función para guardar los nombres como objetos en un archivo JSON
+def save_to_json(names):
+    # Preguntar al usuario por el nombre del archivo
+    file_name = input(
+        "Ingrese el nombre del archivo JSON (sin extensión): ") + '.json'
+
+    # Crear una lista de objetos, donde cada objeto contiene el nombre y el campo band_id vacío
+    names_objects = [{"name": name, "band_id": ""} for name in names]
+
+    # Guardar los objetos en un archivo JSON
     with open(file_name, 'w') as f:
-        json.dump(names, f, ensure_ascii=False, indent=4)
-    print(f"Saved names to {file_name}")
+        json.dump(names_objects, f, ensure_ascii=False, indent=4)
 
-
-# Ejemplo de salida del modelo
-response = "OLIVIA RODRIGO \cdot JUSTIN TIMBERLAKE \cdot SHAWN MENDES \cdot ALANIS MORISSETTE"
-
-# Extraer nombres y guardarlos en un JSON
-# names = extract_names(response)
-# print("Extracted names:", names)
-
-# save_to_json(names)
+    print(f"Nombres guardados exitosamente en {file_name}")

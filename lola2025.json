@@ -1,66 +1,246 @@
 [
-    [
-        "OLIVIA RODRIGO ",
-        " JUSTIN TIMBERLAKE ",
-        " SHAWN MENDES ALANIS MORISETTE ",
-        " TOOL ",
-        " RUIFUS DU SOL ",
-        " TAN BIONICA WOS ",
-        " BENSON BONE ",
-        " FOSTER THE PEOPLE ",
-        " TATE MORRAE ",
-        " LA K‚ÄôONGA LOS √ÅNGELES AZULAS ",
-        " ZEDD ",
-        " NATHY PELUSO ",
-        " CA7RIEL & PACO AMOROSO MON LAFERTE ",
-        " CHARLOTTE DE WITTE ",
-        " PARCELS ",
-        " TEDDY SWIMS ",
-        " GIRL IN RED JAMES HYPE ",
-        " THE MAR√çAS ",
-        " RAWAYANA ",
-        " FONTAINES D.C. ",
-        " SEPULTURA INHALER ",
-        " CARIBOU ",
-        " JPEGMAFIA ",
-        " WAVE TO EARTH ",
-        " BLOND-ISH ",
-        " LASSO BARRY CANT FSWIM ",
-        " MICHAEL KIWANUKA ",
-        " SAN HOLO ",
-        " ARTEMAS ",
-        " CHITA ANA MENA ",
-        " DISCO LINES ",
-        " KIASABLANCA ",
-        " NESSA BARRETT LUZ GAGGI ",
-        " SALASTKBRON ",
-        " MARINA RECHE ",
-        " ELENA ROSE ",
-        " DOBLEP NANPA B√ÅSICO ",
-        " LITTLE JESUS ",
-        " EL MALILLA ",
-        " MICRO TDH ",
-        " ARDE BOT√ì ",
-        " DARUMAS ",
-        " PABLOPABLO ",
-        " ARON ",
-        " LARA PROJECT ",
-        " SPREEN X MATUTE DOLY FLACKKO ",
-        " BALTHVS ",
-        " DUM CHICA ",
-        " PONTE PERRO ",
-        " VINOCIO ",
-        " LIL PANI CENTRAL NORTE CREW: BRYCHTTA + METAL 2MG + ETTA + JORNA AGUIRRE BB ASUL ",
-        " LICHI ",
-        " FRANCISCO VICTORIA ",
-        " PLANTA ",
-        " SULFIA ",
-        " SAMURAT ESTRATOSFERA ",
-        " JUAN LOPEZ ",
-        " DEYCO ",
-        " MILK SHAKE ",
-        " QUERALT LAHOZ ",
-        " LA CINTIA"
-    ],
-    "\\cdot"
+    {
+        "name": "OLIVIA RODRIGO ",
+        "band_id": "1McMsnEElThX1knmY4oliG"
+    },
+    {
+        "name": " JUSTIN TIMBERLAKE ",
+        "band_id": "31TPClRtHm23RisEBtV3X7"
+    },
+    {
+        "name": " SHAWN MENDES ALANIS MORISETTE ",
+        "band_id": "6ogn9necmbUdCppmNnGOdi"
+    },
+    {
+        "name": " TOOL ",
+        "band_id": "2yEwvVSSSUkcLeSTNyHKh8"
+    },
+    {
+        "name": " RUIFUS DU SOL ",
+        "band_id": "5Pb27ujIyYb33zBqVysBkj"
+    },
+    {
+        "name": " TAN BIONICA WOS ",
+        "band_id": "4R7xSJpwf9IsrGzUYNpyz0"
+    },
+    {
+        "name": " BENSON BONE ",
+        "band_id": "22wbnEMDvgVIAGdFeek6ET"
+    },
+    {
+        "name": " FOSTER THE PEOPLE ",
+        "band_id": "7gP3bB2nilZXLfPHJhMdvc"
+    },
+    {
+        "name": " TATE MORRAE ",
+        "band_id": "45dkTj5sMRSjrmBSBeiHym"
+    },
+    {
+        "name": " LA KíONGA LOS ¡NGELES AZULAS ",
+        "band_id": "0ZCO8oVkMj897cKgFH7fRW"
+    },
+    {
+        "name": " ZEDD ",
+        "band_id": "2qxJFvFYMEDqd7ui6kSAcq"
+    },
+    {
+        "name": " NATHY PELUSO ",
+        "band_id": "3VHAySZQPlfGlNLslzXYpN"
+    },
+    {
+        "name": " CA7RIEL & PACO AMOROSO MON LAFERTE ",
+        "band_id": "6I8TDGeUmmLom8auKPzMdX"
+    },
+    {
+        "name": " CHARLOTTE DE WITTE ",
+        "band_id": "1lJhME1ZpzsEa5M0wW6Mso"
+    },
+    {
+        "name": " PARCELS ",
+        "band_id": "3oKRxpszQKUjjaHz388fVA"
+    },
+    {
+        "name": " TEDDY SWIMS ",
+        "band_id": "33qOK5uJ8AR2xuQQAhHump"
+    },
+    {
+        "name": " GIRL IN RED JAMES HYPE ",
+        "band_id": "6QrQ7OrISRYIfS5mtacaw2"
+    },
+    {
+        "name": " THE MARÕAS ",
+        "band_id": "2sSGPbdZJkaSE2AbcGOACx"
+    },
+    {
+        "name": " RAWAYANA ",
+        "band_id": "2AbQwU2cuEGfD465wCXlg2"
+    },
+    {
+        "name": " FONTAINES D.C. ",
+        "band_id": "3SXwqSqAoBz9WCI9PDQzY6"
+    },
+    {
+        "name": " SEPULTURA INHALER ",
+        "band_id": "6JW8wliOEwaDZ231ZY7cf4"
+    },
+    {
+        "name": " CARIBOU ",
+        "band_id": "4aEnNH9PuU1HF3TsZTru54"
+    },
+    {
+        "name": " JPEGMAFIA ",
+        "band_id": "6yJ6QQ3Y5l0s0tn7b0arrO"
+    },
+    {
+        "name": " WAVE TO EARTH ",
+        "band_id": "5069JTmv5ZDyPeZaCCXiCg"
+    },
+    {
+        "name": " BLOND-ISH ",
+        "band_id": "6zsJjoCtL1WByG0VsuFWzR"
+    },
+    {
+        "name": " LASSO BARRY CANT FSWIM ",
+        "band_id": "-"
+    },
+    {
+        "name": " MICHAEL KIWANUKA ",
+        "band_id": "0bzfPKdbXL5ezYW2z3UGQj"
+    },
+    {
+        "name": " SAN HOLO ",
+        "band_id": "0jNDKefhfSbLR9sFvcPLHo"
+    },
+    {
+        "name": " ARTEMAS ",
+        "band_id": "0PCCGZ0wGLizHt2KZ7hhA2"
+    },
+    {
+        "name": " CHITA ANA MENA ",
+        "band_id": "5kLvMAFanr3jQ7iuciSCuM"
+    },
+    {
+        "name": " DISCO LINES ",
+        "band_id": "5Kmr0b3ip8g9P2i0dLTC3Z"
+    },
+    {
+        "name": " KIASABLANCA ",
+        "band_id": "297Z0teiCkp5s9eneWROpI"
+    },
+    {
+        "name": " NESSA BARRETT LUZ GAGGI ",
+        "band_id": "7pwufEBGfggjoI8twqlsmQ"
+    },
+    {
+        "name": " SALASTKBRON ",
+        "band_id": "3WMlRpW5JWuDI95TcEWt3r"
+    },
+    {
+        "name": " MARINA RECHE ",
+        "band_id": "2fUMrRPj5xcEYXG5FoCTfw"
+    },
+    {
+        "name": " ELENA ROSE ",
+        "band_id": "0zO8yNnw5GQgutcIyXfGBY"
+    },
+    {
+        "name": " DOBLEP NANPA B¡SICO ",
+        "band_id": "1cUpGtXcSQsovNYEZOQgOG"
+    },
+    {
+        "name": " LITTLE JESUS ",
+        "band_id": "5p1ARDx76hnOXoeigLIKit"
+    },
+    {
+        "name": " EL MALILLA ",
+        "band_id": "6BV37tKh6pY97mnNdTCzly"
+    },
+    {
+        "name": " MICRO TDH ",
+        "band_id": "1aWJsBQa67l72j1VT3D6Ow"
+    },
+    {
+        "name": " ARDE BOT” ",
+        "band_id": "2Wwiu1wnq1W8AMYbWuRFDH"
+    },
+    {
+        "name": " DARUMAS ",
+        "band_id": "3BtncWAC6RrQFca3UnvsS9"
+    },
+    {
+        "name": " PABLOPABLO ",
+        "band_id": "4jbtfb5mOGveUu9bTYIvEZ"
+    },
+    {
+        "name": " ARON ",
+        "band_id": "79ehGac6casNGvc5n8XL7J"
+    },
+    {
+        "name": " LARA PROJECT ",
+        "band_id": "5FXxWnN3DpfSS4vbcoqvbs"
+    },
+    {
+        "name": " SPREEN X MATUTE DOLY FLACKKO ",
+        "band_id": "-"
+    },
+    {
+        "name": " BALTHVS ",
+        "band_id": "2CtiNJi0zB35RHYXViVjKG"
+    },
+    {
+        "name": " DUM CHICA ",
+        "band_id": "31fWtiCtU07AlqZ5drzplX"
+    },
+    {
+        "name": " PONTE PERRO ",
+        "band_id": "2I223MQt4d0n5rhwLdlEq5"
+    },
+    {
+        "name": " VINOCIO ",
+        "band_id": "73yh69zlE05t6t0dC3C55p"
+    },
+    {
+        "name": " LIL PANI CENTRAL NORTE CREW: BRYCHTTA + METAL 2MG + ETTA + JORNA AGUIRRE BB ASUL ",
+        "band_id": "4h8eXe8mMUAVe2NthUKnek"
+    },
+    {
+        "name": " LICHI ",
+        "band_id": "1Z6c0iLhCdsGm8mmm1OwLh"
+    },
+    {
+        "name": " FRANCISCO VICTORIA ",
+        "band_id": "7IoWRnQriyj7YYLpvx00jv"
+    },
+    {
+        "name": " PLANTA ",
+        "band_id": "5fKHm5RVUWIIirTGZlwGeO"
+    },
+    {
+        "name": " SULFIA ",
+        "band_id": "62Y3OTKAFTbdSCzB2Vs40C"
+    },
+    {
+        "name": " SAMURAT ESTRATOSFERA ",
+        "band_id": "6fBjnfeYEU3VFuQl8RPrp8"
+    },
+    {
+        "name": " JUAN LOPEZ ",
+        "band_id": "2qNWn8KXd9mEEEGIxlDiuT"
+    },
+    {
+        "name": " DEYCO ",
+        "band_id": "7bp6cKqrM7NIxhGxDKY0Lp"
+    },
+    {
+        "name": " MILK SHAKE ",
+        "band_id": "2GVrfuyW75U3nD4BVuwO2I"
+    },
+    {
+        "name": " QUERALT LAHOZ ",
+        "band_id": "5njCmi440o0ft013pOw9W5"
+    },
+    {
+        "name": " LA CINTIA",
+        "band_id": "3NIZFmehJM8YiGpCdihlck"
+    }
 ]
