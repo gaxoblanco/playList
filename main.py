@@ -1,4 +1,6 @@
 from spotify_auth import get_access_token
+from process_list_band_id import process_list_band_id
+from process_list_band_top import process_list_band_top
 from spotify_api import search_artist, get_top_tracks, create_playlist, get_user_id
 
 
@@ -22,7 +24,9 @@ def main():
         print("2. Obtener Top Tracks de un artista")
         print("3. Obtener mi User ID")
         print("4. Crear una lista de reproducción")
-        print("5. Salir")
+        print("5. Procesar lista de bandas desde JSON")
+        print("6. Procesar lista de bandas para obtener las Top Tracks")
+        print("7. Salir")
 
         opcion = input("Selecciona una opción: ")
 
@@ -68,6 +72,14 @@ def main():
                         f"Lista de reproducción creada: {playlist['name']} - ID: {playlist['id']}")
 
         elif opcion == '5':
+            # Procesar lista de bandas desde un archivo JSON
+            process_list_band_id(access_token)
+
+        elif opcion == '6':
+            # Procesar lista de bandas para obtener las Top Tracks
+            process_list_band_top(access_token)
+
+        elif opcion == '7':
             # Salir
             print("Saliendo del programa...")
             break
