@@ -3,3 +3,4 @@ torch==2.0.1
 Pillow==9.5.0
 bitsandbytes==0.43.3
 python-dotenv
+flask

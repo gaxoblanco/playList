@@ -5,7 +5,6 @@ def get_user_id(access_token):
     """
     Obtiene el ID del usuario autenticado.
     """
-    print('acces token obtenido --> ', access_token)
     url = 'https://api.spotify.com/v1/me'
     headers = {
         'Authorization': f'Bearer {access_token}'
@@ -18,10 +17,9 @@ def get_user_id(access_token):
         user_id = data['id']
         return user_id
     else:
-        error_data = response.json()
-        error_message = error_data.get(
-            'error', {}).get('message', 'Unknown error')
-        raise Exception(f"Error {response.status_code}: {error_message}")
+        print(f"Error al obtener el ID del usuario: {response.status_code}")
+        print(response.json())
+        return None
 
 
 def search_artist(access_token, artist_name):

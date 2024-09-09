@@ -48,11 +48,7 @@ def main():
 
         elif opcion == '3':
             # Obtener el User ID del usuario autenticado
-            try:
-                user_id = get_user_id(access_token)
-                print(f"User ID: {user_id}")
-            except Exception as e:
-                print(e)
+            user_id = get_user_id(access_token)
             if user_id:
                 print(f"Tu User ID es: {user_id}")
 
