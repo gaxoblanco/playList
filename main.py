@@ -68,15 +68,18 @@ def main():
             if not user_id:
                 # Si aún no se ha obtenido el User ID, lo obtenemos ahora
                 user_id = get_user_id(access_token)
+                print(f"Tu User ID es: {user_id}")
 
             if user_id:
                 playlist_name = input(
                     "Introduce el nombre de la lista de reproducción: ")
+                json_file = input(
+                    "Introduce el nombre del archivo JSON de trabajo: ")
                 playlist = create_playlist(
-                    access_token, user_id, playlist_name)
+                    access_token, user_id, playlist_name, json_file)
                 if playlist:
                     print(
-                        f"Lista de reproducción creada: {playlist['name']} - ID: {playlist['id']}")
+                        f"Lista de reproducción creada: {playlist}")
 
         elif opcion == '5':
             # Procesar lista de bandas desde un archivo JSON
