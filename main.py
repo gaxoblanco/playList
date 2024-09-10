@@ -1,4 +1,4 @@
-from spotify_auth import get_access_token
+from spotify_auth import get_access_token, get_authorization_code
 from process_list_band_id import process_list_band_id
 from process_list_band_top import process_list_band_top
 from spotify_api import search_artist, get_top_tracks, create_playlist, get_user_id
@@ -9,12 +9,22 @@ def main():
     Función principal que coordina la interacción con la API de Spotify según la entrada del usuario.
     """
     print("Autenticando...")
-    access_token = get_access_token()
-    print("Autenticado correctamente.", access_token)
+
+    # Obtener el código de autorización
+    authorization_code = get_authorization_code()
+
+    if not authorization_code:
+        print("No se pudo obtener el código de autorización.")
+        return
+
+    # Obtener el token de acceso y de actualización
+    access_token, refresh_token = get_access_token(authorization_code)
 
     if not access_token:
         print("No se pudo autenticar.")
         return
+
+    print("Autenticado correctamente.", access_token)
 
     user_id = None
 

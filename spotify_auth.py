@@ -1,73 +1,61 @@
 import requests
 import base64
 import os
-import urllib.parse
 from dotenv import load_dotenv
+import webbrowser
+from urllib.parse import urlencode, urlparse, parse_qs
 
 # Cargar variables de entorno
 load_dotenv()
 
-# URLs base
-AUTH_URL = 'https://accounts.spotify.com/authorize'
-TOKEN_URL = 'https://accounts.spotify.com/api/token'
+# Datos de la app en Spotify
+CLIENT_ID = os.getenv('CLIENT_ID')
+CLIENT_SECRET = os.getenv('CLIENT_SECRET')
+REDIRECT_URI = os.getenv('REDIRECT_URI')
+SCOPE = "playlist-modify-public playlist-modify-private"
+
+AUTH_URL = "https://accounts.spotify.com/authorize"
+TOKEN_URL = "https://accounts.spotify.com/api/token"
 
 
-def get_access_token():
+def get_authorization_code():
     """
-    Obtiene un token de acceso usando el Authorization Code Flow.
+    Redirige al usuario a la página de autorización de Spotify.
     """
-    client_id = os.getenv('CLIENT_ID')
-    client_secret = os.getenv('CLIENT_SECRET')
-    redirect_uri = os.getenv('REDIRECT_URI')
+    auth_params = {
+        "client_id": CLIENT_ID,
+        "response_type": "code",
+        "redirect_uri": REDIRECT_URI,
+        "scope": SCOPE
+    }
 
-    # 1. Redirigir al usuario para autenticar
-    auth_url = get_auth_url()
-    print(f"Ve a esta URL para autenticarte: {auth_url}")
+    # Crear la URL de autorización
+    url = f"{AUTH_URL}?{urlencode(auth_params)}"
 
-    # 2. Obtener el código de autorización manualmente
-    code = input("Introduce el código de autorización de la URL: ")
+    # Abrir el navegador para que el usuario otorgue permisos
+    webbrowser.open(url)
 
-    # 3. Intercambiar el código de autorización por un token
-    tokens = exchange_code_for_token(code)
+    # Pedir al usuario que introduzca la URL del callback después de autorizar
+    redirected_url = input(
+        "Introduce la URL a la que fuiste redirigido tras autorizar la app: ")
 
-    if tokens:
-        print("Autenticado correctamente. Access token obtenido.")
-        return tokens.get('access_token')
+    # Extraer el código de autorización de la URL
+    parsed_url = urlparse(redirected_url)
+    authorization_code = parse_qs(parsed_url.query).get("code")
+
+    if authorization_code:
+        return authorization_code[0]
     else:
-        print("No se pudo obtener el token de acceso.")
+        print("No se pudo obtener el código de autorización.")
         return None
 
 
-def get_auth_url():
+def get_access_token(auth_code):
     """
-    Construye la URL de autenticación de Spotify donde el usuario debe ir para iniciar sesión.
+    Intercambia el código de autorización por un token de acceso y un token de actualización.
     """
-    client_id = os.getenv('CLIENT_ID')
-    redirect_uri = os.getenv('REDIRECT_URI')
-    scope = "user-read-private playlist-modify-public playlist-modify-private"
-
-    params = {
-        'client_id': client_id,
-        'response_type': 'code',
-        'redirect_uri': redirect_uri,
-        'scope': scope
-    }
-
-    url = f"{AUTH_URL}?{urllib.parse.urlencode(params)}"
-    return url
-
-
-def exchange_code_for_token(code):
-    """
-    Intercambia el código de autorización por un token de acceso y de actualización.
-    """
-    client_id = os.getenv('CLIENT_ID')
-    client_secret = os.getenv('CLIENT_SECRET')
-    redirect_uri = os.getenv('REDIRECT_URI')
-
-    # Autenticación base64
     auth_header = base64.b64encode(
-        f"{client_id}:{client_secret}".encode()).decode()
+        f"{CLIENT_ID}:{CLIENT_SECRET}".encode()).decode()
 
     headers = {
         'Authorization': f'Basic {auth_header}',
@@ -76,29 +64,29 @@ def exchange_code_for_token(code):
 
     data = {
         'grant_type': 'authorization_code',
-        'code': code,
-        'redirect_uri': redirect_uri
+        'code': auth_code,
+        'redirect_uri': REDIRECT_URI
     }
 
     response = requests.post(TOKEN_URL, headers=headers, data=data)
 
     if response.status_code == 200:
-        return response.json()  # Devuelve tokens de acceso y actualización
+        tokens = response.json()
+        access_token = tokens.get('access_token')
+        refresh_token = tokens.get('refresh_token')
+        return access_token, refresh_token
     else:
-        print(f"Error al obtener el token: {response.status_code}")
+        print(f"Error al obtener el token de acceso: {response.status_code}")
         print(response.json())
-        return None
+        return None, None
 
 
 def refresh_access_token(refresh_token):
     """
-    Refresca el token de acceso cuando este haya expirado.
+    Usa el token de actualización para obtener un nuevo token de acceso.
     """
-    client_id = os.getenv('CLIENT_ID')
-    client_secret = os.getenv('CLIENT_SECRET')
-
     auth_header = base64.b64encode(
-        f"{client_id}:{client_secret}".encode()).decode()
+        f"{CLIENT_ID}:{CLIENT_SECRET}".encode()).decode()
 
     headers = {
         'Authorization': f'Basic {auth_header}',
@@ -113,8 +101,9 @@ def refresh_access_token(refresh_token):
     response = requests.post(TOKEN_URL, headers=headers, data=data)
 
     if response.status_code == 200:
-        return response.json().get('access_token')
+        access_token = response.json().get('access_token')
+        return access_token
     else:
-        print(f"Error al refrescar el token: {response.status_code}")
+        print(f"Error al refrescar el token de acceso: {response.status_code}")
         print(response.json())
         return None
