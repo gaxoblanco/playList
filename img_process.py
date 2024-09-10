@@ -1,3 +1,8 @@
+"""
+URL para ejecutar en Google Colab
+https://colab.research.google.com/drive/1FGmweUe0OwhugPHz9o5vxXF3dZc2DLG9#scrollTo=ina9caf2L3YV
+"""
+
 import torch
 from transformers import AutoModelForCausalLM, AutoProcessor, BitsAndBytesConfig
 from PIL import Image
