@@ -29,6 +29,10 @@ def main():
 
     print("Autenticado correctamente.", access_token)
 
+    # Preguntar al usuario por el nombre del archivo JSON con que vamos a trabajar
+    json_file = input(
+        "Introduce el nombre del archivo JSON a procesar (con extensión .json): ")
+
     user_id = None
 
     while True:
@@ -76,8 +80,6 @@ def main():
             if user_id:
                 playlist_name = input(
                     "Introduce el nombre de la lista de reproducción: ")
-                json_file = input(
-                    "Introduce el nombre del archivo JSON de trabajo: ")
                 playlist = create_playlist(
                     access_token, user_id, playlist_name, json_file)
                 if playlist:
@@ -86,15 +88,15 @@ def main():
 
         elif opcion == '5':
             # Procesar lista de bandas desde un archivo JSON
-            process_list_band_id(access_token)
+            process_list_band_id(access_token, json_file)
 
         elif opcion == '6':
             # Procesar lista de bandas para obtener las Top Tracks
-            process_list_band_top(access_token)
+            process_list_band_top(access_token, json_file)
 
         elif opcion == '7':
             # Procesar lista de bandas para añadir a una lista de reproducción
-            process_list_band_add_to_playlist(access_token)
+            process_list_band_add_to_playlist(access_token, json_file)
 
         elif opcion == '8':
             # Salir

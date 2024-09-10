@@ -2,16 +2,13 @@ import json
 from spotify_api import get_top_tracks
 
 
-def process_list_band_top(access_token):
+def process_list_band_top(access_token, json_file):
     """
     Procesa una lista de bandas desde un archivo JSON, obtiene las top tracks de Spotify y actualiza el archivo con la lista de canciones.
 
     Args:
         access_token (str): El token de autenticación de Spotify.
     """
-    # Pedir al usuario el archivo JSON a procesar
-    json_file = input(
-        "Introduce el nombre del archivo JSON a procesar (con extensión .json): ")
 
     # Leer el archivo JSON con la lista de bandas
     try:
@@ -61,10 +58,9 @@ def process_list_band_top(access_token):
             band["top_tracks"] = []
             print(f"Error al procesar las top tracks de {band_name}: {e}")
 
-    # Guardar el archivo JSON actualizado
-    output_file = input(
-        "Introduce el nombre del archivo de salida (sin extensión): ") + '.json'
-    with open(output_file, 'w', encoding='utf-8') as f:
+    # actualizo el json
+    with open(json_file, 'w', encoding='utf-8') as f:
         json.dump(band_list, f, ensure_ascii=False, indent=4)
 
-    print(f"Archivo actualizado guardado exitosamente en {output_file}")
+    print(f"Proceso de obtención de Top Tracks completado. "
+          f"El archivo {json_file} ha sido actualizado con la información de las Top Tracks.")

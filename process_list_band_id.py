@@ -2,16 +2,13 @@ import json
 from spotify_api import search_artist
 
 
-def process_list_band_id(access_token):
+def process_list_band_id(access_token, json_file):
     """
     Procesa una lista de bandas desde un archivo JSON, busca cada banda en Spotify y actualiza el campo `band_id`.
 
     Args:
         access_token (str): El token de autenticación de Spotify.
     """
-    # Preguntar al usuario por el nombre del archivo JSON a procesar
-    json_file = input(
-        "Introduce el nombre del archivo JSON a procesar (con extensión .json): ")
 
     # Leer el archivo JSON con la lista de bandas
     try:
@@ -51,10 +48,8 @@ def process_list_band_id(access_token):
             band["band_id"] = "-"  # En caso de error, asignar '-'
             print(f"Error al procesar el artista {band_name}: {e}")
 
-    # Guardar el archivo JSON actualizado
-    output_file = input(
-        "Introduce el nombre del archivo de salida (sin extensión): ") + '.json'
-    with open(output_file, 'w', encoding='utf-8') as f:
-        json.dump(band_list, f, ensure_ascii=False, indent=4)
+    # actualizo el json
+    with open(json_file, 'w', encoding='utf-8') as f:
+        json.dump(band_list, f, indent=4, ensure_ascii=False)
 
-    print(f"Archivo guardado exitosamente en {output_file}")
+    print(f"Archivo guardado exitosamente en {json_file}")

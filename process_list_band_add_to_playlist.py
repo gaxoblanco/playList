@@ -2,13 +2,10 @@ import json
 import requests
 
 
-def process_list_band_add_to_playlist(access_token):
+def process_list_band_add_to_playlist(access_token, json_file):
     """
     Procesa el archivo JSON para añadir pistas a una lista de reproducción en Spotify.
     """
-    # Solicitar al usuario el nombre del archivo JSON
-    json_file = input(
-        "Introduce el nombre del archivo JSON (con o sin extensión .json): ")
 
     # Asegurarse de que el filename tenga la extensión .json
     if not json_file.lower().endswith('.json'):
