@@ -87,7 +87,7 @@ def create_playlist(access_token, user_id, playlist_name, json_file):
 
         # Extraer solo la información relevante
         relevant_data = {
-            'href': playlist_data['href'],
+            'href': playlist_data['external_urls']['spotify'],
             'id': playlist_data['id'],
             'images': playlist_data['images'],
             'name': playlist_data['name']

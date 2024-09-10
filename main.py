@@ -1,3 +1,5 @@
+from playlist_cover import update_playlist_cover
+from process_list_band_add_to_playlist import process_list_band_add_to_playlist
 from spotify_auth import get_access_token, get_access_token_deprecate, get_authorization_code
 from process_list_band_id import process_list_band_id
 from process_list_band_top import process_list_band_top
@@ -37,7 +39,8 @@ def main():
         print("4. Crear una lista de reproducción")
         print("5. Procesar lista de bandas desde JSON")
         print("6. Procesar lista de bandas para obtener las Top Tracks")
-        print("7. Salir")
+        print("7. Procesar lista de bandas para añadir a una lista de reproducción")
+        print("8. Salir")
 
         opcion = input("Selecciona una opción: ")
 
@@ -90,6 +93,10 @@ def main():
             process_list_band_top(access_token)
 
         elif opcion == '7':
+            # Procesar lista de bandas para añadir a una lista de reproducción
+            process_list_band_add_to_playlist(access_token)
+
+        elif opcion == '8':
             # Salir
             print("Saliendo del programa...")
             break
