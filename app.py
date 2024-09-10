@@ -1,41 +1,64 @@
 from flask import Flask, request, redirect, session
-from spotify_auth import get_auth_url, exchange_code_for_token
 import os
 from dotenv import load_dotenv
-
-load_dotenv()
+from urllib.parse import urlencode
+import secrets
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)  # Necesario para usar sesiones
+app.secret_key = secrets.token_hex(16)
+
+# Cargar variables de entorno
+load_dotenv()
+
+# Datos de la app en Spotify
+CLIENT_ID = os.getenv('CLIENT_ID')
+REDIRECT_URI = os.getenv('REDIRECT_URI')
+SCOPE = "user-read-private user-read-email"
+
+AUTH_URL = "https://accounts.spotify.com/authorize"
 
 
-@app.route('/')
-def index():
-    auth_url = get_auth_url()
-    return f'<a href="{auth_url}">Iniciar sesión con Spotify</a>'
+@app.route('/login')
+def login():
+    """
+    Inicia el proceso de autorización redirigiendo al usuario a la página de Spotify.
+    """
+    state = secrets.token_hex(16)
+    session['state'] = state
+
+    auth_params = {
+        "client_id": CLIENT_ID,
+        "response_type": "code",
+        "redirect_uri": REDIRECT_URI,
+        "scope": SCOPE,
+        "state": state
+    }
+
+    auth_url = f"{AUTH_URL}?{urlencode(auth_params)}"
+    return redirect(auth_url)
 
 
 @app.route('/callback')
 def callback():
+    """
+    Maneja la redirección de Spotify después de la autorización.
+    """
     error = request.args.get('error')
     code = request.args.get('code')
+    state = request.args.get('state')
 
     if error:
         return f"Error: {error}"
 
-    token_info = exchange_code_for_token(code)
-    if token_info:
-        # Guardar el token en la sesión
-        session['access_token'] = token_info['access_token']
-        return "Autenticación exitosa. Puedes cerrar esta ventana y volver a tu aplicación."
-    else:
-        return "Error al obtener el token de acceso."
+    if state != session.get('state'):
+        return "Error: State mismatch. Possible CSRF attack."
 
+    # Aquí deberías llamar a una función para intercambiar el código por tokens
+    # Por ejemplo: tokens = exchange_code_for_tokens(code)
 
-@app.route('/get-token')
-def get_token():
-    return session.get('access_token', 'No token available')
+    # Por ahora, simplemente devolvemos el código
+    return f"Authorization code: {code}"
 
 
 if __name__ == '__main__':
-    app.run(port=5000)
+    app.run(port=5000, debug=True)

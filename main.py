@@ -1,4 +1,4 @@
-from spotify_auth import get_access_token, get_authorization_code
+from spotify_auth import get_access_token, get_access_token_deprecate, get_authorization_code
 from process_list_band_id import process_list_band_id
 from process_list_band_top import process_list_band_top
 from spotify_api import search_artist, get_top_tracks, create_playlist, get_user_id
@@ -12,6 +12,7 @@ def main():
 
     # Obtener el código de autorización
     authorization_code = get_authorization_code()
+    # authorization_code = get_access_token_deprecate()
 
     if not authorization_code:
         print("No se pudo obtener el código de autorización.")

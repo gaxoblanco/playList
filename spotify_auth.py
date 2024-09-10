@@ -1,9 +1,11 @@
+from urllib.parse import parse_qs, urlencode, urlparse
 import requests
 import base64
 import os
 from dotenv import load_dotenv
 import webbrowser
-from urllib.parse import urlencode, urlparse, parse_qs
+from flask import Flask, request
+import threading
 
 # Cargar variables de entorno
 load_dotenv()
@@ -12,7 +14,7 @@ load_dotenv()
 CLIENT_ID = os.getenv('CLIENT_ID')
 CLIENT_SECRET = os.getenv('CLIENT_SECRET')
 REDIRECT_URI = os.getenv('REDIRECT_URI')
-SCOPE = "playlist-modify-public playlist-modify-private"
+SCOPE = "user-read-private user-read-email playlist-modify-public"
 
 AUTH_URL = "https://accounts.spotify.com/authorize"
 TOKEN_URL = "https://accounts.spotify.com/api/token"
@@ -20,7 +22,7 @@ TOKEN_URL = "https://accounts.spotify.com/api/token"
 
 def get_authorization_code():
     """
-    Redirige al usuario a la página de autorización de Spotify.
+    Redirige al usuario a la página de autorización de Spotify y solicita el código manualmente.
     """
     auth_params = {
         "client_id": CLIENT_ID,
@@ -30,24 +32,31 @@ def get_authorization_code():
     }
 
     # Crear la URL de autorización
-    url = f"{AUTH_URL}?{urlencode(auth_params)}"
+    auth_url = f"{AUTH_URL}?{urlencode(auth_params)}"
 
     # Abrir el navegador para que el usuario otorgue permisos
-    webbrowser.open(url)
+    print("Se abrirá una ventana del navegador. Por favor, autoriza la aplicación.")
+    webbrowser.open(auth_url)
 
-    # Pedir al usuario que introduzca la URL del callback después de autorizar
-    redirected_url = input(
-        "Introduce la URL a la que fuiste redirigido tras autorizar la app: ")
+    # Pedir al usuario que introduzca el código de autorización
+    print("\nDespués de autorizar, serás redirigido a una página.")
+    print("Copia la URL completa de esa página y pégala aquí:")
 
-    # Extraer el código de autorización de la URL
-    parsed_url = urlparse(redirected_url)
-    authorization_code = parse_qs(parsed_url.query).get("code")
+    while True:
+        redirected_url = input(
+            "URL completa después de la autorización: ").strip()
 
-    if authorization_code:
-        return authorization_code[0]
-    else:
-        print("No se pudo obtener el código de autorización.")
-        return None
+        # Parsear la URL y extraer el código
+        parsed_url = urlparse(redirected_url)
+        query_params = parse_qs(parsed_url.query)
+
+        if 'code' in query_params:
+            authorization_code = query_params['code'][0]
+            return authorization_code
+        else:
+            print(
+                "No se pudo encontrar el código de autorización en la URL proporcionada.")
+            print("Por favor, asegúrate de copiar la URL completa e intenta de nuevo.")
 
 
 def get_access_token(auth_code):
@@ -77,7 +86,7 @@ def get_access_token(auth_code):
         return access_token, refresh_token
     else:
         print(f"Error al obtener el token de acceso: {response.status_code}")
-        print(response.json())
+        print(f"Respuesta del servidor: {response.text}")
         return None, None
 
 
@@ -105,5 +114,34 @@ def refresh_access_token(refresh_token):
         return access_token
     else:
         print(f"Error al refrescar el token de acceso: {response.status_code}")
+        print(response.json())
+        return None
+
+
+def get_access_token_deprecate():
+    """
+    Obtiene el token de acceso para la API de Spotify.
+    """
+    client_id = os.getenv('CLIENT_ID')
+    client_secret = os.getenv('CLIENT_SECRET')
+
+    auth_url = 'https://accounts.spotify.com/api/token'
+    auth_header = base64.b64encode(
+        f"{client_id}:{client_secret}".encode()).decode()
+
+    headers = {
+        'Authorization': f'Basic {auth_header}',
+        'Content-Type': 'application/x-www-form-urlencoded'
+    }
+
+    data = {'grant_type': 'client_credentials'}
+
+    response = requests.post(auth_url, headers=headers, data=data)
+
+    if response.status_code == 200:
+        access_token = response.json().get('access_token')
+        return access_token
+    else:
+        print(f"Error en la autenticación: {response.status_code}")
         print(response.json())
         return None
