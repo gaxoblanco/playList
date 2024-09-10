@@ -14,7 +14,7 @@ load_dotenv()
 CLIENT_ID = os.getenv('CLIENT_ID')
 CLIENT_SECRET = os.getenv('CLIENT_SECRET')
 REDIRECT_URI = os.getenv('REDIRECT_URI')
-SCOPE = "user-read-private user-read-email playlist-modify-public"
+SCOPE = "user-read-private user-read-email playlist-modify-public playlist-modify-private"
 
 AUTH_URL = "https://accounts.spotify.com/authorize"
 TOKEN_URL = "https://accounts.spotify.com/api/token"
