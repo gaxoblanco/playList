@@ -34,6 +34,11 @@ def process_list_band_id(access_token, json_file):
             print("Nombre de banda no encontrado en el archivo JSON.")
             continue
 
+        # Valido que aun no tenga un ID asignado
+        if band.get("band_id"):
+            print(f"La banda {band_name} ya tiene un ID asignado.")
+            continue
+
         try:
             # Buscar el artista en Spotify
             artist_id = search_artist(access_token, band_name.strip())

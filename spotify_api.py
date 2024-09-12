@@ -23,11 +23,11 @@ def get_user_id(access_token):
         return None
 
 
-def search_artist(access_token, artist_name):
+def search_artist(access_token, artist_name, market='US'):
     """
     Busca un artista por su nombre y devuelve su ID.
     """
-    url = f'https://api.spotify.com/v1/search?q={artist_name}&type=artist&limit=1'
+    url = f'https://api.spotify.com/v1/search?q={artist_name}&type=artist&limit=1&market={market}'
     headers = {
         'Authorization': f'Bearer {access_token}'
     }

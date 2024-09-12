@@ -4,6 +4,7 @@ from spotify_auth import get_access_token, get_access_token_deprecate, get_autho
 from process_list_band_id import process_list_band_id
 from process_list_band_top import process_list_band_top
 from spotify_api import search_artist, get_top_tracks, create_playlist, get_user_id
+from detect_possible_errors import detect_possible_errors
 
 
 def main():
@@ -40,11 +41,12 @@ def main():
         print("1. Buscar artista")
         print("2. Obtener Top Tracks de un artista")
         print("3. Obtener mi User ID")
-        print("4. Crear una lista de reproducción")
-        print("5. Procesar lista de bandas desde JSON")
-        print("6. Procesar lista de bandas para obtener las Top Tracks")
-        print("7. Procesar lista de bandas para añadir a una lista de reproducción")
-        print("8. Salir")
+        print("4. Corroborar posibles errores en los nombres de las bandas")
+        print("5. Crear una lista de reproducción")
+        print("6. Procesar lista de bandas desde JSON")
+        print("7. Procesar lista de bandas para obtener las Top Tracks")
+        print("8. Procesar lista de bandas para añadir a una lista de reproducción")
+        print("9. Salir")
 
         opcion = input("Selecciona una opción: ")
 
@@ -71,6 +73,10 @@ def main():
                 print(f"Tu User ID es: {user_id}")
 
         elif opcion == '4':
+            # Corroborar que no existan 2 bandas en la misma entrada
+            detect_possible_errors(json_file)
+
+        elif opcion == '5':
             # Crear lista de reproducción
             if not user_id:
                 # Si aún no se ha obtenido el User ID, lo obtenemos ahora
@@ -86,19 +92,19 @@ def main():
                     print(
                         f"Lista de reproducción creada: {playlist}")
 
-        elif opcion == '5':
+        elif opcion == '6':
             # Procesar lista de bandas desde un archivo JSON
             process_list_band_id(access_token, json_file)
 
-        elif opcion == '6':
+        elif opcion == '7':
             # Procesar lista de bandas para obtener las Top Tracks
             process_list_band_top(access_token, json_file)
 
-        elif opcion == '7':
+        elif opcion == '8':
             # Procesar lista de bandas para añadir a una lista de reproducción
             process_list_band_add_to_playlist(access_token, json_file)
 
-        elif opcion == '8':
+        elif opcion == '9':
             # Salir
             print("Saliendo del programa...")
             break
