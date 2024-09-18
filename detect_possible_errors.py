@@ -1,12 +1,20 @@
 import json
 import re
 
-# Subfunción para validar si una cadena tiene 2 o más espacios
+# Subfunción para validar si una cadena tiene 3 o más espacios
 
 
 def has_three_or_more_spaces(text):
-    # Busca 2 o más espacios consecutivos en la cadena
-    return len(re.findall(r' ', text)) >= 2
+    # itero por cada caracter en la cadena y por cada espacio encontrado, incremento el contador, si el contador supera 3 devuelvo True
+    count = 0
+    for char in text:
+        if char.isspace():
+            count += 1
+            if count >= 3:
+                return True
+        else:
+            count = 0
+    return False
 
 
 def detect_possible_errors(json_file):
@@ -78,7 +86,7 @@ def detect_possible_errors(json_file):
         # Verificar si la cadena tiene 3 o más espacios
         if has_three_or_more_spaces(name):
             has_error = True
-            print(f"Nombre con 2 o más espacios detectado: {name}")
+            print(f"Nombre con 3 o más espacios detectado: {name}")
 
         if has_error:
             print(f"Nombre problemático encontrado: {name}")

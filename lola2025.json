@@ -50,12 +50,12 @@
         "band_id": "31TPClRtHm23RisEBtV3X7",
         "top_tracks": [
             {
-                "name": "SexyBack (feat. Timbaland)",
-                "uri": "spotify:track:0O45fw2L5vsWpdsOdXwNAR"
-            },
-            {
                 "name": "Mirrors",
                 "uri": "spotify:track:4rHZZAmHpZrA3iH5zx8frV"
+            },
+            {
+                "name": "SexyBack (feat. Timbaland)",
+                "uri": "spotify:track:0O45fw2L5vsWpdsOdXwNAR"
             },
             {
                 "name": "Rock Your Body",
@@ -63,7 +63,7 @@
             },
             {
                 "name": "CAN'T STOP THE FEELING! (from DreamWorks Animation's \"TROLLS\")",
-                "uri": "spotify:track:1WkMMavIMc4JZ8cfMmxHkI"
+                "uri": "spotify:track:6JV2JOEocMgcZxYSZelKcc"
             },
             {
                 "name": "My Love (feat. T.I.)",
@@ -92,7 +92,53 @@
         ]
     },
     {
-        "name": " SHAWN MENDES ALANIS MORISETTE ",
+        "name": "SHAWN MENDES",
+        "band_id": "7n2wHs1TKAczGzO7Dd2rGr",
+        "top_tracks": [
+            {
+                "name": "There's Nothing Holdin' Me Back",
+                "uri": "spotify:track:7JJmb5XwzOO8jgpou264Ml"
+            },
+            {
+                "name": "Treat You Better",
+                "uri": "spotify:track:3QGsuHI8jO1Rx4JWLUh9jd"
+            },
+            {
+                "name": "Stitches",
+                "uri": "spotify:track:5jsw9uXEGuKyJzs0boZ1bT"
+            },
+            {
+                "name": "Señorita",
+                "uri": "spotify:track:6v3KW9xbzN5yKLt9YKDYA2"
+            },
+            {
+                "name": "Why Why Why",
+                "uri": "spotify:track:52A0oY4u5ufxrHC85JGf4x"
+            },
+            {
+                "name": "Mercy",
+                "uri": "spotify:track:0AS63m1wHv9n4VVRizK6Hc"
+            },
+            {
+                "name": "If I Can't Have You",
+                "uri": "spotify:track:2bT1PH7Cw3J9p3t7nlXCdh"
+            },
+            {
+                "name": "Wonder",
+                "uri": "spotify:track:6ZuahEctZD6w75peme58hm"
+            },
+            {
+                "name": "Imagination",
+                "uri": "spotify:track:21TcDbGosp7w9YhTjOszgA"
+            },
+            {
+                "name": "In My Blood",
+                "uri": "spotify:track:2QZ7WLBE8h2y1Y5Fb8RYbH"
+            }
+        ]
+    },
+    {
+        "name": "ALANIS MORISETTE",
         "band_id": "6ogn9necmbUdCppmNnGOdi",
         "top_tracks": [
             {
@@ -184,7 +230,7 @@
         ]
     },
     {
-        "name": " RUIFUS DU SOL ",
+        "name": "RUIFUS DU SOL",
         "band_id": "5Pb27ujIyYb33zBqVysBkj",
         "top_tracks": [
             {
@@ -209,7 +255,7 @@
             },
             {
                 "name": "Sundream",
-                "uri": "spotify:track:0PHWXLXOQXGlyUGq7woVFZ"
+                "uri": "spotify:track:7vLdHqkzAl5BDVxphZ7vaO"
             },
             {
                 "name": "Underwater",
@@ -220,31 +266,109 @@
                 "uri": "spotify:track:233AL29SR6QWnD7hu7ylbf"
             },
             {
-                "name": "No Place",
-                "uri": "spotify:track:6rLQZW36LaEUGWl3sWTg7v"
-            },
-            {
                 "name": "Next to Me",
                 "uri": "spotify:track:46haIwbQpVUkpAQj9V84Gp"
-            }
-        ]
-    },
-    {
-        "name": " TAN BIONICA WOS ",
-        "band_id": "4R7xSJpwf9IsrGzUYNpyz0",
-        "top_tracks": [
-            {
-                "name": "Box Fan For Sleep",
-                "uri": "spotify:track:4mMamzAVJMrEgvRCjvBgPa"
             },
             {
-                "name": "Soothing Dream Fan",
-                "uri": "spotify:track:3eLAiLEczQ9fxsEUkOQUgU"
+                "name": "No Place",
+                "uri": "spotify:track:6rLQZW36LaEUGWl3sWTg7v"
             }
         ]
     },
     {
-        "name": " BENSON BONE ",
+        "name": "TAN BIONICA",
+        "band_id": "37MCoi4pcUf9EKsPXeuCqU",
+        "top_tracks": [
+            {
+                "name": "Loca",
+                "uri": "spotify:track:2n0NCtkvHx1oPqgiAvexiB"
+            },
+            {
+                "name": "Obsesionario en La Mayor",
+                "uri": "spotify:track:2YNMRnIJMCxDQWYfXRxJmB"
+            },
+            {
+                "name": "Ciudad Mágica",
+                "uri": "spotify:track:29Bjl63rfik8188v8J08hQ"
+            },
+            {
+                "name": "Beautiful",
+                "uri": "spotify:track:0oH7QF9L9fzDy6EFWlivCC"
+            },
+            {
+                "name": "La Melodía de Dios",
+                "uri": "spotify:track:7ESKEiE8LRLrDwdS2ZgUiR"
+            },
+            {
+                "name": "Arruinarse (feat. Airbag) - En Vivo En River Plate",
+                "uri": "spotify:track:0ZpL0sBJi488xq0vxUtHld"
+            },
+            {
+                "name": "Arruinarse",
+                "uri": "spotify:track:39sttgETErQLwfc8SougBO"
+            },
+            {
+                "name": "Tus Horas Mágicas",
+                "uri": "spotify:track:1Qqe3XZRmmhqu53349GmCB"
+            },
+            {
+                "name": "Ella",
+                "uri": "spotify:track:5aVhIDZmDeMt2C2ZMX5KoH"
+            },
+            {
+                "name": "Un Poco Perdido",
+                "uri": "spotify:track:08p63WOoKZGWEIPis1T2KV"
+            }
+        ]
+    },
+    {
+        "name": "WOS",
+        "band_id": "5YCc6xS5Gpj3EkaYGdjyNK",
+        "top_tracks": [
+            {
+                "name": "ARRANCÁRMELO",
+                "uri": "spotify:track:2GNjjWYymmIS8HEC4Xp2eu"
+            },
+            {
+                "name": "MELÓN VINO",
+                "uri": "spotify:track:5uHAzGa4d9j35DEbhUwGhi"
+            },
+            {
+                "name": "ALMA DINAMITA",
+                "uri": "spotify:track:2ONADYjJvqYVwjWavuY0H1"
+            },
+            {
+                "name": "OKUPA",
+                "uri": "spotify:track:25NPeIjHjQGvyp4D52Tji2"
+            },
+            {
+                "name": "CANGURO",
+                "uri": "spotify:track:2UAWYufVaO3EnUUNzl0ppO"
+            },
+            {
+                "name": "MORFEO",
+                "uri": "spotify:track:297Ev6aeDHc8dECDmK7SFH"
+            },
+            {
+                "name": "ANDRÓMEDA",
+                "uri": "spotify:track:3hNKWD8kkxOEJ7K90PjWri"
+            },
+            {
+                "name": "CONTANDO OVEJAS",
+                "uri": "spotify:track:47DL8jY6HJD2mlCcTuOWKX"
+            },
+            {
+                "name": "QUEREME",
+                "uri": "spotify:track:0bhWW1Bve1Ng6kEm8WjiQA"
+            },
+            {
+                "name": "Sangría - con WOS",
+                "uri": "spotify:track:1fJjC8C0BdgUHlKIP2ODQf"
+            }
+        ]
+    },
+    {
+        "name": "BENSON BOONE",
         "band_id": "22wbnEMDvgVIAGdFeek6ET",
         "top_tracks": [
             {
@@ -336,7 +460,7 @@
         ]
     },
     {
-        "name": " TATE MORRAE ",
+        "name": "TATE MCRAE",
         "band_id": "45dkTj5sMRSjrmBSBeiHym",
         "top_tracks": [
             {
@@ -382,44 +506,90 @@
         ]
     },
     {
-        "name": " LA K’ONGA LOS ÁNGELES AZULAS ",
+        "name": "LA K’ONGA",
+        "band_id": "3ghRXw2nUEH2THaL82hw8R",
+        "top_tracks": [
+            {
+                "name": "Ya No Vuelvas (Versión Cuarteto)",
+                "uri": "spotify:track:0u6JsFiEEXb6kaF0oqyeFi"
+            },
+            {
+                "name": "ADICTO",
+                "uri": "spotify:track:5gx39tUko6htjixWpIMqzM"
+            },
+            {
+                "name": "Universo Paralelo",
+                "uri": "spotify:track:6LBpjWMfy1NUfyxAJbcMRs"
+            },
+            {
+                "name": "Bebe Dame",
+                "uri": "spotify:track:6BaE9YFxMmXVeo8vm33pdH"
+            },
+            {
+                "name": "Latidos",
+                "uri": "spotify:track:2WFrChyI5KlmxunG45Sqws"
+            },
+            {
+                "name": "El Mismo Aire",
+                "uri": "spotify:track:7onMf0QvWgRba2MRxG27yj"
+            },
+            {
+                "name": "Te Mentiría",
+                "uri": "spotify:track:3EcCc1U405tm8yKm1x6Y8W"
+            },
+            {
+                "name": "Fama de Diabla",
+                "uri": "spotify:track:4Pl9kwSv46QMwk4MtTttBd"
+            },
+            {
+                "name": "MYA LIVE P2: Corazón Guerrero",
+                "uri": "spotify:track:4Rs4ijFlNvhJ2fuRFNCH9h"
+            },
+            {
+                "name": "La Cabaña",
+                "uri": "spotify:track:5TpGT4K34mBP6JcJfIgRqF"
+            }
+        ]
+    },
+    {
+        "name": "ÁNGELES AZULAS",
         "band_id": "0ZCO8oVkMj897cKgFH7fRW",
         "top_tracks": [
             {
-                "name": "Perdonarte ¿Para Qué?",
-                "uri": "spotify:track:5djlc1fMHiFsSpsQQtopLy"
+                "name": "Perdonarte, ¿Para Qué?",
+                "uri": "spotify:track:4dLLdfiniBhDP9dlJQIOi4"
             },
             {
-                "name": "El Amor De Mi Vida",
-                "uri": "spotify:track:3pCkC3Ahgl7MShJbafchZz"
+                "name": "El Amor de Mi Vida",
+                "uri": "spotify:track:0N5qTofETElfJvRvpF3Mk6"
             },
             {
                 "name": "Nunca Es Suficiente",
-                "uri": "spotify:track:63USmok1OioBzKuWGW9wAg"
+                "uri": "spotify:track:0HlMshB5JmZjPNbOuOgFHN"
             },
             {
                 "name": "El Listón De Tu Pelo",
-                "uri": "spotify:track:5hrxAFrYbNTLjAYSrmbpgr"
+                "uri": "spotify:track:2fj5w73MTO6RlYXfHmSHHb"
             },
             {
                 "name": "Cómo Te Voy A Olvidar",
-                "uri": "spotify:track:1hxyzHlH7qS3AZdOj6GmIO"
+                "uri": "spotify:track:51dNexiESqcJLsGLrmg1Nv"
             },
             {
                 "name": "Otra Noche",
-                "uri": "spotify:track:6YUYwOLhR01HusDZkttH7k"
+                "uri": "spotify:track:1bh78E6P230qD5OLLNnAqq"
             },
             {
-                "name": "Amor A Primera Vista",
-                "uri": "spotify:track:5Myb8S90Wg0yLec5kmrIGJ"
+                "name": "Amor a Primera Vista",
+                "uri": "spotify:track:5M6bJO7Cfl4lnPoAHG0EdD"
             },
             {
                 "name": "17 Años",
-                "uri": "spotify:track:1Y372uxsCkKqNclj2ercap"
+                "uri": "spotify:track:02CN21HeHqJHC1xQp559ZE"
             },
             {
-                "name": "Tú Y Tú",
-                "uri": "spotify:track:5cIcX6Rvh34jNviAbGQYiU"
+                "name": "Tú y Tú",
+                "uri": "spotify:track:4b7tsBxxRIlRJXfkZvGniB"
             },
             {
                 "name": "Entrega De Amor",
@@ -457,7 +627,7 @@
             },
             {
                 "name": "Stay The Night - Featuring Hayley Williams Of Paramore",
-                "uri": "spotify:track:2QtJA4gbwe1AcanB2p21aP"
+                "uri": "spotify:track:4bT2zLVv2T4GiK9q9KtI0v"
             },
             {
                 "name": "I Want You To Know",
@@ -520,17 +690,9 @@
         ]
     },
     {
-        "name": " CA7RIEL & PACO AMOROSO MON LAFERTE ",
-        "band_id": "6I8TDGeUmmLom8auKPzMdX",
+        "name": "CA7RIEL",
+        "band_id": "348pk4o3EhKmsSahzuClSf",
         "top_tracks": [
-            {
-                "name": "TODO ROTO",
-                "uri": "spotify:track:2neEt3A8fA4Scfwo4jAw1J"
-            },
-            {
-                "name": "AGUA",
-                "uri": "spotify:track:0gTyeWsGE071NCvkq36roh"
-            },
             {
                 "name": "EL ÚNICO",
                 "uri": "spotify:track:2wuZ3kg5ChBjRKqBYfJ9H7"
@@ -542,6 +704,14 @@
             {
                 "name": "MI DIOSA",
                 "uri": "spotify:track:0pjE1APVmR00IotHqs2Vwq"
+            },
+            {
+                "name": "NIÑO GORDO FLACO",
+                "uri": "spotify:track:0Wz6TToEPwxzH482fuGEwO"
+            },
+            {
+                "name": "Don",
+                "uri": "spotify:track:4EtriYD2qsXOHLCtN9K4db"
             },
             {
                 "name": "BABY GANGSTA",
@@ -562,6 +732,98 @@
             {
                 "name": "SUPERSÓNICO",
                 "uri": "spotify:track:2R6fl47tA6PG6vSBgurvma"
+            }
+        ]
+    },
+    {
+        "name": "PACO AMOROSO",
+        "band_id": "3E7NGbzUGlOjgYY8nvtijR",
+        "top_tracks": [
+            {
+                "name": "EL ÚNICO",
+                "uri": "spotify:track:2wuZ3kg5ChBjRKqBYfJ9H7"
+            },
+            {
+                "name": "DUMBAI",
+                "uri": "spotify:track:2Fi6RtngvStwsjskvwabVT"
+            },
+            {
+                "name": "MI DIOSA",
+                "uri": "spotify:track:0pjE1APVmR00IotHqs2Vwq"
+            },
+            {
+                "name": "Paco Amoroso: Bzrp Music Sessions, Vol. 3",
+                "uri": "spotify:track:51ebj80qWDECmAGfxnxiFh"
+            },
+            {
+                "name": "BABY GANGSTA",
+                "uri": "spotify:track:3ZFok6nDttzt0aXk0VRaCX"
+            },
+            {
+                "name": "SHEESH",
+                "uri": "spotify:track:6kAMgHOOsuCoHemVEeeRFn"
+            },
+            {
+                "name": "COSAS RICAS",
+                "uri": "spotify:track:6VU4Itrp66sFoD6cMe4ZA7"
+            },
+            {
+                "name": "FATAL",
+                "uri": "spotify:track:7xDfQ5TZRRmp5QNUVYsDqW"
+            },
+            {
+                "name": "LA QUE PUEDE, PUEDE",
+                "uri": "spotify:track:6gIWpyqE5r0Ebgacpg5i0M"
+            },
+            {
+                "name": "SUPERSÓNICO",
+                "uri": "spotify:track:2R6fl47tA6PG6vSBgurvma"
+            }
+        ]
+    },
+    {
+        "name": "MON LAFERTE",
+        "band_id": "4boI7bJtmB1L3b1cuL75Zr",
+        "top_tracks": [
+            {
+                "name": "Tu Falta De Querer",
+                "uri": "spotify:track:4skuEIloXWuxxgekKupkEH"
+            },
+            {
+                "name": "Mi Buen Amor",
+                "uri": "spotify:track:28UP90XhjCovLtieduYr9P"
+            },
+            {
+                "name": "Amárrame",
+                "uri": "spotify:track:3EK4tGkSiO5xvvB5sM4tln"
+            },
+            {
+                "name": "Si Tú Me Quisieras",
+                "uri": "spotify:track:7EySX8ldJHoeWjJhJyZ8Tq"
+            },
+            {
+                "name": "Amor Completo",
+                "uri": "spotify:track:00kIWJu9IHiQ6i0qJAU0Z9"
+            },
+            {
+                "name": "Pa’ Dónde Se Fue",
+                "uri": "spotify:track:2TPZomzhdB7toV3cx0hj08"
+            },
+            {
+                "name": "Antes De Ti",
+                "uri": "spotify:track:5IkOnAKGDJT5M8KpFIHzsd"
+            },
+            {
+                "name": "Flaco",
+                "uri": "spotify:track:3HMYsT5mnqQ57tVjvqlETb"
+            },
+            {
+                "name": "Primaveral",
+                "uri": "spotify:track:1gQxoBZiyLK5hRLLoBg89x"
+            },
+            {
+                "name": "Tormento",
+                "uri": "spotify:track:0pR6N68RkIGKxitlTqraZ3"
             }
         ]
     },
@@ -704,48 +966,94 @@
         ]
     },
     {
-        "name": " GIRL IN RED JAMES HYPE ",
-        "band_id": "6QrQ7OrISRYIfS5mtacaw2",
+        "name": "GIRL IN RED",
+        "band_id": "3uwAm6vQy7kWPS2bciKWx9",
         "top_tracks": [
             {
-                "name": "Infinity",
-                "uri": "spotify:track:1SOClUWhOi8vHZYMz3GluK"
+                "name": "we fell in love in october",
+                "uri": "spotify:track:6IPwKM3fUUzlElbvKw2sKl"
             },
             {
-                "name": "Happiest Year",
-                "uri": "spotify:track:219slQu3ALbTSAe9P22hvE"
+                "name": "i wanna be your girlfriend",
+                "uri": "spotify:track:5PjdC2gMATetx5xdnwGUu7"
             },
             {
-                "name": "I'll Be Good",
-                "uri": "spotify:track:4JuJZzGcswQszYiKJSnC6i"
+                "name": "bad idea!",
+                "uri": "spotify:track:57j65yC2HggQfmYNc6rdOK"
             },
             {
-                "name": "Feel Something",
-                "uri": "spotify:track:0vMI3AJPQMjytAu8XMWr65"
+                "name": "You Need Me Now? (feat. Sabrina Carpenter)",
+                "uri": "spotify:track:34qaGPDvfWqp3F4iD5nGhf"
             },
             {
-                "name": "Habits of My Heart",
-                "uri": "spotify:track:0elXIl26ZrovBULLTrEGK6"
+                "name": "girls",
+                "uri": "spotify:track:04OSnqlwlBJMvidYccraVz"
             },
             {
-                "name": "Infinity (PRETTY YOUNG Remix)",
-                "uri": "spotify:track:6aVXogDmwqAJCrFguyWbKj"
+                "name": "midnight love",
+                "uri": "spotify:track:32XaqPVTVkkuOiOPQZ3SpA"
             },
             {
-                "name": "Moondust",
-                "uri": "spotify:track:4kzyhn8i6Hf8daEBqNPfCy"
+                "name": "summer depression",
+                "uri": "spotify:track:3SEZEyvEALlomED5xFeqOs"
             },
             {
-                "name": "Infinity - Piano Version",
-                "uri": "spotify:track:2S6cDmfUgWiMMf6DNbg4dJ"
+                "name": "Too Much",
+                "uri": "spotify:track:49oNAMh9RBScs4HXZJgvgl"
             },
             {
-                "name": "Infinity - Sped Up Version",
-                "uri": "spotify:track:5s0dNKonnbNTOYiTkSuNbR"
+                "name": "October Passed Me By",
+                "uri": "spotify:track:0AjcdGri5vhJsmZnduCEqd"
             },
             {
-                "name": "Don't You Know",
-                "uri": "spotify:track:4f38RwYxPBNhdvng6rAqEA"
+                "name": "Serotonin",
+                "uri": "spotify:track:7tLTxOJY6cjQz4aJYMs8Nu"
+            }
+        ]
+    },
+    {
+        "name": "JAMES HYPE",
+        "band_id": "43BxCL6t4c73BQnIJtry5v",
+        "top_tracks": [
+            {
+                "name": "Ferrari",
+                "uri": "spotify:track:4zN21mbAuaD0WqtmaTZZeP"
+            },
+            {
+                "name": "Lose Control",
+                "uri": "spotify:track:3DLWVhaowApIGw1JnJj6GS"
+            },
+            {
+                "name": "Drums (Feat. Kim Petras)",
+                "uri": "spotify:track:4AFlChQQJbB1MOCgOiiyYc"
+            },
+            {
+                "name": "You Give Me A Feeling",
+                "uri": "spotify:track:2qRKTg13LJGHO4fmQTWT7x"
+            },
+            {
+                "name": "Wild",
+                "uri": "spotify:track:6Yimrlg9ndHZUy1hGm6uQ9"
+            },
+            {
+                "name": "Ferrari - Oliver Heldens Remix",
+                "uri": "spotify:track:0oCNRAmwLo4zHDpCKpjQtI"
+            },
+            {
+                "name": "Ferrari - Remix",
+                "uri": "spotify:track:3XucsgiwXb8KPn9Csf9Zmu"
+            },
+            {
+                "name": "Number 1",
+                "uri": "spotify:track:5HadIAY3Oray8VKuv3shgQ"
+            },
+            {
+                "name": "More Than Friends",
+                "uri": "spotify:track:53SnCRcGrB2UCqNGyYZhJD"
+            },
+            {
+                "name": "Feel My Needs",
+                "uri": "spotify:track:38D7JeZb1SZfzZo6wGJGae"
             }
         ]
     },
@@ -888,7 +1196,7 @@
         ]
     },
     {
-        "name": " SEPULTURA INHALER ",
+        "name": "SEPULTURA",
         "band_id": "6JW8wliOEwaDZ231ZY7cf4",
         "top_tracks": [
             {
@@ -896,12 +1204,12 @@
                 "uri": "spotify:track:6ursmCnbc9oDRGa2yHKkoZ"
             },
             {
-                "name": "Territory",
-                "uri": "spotify:track:0QRxtcxL31dRAeiUUuENPu"
-            },
-            {
                 "name": "Refuse / Resist",
                 "uri": "spotify:track:2OoS1aZFAFscH1cUiKlazH"
+            },
+            {
+                "name": "Territory",
+                "uri": "spotify:track:0QRxtcxL31dRAeiUUuENPu"
             },
             {
                 "name": "Ratamahatta",
@@ -924,12 +1232,54 @@
                 "uri": "spotify:track:5RKNHGP5Nv526dJ5LmgcjX"
             },
             {
-                "name": "Cut-Throat",
-                "uri": "spotify:track:7xIGe2EodcQMU51kmmWJhs"
-            },
-            {
                 "name": "Inner Self",
                 "uri": "spotify:track:3orEDNYiGeafDlFNSAZ2Lw"
+            },
+            {
+                "name": "Cut-Throat",
+                "uri": "spotify:track:7xIGe2EodcQMU51kmmWJhs"
+            }
+        ]
+    },
+    {
+        "name": "INHALER",
+        "band_id": "51ffzYwd9w5Xa5GgT7NlsZ",
+        "top_tracks": [
+            {
+                "name": "Rough Justice",
+                "uri": "spotify:track:5aYtxXrjxsPxAeuoGKvC86"
+            },
+            {
+                "name": "Vincent's Fritters",
+                "uri": "spotify:track:324vnK6sUcT1UiZ0b7tTQQ"
+            },
+            {
+                "name": "The Pits",
+                "uri": "spotify:track:1wgpGvDUo1iknNQSybYBJ6"
+            },
+            {
+                "name": "Maximum Dose",
+                "uri": "spotify:track:4RT1uUuGs23cAuw37znDPu"
+            },
+            {
+                "name": "Fresh Cut Cedar",
+                "uri": "spotify:track:31XD7rDuhQvqR3mElrV9uc"
+            },
+            {
+                "name": "Kingshit Cop",
+                "uri": "spotify:track:04n6gYP6FRp4hcNXRaVUJO"
+            },
+            {
+                "name": "Hallowed The Ducts",
+                "uri": "spotify:track:3PnfkJBd9LtmPdci6fAgPB"
+            },
+            {
+                "name": "Operator",
+                "uri": "spotify:track:1Ase3kWIiszHNaNPmb6ZOV"
+            },
+            {
+                "name": "Straight Shooter",
+                "uri": "spotify:track:6KD9oFdJGrqOTCWLNBA76E"
             }
         ]
     },
@@ -939,43 +1289,43 @@
         "top_tracks": [
             {
                 "name": "Can't Do Without You",
-                "uri": "spotify:track:5owacNcWuezb4JHoGdoQSj"
+                "uri": "spotify:track:35p0Z5yZDogaXoWXhMVEv4"
             },
             {
                 "name": "Come Find Me",
-                "uri": "spotify:track:6o3H1TeAuT8KJOiU8G856R"
+                "uri": "spotify:track:4q7HKyfR8A5aY0rxtvTCTY"
             },
             {
                 "name": "Home",
-                "uri": "spotify:track:6oEFRBgGkATGn8ZpQ0TTdl"
+                "uri": "spotify:track:5k2LuHfNTJ2mCTj9tPtSaI"
             },
             {
                 "name": "Odessa",
-                "uri": "spotify:track:3D1P3oPecqAQy2u33gAhsM"
+                "uri": "spotify:track:3iwH1DfB0Yq2uKhCv7SMxp"
             },
             {
                 "name": "Volume",
-                "uri": "spotify:track:16P6DJm6ESmSIC8YRlLdmG"
+                "uri": "spotify:track:3FTjdr8D814YDBWxsD1V54"
             },
             {
                 "name": "Broke My Heart",
-                "uri": "spotify:track:7r2ysTQQLDP1aWOmTCeUQb"
+                "uri": "spotify:track:4jf9aWVk63e8c8lC7HABbK"
             },
             {
                 "name": "Never Come Back",
-                "uri": "spotify:track:2xxKJgIpgiancRpSup5dHU"
+                "uri": "spotify:track:0Ej6OBBtMvhjaJvtt1vtUt"
             },
             {
                 "name": "Honey",
-                "uri": "spotify:track:6G7OiVdHJAbsaNqx94ojqg"
+                "uri": "spotify:track:6ztI9zfPNMhocBJcXbeEqt"
             },
             {
                 "name": "You and I",
-                "uri": "spotify:track:2np2e0pDBBmUgcdItVb6d3"
+                "uri": "spotify:track:3fE5R4go6pHVxwG3sR3Uza"
             },
             {
-                "name": "Bees",
-                "uri": "spotify:track:3rN3BHWnlvRkXIhE7KGbSU"
+                "name": "Silver",
+                "uri": "spotify:track:7plImgS9S8yYKORXblvyjE"
             }
         ]
     },
@@ -1027,47 +1377,47 @@
     },
     {
         "name": " WAVE TO EARTH ",
-        "band_id": "5069JTmv5ZDyPeZaCCXiCg",
+        "band_id": "0lgtMXcZRhFOUU2ZPddLoA",
         "top_tracks": [
             {
-                "name": "seasons",
-                "uri": "spotify:track:5VBjyOQzqlPNgdRPMM6prF"
+                "name": "Muddy Water",
+                "uri": "spotify:track:02FcRwLxP00Bwx3ZNTIMzw"
             },
             {
-                "name": "love.",
-                "uri": "spotify:track:5rDXfGMWI6S8wkXR0MHsvv"
+                "name": "Can't Stop Running",
+                "uri": "spotify:track:0eW96SBvxhDW06vLlBBhy0"
             },
             {
-                "name": "bad",
-                "uri": "spotify:track:5TZKpQFKCbIlWGD8DzHbC6"
+                "name": "Feel It",
+                "uri": "spotify:track:4novZz1qMGuT899Lwsl8sr"
             },
             {
-                "name": "light",
-                "uri": "spotify:track:1MNHqDjKxhtn7YwLCpm7Nt"
+                "name": "Make It",
+                "uri": "spotify:track:74bSwKDWzXyWPAvCCBly9A"
             },
             {
-                "name": "peach eyes",
-                "uri": "spotify:track:1V8s51MOKlmES1Vc9Erm89"
+                "name": "Nothing to Lose",
+                "uri": "spotify:track:5YcYwFoJ6ZQWIIRMe6PK61"
             },
             {
-                "name": "sunny days",
-                "uri": "spotify:track:4U9teFThcaHZz386DQM6FY"
+                "name": "Wild",
+                "uri": "spotify:track:4LWa0FTsmgPBczXICQ3UhV"
             },
             {
-                "name": "homesick",
-                "uri": "spotify:track:3pGoYGGOTvThnFcJpBh293"
+                "name": "Carolina",
+                "uri": "spotify:track:3Ig3mVbRIz3w6wZ6mVO16o"
             },
             {
-                "name": "bonfire",
-                "uri": "spotify:track:6ZO96viUqhiRQpwxOYdwdE"
+                "name": "We Don't Play",
+                "uri": "spotify:track:0gX9hJTX1ngvGh3B81kxbd"
             },
             {
-                "name": "daisy.",
-                "uri": "spotify:track:6vBr2tIHZKaMTpK7r99O3g"
+                "name": "Gravity",
+                "uri": "spotify:track:34vsZVaTgL5Jvv5epjoqLK"
             },
             {
-                "name": "wave",
-                "uri": "spotify:track:2lxZhv9vuzDKIWImiYhDh7"
+                "name": "Send Me Away",
+                "uri": "spotify:track:77ke4ychbJPaUf9EsFdl5h"
             }
         ]
     },
@@ -1085,7 +1435,7 @@
             },
             {
                 "name": "Sete",
-                "uri": "spotify:track:4u3XiAwJ2U9Kxgy57gcAPB"
+                "uri": "spotify:track:6YvEIuaWAkuLZMI1a2Qy9x"
             },
             {
                 "name": "Sorry (with Madonna)",
@@ -1118,8 +1468,88 @@
         ]
     },
     {
-        "name": " LASSO BARRY CANT FSWIM ",
-        "band_id": "-"
+        "name": "LASSO",
+        "band_id": "0nQ5UUNGp9J9xWVjspHYqn",
+        "top_tracks": [
+            {
+                "name": "This Staggering Soul",
+                "uri": "spotify:track:4LWbtZj1M9MjCGecKHYd1G"
+            },
+            {
+                "name": "Homeward",
+                "uri": "spotify:track:3BLFpA79OHHc4RT6sTrKtQ"
+            },
+            {
+                "name": "Terra Firma",
+                "uri": "spotify:track:0WWIPP1WVIG5p8jJY4m1ZY"
+            },
+            {
+                "name": "Dieter",
+                "uri": "spotify:track:2gl5y9HQxdmX5EJMdUt4vj"
+            },
+            {
+                "name": "Space Truckers",
+                "uri": "spotify:track:2nJNPJykQRVQa11sCmnDFO"
+            },
+            {
+                "name": "No Speed Limits Where We're Going",
+                "uri": "spotify:track:4I3T4Q9SYAg1ii7t7IxpjC"
+            },
+            {
+                "name": "Cryo (Extraterrestrial Awakening)",
+                "uri": "spotify:track:1f76LbwMFsMCA8ftZGbSnz"
+            },
+            {
+                "name": "The Birth of the Universe",
+                "uri": "spotify:track:51wZJvsdhstC6g8PDpfcyR"
+            }
+        ]
+    },
+    {
+        "name": "BARRY CANT FSWIM",
+        "band_id": "0vTVU0KH0CVzijsoKGsTPl",
+        "top_tracks": [
+            {
+                "name": "How It Feels",
+                "uri": "spotify:track:3NZz7DWeVQesSOn6mO39F7"
+            },
+            {
+                "name": "Kimbara",
+                "uri": "spotify:track:3iHrGCUXfZ4BoOy615Ydbk"
+            },
+            {
+                "name": "Sunsleeper",
+                "uri": "spotify:track:35lxsi9U65JKT03Voj2Dl5"
+            },
+            {
+                "name": "Sonder",
+                "uri": "spotify:track:2wynpXzuXf6Cvf2MqHYA9Z"
+            },
+            {
+                "name": "El Layali",
+                "uri": "spotify:track:51qw9DAEYn0RS23LtwZU84"
+            },
+            {
+                "name": "Woman",
+                "uri": "spotify:track:1WaiCFnNlnpy6NFf3Ga00R"
+            },
+            {
+                "name": "Deadbeat Gospel",
+                "uri": "spotify:track:6mBYIvlhEaNaullLg2wm4q"
+            },
+            {
+                "name": "God Is The Space Between Us",
+                "uri": "spotify:track:5I73WkfhuOvavHVYk3TGrm"
+            },
+            {
+                "name": "Like The Old Days",
+                "uri": "spotify:track:6mfM11rZkoXsU5xAArF4Ix"
+            },
+            {
+                "name": "Dance of the Crab - Edit",
+                "uri": "spotify:track:6vIMrduIYxfdyFgTyaOX5k"
+            }
+        ]
     },
     {
         "name": " MICHAEL KIWANUKA ",
@@ -1131,7 +1561,7 @@
             },
             {
                 "name": "Home Again",
-                "uri": "spotify:track:46EuzanXhKwIc7755wLAvS"
+                "uri": "spotify:track:5yGVHzJ2Se8pDzR7FIYUlU"
             },
             {
                 "name": "One More Night",
@@ -1151,7 +1581,7 @@
             },
             {
                 "name": "I'm Getting Ready",
-                "uri": "spotify:track:54QckpslekyZCIEanFk787"
+                "uri": "spotify:track:5TWbNkeJnYkcT04J81apOr"
             },
             {
                 "name": "Solid Ground",
@@ -1159,7 +1589,7 @@
             },
             {
                 "name": "Rest",
-                "uri": "spotify:track:46ueNei78zAk47R2OOLInn"
+                "uri": "spotify:track:4znKp61MTtp04IvAnmtX40"
             },
             {
                 "name": "Money (with Tom Misch)",
@@ -1196,12 +1626,12 @@
                 "uri": "spotify:track:4nBTt4n122lScgQwHzKVCV"
             },
             {
-                "name": "GLOW (feat. Au/Ra)",
-                "uri": "spotify:track:3lqfTqap6aFMlYGEOyDZvt"
-            },
-            {
                 "name": "We Will Meet Again",
                 "uri": "spotify:track:6VpRQDOM7nQ6viuVUSXWGn"
+            },
+            {
+                "name": "GLOW (feat. Au/Ra)",
+                "uri": "spotify:track:3lqfTqap6aFMlYGEOyDZvt"
             },
             {
                 "name": "DON'T LOOK DOWN (feat. Lizzy Land)",
@@ -1254,54 +1684,100 @@
                 "uri": "spotify:track:3iUDHA6FGAKfHX2jmgF0vO"
             },
             {
-                "name": "So Stunning",
-                "uri": "spotify:track:0U2h15q7cbWWzVJjFPnWxY"
+                "name": "You Were a Dream",
+                "uri": "spotify:track:79BvfNXgpx5GyUkNcmX3CB"
             }
         ]
     },
     {
-        "name": " CHITA ANA MENA ",
-        "band_id": "5kLvMAFanr3jQ7iuciSCuM",
+        "name": "CHITA",
+        "band_id": "7gfkYbxpguEc9bm6m8TpAr",
         "top_tracks": [
             {
-                "name": "Sex In Public",
-                "uri": "spotify:track:6iyWZc91qCpdJZwv3rY7xk"
+                "name": "Evidências",
+                "uri": "spotify:track:1X95pCQG939KCbJL6yVQgw"
             },
             {
-                "name": "Dirty Dreams",
-                "uri": "spotify:track:1MD0QzKsS8nhaZ0imdkzUQ"
+                "name": "Sinônimos",
+                "uri": "spotify:track:5wn7dRsPFOd236GySyJqLx"
             },
             {
-                "name": "Lightning In A Bottle",
-                "uri": "spotify:track:4G77iJqwT8PGScFHNDRs3b"
+                "name": "Estou Apaixonado - Ao Vivo",
+                "uri": "spotify:track:1aAA1WZxMcRqmRWjGBPSVE"
             },
             {
-                "name": "Dream World",
-                "uri": "spotify:track:3dHM0Y07sAabyYGrPrMwys"
+                "name": "E Aí Tempo",
+                "uri": "spotify:track:7L8zUnQobLuuGsxAO3E6fv"
             },
             {
-                "name": "Sex In Public - Acoustic",
-                "uri": "spotify:track:30Gtl48ZOEtlxnEfQTndLa"
+                "name": "Dormi Na Praça - Ao Vivo",
+                "uri": "spotify:track:0lqth62FJY6QobobChvnzB"
             },
             {
-                "name": "Moving On",
-                "uri": "spotify:track:08hmD5K4SCKOZKzNMSvqIB"
+                "name": "No Rancho FUndo",
+                "uri": "spotify:track:1pLrdiKXZ1bdf7O6rR3teY"
             },
             {
-                "name": "Didn't Peak In High School",
-                "uri": "spotify:track:4fqDn5R0f6SLFDM0KUZdw6"
+                "name": "Fio de Cabelo",
+                "uri": "spotify:track:1d7cmISALvOgs88d3ghiOa"
             },
             {
-                "name": "Heartbeat",
-                "uri": "spotify:track:0Ha5psWOYz5Ed8i6Y2xm46"
+                "name": "Sinônimos",
+                "uri": "spotify:track:43MPJOb4FDjjbDka7abMM6"
             },
             {
-                "name": "Take My Time",
-                "uri": "spotify:track:5J1u9cwAVXB7LOnlqPBytT"
+                "name": "SINÔNIMOS - Ao Vivo",
+                "uri": "spotify:track:2eXfGSRwUUuKSCfMZdyiHT"
             },
             {
-                "name": "Strangers",
-                "uri": "spotify:track:23NcBgBYBXaRFymeqgkx0X"
+                "name": "Sinônimos / Pense Em Mim / É o Amor",
+                "uri": "spotify:track:47uSaJXqUIYdgCyFzuikoW"
+            }
+        ]
+    },
+    {
+        "name": "ANA MENA",
+        "band_id": "6k8mwkKJKKjBILo7ypBspl",
+        "top_tracks": [
+            {
+                "name": "CARITA TRISTE",
+                "uri": "spotify:track:2mYlSgPvC5Np4mDg9DU5Mc"
+            },
+            {
+                "name": "Madrid City",
+                "uri": "spotify:track:6KHxe3Yj8W8oq3zviUvJRe"
+            },
+            {
+                "name": "LAS 12",
+                "uri": "spotify:track:5aY2pfyGLxBpuI4TruqmQx"
+            },
+            {
+                "name": "Quiero Decirte",
+                "uri": "spotify:track:4Oc1qHsjM4kM0AARvlwSs3"
+            },
+            {
+                "name": "A Un Paso De La Luna",
+                "uri": "spotify:track:1vNYb4aLINWNy0plIsLQeX"
+            },
+            {
+                "name": "La Razón",
+                "uri": "spotify:track:3CmSv76KDKsvtiyrdgHZHH"
+            },
+            {
+                "name": "Una volta ancora (feat. Ana Mena)",
+                "uri": "spotify:track:6swHvavSroD4ur3Q18MjYz"
+            },
+            {
+                "name": "A Un Passo Dalla Luna",
+                "uri": "spotify:track:3PYz3AvJxc7KbswN4MwhpB"
+            },
+            {
+                "name": "D'estate non vale (feat. Ana Mena)",
+                "uri": "spotify:track:5IbiQAbMBe5T2K67mCAIx3"
+            },
+            {
+                "name": "Un bacio all'improvviso",
+                "uri": "spotify:track:6MC6SFvG37JHoqioFzy2vz"
             }
         ]
     },
@@ -1342,12 +1818,12 @@
                 "uri": "spotify:track:1Tk7GuYDspyvq16jy2Tpwl"
             },
             {
-                "name": "Peace of Mind",
-                "uri": "spotify:track:7h8qrDfxBzUGcXXiR4Jxea"
-            },
-            {
                 "name": "I See Colors",
                 "uri": "spotify:track:6CfcDeHk4tzSmkd97HRvM3"
+            },
+            {
+                "name": "Peace of Mind",
+                "uri": "spotify:track:7h8qrDfxBzUGcXXiR4Jxea"
             }
         ]
     },
@@ -1364,12 +1840,12 @@
                 "uri": "spotify:track:2Ue68qfEPdUtVVgrjOKE05"
             },
             {
-                "name": "Daydream",
-                "uri": "spotify:track:6EFwCTxuOWiJllWJSZtsBe"
-            },
-            {
                 "name": "Run",
                 "uri": "spotify:track:0yjxW8s0Uuk9uKi0Nh9B7T"
+            },
+            {
+                "name": "Daydream",
+                "uri": "spotify:track:6EFwCTxuOWiJllWJSZtsBe"
             },
             {
                 "name": "Breathe",
@@ -1380,12 +1856,12 @@
                 "uri": "spotify:track:1r8Y3er5sLDfD9rVFRhhyz"
             },
             {
-                "name": "Terminal Feeling",
-                "uri": "spotify:track:5L8enoCGScIkkt16l3QNdg"
-            },
-            {
                 "name": "Synthetic Blues",
                 "uri": "spotify:track:3NQAZFYK0HTA1l9lIB5U3O"
+            },
+            {
+                "name": "Terminal Feeling",
+                "uri": "spotify:track:5L8enoCGScIkkt16l3QNdg"
             },
             {
                 "name": "Breathe (Record Of The Week) [ABGT593]",
@@ -1398,7 +1874,7 @@
         ]
     },
     {
-        "name": " NESSA BARRETT LUZ GAGGI ",
+        "name": "NESSA BARRETT",
         "band_id": "7pwufEBGfggjoI8twqlsmQ",
         "top_tracks": [
             {
@@ -1444,6 +1920,52 @@
         ]
     },
     {
+        "name": "LUZ GAGGI",
+        "band_id": "5wKQ8RnelEGULisF5rlbtm",
+        "top_tracks": [
+            {
+                "name": "Dejarlo Todo Afuera",
+                "uri": "spotify:track:7tjE7xrdAeCENpFRyj9rvP"
+            },
+            {
+                "name": "El Farsante - En Directo En La Voz / 2021",
+                "uri": "spotify:track:0kRfz1nsaFZ5nnP2FWExBZ"
+            },
+            {
+                "name": "Altar",
+                "uri": "spotify:track:1insvPZ3iQa5iTixWUpAMr"
+            },
+            {
+                "name": "Billie Jean - En Directo En La Voz / 2021",
+                "uri": "spotify:track:262dxZmPaJ9AV8jNGM1oug"
+            },
+            {
+                "name": "No Lo Pienses Más",
+                "uri": "spotify:track:248pVHToq8Fbc3PAsoUPAt"
+            },
+            {
+                "name": "Pierdo el Amor (Live Session)",
+                "uri": "spotify:track:1XMl0JJjx036GsNluOrayT"
+            },
+            {
+                "name": "Nunca",
+                "uri": "spotify:track:19LtQ7wnF36UfTrd0LCnyM"
+            },
+            {
+                "name": "Club",
+                "uri": "spotify:track:2U4u6pirZOHySKDYt85C5Q"
+            },
+            {
+                "name": "Pierdo el Amor",
+                "uri": "spotify:track:3IO11xwMlS2VWaEkHrkguy"
+            },
+            {
+                "name": "Animales",
+                "uri": "spotify:track:2vF1KE6iIpQuebkFLU2tHv"
+            }
+        ]
+    },
+    {
         "name": " SALASTKBRON ",
         "band_id": "3WMlRpW5JWuDI95TcEWt3r",
         "top_tracks": [
@@ -1460,12 +1982,12 @@
                 "uri": "spotify:track:2eV3pmYGM1bm1vWHc0t8WF"
             },
             {
-                "name": "El Super Junte Rkt",
-                "uri": "spotify:track:1dtFrIzrr4DJZOHHESVwbt"
-            },
-            {
                 "name": "Dimelo Mami",
                 "uri": "spotify:track:1MCArCVJUgBUrBnzUoZqmq"
+            },
+            {
+                "name": "El Super Junte Rkt",
+                "uri": "spotify:track:1dtFrIzrr4DJZOHHESVwbt"
             },
             {
                 "name": "Corte Gangster",
@@ -1480,12 +2002,12 @@
                 "uri": "spotify:track:43tSc5PlZvGJ39Cnrs94AL"
             },
             {
-                "name": "Deja de Llorar - Remix",
-                "uri": "spotify:track:213XnJpTBY7pkumgiaR15m"
-            },
-            {
                 "name": "La Chispa Es Una",
                 "uri": "spotify:track:7lLc3W3Yb2vGOrkuK0N0XH"
+            },
+            {
+                "name": "Deja de Llorar - Remix",
+                "uri": "spotify:track:213XnJpTBY7pkumgiaR15m"
             }
         ]
     },
@@ -1582,7 +2104,53 @@
         ]
     },
     {
-        "name": " DOBLEP NANPA BÁSICO ",
+        "name": "DOBLEP",
+        "band_id": "2eXWodjj5K1vVq2CSjl036",
+        "top_tracks": [
+            {
+                "name": "TERAPIA DE CHOQUE",
+                "uri": "spotify:track:1HRUB9L0IRcRHzLVD4pk6C"
+            },
+            {
+                "name": "Loquita - Remix",
+                "uri": "spotify:track:2N0hVk2Ant8751xPZUjCV2"
+            },
+            {
+                "name": "UH LA LA LA",
+                "uri": "spotify:track:2eV3pmYGM1bm1vWHc0t8WF"
+            },
+            {
+                "name": "NO SE VE NA",
+                "uri": "spotify:track:4p2Q6Tv4Nvkmczss8QtW3I"
+            },
+            {
+                "name": "FIESTA PUNKY",
+                "uri": "spotify:track:4uf8Ts4gpz1s9Q4FVdgrMT"
+            },
+            {
+                "name": "Me Escapé",
+                "uri": "spotify:track:0iVcmJx7r74F7mTf7M6s0v"
+            },
+            {
+                "name": "DOBLE P | DJ TAO Turreo Sessions #21",
+                "uri": "spotify:track:4dWzA1JJ0QOTUNBrYv8K9N"
+            },
+            {
+                "name": "PONTE SATA",
+                "uri": "spotify:track:305U3q7GpuywzXIUrSGHqC"
+            },
+            {
+                "name": "Gitano",
+                "uri": "spotify:track:02HFF3DlWtfRyzMNTjDEVX"
+            },
+            {
+                "name": "El Motorcito - Remix",
+                "uri": "spotify:track:2vEY9OdhUx7oFOjcbmIrwt"
+            }
+        ]
+    },
+    {
+        "name": "NANPA BÁSICO",
         "band_id": "1cUpGtXcSQsovNYEZOQgOG",
         "top_tracks": [
             {
@@ -1596,6 +2164,10 @@
             {
                 "name": "Canela",
                 "uri": "spotify:track:1yTJg3lyUPmwbnve82twH5"
+            },
+            {
+                "name": "Duelo",
+                "uri": "spotify:track:1QUcUbfPSxwfUY7qM99J7r"
             },
             {
                 "name": "Pelinegra",
@@ -1616,10 +2188,6 @@
             {
                 "name": "Invisibles",
                 "uri": "spotify:track:6QY5zaoulgveKCr7XE0vs9"
-            },
-            {
-                "name": "Duelo",
-                "uri": "spotify:track:1QUcUbfPSxwfUY7qM99J7r"
             },
             {
                 "name": "Prohibida",
@@ -1682,12 +2250,12 @@
                 "uri": "spotify:track:7l3UuUZEqvxjhKYD2QBxOU"
             },
             {
-                "name": "Dime",
-                "uri": "spotify:track:6L7sFLx38jSDx5WFVbmL2x"
-            },
-            {
                 "name": "Desnudate - Remix",
                 "uri": "spotify:track:1kQhwc7ZTVJ9fKk1ECl4dL"
+            },
+            {
+                "name": "Dime",
+                "uri": "spotify:track:6L7sFLx38jSDx5WFVbmL2x"
             },
             {
                 "name": "B de Bellako (Remix)",
@@ -1702,12 +2270,12 @@
                 "uri": "spotify:track:5TscqnLoygR8kHh5mhKmOv"
             },
             {
-                "name": "Un Bezito",
-                "uri": "spotify:track:1SQfMaCmPULmazsql39NTb"
-            },
-            {
                 "name": "MIATA ᕙ(⇀‸↼‶)ᕗ",
                 "uri": "spotify:track:4SNLXAPzofjZZavCrVmXIW"
+            },
+            {
+                "name": "Un Bezito",
+                "uri": "spotify:track:1SQfMaCmPULmazsql39NTb"
             },
             {
                 "name": "Azótame",
@@ -1766,7 +2334,7 @@
         ]
     },
     {
-        "name": " ARDE BOTÓ ",
+        "name": "ARDE BOGOTA",
         "band_id": "2Wwiu1wnq1W8AMYbWuRFDH",
         "top_tracks": [
             {
@@ -1774,12 +2342,12 @@
                 "uri": "spotify:track:0txzIz1WcoAn6m07xypcD5"
             },
             {
-                "name": "Los Perros",
-                "uri": "spotify:track:15zPjWfZ6eUFMaL4aD5Gp8"
-            },
-            {
                 "name": "Sin Vergüenza",
                 "uri": "spotify:track:0mJ2qmDI2X4wrSIIBrvvpN"
+            },
+            {
+                "name": "Los Perros",
+                "uri": "spotify:track:15zPjWfZ6eUFMaL4aD5Gp8"
             },
             {
                 "name": "Antiaéreo",
@@ -1816,12 +2384,12 @@
         "band_id": "3BtncWAC6RrQFca3UnvsS9",
         "top_tracks": [
             {
-                "name": "Mago",
-                "uri": "spotify:track:0Q4oppQ566CUYqfPhbkQB9"
-            },
-            {
                 "name": "Daruma",
                 "uri": "spotify:track:26jhME4l7q3XvC2oLtGJTp"
+            },
+            {
+                "name": "Mago",
+                "uri": "spotify:track:0Q4oppQ566CUYqfPhbkQB9"
             },
             {
                 "name": "La Llamada",
@@ -1954,12 +2522,12 @@
                 "uri": "spotify:track:64tuMkafK35OSgXmLYi1Ph"
             },
             {
-                "name": "Bad Day",
-                "uri": "spotify:track:0H6YdUU7vTO69drCvWkdyr"
-            },
-            {
                 "name": "Cámbiate El Nombre",
                 "uri": "spotify:track:5HumiXK8HoIZ7hw5XgaU55"
+            },
+            {
+                "name": "Bad Day",
+                "uri": "spotify:track:0H6YdUU7vTO69drCvWkdyr"
             },
             {
                 "name": "Ojalá (feat. Alvaro Diaz)",
@@ -1984,8 +2552,48 @@
         ]
     },
     {
-        "name": " SPREEN X MATUTE DOLY FLACKKO ",
-        "band_id": "-"
+        "name": "SPREEN",
+        "band_id": "1NIDfe1B5J1EyNiJcPZsfZ",
+        "top_tracks": [
+            {
+                "name": "Minina",
+                "uri": "spotify:track:43XCNXaZvoi3MbvzFRL3pl"
+            },
+            {
+                "name": "Respeito",
+                "uri": "spotify:track:14E117Ikw43Vljys3fAsNU"
+            },
+            {
+                "name": "Max Win",
+                "uri": "spotify:track:1m5Hh6j7SCZF0G9ZvokJVQ"
+            },
+            {
+                "name": "A Casa Pete",
+                "uri": "spotify:track:3oVBLwtACAPgpmzqEC1ztX"
+            },
+            {
+                "name": "visto",
+                "uri": "spotify:track:47mWV6wRaoUfePvkHBdsok"
+            }
+        ]
+    },
+    {
+        "name": "MATUTEDOLY FLACKKO",
+        "band_id": "1ClLZsormSFAyV3sbeTiJF",
+        "top_tracks": [
+            {
+                "name": "PHANTOGRAM FREESTYLE",
+                "uri": "spotify:track:0Nb3i563UPX4OChGbKLX3G"
+            },
+            {
+                "name": "Heart N Soul",
+                "uri": "spotify:track:2c6OPi1haYKXQDlMUMsfDP"
+            },
+            {
+                "name": "PurpSlime",
+                "uri": "spotify:track:3DTyNB5Lp4iS9E37uXOJf5"
+            }
+        ]
     },
     {
         "name": " BALTHVS ",
@@ -2042,6 +2650,10 @@
                 "uri": "spotify:track:0iiblPKGVcNWh8l7uDuUDe"
             },
             {
+                "name": "RA",
+                "uri": "spotify:track:6s5Q819P0zK4VJi6nvkDJv"
+            },
+            {
                 "name": "El Hit",
                 "uri": "spotify:track:3XYQ71Kt4YCfDcbrDd4xdP"
             },
@@ -2054,28 +2666,24 @@
                 "uri": "spotify:track:0M4j85JP4fCpUF7Y25ieCO"
             },
             {
-                "name": "RA",
-                "uri": "spotify:track:6s5Q819P0zK4VJi6nvkDJv"
-            },
-            {
                 "name": "Terremoto",
                 "uri": "spotify:track:50fHlG70LL8olJ2e2kbFLW"
             },
             {
-                "name": "Ey Ey",
-                "uri": "spotify:track:3mfZGcXgn0r2ntMi34iWvn"
-            },
-            {
-                "name": "Gratis",
-                "uri": "spotify:track:6eNDFiGyP419Ae4KBTfmgo"
-            },
-            {
-                "name": "Figuritas",
-                "uri": "spotify:track:1LsF2WfpJbrtWbYlsFlweo"
+                "name": "Paco",
+                "uri": "spotify:track:2CyuYFWEx9aNhpJpV9fekK"
             },
             {
                 "name": "DTBD",
                 "uri": "spotify:track:1OgAmAHT6YGv3gO5qKFRp5"
+            },
+            {
+                "name": "Supersónico",
+                "uri": "spotify:track:5iG8wPxJZOu2Cjub6p2Oq1"
+            },
+            {
+                "name": "Ey Ey",
+                "uri": "spotify:track:3mfZGcXgn0r2ntMi34iWvn"
             }
         ]
     },
@@ -2116,12 +2724,12 @@
                 "uri": "spotify:track:6QGNvPtmNoPDpnzdw45FTS"
             },
             {
-                "name": "Finochetto",
-                "uri": "spotify:track:4ykXVIVKVtuaqhRh3RKNHD"
-            },
-            {
                 "name": "Asi Vivo",
                 "uri": "spotify:track:43LYVil5JvuBvKn7AYq8lO"
+            },
+            {
+                "name": "Finochetto",
+                "uri": "spotify:track:4ykXVIVKVtuaqhRh3RKNHD"
             }
         ]
     },
@@ -2172,48 +2780,270 @@
         ]
     },
     {
-        "name": " LIL PANI CENTRAL NORTE CREW: BRYCHTTA + METAL 2MG + ETTA + JORNA AGUIRRE BB ASUL ",
-        "band_id": "4h8eXe8mMUAVe2NthUKnek",
+        "name": "LIL PANI",
+        "band_id": "7JOPAChLMSwpi4LSZBw000",
         "top_tracks": [
             {
-                "name": "BI-NB",
-                "uri": "spotify:track:1U4P66SjuRiDNRYamI82kx"
+                "name": "MADISON",
+                "uri": "spotify:track:4nW5qMepEJOkZONWTsrc7w"
             },
             {
-                "name": "Valentine",
-                "uri": "spotify:track:3knb3DoD2lkEkgWYpnC2YL"
+                "name": "MADISON - Aleteo Guaracha",
+                "uri": "spotify:track:5elyOAaUayfaRmG0vLwdGF"
             },
             {
-                "name": "Heartbass",
-                "uri": "spotify:track:6TF4Zx3M7NgVHzs2rDSXko"
+                "name": "LOS QUE SON #7",
+                "uri": "spotify:track:7BYA6o9H7p66FZz9CsRvNU"
             },
             {
-                "name": "Carol Roll",
-                "uri": "spotify:track:0qDF8zVwQPEXNB8OVozS46"
+                "name": "No Nos Quieren Ver",
+                "uri": "spotify:track:3aXacOnZGuSycIiaD3YeNT"
             },
             {
-                "name": "Marx",
-                "uri": "spotify:track:46NF3Or9UICBhyfHyp2qmB"
+                "name": "Big Boss",
+                "uri": "spotify:track:6QvrI36pm0YdyRKBVWUTKi"
             },
             {
-                "name": "Norway",
-                "uri": "spotify:track:64b1loEezUKnjgnnqXoP1w"
+                "name": "LOS QUE SON #3",
+                "uri": "spotify:track:4p3x8qsvThU5XUChnmAnnR"
             },
             {
-                "name": "ZANTA",
-                "uri": "spotify:track:1nb5Z0bCd7becKSiJ9Wk4c"
+                "name": "LOS QUE SON #5",
+                "uri": "spotify:track:4W2r07LkUqhlZ98sZbrvkI"
             },
             {
-                "name": "Perfume",
-                "uri": "spotify:track:39NY2X1cbhRrIzmugpJ5wc"
+                "name": "LOS QUE SON #4",
+                "uri": "spotify:track:1FhrbOqlc79bAvxVnfy1fo"
             },
             {
-                "name": "Tordbot",
-                "uri": "spotify:track:59EujaDtL3U1EMND2MWNVK"
+                "name": "#INTRO2024",
+                "uri": "spotify:track:2IND4cz288g2WhqQmblcwa"
             },
             {
-                "name": "Whitroll",
-                "uri": "spotify:track:6YzbxqNQ4bJgQkgU0klnG2"
+                "name": "LOS QUE SON #2",
+                "uri": "spotify:track:21X6xokPGjyeLphm9dRVVH"
+            }
+        ]
+    },
+    {
+        "name": "BRYCHTTA",
+        "band_id": "11d0mQkJbUfW6S0g0Ka3KS",
+        "top_tracks": [
+            {
+                "name": "Z9000",
+                "uri": "spotify:track:5EOupZadO8suuQHBuBwre2"
+            },
+            {
+                "name": "DOMINGO",
+                "uri": "spotify:track:7li7TMUhrLjIAz7pJgrAUC"
+            },
+            {
+                "name": "LOCOPUNK",
+                "uri": "spotify:track:27Up1hF04zoiFrJWhhHDmx"
+            },
+            {
+                "name": "PSYCOERIK",
+                "uri": "spotify:track:3Ah3UKBV7vlHwNwLUiV3dO"
+            },
+            {
+                "name": "RAVEA",
+                "uri": "spotify:track:29BE4hZLuQnPfhm1L6SiQm"
+            },
+            {
+                "name": "FUNKNO",
+                "uri": "spotify:track:3YhfnrX1vvHBFrIpK7kujS"
+            },
+            {
+                "name": "BONETTO",
+                "uri": "spotify:track:4y3LfiIrPnL6XqNO8XeqGz"
+            },
+            {
+                "name": "CHAIRA",
+                "uri": "spotify:track:07u3gahilbPQxQ9Y1fYSrc"
+            }
+        ]
+    },
+    {
+        "name": "METAL 2MG",
+        "band_id": "0IEGX6fzfleIrNpNnv5L1e",
+        "top_tracks": [
+            {
+                "name": "Barbwire Baby",
+                "uri": "spotify:track:5akK302PL6uSlVURfOq58I"
+            },
+            {
+                "name": "Mind_off",
+                "uri": "spotify:track:1kCSkNhfyn4qcuqYV6ZTOD"
+            },
+            {
+                "name": "Shake",
+                "uri": "spotify:track:47QGP0yevZmsdmJvMLsb7v"
+            },
+            {
+                "name": "Little Ghost",
+                "uri": "spotify:track:1vlOzHnQZoFyhNttz2Bn5l"
+            },
+            {
+                "name": "Doomdome",
+                "uri": "spotify:track:0t9BgQ5psDsNBK3Htr87Qb"
+            },
+            {
+                "name": "Prism",
+                "uri": "spotify:track:6VNBjzrDbdMhV2kDiyIsLv"
+            },
+            {
+                "name": "Try Again",
+                "uri": "spotify:track:1EZVtcU37bNwQmCN1WrFVJ"
+            },
+            {
+                "name": "Tactillium",
+                "uri": "spotify:track:7ugzSxyRQj9Us4xa69BzwO"
+            },
+            {
+                "name": "Post Weekend",
+                "uri": "spotify:track:5wmjBY4Xjc1vxx6Bzkwhoj"
+            },
+            {
+                "name": "Omens",
+                "uri": "spotify:track:0Pj2rTIxQI0ADoIpHHrUYF"
+            }
+        ]
+    },
+    {
+        "name": "ETTA",
+        "band_id": "0iOVhN3tnSvgDbcg25JoJb",
+        "top_tracks": [
+            {
+                "name": "I'd Rather Go Blind",
+                "uri": "spotify:track:1kPBT8S2wJFNAyBMnGVZgL"
+            },
+            {
+                "name": "At Last",
+                "uri": "spotify:track:4Hhv2vrOTy89HFRcjU3QOx"
+            },
+            {
+                "name": "A Sunday Kind Of Love",
+                "uri": "spotify:track:0zGLlXbHlrAyBN1x6sY0rb"
+            },
+            {
+                "name": "Something's Got A Hold On Me",
+                "uri": "spotify:track:6EAlFsajDK1PVgfhdJbS5Y"
+            },
+            {
+                "name": "Stormy Weather",
+                "uri": "spotify:track:2IdwQxhJn9ZE4zIotcCefR"
+            },
+            {
+                "name": "I Just Want To Make Love To You - Single Version",
+                "uri": "spotify:track:3QnHWkNMY2mpy494Bis0ly"
+            },
+            {
+                "name": "Trust In Me",
+                "uri": "spotify:track:5Zu9mG353GB3p26t7M5AmR"
+            },
+            {
+                "name": "All I Could Do Was Cry",
+                "uri": "spotify:track:7Ca3Zb8wejNYCoei3tlJ9e"
+            },
+            {
+                "name": "Tell Mama",
+                "uri": "spotify:track:6eFgjBTF91pOZTQ8t7xBHv"
+            },
+            {
+                "name": "Don't Cry Baby",
+                "uri": "spotify:track:52JFZ4D1kYCspWMolxYtTo"
+            }
+        ]
+    },
+    {
+        "name": "JORNA AGUIRRE",
+        "band_id": "5LklyTTUypuwRx7wgHdLRM",
+        "top_tracks": [
+            {
+                "name": "El Corrido del Fresa",
+                "uri": "spotify:track:5csvE3Pv6QUbvkXrQXiCXD"
+            },
+            {
+                "name": "Al Puro Pasón",
+                "uri": "spotify:track:7z7DKcN7oFO0QpguKU4ODm"
+            },
+            {
+                "name": "Lo de Nosotros",
+                "uri": "spotify:track:4jiI1TEHf16PRl0Im6w9RU"
+            },
+            {
+                "name": "El corrido del Barbaro",
+                "uri": "spotify:track:3Frf8qAPOcjQSxawayurm2"
+            },
+            {
+                "name": "La Pisteadera",
+                "uri": "spotify:track:0240j5bdTSRN65ZbDvecwH"
+            },
+            {
+                "name": "El Comandante Flores",
+                "uri": "spotify:track:3Tc7g9pfLCsOv24KIbzYrE"
+            },
+            {
+                "name": "La Detención de la Tuta",
+                "uri": "spotify:track:3CB7U4nsAY3kbjmN3luCcp"
+            },
+            {
+                "name": "A Cada Rato",
+                "uri": "spotify:track:36f3TkZW7Fw3YKvxdX5eAz"
+            },
+            {
+                "name": "Échame a Mí la Culpa",
+                "uri": "spotify:track:25Zg3tFHgr9wEbSJikuq0F"
+            },
+            {
+                "name": "Revolucionario",
+                "uri": "spotify:track:2bPV8AWlcN3q4tVkyOQgy7"
+            }
+        ]
+    },
+    {
+        "name": "BB ASUL",
+        "band_id": "27PauMy7dOiHb7sI8h6s4T",
+        "top_tracks": [
+            {
+                "name": "I'M A SLUT",
+                "uri": "spotify:track:4Wc8OMwvs8BegSudMgbU7t"
+            },
+            {
+                "name": "Yandere",
+                "uri": "spotify:track:64j54c4izWGwfHuONWtqDw"
+            },
+            {
+                "name": "INCEL",
+                "uri": "spotify:track:1rPLbXLWuA9NZqi844unM5"
+            },
+            {
+                "name": "Breaking Bad",
+                "uri": "spotify:track:51lUwiop70vQfBtif5sFsW"
+            },
+            {
+                "name": "PURA",
+                "uri": "spotify:track:28GuOCqBtFvSpthDJ2Vyli"
+            },
+            {
+                "name": "Capricho",
+                "uri": "spotify:track:6JcTaKjp2wfoy4QVpo0aKm"
+            },
+            {
+                "name": "no es amor",
+                "uri": "spotify:track:0Jf29aDlnBdpCqSPyLgSmX"
+            },
+            {
+                "name": "Papi",
+                "uri": "spotify:track:7xq8QM5WqLHEaVA3JKSYhm"
+            },
+            {
+                "name": "Baby Boy (feat. doppel gangs)",
+                "uri": "spotify:track:35CvXjCh3BlKQZCt8aOurM"
+            },
+            {
+                "name": "Fresh Prince - Remix",
+                "uri": "spotify:track:29bhlg1hLwg8I4jDH1UCCZ"
             }
         ]
     },
@@ -2238,12 +3068,12 @@
                 "uri": "spotify:track:6hgSgklMUzUKHd6yKKrryT"
             },
             {
-                "name": "Horas de vuelo",
-                "uri": "spotify:track:6xFgxaFrJgAqedZgGoW5S9"
-            },
-            {
                 "name": "Lecciones de Moderación",
                 "uri": "spotify:track:69XmiXxmk71l6I1CFcr7fF"
+            },
+            {
+                "name": "Horas de vuelo",
+                "uri": "spotify:track:6xFgxaFrJgAqedZgGoW5S9"
             },
             {
                 "name": "Loquillo",
@@ -2280,12 +3110,12 @@
                 "uri": "spotify:track:5NM5TCTN3S1k8nql29oIuZ"
             },
             {
-                "name": "Te lo pido por favor",
-                "uri": "spotify:track:6g3VvDH5AX42fx2KfcCsmb"
-            },
-            {
                 "name": "Tú me quieres más",
                 "uri": "spotify:track:6YsgbFVix6Tnv1zu3FMIO0"
+            },
+            {
+                "name": "Te lo pido por favor",
+                "uri": "spotify:track:6g3VvDH5AX42fx2KfcCsmb"
             },
             {
                 "name": "Los Salieris de Charly (Con el Miedo No Nos Van a Vencer)",
@@ -2300,12 +3130,12 @@
                 "uri": "spotify:track:2tRqZjkw2Jx2zyWaoW1bGq"
             },
             {
-                "name": "Todo Lo Que Tengo",
-                "uri": "spotify:track:6vkyMI2bgbLDKU8IQiSVE4"
-            },
-            {
                 "name": "Ya no quiero necesitarte",
                 "uri": "spotify:track:3XYFyInEg8rhE6fUT7ub1i"
+            },
+            {
+                "name": "Todo Lo Que Tengo",
+                "uri": "spotify:track:6vkyMI2bgbLDKU8IQiSVE4"
             }
         ]
     },
@@ -2315,11 +3145,11 @@
         "top_tracks": [
             {
                 "name": "Com Certeza",
-                "uri": "spotify:track:3ro99ZTqhEgPaPzHfc6c9R"
+                "uri": "spotify:track:3lnQYHdFC4TwGVC0LSTu8q"
             },
             {
                 "name": "Aquele Lugar",
-                "uri": "spotify:track:55UFEaQ2bpdLXaIn10x7HS"
+                "uri": "spotify:track:2sz15cgzZTl6lhgx8KUXNH"
             },
             {
                 "name": "Oh Chuva",
@@ -2327,7 +3157,7 @@
             },
             {
                 "name": "A Dois Passos Do Paraíso",
-                "uri": "spotify:track:3MZJz0LG2VdddfvWfRAjWp"
+                "uri": "spotify:track:7ufUJIw2u1Qj74CMr5M4KP"
             },
             {
                 "name": "Passa a Bola (Ao Vivo)",
@@ -2335,7 +3165,7 @@
             },
             {
                 "name": "De Você Só Quero Amor",
-                "uri": "spotify:track:4S5mWMsD4S0DucZKZDBe74"
+                "uri": "spotify:track:33i4XUzoOzNpColEgXPW08"
             },
             {
                 "name": "Desde as Estrelas - Acústico",
@@ -2374,53 +3204,17 @@
         ]
     },
     {
-        "name": " SAMURAT ESTRATOSFERA ",
-        "band_id": "6fBjnfeYEU3VFuQl8RPrp8",
+        "name": " SAMURAI",
+        "band_id": "4eSsBSXtN8eHvb2E3UK0fi",
         "top_tracks": [
             {
-                "name": "Él Soy Yo",
-                "uri": "spotify:track:3Mca7rs2qXlSlqU4XlSZRe"
-            },
-            {
-                "name": "Tiernas Mentiras",
-                "uri": "spotify:track:2jDBun83BgJpfWL498OSIT"
-            },
-            {
-                "name": "Contigo O Sin Ti",
-                "uri": "spotify:track:6DkYArFhupR3gX2v8yDLhK"
-            },
-            {
-                "name": "La Vuelta",
-                "uri": "spotify:track:6jKedxjIymMBS1n9PKnFGz"
-            },
-            {
-                "name": "Lagrimillas Tontas",
-                "uri": "spotify:track:5oVgZzspTqO2v4Ndikuy5o"
-            },
-            {
-                "name": "Un Día Sin Ti",
-                "uri": "spotify:track:0d84xhPNswA2pckcvtzQlV"
-            },
-            {
-                "name": "Amor Imposible",
-                "uri": "spotify:track:2jWaSDpi4BSdcdZcbzQ10E"
-            },
-            {
-                "name": "Donde Vas Chiquilla",
-                "uri": "spotify:track:5dSvWxvMyYWX5bUUILPXgZ"
-            },
-            {
-                "name": "Nada Va A Cambiar Mi Amor Por Ti",
-                "uri": "spotify:track:28HbbKkcLFSnCUW4GzYTY5"
-            },
-            {
-                "name": "Ya No Vives en Mí",
-                "uri": "spotify:track:4FAtEF79PbnJ7oivZrApSK"
+                "name": "The Final Destination Metal",
+                "uri": "spotify:track:47k2gfPIngVrAU5bSBO5RG"
             }
         ]
     },
     {
-        "name": " JUAN LOPEZ ",
+        "name": "JUAN LOPEZ",
         "band_id": "2qNWn8KXd9mEEEGIxlDiuT",
         "top_tracks": [
             {
@@ -2440,12 +3234,16 @@
                 "uri": "spotify:track:3pierz50cjXkhxcOdsRk7a"
             },
             {
+                "name": "PRIMO",
+                "uri": "spotify:track:0TxG5fBS2elmFpMkrz5Xvd"
+            },
+            {
                 "name": "CIANURO",
                 "uri": "spotify:track:2Mu12O5O0AofD8XbmcDZsv"
             },
             {
-                "name": "PRIMO",
-                "uri": "spotify:track:0TxG5fBS2elmFpMkrz5Xvd"
+                "name": "JOINT",
+                "uri": "spotify:track:3m9L5y29zZdc4ZmxgBzvDl"
             },
             {
                 "name": "COMO UNA RULETA",
@@ -2458,10 +3256,48 @@
             {
                 "name": "ESO ES UN PROBLEMA?",
                 "uri": "spotify:track:5NGOm2zakUTTQErdxEcBgP"
+            }
+        ]
+    },
+    {
+        "name": "ESTRATOSFERA",
+        "band_id": "4bmyQalHgw8xZFJ116P3ir",
+        "top_tracks": [
+            {
+                "name": "Boytoy",
+                "uri": "spotify:track:0q8jUD7UYkYyXlVifgePas"
             },
             {
-                "name": "CANNIBAL CORPSE",
-                "uri": "spotify:track:74b50B1BWeNQJH6ZwJUYWs"
+                "name": "Racecar",
+                "uri": "spotify:track:5R3GTgkCmcYRx4YY0k8dAw"
+            },
+            {
+                "name": "Frio",
+                "uri": "spotify:track:6gWxUd0qkzviFv3TxkJN2T"
+            },
+            {
+                "name": "Pop Time",
+                "uri": "spotify:track:7I3GB7yqLHi6Il1fbzN5uH"
+            },
+            {
+                "name": "Muerdeme El Culo",
+                "uri": "spotify:track:7kMf6jDBNyRKFpZqH8lXf7"
+            },
+            {
+                "name": "D. T. F.",
+                "uri": "spotify:track:5rsYTAOJ7zA2j0pRNfjw3b"
+            },
+            {
+                "name": "1",
+                "uri": "spotify:track:6O4Z8sha7hPgwhgZfc4rW1"
+            },
+            {
+                "name": "Diesel Superstar",
+                "uri": "spotify:track:1CiRU0JLVCpVHe2c0Yk6Uv"
+            },
+            {
+                "name": "EQetamine",
+                "uri": "spotify:track:7q42Bh1YaRw8hELZZl1zbg"
             }
         ]
     },
@@ -2502,12 +3338,12 @@
                 "uri": "spotify:track:7F5y3Bla5htUMlgsJL71Qz"
             },
             {
-                "name": "AMATISTA",
-                "uri": "spotify:track:18mBDvUucYvQOoLZHiI1iz"
-            },
-            {
                 "name": "SUAVE",
                 "uri": "spotify:track:3jdXgV1hy1Mlp7l0XJ6wh7"
+            },
+            {
+                "name": "AMATISTA",
+                "uri": "spotify:track:18mBDvUucYvQOoLZHiI1iz"
             }
         ]
     },
@@ -2542,12 +3378,12 @@
                 "uri": "spotify:track:5HxlKgVbbQqSfoXYB72Gq3"
             },
             {
-                "name": "En Otro Lugar",
-                "uri": "spotify:track:4cbYLSExjhetFfq2WHGYhR"
-            },
-            {
                 "name": "Con Miedo a Ti",
                 "uri": "spotify:track:1HWa85l0tYdSirf3M1DIdl"
+            },
+            {
+                "name": "En Otro Lugar",
+                "uri": "spotify:track:4cbYLSExjhetFfq2WHGYhR"
             },
             {
                 "name": "Me Gusta",
@@ -2574,8 +3410,8 @@
                 "uri": "spotify:track:5BkhJCY31qNMkd7ePp1zay"
             },
             {
-                "name": "Origen",
-                "uri": "spotify:track:1e9giiIh1sWJQpbI7l2gLx"
+                "name": "Tan Rico",
+                "uri": "spotify:track:5Nka7IynXeebD6AvIiNaXt"
             }
         ]
     },
@@ -2585,11 +3421,11 @@
         "top_tracks": [
             {
                 "name": "Vivir Lo Nuestro",
-                "uri": "spotify:track:4qAknKWl2aMvWn4r1nzWAa"
+                "uri": "spotify:track:4UXdWLgdsdmkeOFABIGwZY"
             },
             {
                 "name": "Ese Hombre",
-                "uri": "spotify:track:1BK353EYyBMkDd80kmfrqA"
+                "uri": "spotify:track:0aT7slkUrMMGqe4ZVogNdy"
             },
             {
                 "name": "Mi Mayor Venganza",
@@ -2601,15 +3437,15 @@
             },
             {
                 "name": "Nunca Voy A Olvidarte",
-                "uri": "spotify:track:7JXThmie7TTZfnGpD6hOJG"
+                "uri": "spotify:track:4uDRJLRjfWhuH3ny3sodh7"
             },
             {
                 "name": "Dicen Que Soy",
-                "uri": "spotify:track:6Lr6DGoVF77bNdHsfiwfPZ"
+                "uri": "spotify:track:4fJBL8lzX0pZKABN3z7d3v"
             },
             {
                 "name": "Que Ganas De No Verte Nunca Más",
-                "uri": "spotify:track:4QV3YgLi5bHnXMivdZX0Xh"
+                "uri": "spotify:track:7I8DdBcjci58ulqpNM8VDs"
             },
             {
                 "name": "Víctimas las Dos",
@@ -2626,9 +3462,9 @@
         ]
     },
     {
-        "href": "https://open.spotify.com/playlist/63tEphBsbZ2usOOrEqEmEg",
-        "id": "63tEphBsbZ2usOOrEqEmEg",
+        "href": "https://open.spotify.com/playlist/1ynhRuT0Rm3xoAmFcLuTQ5",
+        "id": "1ynhRuT0Rm3xoAmFcLuTQ5",
         "images": [],
-        "name": "lola2025"
+        "name": "LollaPalooza2025.json"
     }
 ]
