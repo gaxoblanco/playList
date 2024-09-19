@@ -1,5 +1,5 @@
 import json
-from spotify_api import get_top_tracks
+from spotifyApi.spotify_api import get_top_tracks
 
 
 def process_list_band_top(access_token, json_file):

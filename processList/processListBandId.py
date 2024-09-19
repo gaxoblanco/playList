@@ -1,5 +1,5 @@
 import json
-from spotify_api import search_artist
+from spotifyApi.spotify_api import search_artist
 
 
 def process_list_band_id(access_token, json_file):

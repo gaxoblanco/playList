@@ -1,9 +1,9 @@
 from playlist_cover import update_playlist_cover
-from process_list_band_add_to_playlist import process_list_band_add_to_playlist
-from spotify_auth import get_access_token, get_access_token_deprecate, get_authorization_code
-from process_list_band_id import process_list_band_id
-from process_list_band_top import process_list_band_top
-from spotify_api import search_artist, get_top_tracks, create_playlist, get_user_id
+from processList.processListBandAddToPlaylist import process_list_band_add_to_playlist
+from processList.processListBandId import process_list_band_id
+from processList.processListBandTop import process_list_band_top
+from spotifyApi.spotify_api import search_artist, get_top_tracks, create_playlist, get_user_id
+from spotifyApi.spotify_auth import get_access_token, get_authorization_code
 from detect_possible_errors import detect_possible_errors
 
 
