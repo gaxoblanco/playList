@@ -1,0 +1,56 @@
+@import '../../variables.scss';
+
+// Ocultar el input file
+input[type="file"].up_img-imput {
+  display: none;  // Oculta el input file original
+}
+
+.img_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;                // Ocupa todo el ancho del contenedor
+  max-width: 400px;           // Establece un ancho máximo para grandes pantallas
+  aspect-ratio: 1 / 1;        // Mantiene la proporción 1:1 (cuadrada)
+  border: 2px dashed $spotify-light-gray; // Color de borde
+  border-radius: 20px;        // Bordes redondeados
+  margin: 20px auto;          // Margen superior e inferior con centrado automático
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+
+  // Efecto hover
+  &:hover {
+    border-color: darken($spotify-light-gray, 10%);
+  }
+}
+
+// Ajustes para pantallas pequeñas
+@media (max-width: 768px) {
+  .img_container {
+    max-width: 90%;           // Para pantallas pequeñas, ocupa el 90% del ancho
+  }
+}
+
+// Crear un botón personalizado
+.file-label {
+  background-color: #1DB954;  // Color verde de Spotify
+  color: #FFFFFF;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  text-align: center;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+// Hover para cambiar el color
+.file-label:hover {
+  background-color: darken(#1DB954, 10%);
+}
+
+
+mat-chip {
+  margin: 5px;
+}

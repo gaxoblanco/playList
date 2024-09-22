@@ -1,4 +1,79 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: 'Montserrat', sans-serif; }
+
+// Tipografía
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
+@import './variables.scss';
+body {
+  background-color: $spotify-black;
+  color: $white;
+  margin: 0;
+  padding: 0;
+}
+
+button, .mat-button {
+  background-color: $spotify-green;
+  color: $white;
+  font-weight: 600;
+  border-radius: 20px;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+  border: none;
+  font-family: 'Montserrat', sans-serif;
+
+  &:hover {
+    background-color: darken($spotify-green, 10%);
+  }
+}
+
+// Para títulos
+h1, h2, h3 {
+  color: $white;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+// Para formularios y entradas de texto
+.mat-form-field {
+  color: $white;
+
+  .mat-form-field-label {
+    color: $spotify-light-gray;
+  }
+
+  .mat-input-element {
+    color: $white;
+    background-color: $spotify-dark-gray;
+  }
+
+  .mat-form-field-underline {
+    background-color: $spotify-green;
+  }
+}
+
+// Estilos para subir imágenes
+.mat-card {
+  background-color: $spotify-dark-gray;
+  color: $white;
+}
+
+.file-label {
+  background-color: $spotify-green;
+  color: $white;
+  padding: 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.file-label:hover {
+  background-color: darken($spotify-green, 10%);
+}
+
+.container {
+    margin: 20px;
+}
+

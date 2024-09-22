@@ -1,0 +1,24 @@
+<div class="container">
+  <mat-card>
+    <mat-card-header class="img_container">
+      <label class="file-label" for="file-upload">Subir Imagen</label>
+      <input
+        id="file-upload"
+        class="up_img-imput"
+        type="file"
+        (change)="onFileSelected($event)"
+      />
+    </mat-card-header>
+
+    <mat-card-content>
+      <button mat-flat-button disabled>Obtener listado</button>
+    </mat-card-content>
+    <mat-card-content>
+      <mat-chip-set>
+        <mat-chip *ngFor="let op of optionList; let i = index" selected>
+          {{ op.name }}
+        </mat-chip>
+      </mat-chip-set>
+    </mat-card-content>
+  </mat-card>
+</div>

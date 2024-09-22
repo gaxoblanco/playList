@@ -36,6 +36,7 @@ def get_authorization_code():
 
     # Abrir el navegador para que el usuario otorgue permisos
     print("Se abrirá una ventana del navegador. Por favor, autoriza la aplicación.")
+    print(auth_url)
     webbrowser.open(auth_url)
 
     # Pedir al usuario que introduzca el código de autorización

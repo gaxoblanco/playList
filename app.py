@@ -1,4 +1,5 @@
 from flask import Flask, redirect, request, jsonify, session
+from flask_cors import CORS  # Importa CORS
 import os
 from dotenv import load_dotenv
 from urllib.parse import urlencode
@@ -11,6 +12,7 @@ import requests
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
+CORS(app)  # Habilita CORS en toda la aplicación
 
 # Cargar variables de entorno
 load_dotenv()
@@ -42,14 +44,15 @@ def login():
     return redirect(auth_url)
 
 
-@app.route('/callback')
+@app.route('/callback', methods=['POST'])
 def callback():
     """
     Maneja la redirección de Spotify después de la autorización.
     """
     error = request.args.get('error')
-    code = request.args.get('code')
+    # code = request.args.get('code')
     state = request.args.get('state')
+    code = request.headers.get('code')
 
     if error:
         return jsonify({"error": error}), 400
@@ -57,7 +60,7 @@ def callback():
     if state != session.get('state'):
         return jsonify({"error": "State mismatch. Possible CSRF attack."}), 403
 
-    # Aquí deberías llamar a una función para intercambiar el código por tokens
+    # intercambio de código por token de acceso
     tokens = get_access_token(code)
 
     return jsonify({"access_token": tokens[0], "refresh_token": tokens[1]})
