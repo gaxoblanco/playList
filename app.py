@@ -9,10 +9,15 @@ from spotifyApi.spotify_api import create_playlist, search_artist, get_top_track
 from processList.processListBandAddToPlaylist import process_list_band_add_to_playlist
 from detect_possible_errors import detect_possible_errors
 import requests
+from flask import request, jsonify, send_file
+
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
-CORS(app)  # Habilita CORS en toda la aplicación
+# Habilita CORS en toda la aplicación
+CORS(app, origins=["http://localhost:4200"],
+     methods=["GET", "POST"])
+
 
 # Cargar variables de entorno
 load_dotenv()
@@ -64,6 +69,43 @@ def callback():
     tokens = get_access_token(code)
 
     return jsonify({"access_token": tokens[0], "refresh_token": tokens[1]})
+
+
+@app.route('/up_img', methods=['POST'])
+def up_img():
+    """
+    Sube una imagen a la API.
+    """
+    # obtengo la img de la body
+    img = request.files['img']
+
+    # proceso la img con /img_process/img_process.py
+    # img_json = img_process(img)
+
+    # img_json contiene el listado de bandas con erres
+    # le envio el json al front
+    # return jsonify(img_json)
+
+    # return jsonify({"message": "Image uploaded successfully."})
+
+# ----------
+    import json
+
+    def load_json_file(file_path):
+        absolute_path = os.path.join(os.path.dirname(__file__), file_path)
+        # Validate that the file exists
+        if not os.path.exists(absolute_path):
+            return absolute_path
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                band_list = json.load(f)
+            return band_list
+        except Exception as e:
+            return {"error": str(e)}
+
+    # le envio el archivo quilmesRock2025.json
+    json_data = load_json_file('quilmesRock.json')
+    return jsonify(json_data)
 
 
 @app.route('/create_playlist', methods=['POST'])

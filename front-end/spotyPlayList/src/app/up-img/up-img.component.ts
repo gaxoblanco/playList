@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
@@ -11,6 +12,11 @@ import { LoadingModel } from '../models/loading';
 import { MatIconModule } from '@angular/material/icon';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 
+import { CookieService } from 'ngx-cookie-service';
+
+import { ProcesListService } from '../services/proces-list.service';
+import { ListBand } from '../models/list_band';
+
 @Component({
   selector: 'app-up-img',
   templateUrl: './up-img.component.html',
@@ -20,15 +26,25 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 })
 export class UpImgComponent {
   selectedFile: File | null = null;
-
+  showContinueButton = false;
   loading: LoadingModel = 'up';
-  optionList = [
-    { id: 1, name: 'Option 1' },
-    { id: 2, name: 'Option 2' },
-    { id: 3, name: 'Option 3' },
-  ];
+  optionList: any[] = [];
+  currentErrors: string[] = [];
   selectedList: number = 0;
   announcer: LiveAnnouncer | undefined;
+
+  headers = new HttpHeaders({
+    'Access-Control-Allow-Origin': '*', // Permite todas las orígenes
+    'Content-Type': 'multipart/form-data', // Ajusta el tipo de contenido si es necesario
+  });
+
+  constructor(
+    private http: HttpClient,
+    private procesListService: ProcesListService,
+    private cookieService: CookieService
+  ) {}
+
+  ngOnInit(): void {}
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -36,15 +52,47 @@ export class UpImgComponent {
       this.selectedFile = input.files[0];
     }
     this.loading = 'loading';
+
     try {
-      // espero la respuesta del servidor si es correcto
-      console.log('Archivo seleccionado:', this.selectedFile);
-      // Logica para enviar la img a la API-IA
-      //----------------------------------------------------------------
-      this.loading = 'loaded'; // habitilo el button para seguir
-      //
+      // Si hay un archivo seleccionado, se lo enviamos a la API
+      if (this.selectedFile) {
+        const formData = new FormData();
+        formData.append('img', this.selectedFile);
+
+        // Hacer post a la URL http://localhost:5000/up_img con la imagen y obtener el JSON
+        this.procesListService.postImg(formData).subscribe({
+          next: async (data: ListBand[]) => {
+            // Guardar la data en localStorage
+            localStorage.setItem('BandList', JSON.stringify(data));
+            // Leer la data de localStorage y loguear su valor
+            const storedData = localStorage.getItem('BandList');
+            // console.log('Valor de BandList en localStorage:', storedData);
+
+            for (const band of data) {
+              // genero el array de las posibles combinacion de errores
+              const bandErrors =
+                this.procesListService.generateWordCombinations(band.name);
+
+              // Valido que bandErrors tenga elementos
+              if (bandErrors.length > 3) {
+                // cargo las nuevas opciones
+                this.optionList = [...bandErrors];
+
+                // Esperar a que el usuario haga clic en "continuar"
+                await this.waitForUserConfirmation();
+
+                // Agregar los errores detectados a la lista de opciones
+                // this.optionList = [...this.optionList, ...bandErrors];
+              }
+            }
+          },
+          error: (error) => {
+            console.error(error);
+          },
+        });
+      }
     } catch (error) {
-      console.log('Error: ', error);
+      console.log('Error:', error);
     }
   }
 
@@ -60,7 +108,7 @@ export class UpImgComponent {
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
-    // Add our fruit
+    // Add our option
     if (value) {
       // this.optionList = [...this.optionList, { name: value }];
     }
@@ -69,12 +117,12 @@ export class UpImgComponent {
     event.chipInput!.clear();
   }
 
-  remove(fruit: any): void {
-    const index = this.optionList.indexOf(fruit);
+  remove(option: any): void {
+    const index = this.optionList.indexOf(option);
     if (index >= 0) {
       this.optionList.splice(index, 1);
       if (this.announcer) {
-        this.announcer.announce(`Removed ${fruit.name}`);
+        this.announcer.announce(`Removed ${option.name}`);
       }
     }
   }
@@ -100,6 +148,20 @@ export class UpImgComponent {
         return { ...item, name: value };
       }
       return item;
+    });
+  }
+
+  //----------------------------------------------------------------
+  // Función para esperar a que el usuario haga clic en "continuar"
+  async waitForUserConfirmation(): Promise<void> {
+    return new Promise<void>((resolve) => {
+      const button = document.getElementById('continue-button');
+      if (button) {
+        button.addEventListener('click', () => {
+          this.showContinueButton = false; // Ocultar el botón después del clic
+          resolve(); // Resuelve la promesa cuando el usuario hace clic
+        });
+      }
     });
   }
 }
