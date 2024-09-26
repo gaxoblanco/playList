@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-auth-callback',
@@ -7,7 +8,10 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./auth-callback.component.scss'],
 })
 export class AuthCallbackComponent implements OnInit {
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     // Obtener el access_token y refresh_token de la URL
@@ -23,29 +27,15 @@ export class AuthCallbackComponent implements OnInit {
         localStorage.setItem('code', code);
         // console.log('code:', code);
 
-        // hago post a la url http://localhost:5000/collback con el code y obtengo el token de spotify
-        fetch('http://localhost:5000/callback', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            code: code,
+        // Hacer post a la URL http://localhost:5000/callback con el code y obtener el token de Spotify
+        this.authService.postCode(code).subscribe({
+          next: (data) => {
+            console.log(data);
           },
-          // body: JSON.stringify({ code }),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            // console.log('Success:', data);
-            localStorage.setItem('access_token', data.access_token);
-          })
-          .catch((error) => {
-            console.error('Error:', error);
-          });
-
-        // Redirigir al home o donde prefieras después de guardar el token
-        this.router.navigate(['/']);
-      } else {
-        // Manejo de error en caso de no obtener los tokens
-        console.error('Error al obtener tokens de Spotify');
+          error: (error) => {
+            console.error(error);
+          },
+        });
       }
     });
   }

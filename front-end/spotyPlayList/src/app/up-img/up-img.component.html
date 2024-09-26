@@ -13,10 +13,11 @@
     <mat-card-content>
       <button mat-flat-button disabled>Obtener listado</button>
     </mat-card-content>
-    <mat-card-content>
-      <mat-chip *ngFor="let op of optionList; let i = index" selected>
+    <mat-chip-set>
+      <mat-chip *ngFor="let op of optionList" (click)="selectOption(op)">
         {{ op }}
       </mat-chip>
-    </mat-card-content>
+    </mat-chip-set>
   </mat-card>
+  <button mat-flat-button (click)="waitForUserConfirmation()">Continuar</button>
 </div>

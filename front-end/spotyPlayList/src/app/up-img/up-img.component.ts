@@ -1,7 +1,6 @@
-import { NgModule } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import {
   MatChipEditedEvent,
@@ -15,6 +14,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { CookieService } from 'ngx-cookie-service';
 
 import { ProcesListService } from '../services/proces-list.service';
+import { ObservablesService } from '../services/observables.service';
 import { ListBand } from '../models/list_band';
 
 @Component({
@@ -41,10 +41,16 @@ export class UpImgComponent {
   constructor(
     private http: HttpClient,
     private procesListService: ProcesListService,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private observablesService: ObservablesService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // observo si el optionList$ cambia, y mantengo optionList actualizado
+    this.observablesService.optionError$.subscribe((options) => {
+      this.optionList = options;
+    });
+  }
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -68,23 +74,10 @@ export class UpImgComponent {
             const storedData = localStorage.getItem('BandList');
             // console.log('Valor de BandList en localStorage:', storedData);
 
-            for (const band of data) {
-              // genero el array de las posibles combinacion de errores
-              const bandErrors =
-                this.procesListService.generateWordCombinations(band.name);
-
-              // Valido que bandErrors tenga elementos
-              if (bandErrors.length > 3) {
-                // cargo las nuevas opciones
-                this.optionList = [...bandErrors];
-
-                // Esperar a que el usuario haga clic en "continuar"
-                await this.waitForUserConfirmation();
-
-                // Agregar los errores detectados a la lista de opciones
-                // this.optionList = [...this.optionList, ...bandErrors];
-              }
-            }
+            // cargo el observable con la lista de bandas
+            this.observablesService.updateOptionList(data);
+            // Start "game" corrector
+            this.procesListService.startGameCorrector();
           },
           error: (error) => {
             console.error(error);
@@ -105,63 +98,51 @@ export class UpImgComponent {
     }
   }
   //----------------------------------------------------------------
-  add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-
-    // Add our option
-    if (value) {
-      // this.optionList = [...this.optionList, { name: value }];
-    }
-
-    // Clear the input value
-    event.chipInput!.clear();
+  onSubmit(): void {
+    console.log('siguiente grupo');
+    this.showContinueButton = true;
   }
+  selectedName: string = '';
+  selectOption(option: string): void {
+    this.selectedName = option;
+    console.log('Opción seleccion', option);
 
-  remove(option: any): void {
-    const index = this.optionList.indexOf(option);
-    if (index >= 0) {
-      this.optionList.splice(index, 1);
-      if (this.announcer) {
-        this.announcer.announce(`Removed ${option.name}`);
-      }
+    // quitos las opciones que ya no son posibles
+    if (this.selectedName.includes(' ')) {
+      // si tiene espacio lo separo en palabras
+      const words = this.selectedName.split(' ');
+      // comparo cada opcion en optionList y quito las que tengan palabras en comun
+      words.forEach((word) => {
+        this.optionList = this.optionList.filter(
+          (item) => !item.includes(word)
+        );
+      });
+    }
+    const band: ListBand = {
+      band_id: '',
+      name: this.selectedName,
+    };
+
+    // cargo option en el observable updateBandListCorect
+    this.observablesService.addBandListCorect(band);
+    console.log('bandListCorect$', this.observablesService.bandListCorect$);
+
+    // Itero por las opciones en optionList y alimino las que tengan option como parte de su string
+    this.optionList = this.optionList.filter((item) => !item.includes(option));
+
+    // si no tengo opciones en optionsList, emito un movimiento waitForShowContinueButton
+    if (this.optionList.length === 0) {
+      this.observablesService.emitShowContinueButton();
     }
   }
-
-  edit(option: any, event: MatChipEditedEvent) {
-    const value = event.value.trim();
-
-    // Remove option if it no longer has a name
-    if (!value) {
-      this.remove(option);
-      return;
-    }
-
-    // Remove option if it no longer has a name
-    if (!value) {
-      this.remove(option);
-      return;
-    }
-
-    // Edit existing option
-    this.optionList = this.optionList.map((item: any) => {
-      if (item === option) {
-        return { ...item, name: value };
-      }
-      return item;
-    });
-  }
-
   //----------------------------------------------------------------
   // Función para esperar a que el usuario haga clic en "continuar"
   async waitForUserConfirmation(): Promise<void> {
+    console.log('Esperando a que el usuario haga clic en "continuar"');
+    // emito un movimiento waitForShowContinueButton
+    this.observablesService.emitShowContinueButton();
     return new Promise<void>((resolve) => {
       const button = document.getElementById('continue-button');
-      if (button) {
-        button.addEventListener('click', () => {
-          this.showContinueButton = false; // Ocultar el botón después del clic
-          resolve(); // Resuelve la promesa cuando el usuario hace clic
-        });
-      }
     });
   }
 }

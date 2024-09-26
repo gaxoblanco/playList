@@ -41,4 +41,18 @@ export class AuthService {
     localStorage.removeItem('access_token');
     this.router.navigate(['/']);
   }
+
+  // Obtengo el token de acceso
+  postCode(code: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      code: code,
+    });
+
+    return this.http.post<any>(
+      `${this.authUrl}/callback`,
+      { code },
+      { headers }
+    );
+  }
 }
