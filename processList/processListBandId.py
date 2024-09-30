@@ -41,12 +41,19 @@ def process_list_band_id(access_token, json_file):
 
         try:
             # Buscar el artista en Spotify
-            artist_id = search_artist(access_token, band_name.strip())
-            if artist_id:
-                band["band_id"] = artist_id  # Asignar el ID encontrado
-                print(f"ID del artista {band_name}: {artist_id}")
+            artist_data = search_artist(access_token, band_name.strip())
+            if artist_data:
+                band["band_id"] = artist_data['id']  # Asignar el ID encontrado
+                # Asignar la imagen encontrada
+                band["img"] = artist_data['img']
+                # Asignar los géneros encontrados
+                band["genres"] = artist_data['genres']
+                print(f"ID del artista {band_name}: {artist_data['id']}")
             else:
                 band["band_id"] = "-"  # Si no se encuentra, asignar '-'
+                band["img"] = None  # Asignar None si no se encuentra la imagen
+                # Asignar una lista vacía si no se encuentran géneros
+                band["genres"] = []
                 print(f"Artista no encontrado: {band_name}")
 
         except Exception as e:

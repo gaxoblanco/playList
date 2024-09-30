@@ -37,7 +37,9 @@ def search_artist(access_token, artist_name, market='US'):
     if response.status_code == 200:
         data = response.json()
         artist_id = data['artists']['items'][0]['id']
-        return artist_id
+        img = data['artists']['items'][0]['images'][0]['url']
+        genres = data['artists']['items'][0]['genres']
+        return {'id': artist_id, 'img': img, 'genres': genres}
     else:
         print(f"Error en la búsqueda del artista: {response.status_code}")
         print(response.json())

@@ -35,7 +35,6 @@ def main():
         "Introduce el nombre del archivo JSON a procesar (con extensión .json): ")
 
     user_id = None
-
     while True:
         print("\n--- Menú ---")
         print("1. Buscar artista")
