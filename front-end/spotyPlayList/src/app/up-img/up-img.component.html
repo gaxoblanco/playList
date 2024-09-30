@@ -1,21 +1,40 @@
 <div class="container">
   <mat-card>
-    <mat-card-header class="img_container">
-      <label class="file-label" for="file-upload">Subir Imagen</label>
+    <mat-card-header
+      [ngClass]="{
+        'img-container': true,
+        'img-container--selected': imgSelected
+      }"
+    >
+      <label *ngIf="!imgSelected" class="file-label" for="file-upload"
+        >Subir Imagen</label
+      >
       <input
+        *ngIf="!imgSelected"
         id="file-upload"
-        class="up_img-imput"
+        class="up-img-imput"
         type="file"
         (change)="onFileSelected($event)"
       />
+      <!-- Contenedor para la imagen -->
+      <figure *ngIf="imgSelected">
+        <img
+          class="img-container--selected"
+          [src]="imgSelected"
+          alt="Imagen seleccionada"
+        />
+      </figure>
     </mat-card-header>
 
-    <mat-card-content>
-      <button mat-flat-button disabled>Obtener listado</button>
-    </mat-card-content>
     <mat-chip-set>
       <mat-chip *ngFor="let op of optionList" (click)="selectOption(op)">
         {{ op }}
+      </mat-chip>
+    </mat-chip-set>
+    <mat-chip-set>
+      <!-- listado de los nombres de las bandas -->
+      <mat-chip *ngFor="let band of bandListCorect">
+        {{ band }}
       </mat-chip>
     </mat-chip-set>
   </mat-card>

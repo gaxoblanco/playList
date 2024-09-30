@@ -1,3 +1,3 @@
-export type LoadingModel = 'up' | 'loading' | 'loaded' | 'error';
+export type LoadingModel = 'up' | 'loading' | 'done' | 'error';
 
 // export interface Loading

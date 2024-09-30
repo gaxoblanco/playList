@@ -1,11 +1,14 @@
 @import '../../variables.scss';
 
+figure {
+  margin: 0;
+}
 // Ocultar el input file
-input[type="file"].up_img-imput {
+input[type="file"].up-img-imput {
   display: none;  // Oculta el input file original
 }
 
-.img_container {
+.img-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,16 +20,30 @@ input[type="file"].up_img-imput {
   margin: 20px auto;          // Margen superior e inferior con centrado automático
   cursor: pointer;
   transition: border-color 0.3s ease;
+  &--selected {
+    // herreda las propiedades del padre
+    @extend .img-container;
+    border: none;               // Sin borde
+    width: 100%;                // Ocupa todo el ancho del contenedor
+    height: 100%;               // Ocupa todo el alto del contenedor
+    border-radius: 20px;       // Bordes redondeados
+    overflow: hidden;           // Oculta el contenido que se sale del contenedor
 
+  }
   // Efecto hover
   &:hover {
     border-color: darken($spotify-light-gray, 10%);
   }
 }
+.img-selected {
+  width: 100%;
+  height: 100%;
+  object-fit: fill; /* Permite deformar la relación de aspecto */
+}
 
 // Ajustes para pantallas pequeñas
 @media (max-width: 768px) {
-  .img_container {
+  .img-container {
     max-width: 90%;           // Para pantallas pequeñas, ocupa el 90% del ancho
   }
 }

@@ -50,7 +50,7 @@ export class ObservablesService {
     this.bandListCorect.next(current);
   }
 
-  //----------------------------------------------------------------
+  // --- observable to continue corretion ---
   // Subject para emitir el valor cuando showContinueButton cambia
   private showContinueButtonSubject = new Subject<void>();
   // Method para emitir el valor cuando showContinueButton cambia
@@ -64,5 +64,26 @@ export class ObservablesService {
         resolve();
       });
     });
+  }
+
+  // --- observable to next step que tiene un contador ---
+  // BehaviorSubject para el contador
+  private nextStepSubject: BehaviorSubject<number> =
+    new BehaviorSubject<number>(0);
+  // Observable para el contador
+  nextStep$: Observable<number> = this.nextStepSubject.asObservable();
+  // Method para actualizar el contador
+  public updateNextStep(data: number): void {
+    this.nextStepSubject.next(data);
+  }
+  // Method para incrementar el contador
+  public incrementNextStep(): void {
+    const current = this.nextStepSubject.getValue();
+    this.nextStepSubject.next(current + 1);
+    console.log('<--incrementNextStep-->', this.nextStepSubject.value);
+  }
+  // Method para resetear el contador
+  public resetNextStep(): void {
+    this.nextStepSubject.next(0);
   }
 }
