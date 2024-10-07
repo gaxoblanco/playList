@@ -29,16 +29,7 @@ export class ProcesListService {
     'a',
     'un',
     'y',
-    'de',
-    'del',
     'al',
-    'the',
-    'and',
-    'of',
-    'in',
-    'on',
-    'at',
-    'for',
     'with',
     '1',
     '2',
@@ -51,6 +42,7 @@ export class ProcesListService {
     '9',
     '0',
   ];
+
   generateWordCombinations(input: string): any {
     // Pasar a minúsculas y dividir el input en palabras
     input = input.toLowerCase();
@@ -101,45 +93,78 @@ export class ProcesListService {
     this.observablesService.resetNextStep();
     this.observablesService.optionList$.subscribe(async (options) => {
       for (const option of options) {
-        // paso todo a lowercase
-        option.name = option.name.toLowerCase();
-        const words = option.name.trim().split(' ');
+        // Convertimos el nombre a minúsculas y lo separamos en palabras
+        const words = option.name.trim().toLowerCase().split(' ');
+        // genero las combinaciones de palabras
         const bandErrors = this.generateWordCombinations(option.name);
 
-        // valido que la palabra del medio sea un conector
-        if (words[1] == 'de' || words[1] == 'del' || words[1] == 'the') {
-          // cargo option en el observable updateBandListCorect
-          this.observablesService.addBandListCorect(option);
-          // emito un movimiento emitShowContinueButton
-          this.observablesService.emitShowContinueButton();
-          console.log('pase por aqui', words[1]);
-        } else if (bandErrors.length > 3) {
-          // // valido que la palabra del medio sea un conector
-          // if (words[1] == 'de' || words[1] == 'del' || words[1] == 'the') {
-          //   // cargo option en el observable updateBandListCorect
-          //   this.observablesService.addBandListCorect(option);
-          //   // emito un movimiento emitShowContinueButton
-          //   this.observablesService.emitShowContinueButton();
-          //   console.log('pase por aqui', words[1]);
-          // }
-          // cargo las nuevas opciones en el observable updateOptionError
-          this.observablesService.updateOptionError(bandErrors);
-          console.log('Errores:', bandErrors);
+        // valido que el split tenga 3 palabras
+        if (words.length > 2) {
+          const isValidName = this.isValidBandName(words);
+          // valido que sea un nombre valido
+          if (isValidName) {
+            this.observablesService.addBandListCorect(option);
+            // emito un movimiento emitShowContinueButton
+            this.observablesService.emitShowContinueButton();
+          } else {
+            // elimino las opciones en bandErrors que sean un conector o middleConectr
+            const cleanBandErrors = bandErrors.filter(
+              (item: string) => !this.connectors.includes(item)
+            );
+            // cargo las nuevas opciones en el observable updateOptionError
+            console.log('es un conector de inicio de nombre', words[1]);
+            this.observablesService.updateOptionError(cleanBandErrors);
 
-          // espero a que showContinueButtonSubject cambie
-          // para continuar con el siguiente grupo
-          await this.observablesService.waitForShowContinueButton().then(() => {
-            console.log('Siguiente grupo');
-          });
-        } else if (bandErrors.length < 3) {
-          // cargo option en el observable updateBandListCorect
-          this.observablesService.addBandListCorect(option);
+            // espero a que showContinueButtonSubject cambie
+            // para continuar con el siguiente grupo
+            await this.observablesService
+              .waitForShowContinueButton()
+              .then(() => {
+                console.log('Siguiente grupo');
+              });
+          }
         }
       }
       this.observablesService.incrementNextStep();
-      console.log('nextStep$:', this.observablesService);
+      console.log(
+        'bandListCorect$:',
+        this.observablesService['bandListCorect$']
+      );
     });
   }
   //----------------------------------------------------------------
   //
+  private isValidBandName(words: string[]): boolean {
+    const validInitialConnectors = ['la', 'el', 'los', 'las', 'the'];
+    const validSecondWordConnectors = [
+      'de',
+      'del',
+      'es',
+      'tan',
+      'and',
+      'in',
+      'you',
+      'on',
+      'at',
+    ];
+
+    if (validInitialConnectors.includes(words[0])) {
+      return true;
+    }
+
+    if (words.length > 2 && validSecondWordConnectors.includes(words[1])) {
+      console.log('isValidBandName', words[1]);
+
+      return true;
+    }
+
+    return false;
+  }
+
+  private filterInvalidWords(bandErrors: string[]): string[] {
+    const validWords = ['la', 'el', 'los', 'las', 'de', 'del'];
+    return bandErrors.filter(
+      (word) => !validWords.includes(word.toLowerCase())
+    );
+  }
 }

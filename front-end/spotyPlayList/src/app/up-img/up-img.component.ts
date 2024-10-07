@@ -27,8 +27,10 @@ export class UpImgComponent {
   selectedList: number = 0;
   announcer: LiveAnnouncer | undefined;
   imgSelected: any;
-
+  tokenSpotify: any | undefined;
+  requestTokenSpotify: boolean = true;
   bandListCorect: ListBand[] = [];
+  selectedName: string = '';
 
   constructor(
     private procesListService: ProcesListService,
@@ -41,6 +43,9 @@ export class UpImgComponent {
     this.observablesService.optionError$.subscribe((options) => {
       this.optionList = options;
     });
+    // valido que tengo un token para Spotify
+    this.tokenSpotify = localStorage.getItem('sportify_access_token');
+    console.log('tokenSpotify', this.tokenSpotify);
 
     // clean localStorage
     localStorage.removeItem('uploadedImage');
@@ -49,13 +54,21 @@ export class UpImgComponent {
     this.observablesService.nextStep$.subscribe((step) => {
       // Dependiendo del valor de step, ejecuta diferentes procesos
       switch (step) {
+        case 0:
+          // valido que el token de Spotify exista
+          if (!this.tokenSpotify) {
+            console.error('No hay token de Spotify');
+            this.requestTokenSpotify = false;
+            return;
+          }
+          break;
         case 1:
           // envio la lista actualizada con las correciones para obtener el band_id
 
           // this.bandListCorect = this.observablesService.bandListCorect$;
           console.log(
-            'Step 1 - bandListCorect$ -->',
-            this.observablesService.bandListCorect$
+            'bandListCorect$:',
+            this.observablesService['bandListCorect$']
           );
           // Me suscribo al Observable para obtener la respuesta
           console.log(this.apiRequestService.postList(this.bandListCorect));
@@ -73,102 +86,49 @@ export class UpImgComponent {
     });
   }
 
+  // funcion login que llama la url http://localhost:5000/login
+  login() {
+    window.location.href = 'http://localhost:5000/login';
+  }
+
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.selectedFile = input.files[0];
-    }
-    this.loading = 'loading';
-    //----------------------------------------------------------------
-    if (input.files && input.files.length > 0) {
-      // Guardamos el archivo seleccionado en la variable selectedFile
-      this.selectedFile = input.files[0];
 
-      // Usamos FileReader para leer el archivo como una URL Base64
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+      this.loading = 'loading';
+
       const reader = new FileReader();
-      // Cuando la imagen se haya cargado exitosamente
       reader.onload = () => {
-        // Asignamos el resultado (Base64) a la variable imgSelected para mostrar la imagen en la vista
-        this.imgSelected = reader.result;
+        this.imgSelected = reader.result; // Mostrar la imagen en la vista
+        localStorage.setItem('uploadedImage', reader.result as string); // Guardar imagen en localStorage
       };
-
-      // Leemos el archivo como una URL Base64
       reader.readAsDataURL(this.selectedFile);
+
+      this.uploadImageToAPI(this.selectedFile); // Subir archivo a la API y manejar la respuesta
     } else {
       console.log('No se ha seleccionado ningún archivo');
     }
-    //----------------------------------------------------------------
-    if (input) {
-      // Usamos FileReader para leer el archivo como una URL Base64
-      const reader = new FileReader();
-
-      // Cuando la imagen se haya cargado exitosamente
-      reader.onload = () => {
-        // Guardamos la imagen en localStorage
-        localStorage.setItem('uploadedImage', reader.result as string);
-
-        // Asignamos el resultado (Base64) a la variable imgSelected para mostrar la imagen en la vista
-        this.imgSelected = reader.result;
-      };
-    }
-    try {
-      // Si hay un archivo seleccionado, se lo enviamos a la API
-      if (this.selectedFile) {
-        const formData = new FormData();
-        formData.append('img', this.selectedFile);
-
-        // Hacer post a la URL http://localhost:5000/up_img con la imagen y obtener el JSON
-        this.apiRequestService.postImg(formData).subscribe({
-          next: async (data: ListBand[]) => {
-            // Guardar la data en localStorage
-            localStorage.setItem('BandList', JSON.stringify(data));
-            this.loading = 'done';
-
-            // Leer la data de localStorage y loguear su valor
-            const storedData = localStorage.getItem('BandList');
-            // console.log('Valor de BandList en localStorage:', storedData);
-
-            // cargo el observable con la lista de bandas
-            this.observablesService.updateOptionList(data);
-            // Start "game" corrector
-            this.procesListService.startGameCorrector();
-            // Usamos FileReader para leer el archivo como una URL Base64
-            const reader = new FileReader();
-            // Cuando la imagen se haya cargado exitosamente
-            reader.onload = () => {
-              // Asignamos el resultado (Base64) a la variable imgSelected para mostrar la imagen en la vista
-              this.imgSelected = reader.result;
-            };
-            if (this.selectedFile) {
-              reader.readAsDataURL(this.selectedFile);
-            } else {
-              console.error('No file selected');
-            }
-          },
-          error: (error) => {
-            console.error(error);
-          },
-        });
-      }
-    } catch (error) {
-      console.log('Error:', error);
-    }
   }
 
-  uploadImage(): void {
-    if (this.selectedFile) {
-      console.log('Archivo seleccionado:', this.selectedFile);
-      // Aquí puedes implementar la lógica para subir la imagen a tu API
-    } else {
-      console.log('No se ha seleccionado ninguna imagen');
-    }
+  // Método para manejar la carga de la imagen a la API y procesar la respuesta
+  private uploadImageToAPI(file: File): void {
+    const formData = new FormData();
+    formData.append('img', file);
+
+    this.apiRequestService.postImg(formData).subscribe({
+      next: async (data: ListBand[]) => {
+        localStorage.setItem('BandList', JSON.stringify(data)); // Guardar la lista de bandas en localStorage
+        this.observablesService.updateOptionList(data); // Actualizar el observable con la lista de bandas
+        this.procesListService.startGameCorrector(); // Iniciar el "game corrector"
+        this.loading = 'done';
+      },
+      error: (error) => {
+        console.error('Error al enviar la imagen:', error);
+      },
+    });
   }
-  //----------------------------------------------------------------
-  onSubmit(): void {
-    console.log('siguiente grupo');
-    this.showContinueButton = true;
-  }
-  selectedName: string = '';
+
   selectOption(option: string): void {
     this.selectedName = option;
     console.log('Opción seleccion', option);

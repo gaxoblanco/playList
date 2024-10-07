@@ -6,16 +6,18 @@
         'img-container--selected': imgSelected
       }"
     >
-      <label *ngIf="!imgSelected" class="file-label" for="file-upload"
-        >Subir Imagen</label
-      >
-      <input
-        *ngIf="!imgSelected"
-        id="file-upload"
-        class="up-img-imput"
-        type="file"
-        (change)="onFileSelected($event)"
-      />
+      <div *ngIf="requestTokenSpotify">
+        <label *ngIf="!imgSelected" class="file-label" for="file-upload"
+          >Subir Imagen</label
+        >
+        <input
+          *ngIf="!imgSelected"
+          id="file-upload"
+          class="up-img-imput"
+          type="file"
+          (change)="onFileSelected($event)"
+        />
+      </div>
       <!-- Contenedor para la imagen -->
       <figure *ngIf="imgSelected">
         <img
@@ -24,6 +26,11 @@
           alt="Imagen seleccionada"
         />
       </figure>
+      <!-- span para iniciar secion si aun no tiene token -->
+      <span *ngIf="!requestTokenSpotify" class="popap">
+        <h2>Para continuar necesitas iniciar sesion</h2>
+        <button (click)="login()">Iniciar Sesion</button>
+      </span>
     </mat-card-header>
 
     <mat-chip-set>

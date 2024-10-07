@@ -24,7 +24,7 @@ export class AuthCallbackComponent implements OnInit {
         // Almacenar los tokens en el localStorage de manera segura
         // localStorage.setItem('access_token', accessToken);
         localStorage.setItem('refresh_token', refreshToken);
-        localStorage.setItem('code', code);
+        localStorage.setItem('sportify_access_token', code);
         // console.log('code:', code);
 
         // Hacer post a la URL http://localhost:5000/callback con el code y obtener el token de Spotify

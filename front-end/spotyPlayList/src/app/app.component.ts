@@ -21,21 +21,5 @@ export class AppComponent {
   }
 
   // Método que maneja el callback después de la autenticación
-  ngOnInit() {
-    // this.route.queryParams.subscribe((params) => {
-    //   const code = params['code'];
-    //   if (code) {
-    //     // Si hay un código de autorización, lo usamos para obtener el token
-    //     this.authService.handleCallback(code).subscribe(
-    //       (response) => {
-    //         this.authService.setToken(response.access_token);
-    //         this.router.navigate(['/']); // Redirige después de guardar el token
-    //       },
-    //       (error) => {
-    //         console.error('Error al obtener el token', error);
-    //       }
-    //     );
-    //   }
-    // });
-  }
+  ngOnInit() {}
 }
