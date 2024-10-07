@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 import { ObservablesService } from './observables.service';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +13,13 @@ export class ApiRequestService {
   constructor(
     private http: HttpClient,
     private cookieService: CookieService,
-    private observablesService: ObservablesService
+    private observablesService: ObservablesService,
+    private authService: AuthService
   ) {}
+
+  headers = new HttpHeaders({
+    access_token: this.authService.getToken() || '',
+  });
 
   // Envio la img y obtengo el json
   postImg(img: FormData): Observable<any> {
@@ -26,8 +32,13 @@ export class ApiRequestService {
   }
 
   // Envio el json con correciones y obtengo el band_id
-  postList(list: any): Observable<any> {
-    // console.log('list -->', list);
-    return this.http.post<any>(`${this.apiUrl}/band_list`, list);
+  postList(data: any): Observable<any> {
+    console.log('data -->', data);
+    console.log('headers -->', this.headers);
+
+    // return this.http.post<any>(`${this.apiUrl}/band_list`, data, {
+    //   headers: this.headers,
+    // });
+    return data;
   }
 }

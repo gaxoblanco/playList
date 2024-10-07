@@ -20,7 +20,7 @@ import { MatIconModule } from '@angular/material/icon';
   declarations: [AppComponent, AuthCallbackComponent],
   imports: [
     BrowserModule,
-    HttpClientModule, // Asegúrate de incluir HttpClientModule para habilitar las solicitudes HTTP
+    HttpClientModule,
     RouterModule.forRoot([]),
     BrowserAnimationsModule,
     MatCardModule,

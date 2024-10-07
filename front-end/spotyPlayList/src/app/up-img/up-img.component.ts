@@ -1,17 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
-import {
-  MatChipEditedEvent,
-  MatChipInputEvent,
-  MatChipsModule,
-} from '@angular/material/chips';
+import { MatChipsModule } from '@angular/material/chips';
 import { LoadingModel } from '../models/loading';
 import { MatIconModule } from '@angular/material/icon';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-
-import { CookieService } from 'ngx-cookie-service';
 
 import { ProcesListService } from '../services/proces-list.service';
 import { ObservablesService } from '../services/observables.service';
@@ -34,18 +27,12 @@ export class UpImgComponent {
   selectedList: number = 0;
   announcer: LiveAnnouncer | undefined;
   imgSelected: any;
-  headers = new HttpHeaders({
-    'Access-Control-Allow-Origin': '*', // Permite todas las orígenes
-    'Content-Type': 'multipart/form-data', // Ajusta el tipo de contenido si es necesario
-  });
 
   bandListCorect: ListBand[] = [];
 
   constructor(
-    private http: HttpClient,
     private procesListService: ProcesListService,
     private apiRequestService: ApiRequestService,
-    private cookieService: CookieService,
     private observablesService: ObservablesService
   ) {}
 
@@ -70,6 +57,9 @@ export class UpImgComponent {
             'Step 1 - bandListCorect$ -->',
             this.observablesService.bandListCorect$
           );
+          // Me suscribo al Observable para obtener la respuesta
+          console.log(this.apiRequestService.postList(this.bandListCorect));
+
           break;
         case 2:
           // Muestro el listado de bandas con su img despues de obtener su band_id

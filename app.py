@@ -1,3 +1,4 @@
+import json
 from flask import Flask, redirect, request, jsonify, session
 from flask_cors import CORS  # Importa CORS
 import os
@@ -6,17 +7,17 @@ from urllib.parse import urlencode
 import secrets
 from spotifyApi.spotify_auth import get_access_token, get_authorization_code
 from spotifyApi.spotify_api import create_playlist, search_artist, get_top_tracks, get_user_id
+from processList.processListBandId import process_list_band_id
 from processList.processListBandAddToPlaylist import process_list_band_add_to_playlist
 from detect_possible_errors import detect_possible_errors
 import requests
-from flask import request, jsonify, send_file
-
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
 # Habilita CORS en toda la aplicación
 CORS(app, origins=["http://localhost:4200"],
-     methods=["GET", "POST"])
+     methods=["GET", "POST", "OPTIONS", "PUT", "DELETE"],
+     allow_headers=["Content-Type", "Authorization", "access_token", "code"])
 
 
 # Cargar variables de entorno
@@ -49,6 +50,7 @@ def login():
     return redirect(auth_url)
 
 
+# Intercambio de tokens
 @app.route('/callback', methods=['POST'])
 def callback():
     """
@@ -90,6 +92,7 @@ def up_img():
 
 # ----------
     import json
+    import time
 
     def load_json_file(file_path):
         absolute_path = os.path.join(os.path.dirname(__file__), file_path)
@@ -104,8 +107,28 @@ def up_img():
             return {"error": str(e)}
 
     # le envio el archivo quilmesRock2025.json
-    json_data = load_json_file('quilmesRock.json')
+    json_data = load_json_file('quilmesRock_3.json')
+    # espera 10 segundos antes de responder
+    # time.sleep(3)
     return jsonify(json_data)
+
+
+@app.route('/band_list', methods=['POST', 'OPTIONS'])
+def band_list():
+    """
+    Procesa la lista de bandas y devuelve un JSON con la informacion de la banda
+    """
+    if request.method == 'OPTIONS':
+        return _build_cors_preflight_response()
+    data = request.get_json()
+    # del header obtengo access_token
+    access_token = request.headers.get('access_token')
+
+    if not access_token or not data:
+        return jsonify({"error": "Missing required data - access token"}), 400
+
+    process_list_band_id(access_token, data)
+    return jsonify()
 
 
 @app.route('/create_playlist', methods=['POST'])
@@ -143,6 +166,17 @@ def process_list_band_add():
     process_list_band_add_to_playlist(access_token, json_file)
 
     return jsonify({"message": "List processed and added to playlist."})
+
+
+def _build_cors_preflight_response():
+    """ Construye la respuesta de preflight para OPTIONS """
+    response = jsonify({"message": "CORS preflight passed"})
+    response.headers.add("Access-Control-Allow-Origin",
+                         "http://localhost:4200")
+    response.headers.add("Access-Control-Allow-Headers",
+                         "Content-Type,Authorization,access_token")
+    response.headers.add("Access-Control-Allow-Methods", "GET,POST,OPTIONS")
+    return response
 
 
 if __name__ == '__main__':
