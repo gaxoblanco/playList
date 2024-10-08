@@ -1,5 +1,5 @@
 <div class="container">
-  <mat-card>
+  <mat-card class="up_img_container">
     <mat-card-header
       [ngClass]="{
         'img-container': true,
@@ -18,8 +18,11 @@
           (change)="onFileSelected($event)"
         />
       </div>
+      <div *ngIf="loading == 'loading'">
+        <p>Loading...</p>
+      </div>
       <!-- Contenedor para la imagen -->
-      <figure *ngIf="imgSelected">
+      <figure *ngIf="imgSelected && loading == 'done'">
         <img
           class="img-container--selected"
           [src]="imgSelected"
@@ -45,5 +48,26 @@
       </mat-chip>
     </mat-chip-set>
   </mat-card>
-  <button mat-flat-button (click)="waitForUserConfirmation()">Continuar</button>
+  <!-- <button mat-flat-button (click)="waitForUserConfirmation()">Continuar</button> -->
+  <!-- Lista de las bandas con img -->
+  <div class="band-list" *ngIf="bandList.length > 0">
+    <mat-card *ngFor="let band of bandList" class="band-card">
+      <figure>
+        <img class="band-image" [src]="band.img" [alt]="band.name" />
+      </figure>
+      <mat-card-header class="band-card--header">
+        <mat-card-title class="band-card--title">{{
+          band.name
+        }}</mat-card-title>
+        <mat-card-subtitle
+          class="scrollable-container"
+          *ngIf="band.genres!.length > 0"
+        >
+          <span class="genre-label" *ngFor="let genre of band.genres">{{
+            genre
+          }}</span>
+        </mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+  </div>
 </div>

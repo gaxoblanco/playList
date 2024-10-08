@@ -19,6 +19,7 @@ import { ApiRequestService } from '../services/api-request.service';
   imports: [MatCardModule, MatChipsModule, MatIconModule, CommonModule],
 })
 export class UpImgComponent {
+  step: number = 0;
   selectedFile: File | null = null;
   showContinueButton = false;
   loading: LoadingModel = 'up';
@@ -31,6 +32,9 @@ export class UpImgComponent {
   requestTokenSpotify: boolean = true;
   bandListCorect: ListBand[] = [];
   selectedName: string = '';
+
+  //-----
+  bandList: ListBand[] = [];
 
   constructor(
     private procesListService: ProcesListService,
@@ -58,23 +62,22 @@ export class UpImgComponent {
           // valido que el token de Spotify exista
           if (!this.tokenSpotify) {
             console.error('No hay token de Spotify');
+            this.step = 0;
             this.requestTokenSpotify = false;
             return;
           }
           break;
         case 1:
-          // envio la lista actualizada con las correciones para obtener el band_id
-          console.log(
-            'bandListCorect$:',
-            this.observablesService['bandListCorect$']
-          );
+          this.loading = 'loading';
           // Me suscribo al Observable para obtener la respuesta
           const listb = this.apiRequestService.postList(
             this.observablesService['bandListCorect$']
           );
           listb.subscribe({
             next: (data) => {
-              console.log('data-postList:', data);
+              this.bandList = data;
+              console.log('this.bandList:', this.bandList);
+              this.loading = 'done';
             },
             error: (error) => {
               console.error('Error al enviar la lista:', error);
@@ -182,4 +185,6 @@ export class UpImgComponent {
       const button = document.getElementById('continue-button');
     });
   }
+
+  // --- trucar texto
 }

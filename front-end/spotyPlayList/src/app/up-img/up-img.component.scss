@@ -8,6 +8,10 @@ input[type="file"].up-img-imput {
   display: none;  // Oculta el input file original
 }
 
+.up_img_container {
+  margin-bottom: 16px;
+}
+
 .img-container {
   display: flex;
   justify-content: center;
@@ -50,7 +54,7 @@ input[type="file"].up-img-imput {
 
 // Crear un botón personalizado
 .file-label {
-  background-color: #1DB954;  // Color verde de Spotify
+  background-color: $spotify-green;  // Color verde de Spotify
   color: #FFFFFF;
   padding: 10px 20px;
   border-radius: 20px;
@@ -64,10 +68,134 @@ input[type="file"].up-img-imput {
 
 // Hover para cambiar el color
 .file-label:hover {
-  background-color: darken(#1DB954, 10%);
+  background-color: darken($spotify-green, 10%);
 }
 
 
 mat-chip {
   margin: 5px;
 }
+
+
+.band-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px; /* Espaciado entre las tarjetas */
+  justify-content: center; /* Centra las tarjetas en la línea */
+}
+
+.band-card {
+  width: 100%; /* Cambiado a 100% para pantallas pequeñas */
+  max-width: 300px; /* Ancho máximo para pantallas más grandes */
+  background-color: #1e1e1e; /* Color de fondo similar al de Spotify */
+  color: white; /* Texto en color blanco */
+  border-radius: 8px; /* Bordes redondeados */
+  overflow: hidden; /* Para recortar el contenido */
+  transition: transform 0.2s; /* Efecto de transformación suave */
+  border: 1px solid $spotify-gray; /* Borde delgado */
+}
+
+.band-card:hover {
+  transform: scale(1.05); /* Efecto de hover */
+}
+
+.band-card--header {
+  padding: 0px 16px; /* Espaciado interno en el encabezado */
+}
+
+.genre-label {
+  display: inline-block;
+  border: 2px solid $spotify-green; /* Color de fondo para los géneros */
+  border-radius: 18px; /* Bordes redondeados para etiquetas */
+  padding: 2px 8px; /* Espaciado interno en etiquetas */
+  margin: 4px; /* Espaciado entre etiquetas */
+  font-size: 0.8rem; /* Tamaño de fuente más pequeño */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+}
+
+.band-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+//---
+.scrollable-container {
+  height: 90px; /* Altura fija del contenedor */
+  overflow: auto; /* Permite el scroll */
+}
+
+/* Ocultar la barra de desplazamiento en WebKit (Chrome, Safari) */
+.scrollable-container::-webkit-scrollbar {
+  width: 0; /* Ancho de la barra de scroll */
+  background: transparent; /* Fondo transparente para ocultar la barra */
+}
+
+/* Ocultar la barra de desplazamiento en Firefox */
+.scrollable-container {
+  scrollbar-width: none; /* Para Firefox */
+}
+//-----------------//
+
+/* Media queries para hacer el diseño más responsivo */
+@media (max-width: 600px) {
+  .band-card {
+    width: calc(100% - 32px); /* Espacio entre tarjetas */
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    .band-card--title {
+      font-size: 0.8rem;
+      line-height: 1.2;
+      margin: 6px 0;
+
+    }
+  }
+}
+
+@media (min-width: 601px) and (max-width: 960px) {
+  .band-card {
+    height: 120px;
+    width: calc(50% - 16px); /* Dos tarjetas por fila */
+        display: grid;
+    grid-template-columns: 1fr 2fr;
+    .band-image {
+      width: 100px;
+    }
+    .band-card--title {
+      font-size: 1rem;
+      line-height: 1.4;
+      margin-bottom: 10px 0;
+    }
+  }
+}
+
+@media (min-width: 961px) {
+  .band-card {
+    width: calc(33.33% - 16px); /* Tres tarjetas por fila */
+    height: 300px;
+    .scrollable-container {
+      height: 100%;
+      overflow: auto;
+    }
+    .band-card--title {
+      font-size: 1.2rem;
+      line-height: 1.4;
+      margin-bottom: 14px 0;
+    }
+  }
+  .band-card:hover {
+    transform: scale(1);
+    .band-card--header{
+      position: absolute;
+      background: $spotify-dark-deep-gray;
+      width: 100%;
+      bottom: 0;
+      left: 0;
+      padding: 10px;
+    }
+  }
+}
+
