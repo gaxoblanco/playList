@@ -13,28 +13,24 @@ export class AuthCallbackComponent implements OnInit {
     private authService: AuthService
   ) {}
 
+  accessToken: any = '';
+
   ngOnInit(): void {
     // Obtener el access_token y refresh_token de la URL
     this.route.queryParams.subscribe((params) => {
-      const accessToken = params['access_token'];
       const refreshToken = params['refresh_token'];
       const code = params['code'];
-
       if (code) {
         // Almacenar los tokens en el localStorage de manera segura
         // localStorage.setItem('access_token', accessToken);
         localStorage.setItem('refresh_token', refreshToken);
-        localStorage.setItem('sportify_access_token', code);
-        // console.log('code:', code);
+        console.log('code:', code);
 
-        // Hacer post a la URL http://localhost:5000/callback con el code y obtener el token de Spotify
-        this.authService.postCode(code).subscribe({
-          next: (data) => {
-            console.log(data);
-          },
-          error: (error) => {
-            console.error(error);
-          },
+        // le paso el authCode a handleCallback que es un observable y devuelve un array
+        this.authService.handleCallback(code).subscribe((data) => {
+          // actualizo el token en el localStorage
+          // console.log('data**:', data.access_token);
+          this.authService.setToken(data.access_token);
         });
       }
     });

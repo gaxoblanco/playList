@@ -12,8 +12,15 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
+  spotify_token: string = localStorage.getItem('access_token') || '';
+  headers = new HttpHeaders({
+    Authorization: this.spotify_token,
+  });
+
   // Guardar el accessToken en el LocalStorage o en memoria
   public setToken(token: string): void {
+    // le quito Bearer al token y lo guardo en el localStorage
+    // token = token.split(' ')[1];
     this.accessToken = token;
     localStorage.setItem('access_token', token); // O usar sessionStorage
   }
@@ -31,8 +38,11 @@ export class AuthService {
   // Obtener el token desde el back-end
   public handleCallback(authCode: string): Observable<any> {
     const body = { code: authCode };
+    console.log('body:', body);
 
-    return this.http.post(`${this.authUrl}/callback`, body);
+    return this.http.post<any>(`${this.authUrl}/callback`, body, {
+      headers: this.headers,
+    });
   }
 
   // Cerrar sesión
@@ -42,17 +52,17 @@ export class AuthService {
     this.router.navigate(['/']);
   }
 
-  // Obtengo el token de acceso
-  postCode(code: string): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      code: code,
-    });
+  // // Obtengo el token de acceso
+  // postCode(code: string): Observable<any> {
+  //   const headers = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     code: code,
+  //   });
 
-    return this.http.post<any>(
-      `${this.authUrl}/callback`,
-      { code },
-      { headers }
-    );
-  }
+  //   return this.http.post<any>(
+  //     `${this.authUrl}/callback`,
+  //     { code },
+  //     { headers }
+  //   );
+  // }
 }

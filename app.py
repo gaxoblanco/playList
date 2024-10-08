@@ -17,7 +17,7 @@ app.secret_key = secrets.token_hex(16)
 # Habilita CORS en toda la aplicación
 CORS(app, origins=["http://localhost:4200"],
      methods=["GET", "POST", "OPTIONS", "PUT", "DELETE"],
-     allow_headers=["Content-Type", "Authorization", "access_token", "code"])
+     allow_headers=["Content-Type", "Authorization", "code"])
 
 
 # Cargar variables de entorno
@@ -57,9 +57,10 @@ def callback():
     Maneja la redirección de Spotify después de la autorización.
     """
     error = request.args.get('error')
-    # code = request.args.get('code')
     state = request.args.get('state')
-    code = request.headers.get('code')
+    data = request.get_json()
+
+    code = data.get('code')
 
     if error:
         return jsonify({"error": error}), 400
@@ -67,9 +68,11 @@ def callback():
     if state != session.get('state'):
         return jsonify({"error": "State mismatch. Possible CSRF attack."}), 403
 
-    # intercambio de código por token de acceso
-    tokens = get_access_token(code)
+    # print("body code:", code)
 
+    # intercambio de código por token de acceso
+    tokens = get_access_token(code)  # --------
+    print("tokens:", tokens[1])
     return jsonify({"access_token": tokens[0], "refresh_token": tokens[1]})
 
 
@@ -91,8 +94,6 @@ def up_img():
     # return jsonify({"message": "Image uploaded successfully."})
 
 # ----------
-    import json
-    import time
 
     def load_json_file(file_path):
         absolute_path = os.path.join(os.path.dirname(__file__), file_path)
@@ -121,14 +122,19 @@ def band_list():
     if request.method == 'OPTIONS':
         return _build_cors_preflight_response()
     data = request.get_json()
-    # del header obtengo access_token
-    access_token = request.headers.get('access_token')
+    # obtengo access_token del header -> array de 1 string
+    access_token = request.headers.get('Authorization')
+    # Eliminar el prefijo 'Bearer ' si está presente
+    if access_token and access_token.startswith('Bearer '):
+        access_token = access_token.split(' ')[1]
 
-    if not access_token or not data:
-        return jsonify({"error": "Missing required data - access token"}), 400
+    print("access_token:", access_token)
+    print("json_file:", data)
 
-    process_list_band_id(access_token, data)
-    return jsonify()
+    if not access_token:
+        return jsonify({"error, token is required": data}), 400
+
+    return jsonify(process_list_band_id(access_token, data))
 
 
 @app.route('/create_playlist', methods=['POST'])
@@ -138,7 +144,7 @@ def api_create_playlist():
     Requiere un token de acceso válido y los datos de la lista de reproducción.
     """
     data = request.get_json()
-    access_token = data.get('access_token')
+    access_token = data.get('Authorization')
     user_id = data.get('user_id')
     playlist_name = data.get('playlist_name')
     json_file = data.get('json_file')
@@ -160,7 +166,7 @@ def process_list_band_add():
     Endpoint para procesar lista de bandas y añadirlas a una playlist.
     """
     data = request.get_json()
-    access_token = data.get('access_token')
+    access_token = data.get('Authorization')
     json_file = data.get('json_file')
 
     process_list_band_add_to_playlist(access_token, json_file)

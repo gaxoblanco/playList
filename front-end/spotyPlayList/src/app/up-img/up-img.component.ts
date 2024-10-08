@@ -44,7 +44,7 @@ export class UpImgComponent {
       this.optionList = options;
     });
     // valido que tengo un token para Spotify
-    this.tokenSpotify = localStorage.getItem('sportify_access_token');
+    this.tokenSpotify = localStorage.getItem('access_token');
     console.log('tokenSpotify', this.tokenSpotify);
 
     // clean localStorage
@@ -64,14 +64,22 @@ export class UpImgComponent {
           break;
         case 1:
           // envio la lista actualizada con las correciones para obtener el band_id
-
-          // this.bandListCorect = this.observablesService.bandListCorect$;
           console.log(
             'bandListCorect$:',
             this.observablesService['bandListCorect$']
           );
           // Me suscribo al Observable para obtener la respuesta
-          console.log(this.apiRequestService.postList(this.bandListCorect));
+          const listb = this.apiRequestService.postList(
+            this.observablesService['bandListCorect$']
+          );
+          listb.subscribe({
+            next: (data) => {
+              console.log('data-postList:', data);
+            },
+            error: (error) => {
+              console.error('Error al enviar la lista:', error);
+            },
+          });
 
           break;
         case 2:

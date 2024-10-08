@@ -17,8 +17,10 @@ export class ApiRequestService {
     private authService: AuthService
   ) {}
 
+  //convierto el access_token del localStorage en un string
+  spotify_token: string = this.authService.getToken() || '';
   headers = new HttpHeaders({
-    access_token: this.authService.getToken() || '',
+    Authorization: this.spotify_token,
   });
 
   // Envio la img y obtengo el json
@@ -32,13 +34,11 @@ export class ApiRequestService {
   }
 
   // Envio el json con correciones y obtengo el band_id
-  postList(data: any): Observable<any> {
+  postList(list: any): Observable<any> {
+    const data = list.source._value;
     console.log('data -->', data);
     console.log('headers -->', this.headers);
 
-    // return this.http.post<any>(`${this.apiUrl}/band_list`, data, {
-    //   headers: this.headers,
-    // });
-    return data;
+    return this.http.post<any>(`${this.apiUrl}/band_list`, data);
   }
 }
