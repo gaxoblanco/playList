@@ -23,11 +23,11 @@ def get_user_id(access_token):
         return None
 
 
-def search_artist(access_token, artist_name, market='US'):
+def search_artist(access_token, artist_name):
     """
     Busca un artista por su nombre y devuelve su ID.
     """
-    url = f'https://api.spotify.com/v1/search?q={artist_name}&type=artist&limit=1&market={market}'
+    url = f'https://api.spotify.com/v1/search?q={artist_name}&type=artist&limit=1'
     headers = {
         'Authorization': f'Bearer {access_token}'
     }
@@ -40,6 +40,30 @@ def search_artist(access_token, artist_name, market='US'):
         img = data['artists']['items'][0]['images'][0]['url']
         genres = data['artists']['items'][0]['genres']
         return {'id': artist_id, 'img': img, 'genres': genres}
+    else:
+        print(f"Error en la búsqueda del artista: {response.status_code}")
+        print(response.json())
+        return None
+
+
+def search_option(access_token, artist_name):
+    """
+    Busca un artista por su nombre y devuelve 5 opciones de artistas.
+    """
+    url = f'https://api.spotify.com/v1/search?q={artist_name}&type=artist&limit=5'
+    headers = {
+        'Authorization': f'Bearer {access_token}'
+    }
+
+    response = requests.get(url, headers=headers)
+    list = []
+    if response.status_code == 200:
+        # itero por los 5 artista que me devuelve la api
+        for artist in response.json()['artists']['items']:
+            print(f"ID: {artist['id']} - Artista: {artist['name']}")
+            list.append(
+                {'id': artist, 'name': artist['name'], 'img': artist['images'][0]['url']})
+        return list
     else:
         print(f"Error en la búsqueda del artista: {response.status_code}")
         print(response.json())

@@ -1,0 +1,69 @@
+@import '../../../variables.scss';
+
+.band-card--option {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 300px;
+  background-color: #1e1e1e;
+  color: white;
+  border-radius: 28px;
+  overflow: hidden;
+  border: 1px solid $spotify-gray;
+  transition: transform 0.2s;
+  &:hover {
+    transform: scale(1.05);
+  }
+  .band-card-option--figure {
+    margin: 0;
+  }
+
+  .band-card-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  mat-card-header {
+    display: flex;
+    align-items: center;
+    padding: 6px;
+
+    mat-card-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+
+    .band-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .band-card--title {
+      font-size: 0.8rem;
+    }
+  }
+
+  .scrollable-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 8px;
+    height: 40px;
+    overflow-y: auto;
+  }
+
+  .genre-label {
+    display: inline-block;
+    border: 2px solid $spotify-green;
+    border-radius: 18px;
+    padding: 2px 8px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}

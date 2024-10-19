@@ -84,6 +84,7 @@ def get_access_token(auth_code):
         tokens = response.json()
         access_token = tokens.get('access_token')
         refresh_token = tokens.get('refresh_token')
+        print("Data==>", tokens)
         return access_token, refresh_token
     else:
         print(f"Error al obtener el token de acceso: {response.status_code}")

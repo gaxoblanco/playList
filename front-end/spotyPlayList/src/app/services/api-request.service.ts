@@ -39,6 +39,18 @@ export class ApiRequestService {
     console.log('data -->', data);
     console.log('headers -->', this.headers);
 
-    return this.http.post<any>(`${this.apiUrl}/band_list`, data);
+    return this.http.post<any>(`${this.apiUrl}/band_list`, data, {
+      headers: this.headers,
+    });
+  }
+
+  // Optengo una lista de opciones para las bandas mal escritas
+  getNameOptions(name: string): Observable<any> {
+    //envio el name con headers
+    return this.http.post<any>(
+      `${this.apiUrl}/search_options`,
+      { data: name },
+      { headers: this.headers }
+    );
   }
 }

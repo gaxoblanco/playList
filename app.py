@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from urllib.parse import urlencode
 import secrets
 from spotifyApi.spotify_auth import get_access_token, get_authorization_code
-from spotifyApi.spotify_api import create_playlist, search_artist, get_top_tracks, get_user_id
+from spotifyApi.spotify_api import create_playlist, search_option, get_top_tracks, get_user_id
 from processList.processListBandId import process_list_band_id
 from processList.processListBandAddToPlaylist import process_list_band_add_to_playlist
 from detect_possible_errors import detect_possible_errors
@@ -17,7 +17,7 @@ app.secret_key = secrets.token_hex(16)
 # Habilita CORS en toda la aplicación
 CORS(app, origins=["http://localhost:4200"],
      methods=["GET", "POST", "OPTIONS", "PUT", "DELETE"],
-     allow_headers=["Content-Type", "Authorization", "code"])
+     allow_headers=["Content-Type", "Authorization", "code", "data"])
 
 
 # Cargar variables de entorno
@@ -135,6 +135,31 @@ def band_list():
         return jsonify({"error, token is required": data}), 400
 
     return jsonify(process_list_band_id(access_token, data))
+
+
+# ---------- search top 5 by name ----------
+@app.route('/search_options', methods=['POST', 'OPTIONS'])
+def search_options():
+    """
+    Le envio al usuario las opciones de busqueda para la banda incorrecta que encontro
+    """
+    if request.method == 'OPTIONS':
+        return _build_cors_preflight_response()
+    data = request.get_json()
+    # obtengo access_token del header -> array de 1 string
+    access_token = request.headers.get('Authorization')
+    # Eliminar el prefijo 'Bearer ' si está presente
+    if access_token and access_token.startswith('Bearer '):
+        access_token = access_token.split(' ')[1]
+
+    print("access_token:", access_token)
+    print("json_file:", data)
+
+    if not access_token:
+        return jsonify({"error, token is required": data}), 400
+
+    option_list = search_option(access_token, data)
+    return jsonify(option_list)
 
 
 @app.route('/create_playlist', methods=['POST'])

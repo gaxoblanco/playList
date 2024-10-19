@@ -15,6 +15,7 @@ import { UpImgComponent } from './up-img/up-img.component';
 import { MatChipsModule } from '@angular/material/chips';
 
 import { MatIconModule } from '@angular/material/icon';
+import { OptionsListComponent } from './molecule/options-list/options-list.component';
 
 @NgModule({
   declarations: [AppComponent, AuthCallbackComponent],
@@ -31,6 +32,7 @@ import { MatIconModule } from '@angular/material/icon';
     RouterModule.forRoot([]),
     AppRoutingModule,
     UpImgComponent,
+    OptionsListComponent,
   ],
   providers: [
     AuthService, // Añadir el servicio de autenticación como proveedor

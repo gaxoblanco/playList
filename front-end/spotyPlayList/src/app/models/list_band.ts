@@ -7,6 +7,12 @@ export interface ListBand {
   genres?: string[];
 }
 
+export interface optionBand {
+  name: string;
+  img: string;
+  band_id?: string;
+}
+
 interface top_track {
   name: string;
   url: string;

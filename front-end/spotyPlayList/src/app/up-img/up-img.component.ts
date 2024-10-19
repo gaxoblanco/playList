@@ -5,18 +5,51 @@ import { MatChipsModule } from '@angular/material/chips';
 import { LoadingModel } from '../models/loading';
 import { MatIconModule } from '@angular/material/icon';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import {
+  trigger,
+  state,
+  style,
+  transition,
+  animate,
+} from '@angular/animations';
 
 import { ProcesListService } from '../services/proces-list.service';
 import { ObservablesService } from '../services/observables.service';
-import { ListBand } from '../models/list_band';
+import { ListBand, optionBand } from '../models/list_band';
 import { ApiRequestService } from '../services/api-request.service';
+import { OptionsListComponent } from '../molecule/options-list/options-list.component';
 
 @Component({
   selector: 'app-up-img',
   templateUrl: './up-img.component.html',
   styleUrls: ['./up-img.component.scss'],
   standalone: true,
-  imports: [MatCardModule, MatChipsModule, MatIconModule, CommonModule],
+  imports: [
+    MatCardModule,
+    MatChipsModule,
+    MatIconModule,
+    CommonModule,
+    OptionsListComponent,
+  ],
+  animations: [
+    trigger('toggleOptions', [
+      state(
+        'void',
+        style({
+          opacity: 0,
+          transform: 'translateY(-10px)',
+        })
+      ),
+      state(
+        '*',
+        style({
+          opacity: 1,
+          transform: 'translateY(0)',
+        })
+      ),
+      transition('void <=> *', [animate('300ms ease-in-out')]),
+    ]),
+  ],
 })
 export class UpImgComponent {
   step: number = 0;
@@ -34,7 +67,19 @@ export class UpImgComponent {
   selectedName: string = '';
 
   //-----
-  bandList: ListBand[] = [];
+  bandList: ListBand[] = [
+    {
+      band_id: '1',
+      name: 'banda1',
+      img: 'https://via.placeholder.com/150',
+      genres: ['rock', 'salsa', 'sasea'],
+    },
+  ];
+  optionsBand: optionBand[] = [
+    { name: 'loading', img: 'https://via.placeholder.com/150' },
+    { name: 'loading', img: 'https://via.placeholder.com/150' },
+    { name: 'loading', img: 'https://via.placeholder.com/150' },
+  ];
 
   constructor(
     private procesListService: ProcesListService,
@@ -186,5 +231,26 @@ export class UpImgComponent {
     });
   }
 
-  // --- trucar texto
+  // --- obtener lista de opciones
+  getOptions(name: string): void {
+    this.apiRequestService.getNameOptions(name).subscribe({
+      next: (data) => {
+        this.optionsBand = data;
+        console.log('optionList-->', data);
+      },
+      error: (error) => {
+        console.error('Error al obtener las opciones:', error);
+      },
+    });
+  }
+  // --- activar solo en la tarjeta seleccionada
+  activeCardIndex: number | null = null;
+  toggleOptions(index: number, name: string): void {
+    if (this.activeCardIndex === index) {
+      this.activeCardIndex = null; // Desactiva si se hace clic de nuevo
+    } else {
+      this.activeCardIndex = index; // Activa la tarjeta seleccionada
+      this.getOptions(name); // Llama a getOptions para obtener las opciones
+    }
+  }
 }

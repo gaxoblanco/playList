@@ -38,7 +38,7 @@ export class AuthService {
   // Obtener el token desde el back-end
   public handleCallback(authCode: string): Observable<any> {
     const body = { code: authCode };
-    console.log('body:', body);
+    // console.log('body:', body);
 
     return this.http.post<any>(`${this.authUrl}/callback`, body, {
       headers: this.headers,
