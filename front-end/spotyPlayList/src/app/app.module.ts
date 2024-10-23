@@ -16,7 +16,7 @@ import { MatChipsModule } from '@angular/material/chips';
 
 import { MatIconModule } from '@angular/material/icon';
 import { OptionsListComponent } from './molecule/options-list/options-list.component';
-
+import { CardBandComponent } from './organisms/card-band/card-band.component';
 @NgModule({
   declarations: [AppComponent, AuthCallbackComponent],
   imports: [
@@ -32,6 +32,7 @@ import { OptionsListComponent } from './molecule/options-list/options-list.compo
     RouterModule.forRoot([]),
     AppRoutingModule,
     UpImgComponent,
+    CardBandComponent,
     OptionsListComponent,
   ],
   providers: [

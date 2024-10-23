@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
-import { LoadingModel } from '../models/loading';
 import { MatIconModule } from '@angular/material/icon';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import {
@@ -13,23 +12,26 @@ import {
   animate,
 } from '@angular/animations';
 
+import { LoadingModel } from '../models/loading';
+
 import { ProcesListService } from '../services/proces-list.service';
 import { ObservablesService } from '../services/observables.service';
 import { ListBand, optionBand } from '../models/list_band';
 import { ApiRequestService } from '../services/api-request.service';
 import { OptionsListComponent } from '../molecule/options-list/options-list.component';
-
+import { CardBandComponent } from '../organisms/card-band/card-band.component';
 @Component({
   selector: 'app-up-img',
   templateUrl: './up-img.component.html',
   styleUrls: ['./up-img.component.scss'],
   standalone: true,
   imports: [
+    CommonModule,
     MatCardModule,
     MatChipsModule,
     MatIconModule,
     CommonModule,
-    OptionsListComponent,
+    CardBandComponent,
   ],
   animations: [
     trigger('toggleOptions', [

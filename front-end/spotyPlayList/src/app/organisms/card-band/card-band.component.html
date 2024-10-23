@@ -1,0 +1,51 @@
+<!-- Lista de las bandas con img -->
+<div class="band-list" *ngIf="bandList.length > 0">
+  <mat-card *ngFor="let band of bandList; let i = index" class="band-card">
+    <mat-card-header class="band-card--header">
+      <button
+        class="card-header--button"
+        mat-raised-button
+        (click)="toggleOptions(i, band.name)"
+      >
+        <!-- icon de angular material de edit -->
+        <mat-icon>edit</mat-icon>
+      </button>
+      <span></span>
+      <!-- icon de eliminar -->
+      <button class="card-header--button" mat-raised-button>
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-card-header>
+    <div class="band-inf--container">
+      <figure>
+        <img class="band-image" [src]="band.img" [alt]="band.name" />
+      </figure>
+      <mat-card-header
+        class="band-card--footer"
+        [ngClass]="{
+          'footer--active': activeCardIndex === i,
+          'footer--inactive': activeCardIndex !== i
+        }"
+      >
+        <mat-card-title class="band-card--title">{{
+          band.name
+        }}</mat-card-title>
+        <mat-card-subtitle
+          class="scrollable-container"
+          *ngIf="band.genres!.length > 0"
+        >
+          <span class="genre-label" *ngFor="let genre of band.genres">{{
+            genre
+          }}</span>
+        </mat-card-subtitle>
+      </mat-card-header>
+    </div>
+    <div *ngIf="activeCardIndex === i" @toggleOptions class="band-list-options">
+      <app-options-list
+        *ngFor="let optionBand of optionsBand; let j = index"
+        [band]="optionBand"
+        [index]="j"
+      ></app-options-list>
+    </div>
+  </mat-card>
+</div>

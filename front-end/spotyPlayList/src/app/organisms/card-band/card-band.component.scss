@@ -1,49 +1,9 @@
-@import '../../variables.scss';
+@import '../../../variables.scss';
 
 figure {
   margin: 0;
 }
-// Ocultar el input file
-input[type="file"].up-img-imput {
-  display: none;  // Oculta el input file original
-}
 
-.up_img_container {
-  margin-bottom: 16px;
-}
-
-.img-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;                // Ocupa todo el ancho del contenedor
-  max-width: 400px;           // Establece un ancho máximo para grandes pantallas
-  aspect-ratio: 1 / 1;        // Mantiene la proporción 1:1 (cuadrada)
-  border: 2px dashed $spotify-light-gray; // Color de borde
-  border-radius: 20px;        // Bordes redondeados
-  margin: 20px auto;          // Margen superior e inferior con centrado automático
-  cursor: pointer;
-  transition: border-color 0.3s ease;
-  &--selected {
-    // herreda las propiedades del padre
-    @extend .img-container;
-    border: none;               // Sin borde
-    width: 100%;                // Ocupa todo el ancho del contenedor
-    height: 100%;               // Ocupa todo el alto del contenedor
-    border-radius: 20px;       // Bordes redondeados
-    overflow: hidden;           // Oculta el contenido que se sale del contenedor
-
-  }
-  // Efecto hover
-  &:hover {
-    border-color: darken($spotify-light-gray, 10%);
-  }
-}
-.img-selected {
-  width: 100%;
-  height: 100%;
-  object-fit: fill; /* Permite deformar la relación de aspecto */
-}
 
 // Ajustes para pantallas pequeñas
 @media (max-width: 768px) {
@@ -80,7 +40,7 @@ mat-chip {
 .band-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px; /* Espaciado entre las tarjetas */
+  gap: 80px 26px; /* Espaciado entre las tarjetas */
   justify-content: center; /* Centra las tarjetas en la línea */
 }
 .band-card {
@@ -101,6 +61,34 @@ mat-chip {
 
 .band-card:hover {
   transform: scale(1.05); /* Efecto de hover */
+}
+.band-card--header{
+  padding: 0px 16px;
+  position: absolute;
+  top: 0; /* Por encima de su propia altura */
+  transition: top 0.3s; /* Efecto de transición suave */
+  background: $spotify-dark-deep-gray;
+  width: 290px;
+  height: 38px;
+  padding: 10px;
+  display: none;
+  .card-header--button{
+    padding: 6px 12px;
+    border: 1px solid $alert-warning;
+    background: $spotify-dark-deep-gray;
+    :hover{
+      background: $spotify-gray;
+    }
+  }
+}
+.band-card--footer {
+  padding: 0px 16px; /* Espaciado interno en el encabezado */
+  // bottom por debajo de su propia altura
+  bottom: -20%;
+  transition: bottom 0.3s; /* Efecto de transición suave */
+  background: $spotify-dark-deep-gray;
+  left: 0;
+  padding: 10px;
 }
 
 .genre-label {
@@ -145,7 +133,12 @@ mat-chip {
   .band-inf--container {
     display: grid;
     grid-template-columns: 1fr 2fr;
+    .band-card--title {
+      font-size: 0.8rem;
+      line-height: 1.2;
+      margin: 6px 0;
 
+    }
   }
 }
 
@@ -155,6 +148,11 @@ mat-chip {
     grid-template-columns: 1fr 2fr;
     .band-image {
       width: 100px;
+    }
+    .band-card--title {
+      font-size: 1rem;
+      line-height: 1.4;
+      margin-bottom: 10px 0;
     }
   }
 }
@@ -166,12 +164,32 @@ mat-chip {
       height: 100%;
       overflow: auto;
     }
+    .band-card--title {
+      font-size: 1.2rem;
+      line-height: 1.4;
+      margin-bottom: 14px 0;
+    }
+    .band-card--header {
+      top: -100%;
+      display: none;
+    }
   }
   .band-card:hover {
     transform: scale(1);
+    .band-card--header {
+      position: absolute;
+      top: 0;
+      display: grid;
+      align-items: center;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 
+    }
+    .band-card--footer{
+      position: absolute;
+      width: 100%;
+    }
     .footer--active {
-      bottom: 60px;
+      bottom: 0px;
     }
     .footer--inactive {
       bottom: 0;
@@ -183,12 +201,14 @@ mat-chip {
   display: flex;
   overflow-x: auto;
   white-space: nowrap;
-  width: 100%; /* Asegura que el contenedor ocupe todo el ancho de su elemento padre */
+  width: 300px; /* Asegura que el contenedor ocupe todo el ancho de su elemento padre */
   -ms-overflow-style: none; /* Oculta la barra de desplazamiento en Internet Explorer y Edge */
   scrollbar-width: none;
   background-color: $spotify-gray;
   border-radius: 8px;
   padding: 4px;
+  position: absolute;
+  bottom: -66px;
 }
 
 .band-list-options::-webkit-scrollbar {

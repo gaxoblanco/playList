@@ -20,4 +20,9 @@ import { MatChipsModule } from '@angular/material/chips';
 })
 export class OptionsListComponent {
   @Input() band!: optionBand;
+  @Input() index: number = 0; // Recibe el índice 'i' desde el padre
+
+  changBand(index: number) {
+    console.log('Cambio de banda', index);
+  }
 }
