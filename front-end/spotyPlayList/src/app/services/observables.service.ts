@@ -43,6 +43,7 @@ export class ObservablesService {
   public updateBandListCorect(data: ListBand[]): void {
     this.bandListCorect.next(data);
   }
+
   // Public method to add new band to bandListCorect
   public addBandListCorect(data: ListBand): void {
     const current = this.bandListCorect.getValue();
@@ -85,5 +86,9 @@ export class ObservablesService {
   // Method para resetear el contador
   public resetNextStep(): void {
     this.nextStepSubject.next(0);
+  }
+  // Method para obtener el vlaor del contador
+  public getStep(): number {
+    return this.nextStepSubject.getValue();
   }
 }

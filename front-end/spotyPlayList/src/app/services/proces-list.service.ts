@@ -124,10 +124,16 @@ export class ProcesListService {
               });
           }
         }
+        const band: ListBand = {
+          band_id: '',
+          name: option.name.trim().toLowerCase(),
+        };
+        // cargo option en el observable updateBandListCorect
+        this.observablesService.addBandListCorect(band);
       }
       this.observablesService.incrementNextStep();
       console.log(
-        'bandListCorect$:',
+        'proces-list.services bandListCorect$:',
         this.observablesService['bandListCorect$']
       );
     });

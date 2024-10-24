@@ -20,6 +20,25 @@ import { OptionsListComponent } from 'src/app/molecule/options-list/options-list
   standalone: true,
   templateUrl: './card-band.component.html',
   styleUrls: ['./card-band.component.scss'],
+  animations: [
+    trigger('toggleOptions', [
+      state(
+        'void',
+        style({
+          opacity: 0,
+          transform: 'translateY(-10px)',
+        })
+      ),
+      state(
+        '*',
+        style({
+          opacity: 1,
+          transform: 'translateY(0)',
+        })
+      ),
+      transition('void <=> *', [animate('300ms ease-in-out')]),
+    ]),
+  ],
   imports: [
     CommonModule,
     MatCardModule,
@@ -31,18 +50,52 @@ import { OptionsListComponent } from 'src/app/molecule/options-list/options-list
 })
 export class CardBandComponent {
   @Input() bandList: ListBand[] = []; // Se recibe desde el componente padre
-  optionsBand: optionBand[] = [
-    { name: 'loading', img: 'https://via.placeholder.com/150' },
-    { name: 'loading', img: 'https://via.placeholder.com/150' },
-    { name: 'loading', img: 'https://via.placeholder.com/150' },
+  optionsBand: ListBand[] = [
+    // 1 cargando
+    {
+      band_id: '1',
+      name: 'Cargando...',
+      top_tracks: [
+        {
+          name: 'Cargando...',
+          url: 'Cargando...',
+        },
+      ],
+      img: 'https://via.placeholder.com/150',
+    },
+    // 2 cargando
+    {
+      band_id: '2',
+      name: 'Cargando...',
+      top_tracks: [
+        {
+          name: 'Cargando...',
+          url: 'Cargando...',
+        },
+      ],
+      img: 'https://via.placeholder.com/150',
+    },
+    // 3 cargando
+    {
+      band_id: '3',
+      name: 'Cargando...',
+      top_tracks: [
+        {
+          name: 'Cargando...',
+          url: 'Cargando...',
+        },
+      ],
+      img: 'https://via.placeholder.com/150',
+    },
   ];
   activeCardIndex: number | null = null;
 
   constructor(private apiRequestService: ApiRequestService) {}
 
   // --- obtener lista de opciones
-  getOptions(name: string): void {
+  getOptions(index: number, name: string): void {
     this.apiRequestService.getNameOptions(name).subscribe({
+      // obtener el nombre correcto
       next: (data) => {
         this.optionsBand = data;
         console.log('optionList-->', data);
@@ -58,7 +111,7 @@ export class CardBandComponent {
       this.activeCardIndex = null; // Desactiva si se hace clic de nuevo
     } else {
       this.activeCardIndex = index; // Activa la tarjeta seleccionada
-      this.getOptions(name); // Llama a getOptions para obtener las opciones
+      this.getOptions(index, name); // Llama a getOptions para obtener las opciones
     }
   }
 }

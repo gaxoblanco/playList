@@ -37,7 +37,7 @@ export class ApiRequestService {
   postList(list: any): Observable<any> {
     const data = list.source._value;
     console.log('data -->', data);
-    console.log('headers -->', this.headers);
+    // console.log('headers -->', this.headers);
 
     return this.http.post<any>(`${this.apiUrl}/band_list`, data, {
       headers: this.headers,

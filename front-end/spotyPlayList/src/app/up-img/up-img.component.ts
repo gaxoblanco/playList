@@ -11,6 +11,7 @@ import {
   transition,
   animate,
 } from '@angular/animations';
+import { BehaviorSubject } from 'rxjs';
 
 import { LoadingModel } from '../models/loading';
 
@@ -33,25 +34,6 @@ import { CardBandComponent } from '../organisms/card-band/card-band.component';
     CommonModule,
     CardBandComponent,
   ],
-  animations: [
-    trigger('toggleOptions', [
-      state(
-        'void',
-        style({
-          opacity: 0,
-          transform: 'translateY(-10px)',
-        })
-      ),
-      state(
-        '*',
-        style({
-          opacity: 1,
-          transform: 'translateY(0)',
-        })
-      ),
-      transition('void <=> *', [animate('300ms ease-in-out')]),
-    ]),
-  ],
 })
 export class UpImgComponent {
   step: number = 0;
@@ -65,11 +47,11 @@ export class UpImgComponent {
   imgSelected: any;
   tokenSpotify: any | undefined;
   requestTokenSpotify: boolean = true;
-  bandListCorect: ListBand[] = [];
+  bandListCorected: ListBand[] = [];
   selectedName: string = '';
-
+  listb: any;
   //-----
-  bandList: ListBand[] = [
+  bandListCards: ListBand[] = [
     {
       band_id: '1',
       name: 'banda1',
@@ -90,6 +72,9 @@ export class UpImgComponent {
   ) {}
 
   ngOnInit(): void {
+    // this.observablesService.bandListCorect$.subscribe((bandList) => {
+    //   this.bandList = bandList; // Actualiza la lista cuando el observable cambie
+    // });
     // observo si el optionList$ cambia, y mantengo optionList actualizado
     this.observablesService.optionError$.subscribe((options) => {
       this.optionList = options;
@@ -103,43 +88,10 @@ export class UpImgComponent {
 
     // Suscripción al observable nextStep$
     this.observablesService.nextStep$.subscribe((step) => {
-      // Dependiendo del valor de step, ejecuta diferentes procesos
-      switch (step) {
-        case 0:
-          // valido que el token de Spotify exista
-          if (!this.tokenSpotify) {
-            console.error('No hay token de Spotify');
-            this.step = 0;
-            this.requestTokenSpotify = false;
-            return;
-          }
-          break;
-        case 1:
-          this.loading = 'loading';
-          // Me suscribo al Observable para obtener la respuesta
-          const listb = this.apiRequestService.postList(
-            this.observablesService['bandListCorect$']
-          );
-          listb.subscribe({
-            next: (data) => {
-              this.bandList = data;
-              console.log('this.bandList:', this.bandList);
-              this.loading = 'done';
-            },
-            error: (error) => {
-              console.error('Error al enviar la lista:', error);
-            },
-          });
-
-          break;
-        case 2:
-          // Muestro el listado de bandas con su img despues de obtener su band_id
-          break;
-        case 3:
-          // Genero la playList
-          break;
-        default:
-          console.error('Paso no reconocido:', step);
+      // valido que this.step sea diferente a step
+      if (this.step !== step) {
+        this.step = step;
+        this.handleStepChange(step);
       }
     });
   }
@@ -180,6 +132,7 @@ export class UpImgComponent {
         this.observablesService.updateOptionList(data); // Actualizar el observable con la lista de bandas
         this.procesListService.startGameCorrector(); // Iniciar el "game corrector"
         this.loading = 'done';
+        console.log('data--data', data);
       },
       error: (error) => {
         console.error('Error al enviar la imagen:', error);
@@ -212,7 +165,7 @@ export class UpImgComponent {
 
     // cargo option en el observable updateBandListCorect
     this.observablesService.addBandListCorect(band);
-    console.log('bandListCorect$', this.observablesService.bandListCorect$);
+    // console.log('bandListCorect$', this.observablesService.bandListCorect$);
 
     // Itero por las opciones en optionList y alimino las que tengan option como parte de su string
     this.optionList = this.optionList.filter((item) => !item.includes(option));
@@ -233,26 +186,50 @@ export class UpImgComponent {
     });
   }
 
-  // --- obtener lista de opciones
-  getOptions(name: string): void {
-    this.apiRequestService.getNameOptions(name).subscribe({
-      next: (data) => {
-        this.optionsBand = data;
-        console.log('optionList-->', data);
-      },
-      error: (error) => {
-        console.error('Error al obtener las opciones:', error);
-      },
-    });
-  }
-  // --- activar solo en la tarjeta seleccionada
-  activeCardIndex: number | null = null;
-  toggleOptions(index: number, name: string): void {
-    if (this.activeCardIndex === index) {
-      this.activeCardIndex = null; // Desactiva si se hace clic de nuevo
-    } else {
-      this.activeCardIndex = index; // Activa la tarjeta seleccionada
-      this.getOptions(name); // Llama a getOptions para obtener las opciones
+  /// --- steps ---
+
+  private handleStepChange(step: number): void {
+    switch (step) {
+      case 0:
+        // valido que el token de Spotify exista
+        if (!this.tokenSpotify) {
+          console.error('No hay token de Spotify');
+          this.step = 0;
+          this.requestTokenSpotify = false;
+          return;
+        }
+        break;
+      case 1:
+        this.loading = 'loading';
+        // guardo el valor de postList en listb
+        this.listb = this.apiRequestService.postList(
+          this.observablesService['bandListCorect$']
+        );
+
+        this.listb.subscribe({
+          next: (data: any) => {
+            console.log('listb-->', this.listb);
+            this.bandListCards = data;
+            console.log('this.bandList--> ', this.bandListCards);
+            this.loading = 'done';
+            // actualizo el bandListCorect$
+            this.observablesService.updateBandListCorect(this.bandListCards);
+          },
+          error: (error: any) => {
+            console.error('Error al enviar la lista:', error);
+          },
+        });
+
+        break;
+      case 2:
+        // Genero la lista de opciones
+
+        break;
+      case 3:
+        // Genero la playList
+        break;
+      default:
+        console.error('Paso no reconocido:', step);
     }
   }
 }

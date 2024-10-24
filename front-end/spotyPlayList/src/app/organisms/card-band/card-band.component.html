@@ -42,9 +42,9 @@
     </div>
     <div *ngIf="activeCardIndex === i" @toggleOptions class="band-list-options">
       <app-options-list
-        *ngFor="let optionBand of optionsBand; let j = index"
+        *ngFor="let optionBand of optionsBand"
         [band]="optionBand"
-        [index]="j"
+        [index]="i"
       ></app-options-list>
     </div>
   </mat-card>

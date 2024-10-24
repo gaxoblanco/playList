@@ -43,12 +43,12 @@
     </mat-chip-set>
     <mat-chip-set>
       <!-- listado de los nombres de las bandas -->
-      <mat-chip *ngFor="let band of bandListCorect">
+      <mat-chip *ngFor="let band of bandListCorected">
         {{ band }}
       </mat-chip>
     </mat-chip-set>
   </mat-card>
   <!-- <button mat-flat-button (click)="waitForUserConfirmation()">Continuar</button> -->
   <!-- Lista de las bandas con img -->
-  <app-card-band [bandList]="bandList"></app-card-band>
+  <app-card-band [bandList]="bandListCards"></app-card-band>
 </div>
