@@ -60,9 +60,9 @@ def search_option(access_token, artist_name):
     if response.status_code == 200:
         # itero por los 5 artista que me devuelve la api
         for artist in response.json()['artists']['items']:
-            print(f"ID: {artist['id']} - Artista: {artist['name']}")
+            print(f"ID: {artist['id']} - genres: {artist['genres']}")
             list.append(
-                {'id': artist, 'name': artist['name'], 'img': artist['images'][0]['url']})
+                {'band_id': artist['id'], 'name': artist['name'], 'img': artist['images'][0]['url'], 'href': artist['external_urls']['spotify'], 'genres': artist['genres']})
         return list
     else:
         print(f"Error en la búsqueda del artista: {response.status_code}")
@@ -114,8 +114,8 @@ def create_playlist(access_token, user_id, playlist_name, json_file):
         # Extraer solo la información relevante
         relevant_data = {
             'href': playlist_data['external_urls']['spotify'],
-            'id': playlist_data['id'],
-            'images': playlist_data['images'],
+            'band_id': playlist_data['id'],
+            'img': playlist_data['images'],
             'name': playlist_data['name']
         }
         # Llamar a la función para guardar los datos en el archivo JSON

@@ -10,6 +10,7 @@ from spotifyApi.spotify_api import create_playlist, search_option, get_top_track
 from processList.processListBandId import process_list_band_id
 from processList.processListBandAddToPlaylist import process_list_band_add_to_playlist
 from detect_possible_errors import detect_possible_errors
+from img_process.img_process import main
 import requests
 
 app = Flask(__name__)
@@ -83,35 +84,18 @@ def up_img():
     """
     # obtengo la img de la body
     img = request.files['img']
+    print("img:", img)
 
-    # proceso la img con /img_process/img_process.py
-    # img_json = img_process(img)
+    # proceso la img con /img_process/img_process.main y espero la respuesta que va a demorar unos segundos
+    img_json = main(img)
+    # print("img_json-->:", img_json)
+    # Antes de devolver el listado lo parseo
 
     # img_json contiene el listado de bandas con erres
     # le envio el json al front
-    # return jsonify(img_json)
-
-    # return jsonify({"message": "Image uploaded successfully."})
+    return jsonify(img_json)
 
 # ----------
-
-    def load_json_file(file_path):
-        absolute_path = os.path.join(os.path.dirname(__file__), file_path)
-        # Validate that the file exists
-        if not os.path.exists(absolute_path):
-            return absolute_path
-        try:
-            with open(file_path, 'r', encoding='utf-8') as f:
-                band_list = json.load(f)
-            return band_list
-        except Exception as e:
-            return {"error": str(e)}
-
-    # le envio el archivo quilmesRock2025.json
-    json_data = load_json_file('quilmesRock_3.json')
-    # espera 10 segundos antes de responder
-    # time.sleep(3)
-    return jsonify(json_data)
 
 
 @app.route('/band_list', methods=['POST', 'OPTIONS'])
