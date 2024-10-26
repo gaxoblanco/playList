@@ -12,7 +12,9 @@ body {
   margin: 0;
   padding: 0;
 }
-
+input {
+  font-family: 'Montserrat', sans-serif;
+}
 button, .mat-button {
   background-color: $spotify-green;
   color: $white;

@@ -68,9 +68,6 @@ mat-chip {
   top: 0; /* Por encima de su propia altura */
   transition: top 0.3s; /* Efecto de transición suave */
   background: $spotify-dark-deep-gray;
-  width: 290px;
-  height: 38px;
-  padding: 10px;
   display: none;
   .card-header--button{
     padding: 6px 12px;
@@ -79,6 +76,13 @@ mat-chip {
     :hover{
       background: $spotify-gray;
     }
+  }
+  .band-name-input {
+    border-radius: 6px;
+    font-size: 14px;
+    width: 50%;
+    background-color: $spotify-light-gray;
+    font-weight: bold;
   }
 }
 .band-card--footer {
@@ -169,20 +173,22 @@ mat-chip {
       line-height: 1.4;
       margin-bottom: 14px 0;
     }
-    .band-card--header {
-      top: -100%;
-      display: none;
-    }
+  }
+  .band-card--header {
+    top: -100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 10px 2px;
   }
   .band-card:hover {
     transform: scale(1);
     .band-card--header {
       position: absolute;
       top: 0;
-      display: grid;
-      align-items: center;
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-
+      display: flex;
+      gap: 12px;
     }
     .band-card--footer{
       position: absolute;

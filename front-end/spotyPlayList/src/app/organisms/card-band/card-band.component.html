@@ -1,7 +1,7 @@
 <!-- Lista de las bandas con img -->
 <div class="band-list" *ngIf="bandList.length > 0">
   <mat-card *ngFor="let band of bandList; let i = index" class="band-card">
-    <mat-card-header class="band-card--header">
+    <div class="band-card--header">
       <button
         class="card-header--button"
         mat-raised-button
@@ -14,15 +14,14 @@
       <input
         class="band-name-input"
         [(ngModel)]="editedNames"
-        [attr.placeholder]="band.name"
+        [attr.placeholder]="'Correct Name'"
         aria-label="Edit band name"
       />
-      <span></span>
       <!-- icon de eliminar -->
       <button class="card-header--button" mat-raised-button>
         <mat-icon>delete</mat-icon>
       </button>
-    </mat-card-header>
+    </div>
     <div class="band-inf--container">
       <figure>
         <img class="band-image" [src]="band.img" [alt]="band.name" />
