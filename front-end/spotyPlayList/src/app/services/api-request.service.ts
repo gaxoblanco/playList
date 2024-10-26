@@ -47,6 +47,10 @@ export class ApiRequestService {
   // Optengo una lista de opciones para las bandas mal escritas
   getNameOptions(name: string): Observable<any> {
     //envio el name con headers
+    console.log('getNameOptions - name -->', name);
+    // envuelvo el name en un objeto
+    const names = { name: name };
+
     return this.http.post<any>(
       `${this.apiUrl}/search_options`,
       { data: name },

@@ -38,6 +38,11 @@ def preprocess_image(img):
     _, binary_img = cv2.threshold(
         blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 
+    # Mostrar la imagen binarizada
+    # plt.imshow(binary_img, cmap='gray')
+    # plt.axis('off')
+    # plt.show()
+
     return binary_img  # Devuelve la imagen binarizada
 
 
@@ -65,7 +70,7 @@ def main(img):
     # Limpio y genero el array de objetos
     first_array_bnand = clean_and_split_text(texto)
     # valido que sea un array y imprimo su longitud
-    # print("first_array_bnand:", first_array_bnand)
+    print("first_array_bnand:", first_array_bnand)
     print("len(first_array_bnand):", len(first_array_bnand))
 
     # Retorna el texto detectado en formato JSON

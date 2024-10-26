@@ -200,3 +200,13 @@ mat-chip {
   margin-right: 10px; /* Espacio entre los elementos */
 }
 
+// ---- SelectOption ----
+.select_option--container {
+  padding: 12px;
+  border-radius: 12px;
+  justify-content: center;
+  border: 1px solid $spotify-gray;
+  div {
+    justify-content: center;
+  }
+}

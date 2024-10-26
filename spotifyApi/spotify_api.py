@@ -58,9 +58,10 @@ def search_option(access_token, artist_name):
     response = requests.get(url, headers=headers)
     list = []
     if response.status_code == 200:
+
         # itero por los 5 artista que me devuelve la api
         for artist in response.json()['artists']['items']:
-            print(f"ID: {artist['id']} - genres: {artist['genres']}")
+            print(f"ID: {artist['id']}")
             list.append(
                 {'band_id': artist['id'], 'name': artist['name'], 'img': artist['images'][0]['url'], 'href': artist['external_urls']['spotify'], 'genres': artist['genres']})
         return list

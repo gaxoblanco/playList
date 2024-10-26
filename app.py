@@ -113,7 +113,7 @@ def band_list():
         access_token = access_token.split(' ')[1]
 
     print("access_token:", access_token)
-    print("json_file:", data)
+    print("json_file-band_list:", data)
 
     if not access_token:
         return jsonify({"error, token is required": data}), 400
@@ -137,7 +137,7 @@ def search_options():
         access_token = access_token.split(' ')[1]
 
     print("access_token:", access_token)
-    print("json_file:", data)
+    print("json_file-search_options:", data)
 
     if not access_token:
         return jsonify({"error, token is required": data}), 400

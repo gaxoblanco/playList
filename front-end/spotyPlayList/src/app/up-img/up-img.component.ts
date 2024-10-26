@@ -165,11 +165,12 @@ export class UpImgComponent {
 
     // cargo option en el observable updateBandListCorect
     this.observablesService.addBandListCorect(band);
-    // console.log('bandListCorect$', this.observablesService.bandListCorect$);
 
     // Itero por las opciones en optionList y alimino las que tengan option como parte de su string
     this.optionList = this.optionList.filter((item) => !item.includes(option));
 
+    // Filtro adicional para evitar que opciones similares queden en optionList
+    this.optionList = this.optionList.filter((item) => item !== option);
     // si no tengo opciones en optionsList, emito un movimiento waitForShowContinueButton
     if (this.optionList.length === 0) {
       this.observablesService.emitShowContinueButton();

@@ -47,8 +47,11 @@ export class ObservablesService {
   // Public method to add new band to bandListCorect
   public addBandListCorect(data: ListBand): void {
     const current = this.bandListCorect.getValue();
-    current.push(data);
-    this.bandListCorect.next(current);
+    // Verificar si el nombre ya existe en bandListCorect
+    if (!current.some((b) => b.name === data.name)) {
+      current.push(data);
+      this.bandListCorect.next(current);
+    }
   }
 
   // --- observable to continue corretion ---

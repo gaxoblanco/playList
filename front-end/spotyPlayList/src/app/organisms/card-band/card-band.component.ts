@@ -11,6 +11,8 @@ import {
   transition,
   animate,
 } from '@angular/animations';
+import { FormsModule } from '@angular/forms';
+
 import { ListBand, optionBand } from 'src/app/models/list_band';
 import { ApiRequestService } from 'src/app/services/api-request.service';
 import { OptionsListComponent } from 'src/app/molecule/options-list/options-list.component';
@@ -46,6 +48,7 @@ import { OptionsListComponent } from 'src/app/molecule/options-list/options-list
     MatIconModule,
     CommonModule,
     OptionsListComponent,
+    FormsModule,
   ],
 })
 export class CardBandComponent {
@@ -89,11 +92,12 @@ export class CardBandComponent {
     },
   ];
   activeCardIndex: number | null = null;
+  editedNames: string = '';
 
   constructor(private apiRequestService: ApiRequestService) {}
 
   // --- obtener lista de opciones
-  getOptions(index: number, name: string): void {
+  getOptions(name: string): void {
     this.apiRequestService.getNameOptions(name).subscribe({
       // obtener el nombre correcto
       next: (data) => {
@@ -111,7 +115,9 @@ export class CardBandComponent {
       this.activeCardIndex = null; // Desactiva si se hace clic de nuevo
     } else {
       this.activeCardIndex = index; // Activa la tarjeta seleccionada
-      this.getOptions(index, name); // Llama a getOptions para obtener las opciones
+      const editedName = this.editedNames || name;
+      this.getOptions(editedName); // Llama a getOptions con el nombre editado
+      console.log('editetName-->', editedName);
     }
   }
 }

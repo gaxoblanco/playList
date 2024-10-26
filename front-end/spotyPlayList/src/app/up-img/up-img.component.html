@@ -35,12 +35,6 @@
         <button (click)="login()">Iniciar Sesion</button>
       </span>
     </mat-card-header>
-
-    <mat-chip-set>
-      <mat-chip *ngFor="let op of optionList" (click)="selectOption(op)">
-        {{ op }}
-      </mat-chip>
-    </mat-chip-set>
     <mat-chip-set>
       <!-- listado de los nombres de las bandas -->
       <mat-chip *ngFor="let band of bandListCorected">
@@ -48,6 +42,18 @@
       </mat-chip>
     </mat-chip-set>
   </mat-card>
+  <div *ngIf="imgSelected && loading == 'done'">
+    <mat-chip-grid class="select_option--container">
+      <mat-chip *ngFor="let op of optionList" (click)="selectOption(op)">
+        {{ op }}
+      </mat-chip>
+    </mat-chip-grid>
+    <mat-chip-set>
+      <mat-chip (click)="waitForUserConfirmation()">
+        Descartar este grupo de opciones
+      </mat-chip>
+    </mat-chip-set>
+  </div>
   <!-- <button mat-flat-button (click)="waitForUserConfirmation()">Continuar</button> -->
   <!-- Lista de las bandas con img -->
   <app-card-band [bandList]="bandListCards"></app-card-band>

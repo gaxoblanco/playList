@@ -10,6 +10,13 @@
         <!-- icon de angular material de edit -->
         <mat-icon>edit</mat-icon>
       </button>
+      <!-- Input para editar el nombre -->
+      <input
+        class="band-name-input"
+        [(ngModel)]="editedNames"
+        [attr.placeholder]="band.name"
+        aria-label="Edit band name"
+      />
       <span></span>
       <!-- icon de eliminar -->
       <button class="card-header--button" mat-raised-button>
