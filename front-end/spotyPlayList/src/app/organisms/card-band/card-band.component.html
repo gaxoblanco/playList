@@ -18,7 +18,11 @@
         aria-label="Edit band name"
       />
       <!-- icon de eliminar -->
-      <button class="card-header--button" mat-raised-button>
+      <button
+        class="card-header--button"
+        mat-raised-button
+        (click)="deleteOpcion(i)"
+      >
         <mat-icon>delete</mat-icon>
       </button>
     </div>

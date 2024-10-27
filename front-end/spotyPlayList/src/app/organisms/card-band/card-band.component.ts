@@ -120,4 +120,11 @@ export class CardBandComponent {
       console.log('editetName-->', editedName);
     }
   }
+  // --- Borrar la opción seleccionada
+  deleteOpcion(index: number): void {
+    // valido que bandList tenga elementos
+    if (this.bandList.length > 0) {
+      this.bandList.splice(index, 1);
+    }
+  }
 }
