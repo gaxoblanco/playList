@@ -18,6 +18,11 @@ export class ProcesListService {
 
   // ----------------------------------------------------------------
   public connectors = [
+    'the',
+    'de',
+    'del',
+    'she',
+    'he',
     'la',
     'el',
     'los',
