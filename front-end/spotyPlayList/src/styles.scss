@@ -30,12 +30,16 @@ button, .mat-button {
     background-color: darken($spotify-green, 10%);
   }
 }
+img {
+  margin: 0;
+  padding: 0;
+}
 
 // Para títulos
 h1, h2, h3 {
   color: $white;
   font-weight: 600;
-  margin-bottom: 10px;
+  margin: 0px;
 }
 
 // Para formularios y entradas de texto
@@ -77,5 +81,17 @@ h1, h2, h3 {
 
 .container {
     margin: 20px;
+}
+.info--container {
+  display: grid !important;
+  justify-content: center;
+  margin: 12px;
+  border: 1px solid $spotify-gray;
+  padding: 12px;
+  border-radius: 10px;
+  text-align: center;
+  h3 {
+    margin: 0px;
+  }
 }
 

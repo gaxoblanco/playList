@@ -56,19 +56,48 @@ def search_option(access_token, artist_name):
     }
 
     response = requests.get(url, headers=headers)
-    list = []
-    if response.status_code == 200:
+    artist_list = []
 
-        # itero por los 5 artista que me devuelve la api
-        for artist in response.json()['artists']['items']:
-            print(f"ID: {artist['id']}")
-            list.append(
-                {'band_id': artist['id'], 'name': artist['name'], 'img': artist['images'][0]['url'], 'href': artist['external_urls']['spotify'], 'genres': artist['genres']})
-        return list
+    if response.status_code == 200:
+        response_json = response.json()
+
+        # Validar que la respuesta contenga la clave 'artists' y 'items'
+        if 'artists' in response_json and 'items' in response_json['artists']:
+            items = response_json['artists']['items']
+
+            # Validar que 'items' sea una lista
+            if isinstance(items, list):
+                if items:
+                    # Iterar por los artistas devueltos por la API
+                    for artist in items:
+                        artist_list.append({
+                            'band_id': artist.get('id', '-'),
+                            'name': artist.get('name', 'Unknown'),
+                            'img': artist['images'][0]['url'] if artist.get('images') else None,
+                            'href': artist['external_urls']['spotify'] if artist.get('external_urls') else None,
+                            'genres': artist.get('genres', [])
+                        })
+                else:
+                    # Si no se encontraron artistas, devolver un mensaje de error
+                    artist_list.append({
+                        'band_id': '-',
+                        'name': 'Artista no encontrado',
+                        'img': None,
+                        'href': None,
+                        'genres': []
+                    })
+            else:
+                print("Error: 'items' no es una lista.")
+                return None
+        else:
+            print("Error: Respuesta de la API no contiene 'artists' o 'items'.")
+            return None
     else:
         print(f"Error en la búsqueda del artista: {response.status_code}")
         print(response.json())
         return None
+
+    return artist_list
 
 
 def get_top_tracks(access_token, artist_id):

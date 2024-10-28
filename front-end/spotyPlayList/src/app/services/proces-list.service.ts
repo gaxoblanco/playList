@@ -25,7 +25,6 @@ export class ProcesListService {
     'le',
     'lo',
     'es',
-    'tan',
     'a',
     'un',
     'y',
@@ -50,6 +49,7 @@ export class ProcesListService {
 
     // Array para almacenar las combinaciones
     const combinations: string[] = [];
+    console.log('words -->', words);
 
     // Generar combinaciones de palabras
     for (let i = 0; i < words.length; i++) {
@@ -165,12 +165,5 @@ export class ProcesListService {
     }
 
     return false;
-  }
-
-  private filterInvalidWords(bandErrors: string[]): string[] {
-    const validWords = ['la', 'el', 'los', 'las', 'de', 'del'];
-    return bandErrors.filter(
-      (word) => !validWords.includes(word.toLowerCase())
-    );
   }
 }

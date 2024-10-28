@@ -21,7 +21,7 @@ input[type="file"].up-img-imput {
   aspect-ratio: 1 / 1;        // Mantiene la proporción 1:1 (cuadrada)
   border: 2px dashed $spotify-light-gray; // Color de borde
   border-radius: 20px;        // Bordes redondeados
-  margin: 20px auto;          // Margen superior e inferior con centrado automático
+  margin: 0 auto;
   cursor: pointer;
   transition: border-color 0.3s ease;
   &--selected {
@@ -201,6 +201,17 @@ mat-chip {
 }
 
 // ---- SelectOption ----
+.game_corrector--container {
+  display: grid;
+  justify-content: center;
+  justify-items: center;
+  grid-gap: 20px;
+  .button--discard {
+    background-color: $alert-warning;
+    border-radius: 20px;
+    color: black !important;
+  }
+}
 .select_option--container {
   padding: 12px;
   border-radius: 12px;

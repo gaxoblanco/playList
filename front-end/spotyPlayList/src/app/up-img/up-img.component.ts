@@ -158,6 +158,7 @@ export class UpImgComponent {
         }
       });
     }
+
     const band: ListBand = {
       band_id: '',
       name: this.selectedName,

@@ -41,6 +41,9 @@ def process_list_band_id(access_token, band_list):
 
         except Exception as e:
             band["band_id"] = "-"  # En caso de error, asignar '-'
+            band["img"] = None
+            band["genres"] = []
+            band["name"] = band_name
             print(f"Error al procesar el artista {band_name}: {e}")
 
     return band_list

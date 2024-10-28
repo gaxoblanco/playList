@@ -42,18 +42,29 @@
       </mat-chip>
     </mat-chip-set>
   </mat-card>
-  <div *ngIf="imgSelected && loading == 'done'">
+  <!-- Primer paso - seleccionar opciones de nombres correcto -->
+  <div
+    *ngIf="imgSelected && loading == 'done' && bandListCards.length == 0"
+    class="game_corrector--container"
+  >
     <mat-chip-grid class="select_option--container">
       <mat-chip *ngFor="let op of optionList" (click)="selectOption(op)">
         {{ op }}
       </mat-chip>
     </mat-chip-grid>
     <mat-chip-set>
-      <mat-chip (click)="waitForUserConfirmation()">
+      <mat-chip (click)="waitForUserConfirmation()" class="button--discard">
         Descartar este grupo de opciones
       </mat-chip>
     </mat-chip-set>
   </div>
+  <!-- second Step - borrar y correguir bandas -->
+  <mat-chip-grid *ngIf="step == 1" class="info--container">
+    <h3>
+      Selecciona las bandas que no corresponden y corrigelas antes de generar la
+      play list
+    </h3>
+  </mat-chip-grid>
   <!-- <button mat-flat-button (click)="waitForUserConfirmation()">Continuar</button> -->
   <!-- Lista de las bandas con img -->
   <app-card-band [bandList]="bandListCards"></app-card-band>
