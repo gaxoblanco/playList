@@ -221,3 +221,18 @@ mat-chip {
     justify-content: center;
   }
 }
+
+.image-figure {
+  position: relative; /* Posiciona el contenedor de la imagen */
+}
+
+.moving-circle {
+  position: absolute; /* Posiciona el círculo sobre la imagen */
+  width: 120px;
+  height: 40px;
+  border-radius: 12px; /* Hace que el div sea un círculo */
+  // background-color: #ffff0080; /* Color del círculo */
+  pointer-events: none; /* Ignora eventos de puntero para que no interfiera con otros elementos */
+  transition: top 0.5s, left 0.5s; /* Transición suave para el movimiento */
+  border: 2px solid red;
+}

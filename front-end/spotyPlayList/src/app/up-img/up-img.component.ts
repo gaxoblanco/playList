@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -36,6 +36,8 @@ import { CardBandComponent } from '../organisms/card-band/card-band.component';
   ],
 })
 export class UpImgComponent {
+  @ViewChild('imgRef') imgRef!: ElementRef<HTMLImageElement>;
+
   step: number = 0;
   selectedFile: File | null = null;
   showContinueButton = false;
@@ -47,7 +49,6 @@ export class UpImgComponent {
   imgSelected: any;
   tokenSpotify: any | undefined;
   requestTokenSpotify: boolean = true;
-  bandListCorected: ListBand[] = [];
   selectedName: string = '';
   listb: any;
   //-----
@@ -59,11 +60,15 @@ export class UpImgComponent {
       genres: ['rock', 'salsa', 'sasea'],
     },
   ];
-  optionsBand: optionBand[] = [
-    { name: 'loading', img: 'https://via.placeholder.com/150' },
-    { name: 'loading', img: 'https://via.placeholder.com/150' },
-    { name: 'loading', img: 'https://via.placeholder.com/150' },
-  ];
+  // -- circulo
+  circleX: number = 0; // Posición X del círculo
+  circleY: number = 0; // Posición Y del círculo
+  imgWidth!: number;
+  imgHeight!: number;
+  zoneY: number = 0;
+  zoneX: number = 0;
+  originalImgWidth: number = 0;
+  originalImgHeight: number = 0;
 
   constructor(
     private procesListService: ProcesListService,
@@ -72,19 +77,26 @@ export class UpImgComponent {
   ) {}
 
   ngOnInit(): void {
-    // this.observablesService.bandListCorect$.subscribe((bandList) => {
-    //   this.bandList = bandList; // Actualiza la lista cuando el observable cambie
-    // });
-    // observo si el optionList$ cambia, y mantengo optionList actualizado
-    this.observablesService.optionError$.subscribe((options) => {
-      this.optionList = options;
-    });
     // valido que tengo un token para Spotify
     this.tokenSpotify = localStorage.getItem('access_token');
     console.log('tokenSpotify', this.tokenSpotify);
 
     // clean localStorage
     localStorage.removeItem('uploadedImage');
+
+    // Observo si el optionList$ cambia, y mantengo optionList actualizado
+    this.observablesService.optionError$.subscribe((options) => {
+      this.optionList = options;
+      this.adjustBandPositions();
+    });
+
+    // Obersvo y voy actualizando el puntero de la img segun la posicion del options
+    if (this.imgRef) {
+      this.observablesService.ImgPointer$.subscribe((imgPointer) => {
+        this.zoneX = imgPointer[0];
+        this.zoneY = imgPointer[1];
+      });
+    }
 
     // Suscripción al observable nextStep$
     this.observablesService.nextStep$.subscribe((step) => {
@@ -94,6 +106,28 @@ export class UpImgComponent {
         this.handleStepChange(step);
       }
     });
+  }
+
+  // Ajustar las posiciones en base a una img ajutada con ratio 1/1
+  adjustBandPositions(): void {
+    console.log('ajustando posiciones');
+    console.log('zoneX', this.zoneX);
+    console.log('zoneY', this.zoneY);
+
+    // vlaido que imgRef exista
+    if (this.imgRef && this.imgRef.nativeElement) {
+      // obtengo las dimenciones de la img original y las guardo en originalImgWidth y originalImgHeight
+      this.originalImgWidth = this.imgRef.nativeElement.width;
+      this.originalImgHeight = this.imgRef.nativeElement.height;
+      // obtengo el ratio de la img original para poder ajustar las posiciones
+      const ratioX = this.originalImgWidth / this.imgWidth;
+      const ratioY = this.originalImgHeight / this.imgHeight;
+      // ajusto las posiciones de las bandas
+      this.circleX = this.zoneX * ratioX;
+      this.circleY = this.zoneY * ratioY;
+    } else {
+      console.error('No se ha podido obtener la referencia de la imagen');
+    }
   }
 
   // funcion login que llama la url http://localhost:5000/login
@@ -108,14 +142,25 @@ export class UpImgComponent {
       this.selectedFile = input.files[0];
       this.loading = 'loading';
 
+      // almaceno las dimeciones originales
+      const img = new Image();
+      img.src = URL.createObjectURL(this.selectedFile);
+      img.onload = () => {
+        this.imgWidth = img.width;
+        this.imgHeight = img.height;
+        console.log('imgWidth', this.imgWidth);
+        console.log('imgHeight', this.imgHeight);
+      };
+
       const reader = new FileReader();
       reader.onload = () => {
         this.imgSelected = reader.result; // Mostrar la imagen en la vista
         localStorage.setItem('uploadedImage', reader.result as string); // Guardar imagen en localStorage
       };
       reader.readAsDataURL(this.selectedFile);
-
-      this.uploadImageToAPI(this.selectedFile); // Subir archivo a la API y manejar la respuesta
+      this.adjustBandPositions();
+      // Subir archivo a la API y manejar la respuesta
+      this.uploadImageToAPI(this.selectedFile);
     } else {
       console.log('No se ha seleccionado ningún archivo');
     }
@@ -133,6 +178,11 @@ export class UpImgComponent {
         this.procesListService.startGameCorrector(); // Iniciar el "game corrector"
         this.loading = 'done';
         console.log('data--data', data);
+        // Ajustar las posiciones de las bandas después de recibir la respuesta de la API
+        if (data[0].img_zone) {
+          this.zoneX = data[0].img_zone[0] | 0;
+          this.zoneY = data[0].img_zone[1] | 0;
+        }
       },
       error: (error) => {
         console.error('Error al enviar la imagen:', error);
@@ -143,6 +193,11 @@ export class UpImgComponent {
   selectOption(option: string): void {
     this.selectedName = option;
     console.log('Opción seleccion', option);
+    // actualizo el puntero
+    this.observablesService.ImgPointer$.subscribe((imgPointer) => {
+      this.zoneX = imgPointer[0];
+      this.zoneY = imgPointer[1];
+    });
 
     // quitos las opciones que ya no son posibles
     if (this.selectedName.includes(' ')) {

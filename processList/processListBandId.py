@@ -1,4 +1,5 @@
 import json
+import time
 from spotifyApi.spotify_api import search_artist
 
 
@@ -25,19 +26,26 @@ def process_list_band_id(access_token, band_list):
         try:
             # Buscar el artista en Spotify
             artist_data = search_artist(access_token, band_name.strip())
+            # Valido que el band_name no sea distinto de artist_data
             if artist_data:
-                band["band_id"] = artist_data['id']  # Asignar el ID encontrado
+                # Asignar el ID encontrado
+                band["band_id"] = artist_data['id']
+                # band_name = artist_data['name']
+                band["name"] = artist_data['name']
                 # Asignar la imagen encontrada
                 band["img"] = artist_data['img']
                 # Asignar los géneros encontrados
                 band["genres"] = artist_data['genres']
-                print(f"ID del artista {band_name}: {artist_data['id']}")
+                print(
+                    f"artist_data--name: {artist_data}")
             else:
                 band["band_id"] = "-"  # Si no se encuentra, asignar '-'
                 band["img"] = None  # Asignar None si no se encuentra la imagen
                 # Asignar una lista vacía si no se encuentran géneros
                 band["genres"] = []
                 print(f"Artista no encontrado: {band_name}")
+            # Agregar un pequeño retraso entre solicitudes para evitar problemas de tasa de solicitudes
+            time.sleep(1)
 
         except Exception as e:
             band["band_id"] = "-"  # En caso de error, asignar '-'

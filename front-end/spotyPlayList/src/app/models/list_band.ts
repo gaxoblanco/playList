@@ -5,12 +5,14 @@ export interface ListBand {
   href?: string;
   img?: string;
   genres?: string[];
+  img_zone?: [number, number, number, number];
 }
 
 export interface optionBand {
   name: string;
-  img: string;
+  img?: string;
   band_id?: string;
+  img_zone: string;
 }
 
 interface top_track {

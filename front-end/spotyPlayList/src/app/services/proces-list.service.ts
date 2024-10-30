@@ -98,6 +98,8 @@ export class ProcesListService {
     this.observablesService.resetNextStep();
     this.observablesService.optionList$.subscribe(async (options) => {
       for (const option of options) {
+        // posiciono el puntero de la imagen
+        this.observablesService.updateImgPointer(option.img_zone);
         // Convertimos el nombre a minúsculas y lo separamos en palabras
         const words = option.name.trim().toLowerCase().split(' ');
         // genero las combinaciones de palabras
@@ -128,13 +130,14 @@ export class ProcesListService {
                 console.log('Siguiente grupo');
               });
           }
+        } else {
+          const band: ListBand = {
+            band_id: '',
+            name: option.name.trim().toLowerCase(),
+          };
+          // cargo option en el observable updateBandListCorect
+          this.observablesService.addBandListCorect(band);
         }
-        const band: ListBand = {
-          band_id: '',
-          name: option.name.trim().toLowerCase(),
-        };
-        // cargo option en el observable updateBandListCorect
-        this.observablesService.addBandListCorect(band);
       }
       this.observablesService.incrementNextStep();
       console.log(

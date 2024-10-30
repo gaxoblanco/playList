@@ -94,4 +94,17 @@ export class ObservablesService {
   public getStep(): number {
     return this.nextStepSubject.getValue();
   }
+
+  // --- Img Pointer observable ImgPointer$ = [number, number, number, number]
+  //BehaviorSubject para ImgPointer
+  private imgPointerSubject = new BehaviorSubject<
+    [number, number, number, number]
+  >([0, 0, 0, 0]);
+  public ImgPointer$: Observable<[number, number, number, number]> =
+    this.imgPointerSubject.asObservable();
+
+  // Método para actualizar el puntero de la imagen
+  public updateImgPointer(pointer: [number, number, number, number]): void {
+    this.imgPointerSubject.next(pointer);
+  }
 }

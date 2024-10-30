@@ -39,7 +39,8 @@ def search_artist(access_token, artist_name):
         artist_id = data['artists']['items'][0]['id']
         img = data['artists']['items'][0]['images'][0]['url']
         genres = data['artists']['items'][0]['genres']
-        return {'id': artist_id, 'img': img, 'genres': genres}
+        name = data['artists']['items'][0]['name']
+        return {'id': artist_id, 'img': img, 'genres': genres, 'name': name}
     else:
         print(f"Error en la búsqueda del artista: {response.status_code}")
         print(response.json())

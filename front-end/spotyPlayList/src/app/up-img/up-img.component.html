@@ -1,5 +1,5 @@
 <div class="container">
-  <mat-card class="up_img_container">
+  <div class="up_img_container">
     <mat-card-header
       [ngClass]="{
         'img-container': true,
@@ -22,12 +22,21 @@
         <p>Loading...</p>
       </div>
       <!-- Contenedor para la imagen -->
-      <figure *ngIf="imgSelected && loading == 'done'">
+      <figure class="image-figure" *ngIf="imgSelected && loading == 'done'">
         <img
+          #imgRef
           class="img-container--selected"
           [src]="imgSelected"
           alt="Imagen seleccionada"
         />
+        <!-- Círculo amarillo -->
+        <div
+          class="moving-circle"
+          [ngStyle]="{
+            'top.px': circleY - 12,
+            'left.px': circleX - 12
+          }"
+        ></div>
       </figure>
       <!-- span para iniciar secion si aun no tiene token -->
       <span *ngIf="!requestTokenSpotify" class="popap">
@@ -35,13 +44,7 @@
         <button (click)="login()">Iniciar Sesion</button>
       </span>
     </mat-card-header>
-    <mat-chip-set>
-      <!-- listado de los nombres de las bandas -->
-      <mat-chip *ngFor="let band of bandListCorected">
-        {{ band }}
-      </mat-chip>
-    </mat-chip-set>
-  </mat-card>
+  </div>
   <!-- Primer paso - seleccionar opciones de nombres correcto -->
   <div
     *ngIf="imgSelected && loading == 'done' && bandListCards.length == 0"
