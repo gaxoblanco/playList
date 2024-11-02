@@ -1,3 +1,5 @@
+import asyncio
+import copy
 import json
 from flask import Flask, redirect, request, jsonify, session
 from flask_cors import CORS  # Importa CORS
@@ -117,8 +119,11 @@ def band_list():
 
     if not access_token:
         return jsonify({"error, token is required": data}), 400
-
-    return jsonify(process_list_band_id(access_token, data))
+    # Hacer una copia de data y pasarlo a la función para evitar modificar el objeto original
+    data_copy = copy.deepcopy(data)
+    # Ejecuta el procesamiento asincrónico de las bandas
+    resultado = asyncio.run(process_list_band_id(access_token, data_copy))
+    return jsonify(resultado)
 
 
 # ---------- search top 5 by name ----------
@@ -142,8 +147,13 @@ def search_options():
     if not access_token:
         return jsonify({"error, token is required": data}), 400
 
-    option_list = search_option(access_token, data)
-    return jsonify(option_list)
+    # Ejecutar la función asíncrona y obtener el resultado
+    try:
+        option_list = asyncio.run(search_option(access_token, data))
+        return jsonify(option_list)
+    except Exception as e:
+        print(f"Error al buscar opciones del artista: {e}")
+        return jsonify({"error": "Error en la búsqueda de opciones"}), 500
 
 
 @app.route('/create_playlist', methods=['POST'])
