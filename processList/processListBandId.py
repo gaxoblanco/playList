@@ -119,6 +119,8 @@ async def process_single_band(access_token, band):
         dict: Información actualizada de la banda.
     """
     band_name = band.get("name")
+    img_zone = band.get("img_zone")
+    print(f"Procesando img_zone --=: {img_zone}")
     if not band_name:
         print("Nombre de banda no encontrado en el archivo JSON.")
         return band
@@ -138,7 +140,8 @@ async def process_single_band(access_token, band):
                 "name": artist_data['name'],
                 "band_id": artist_data['id'],
                 "img": artist_data['img'],
-                "genres": artist_data['genres']
+                "genres": artist_data['genres'],
+                "img_zone": img_zone
             }
             print(f"Banda encontrada y procesada: {band_data['name']}")
             # Añadir la banda al conjunto de bandas procesadas
@@ -147,8 +150,9 @@ async def process_single_band(access_token, band):
             band_data = {
                 "name": band_name,
                 "band_id": "-",
-                "img": None,
-                "genres": []
+                "img": '-',
+                "genres": [],
+                "img_zone": img_zone
             }
             print(f"Banda no encontrada en Spotify: {band_name}")
 
@@ -158,7 +162,8 @@ async def process_single_band(access_token, band):
             "name": band_name,
             "band_id": "-",
             "img": None,
-            "genres": []
+            "genres": [],
+            "img_zone": img_zone
         }
 
     return band_data

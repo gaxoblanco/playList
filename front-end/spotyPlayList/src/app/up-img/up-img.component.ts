@@ -52,14 +52,7 @@ export class UpImgComponent {
   selectedName: string = '';
   listb: any;
   //-----
-  bandListCards: ListBand[] = [
-    {
-      band_id: '1',
-      name: 'banda1',
-      img: 'https://via.placeholder.com/150',
-      genres: ['rock', 'salsa', 'sasea'],
-    },
-  ];
+  bandListCards: ListBand[] = [];
   // -- circulo
   circleX: number = 0; // Posición X del círculo
   circleY: number = 0; // Posición Y del círculo
@@ -127,6 +120,23 @@ export class UpImgComponent {
       this.circleY = this.zoneY * ratioY;
     } else {
       console.error('No se ha podido obtener la referencia de la imagen');
+    }
+  }
+
+  // Método que actualizará la posición del puntero
+  updatePointerPosition(positionArray: Array<number>): void {
+    if (this.step === 1) {
+      // Calcular las posiciones dentro de la imagen referenciada
+      // obtengo las dimenciones de la img original y las guardo en originalImgWidth y originalImgHeight
+      this.originalImgWidth = this.imgRef.nativeElement.width;
+      this.originalImgHeight = this.imgRef.nativeElement.height;
+      // obtengo el ratio de la img original para poder ajustar las posiciones
+      const ratioX = this.originalImgWidth / this.imgWidth;
+      const ratioY = this.originalImgHeight / this.imgHeight;
+
+      // actualizo las posiciones del puntero
+      this.circleX = positionArray[0] * ratioX;
+      this.circleY = positionArray[1] * ratioY;
     }
   }
 
@@ -217,6 +227,7 @@ export class UpImgComponent {
     const band: ListBand = {
       band_id: '',
       name: this.selectedName,
+      img_zone: [this.zoneX, this.zoneY, 0, 0],
     };
 
     // cargo option en el observable updateBandListCorect

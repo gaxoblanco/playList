@@ -134,6 +134,7 @@ export class ProcesListService {
           const band: ListBand = {
             band_id: '',
             name: option.name.trim().toLowerCase(),
+            img_zone: option.img_zone,
           };
           // cargo option en el observable updateBandListCorect
           this.observablesService.addBandListCorect(band);

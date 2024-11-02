@@ -5,13 +5,6 @@ figure {
 }
 
 
-// Ajustes para pantallas pequeñas
-@media (max-width: 768px) {
-  .img-container {
-    max-width: 90%;           // Para pantallas pequeñas, ocupa el 90% del ancho
-  }
-}
-
 // Crear un botón personalizado
 .file-label {
   background-color: $spotify-green;  // Color verde de Spotify
@@ -57,6 +50,7 @@ mat-chip {
   transition: transform 0.2s; /* Efecto de transformación suave */
   border: 1px solid $spotify-gray; /* Borde delgado */
   margin-bottom: 6px;
+  position: relative;
 }
 
 .band-card:hover {
@@ -69,6 +63,7 @@ mat-chip {
   transition: top 0.3s; /* Efecto de transición suave */
   background: $spotify-dark-deep-gray;
   display: none;
+  z-index: 1;
   .card-header--button{
     padding: 6px 12px;
     border: 1px solid $alert-warning;
@@ -203,6 +198,14 @@ mat-chip {
   }
 }
 
+@media (min-width: 1024px) {
+  .band-list {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 90vh;
+  }
+}
+
 .band-list-options {
   display: flex;
   overflow-x: auto;
@@ -226,3 +229,9 @@ mat-chip {
   margin-right: 10px; /* Espacio entre los elementos */
 }
 
+// Ajustes para pantallas pequeñas
+@media (max-width: 768px) {
+  .img-container {
+    max-width: 90%;           // Para pantallas pequeñas, ocupa el 90% del ancho
+  }
+}

@@ -1,6 +1,10 @@
 <!-- Lista de las bandas con img -->
 <div class="band-list" *ngIf="bandList.length > 0">
-  <mat-card *ngFor="let band of bandList; let i = index" class="band-card">
+  <mat-card
+    *ngFor="let band of bandList; let i = index"
+    class="band-card"
+    (mouseenter)="onCardHover(i, $event)"
+  >
     <div class="band-card--header">
       <button
         class="card-header--button"

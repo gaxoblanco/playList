@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -91,6 +91,8 @@ export class CardBandComponent {
       img: 'https://via.placeholder.com/150',
     },
   ];
+  //  posicionamiento del puntero en img con bandList[0].img_zone
+  @Output() hoverPosition = new EventEmitter<Array<number>>();
   activeCardIndex: number | null = null;
   editedNames: string = '';
 
@@ -125,6 +127,22 @@ export class CardBandComponent {
     // valido que bandList tenga elementos
     if (this.bandList.length > 0) {
       this.bandList.splice(index, 1);
+    }
+  }
+  // --- editar la posicion del puntero al hacer hover sobre la card
+  onCardHover(index: number, event: MouseEvent): void {
+    const hoverElement = this.bandList[index];
+    const positionArray = hoverElement.img_zone; // Assuming this is the array
+    console.log('position index --> ', index);
+    console.log('this band list --> ', this.bandList);
+
+    console.log('positionArray-->', positionArray);
+
+    // Emit the position array
+    if (Array.isArray(positionArray) && positionArray.length >= 2) {
+      this.hoverPosition.emit(positionArray);
+    } else {
+      console.error('Invalid position array:', positionArray);
     }
   }
 }

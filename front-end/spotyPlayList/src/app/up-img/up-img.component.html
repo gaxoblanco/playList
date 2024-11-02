@@ -1,4 +1,9 @@
-<div class="container">
+<div
+  class="container--up_img"
+  [ngClass]="{
+    'double-column': imgSelected
+  }"
+>
   <div class="up_img_container">
     <mat-card-header
       [ngClass]="{
@@ -61,14 +66,19 @@
       </mat-chip>
     </mat-chip-set>
   </div>
-  <!-- second Step - borrar y correguir bandas -->
-  <mat-chip-grid *ngIf="step == 1" class="info--container">
-    <h3>
-      Selecciona las bandas que no corresponden y corrigelas antes de generar la
-      play list
-    </h3>
-  </mat-chip-grid>
-  <!-- <button mat-flat-button (click)="waitForUserConfirmation()">Continuar</button> -->
-  <!-- Lista de las bandas con img -->
-  <app-card-band [bandList]="bandListCards"></app-card-band>
+  <div *ngIf="step == 1">
+    <!-- second Step - borrar y correguir bandas -->
+    <mat-chip-grid class="info--container">
+      <h3>
+        Selecciona las bandas que no corresponden y corrigelas antes de generar
+        la play list
+      </h3>
+    </mat-chip-grid>
+    <!-- <button mat-flat-button (click)="waitForUserConfirmation()">Continuar</button> -->
+    <!-- Lista de las bandas con img -->
+    <app-card-band
+      [bandList]="bandListCards"
+      (hoverPosition)="updatePointerPosition($event)"
+    ></app-card-band>
+  </div>
 </div>
