@@ -24,9 +24,9 @@ def main():
     # Obtener el token de acceso y de actualización
     access_token, refresh_token = get_access_token(authorization_code)
 
-    if not access_token:
-        print("No se pudo autenticar.")
-        return
+    # if not access_token:
+    #     print("No se pudo autenticar.")
+    #     return
 
     print("Autenticado correctamente.", access_token)
 

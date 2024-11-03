@@ -11,7 +11,7 @@ def get_user_id(access_token):
     """
     url = 'https://api.spotify.com/v1/me'
     headers = {
-        'Authorization': f'Bearer {access_token}'
+        'Authorization': f'{access_token}'
     }
 
     response = requests.get(url, headers=headers)
@@ -21,7 +21,7 @@ def get_user_id(access_token):
         user_id = data['id']
         return user_id
     else:
-        print(f"Error al obtener el ID del usuario: {response.status_code}")
+        print(f"Error al obtener el ID del usuario: {response}")
         print(response.json())
         return None
 
@@ -114,9 +114,11 @@ def get_top_tracks(access_token, artist_id):
     """
     Obtiene las canciones principales de un artista por su ID.
     """
-    url = f'https://api.spotify.com/v1/artists/{artist_id}/top-tracks?market=US'
+    # print("artist_id ->", artist_id)
+    # print("access_token ->", access_token)
+    url = f'https://api.spotify.com/v1/artists/{artist_id}/top-tracks'
     headers = {
-        'Authorization': f'Bearer {access_token}'
+        'Authorization': f'{access_token}'
     }
 
     response = requests.get(url, headers=headers)
@@ -127,22 +129,22 @@ def get_top_tracks(access_token, artist_id):
         return top_tracks
     else:
         print(f"Error al obtener las pistas: {response.status_code}")
-        print(response.json())
+        # print(response.json())
         return None
 
 
-def create_playlist(access_token, user_id, playlist_name, json_file):
+def create_playlist(access_token, user_id, playlist_name):
     """
     Crea una lista de reproducción para el usuario especificado.
     """
     url = f'https://api.spotify.com/v1/users/{user_id}/playlists'
     headers = {
-        'Authorization': f'Bearer {access_token}',
+        'Authorization': f'{access_token}',
         'Content-Type': 'application/json'
     }
     data = {
         'name': playlist_name,
-        'description': 'Lista de reproducción creada desde la API',
+        'description': 'Play List creada desde www.gaxoblanco.com',
         'public': False
     }
 
@@ -158,53 +160,27 @@ def create_playlist(access_token, user_id, playlist_name, json_file):
             'img': playlist_data['images'],
             'name': playlist_data['name']
         }
-        # Llamar a la función para guardar los datos en el archivo JSON
-        append_to_json_file(relevant_data, json_file)
 
         return relevant_data
     else:
         print(
             f"Error al crear la lista de reproducción: {response.status_code}")
-        print(response.json())
+        # print(response.json())
         return None
 
 
-def append_to_json_file(new_data, filename):
-    """
-    Agrega un nuevo objeto al array en un archivo JSON existente.
-    Si el archivo no existe, lo crea y agrega el nuevo objeto como el primer elemento del array.
-    """
-    # Asegurarse de que el filename tenga la extensión .json
-    if not filename.lower().endswith('.json'):
-        filename += '.json'
+def upload_playlist_cover(access_token, playlist_id, image_base64):
+    url = f"https://api.spotify.com/v1/playlists/{playlist_id}/images"
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "image/jpeg"  # Spotify requiere que sea un JPEG
+    }
 
-    try:
-        # Cargar los datos actuales del archivo JSON si existe, usando UTF-8
-        with open(filename, 'r', encoding='utf-8') as file:
-            data = json.load(file)
-            if not isinstance(data, list):
-                data = [data]  # Convertir a lista si no lo es
-    except FileNotFoundError:
-        # Si el archivo no existe, inicializar con un array vacío
-        data = []
-    except json.JSONDecodeError:
-        # Si el archivo existe pero está vacío o mal formateado, inicializar con un array vacío
-        data = []
-    except UnicodeDecodeError:
-        # Si hay un error de decodificación, intentar con 'latin-1'
-        try:
-            with open(filename, 'r', encoding='latin-1') as file:
-                data = json.load(file)
-                if not isinstance(data, list):
-                    data = [data]
-        except:
-            # Si aún falla, inicializar con un array vacío
-            data = []
+    response = requests.put(url, headers=headers, data=image_base64)
 
-    # Agregar los nuevos datos al array existente
-    data.append(new_data)
-
-    # Escribir de nuevo los datos al archivo JSON usando UTF-8
-    with open(filename, 'w', encoding='utf-8') as file:
-        json.dump(data, file, indent=4, ensure_ascii=False)
-        print(f"Datos de la lista de reproducción guardados en {filename}")
+    # Verifica si la solicitud fue exitosa
+    if response.status_code == 202:
+        print("Imagen de portada cargada exitosamente!")
+    else:
+        print(f"Error al cargar la imagen: {response.status_code}")
+        print(response.json())  # Muestra detalles del error si ocurren

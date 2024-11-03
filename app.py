@@ -8,11 +8,13 @@ from dotenv import load_dotenv
 from urllib.parse import urlencode
 import secrets
 from spotifyApi.spotify_auth import get_access_token, get_authorization_code
-from spotifyApi.spotify_api import create_playlist, search_option, get_top_tracks, get_user_id
+from spotifyApi.spotify_api import create_playlist, search_option, get_top_tracks, get_user_id, upload_playlist_cover
 from processList.processListBandId import process_list_band_id
 from processList.processListBandAddToPlaylist import process_list_band_add_to_playlist
+from processList.processListBandTop import process_list_band_top
 from detect_possible_errors import detect_possible_errors
 from img_process.img_process import main
+from img_process.img64 import image_to_base64
 import requests
 
 app = Flask(__name__)
@@ -75,7 +77,7 @@ def callback():
 
     # intercambio de código por token de acceso
     tokens = get_access_token(code)  # --------
-    print("tokens:", tokens[1])
+    # print("tokens:", tokens[1])
     return jsonify({"access_token": tokens[0], "refresh_token": tokens[1]})
 
 
@@ -114,8 +116,8 @@ def band_list():
     if access_token and access_token.startswith('Bearer '):
         access_token = access_token.split(' ')[1]
 
-    print("access_token:", access_token)
-    print("json_file-band_list:", data)
+    # print("access_token:", access_token)
+    # print("json_file-band_list:", data)
 
     if not access_token:
         return jsonify({"error, token is required": data}), 400
@@ -141,8 +143,8 @@ def search_options():
     if access_token and access_token.startswith('Bearer '):
         access_token = access_token.split(' ')[1]
 
-    print("access_token:", access_token)
-    print("json_file-search_options:", data)
+    # print("access_token:", access_token)
+    # print("json_file-search_options:", data)
 
     if not access_token:
         return jsonify({"error, token is required": data}), 400
@@ -162,35 +164,53 @@ def api_create_playlist():
     Endpoint para crear una lista de reproducción.
     Requiere un token de acceso válido y los datos de la lista de reproducción.
     """
-    data = request.get_json()
-    access_token = data.get('Authorization')
-    user_id = data.get('user_id')
+    data = request.get_json()  # Captura el JSON enviado en el cuerpo
+    # Captura el token de los headers
+    access_token = request.headers.get('Authorization')
     playlist_name = data.get('playlist_name')
-    json_file = data.get('json_file')
+    bandList = data.get('bandList')
+    img = data.get('img')
 
+    # Obtener el User ID del usuario autenticado
+    user_id = get_user_id(access_token)
     if not access_token or not user_id or not playlist_name:
         return jsonify({"error": "Missing required data"}), 400
 
-    playlist = create_playlist(access_token, user_id, playlist_name, json_file)
-
-    if playlist:
-        return jsonify({"message": "Playlist created successfully", "playlist": playlist})
-    else:
+    # Crear la lista de reproducción
+    playlist = create_playlist(access_token, user_id, playlist_name)
+    if not playlist:
+        print(f"No se pudo crear la lista de reproducción: {playlist_name}")
         return jsonify({"error": "Failed to create playlist"}), 500
 
+    # Obtengo el top ten de las bandas
+    bandListTopTen = process_list_band_top(access_token, bandList)
+    print("bandListTopTen -> :", bandListTopTen)
 
-@app.route('/process_list_band_add_to_playlist', methods=['POST'])
-def process_list_band_add():
-    """
-    Endpoint para procesar lista de bandas y añadirlas a una playlist.
-    """
-    data = request.get_json()
-    access_token = data.get('Authorization')
-    json_file = data.get('json_file')
+    res = process_list_band_add_to_playlist(
+        access_token, bandListTopTen, playlist)
+    print("N° de bandas agregadas a la play list -> :", res)
+    if (res['top_failed'] > 0):
+        return jsonify({"error": "Failed to add tracks to playlist"}), 500
 
-    process_list_band_add_to_playlist(access_token, json_file)
+    # Agregar portada del festival
+    img64 = image_to_base64(img)
+    upload_playlist_cover(access_token, playlist['band_id'], img64)
 
-    return jsonify({"message": "List processed and added to playlist."})
+    return jsonify(playlist, res)
+
+
+# @app.route('/process_list_band_add_to_playlist', methods=['POST'])
+# def process_list_band_add():
+#     """
+#     Endpoint para procesar lista de bandas y añadirlas a una playlist.
+#     """
+#     data = request.get_json()
+#     access_token = data.get('Authorization')
+#     json_file = data.get('json_file')
+
+#     # process_list_band_add_to_playlist(access_token, json_file)
+
+#     return jsonify({"message": "List processed and added to playlist."})
 
 
 def _build_cors_preflight_response():
