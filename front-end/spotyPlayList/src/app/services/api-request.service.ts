@@ -4,6 +4,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 import { ObservablesService } from './observables.service';
 import { AuthService } from './auth.service';
+import { ListBand } from '../models/list_band';
 
 @Injectable({
   providedIn: 'root',
@@ -54,6 +55,19 @@ export class ApiRequestService {
     return this.http.post<any>(
       `${this.apiUrl}/search_options`,
       { data: name },
+      { headers: this.headers }
+    );
+  }
+
+  // Generar play list y obtengo la info de la misma
+  generatePlayList(
+    playListName: string,
+    bandListCards: ListBand[]
+  ): Observable<any> {
+    // preparo el header con los tokens y envio playListName y bandListCards
+    return this.http.post<any>(
+      `${this.apiUrl}/generate_playlist`,
+      { data: { playListName, bandListCards } },
       { headers: this.headers }
     );
   }

@@ -11,7 +11,7 @@ import {
   transition,
   animate,
 } from '@angular/animations';
-import { BehaviorSubject } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 import { LoadingModel } from '../models/loading';
 
@@ -33,6 +33,7 @@ import { CardBandComponent } from '../organisms/card-band/card-band.component';
     MatIconModule,
     CommonModule,
     CardBandComponent,
+    FormsModule,
   ],
 })
 export class UpImgComponent {
@@ -62,6 +63,7 @@ export class UpImgComponent {
   zoneX: number = 0;
   originalImgWidth: number = 0;
   originalImgHeight: number = 0;
+  playListName: string = '';
 
   constructor(
     private procesListService: ProcesListService,
@@ -252,6 +254,34 @@ export class UpImgComponent {
     return new Promise<void>((resolve) => {
       const button = document.getElementById('continue-button');
     });
+  }
+
+  createPlayList(): void {
+    // obtengo e lvalor del input playListName
+    const playListName = document.getElementById('playListName')?.nodeValue;
+    // valido que tenga algo cargado
+    if (this.playListName == '') {
+      console.error('No se ha ingresado un nombre para la playlist');
+      return;
+    }
+    // valido que bandListCards tenga elementos
+    if (this.bandListCards.length === 0) {
+      console.error('No hay bandas en la lista');
+      return;
+    }
+    console.log('Creando playlist con nombre = ', playListName);
+    this.observablesService.incrementNextStep();
+    // Le paso a generatePlayList el valor del input playListName
+    this.apiRequestService
+      .generatePlayList(this.playListName, this.bandListCards)
+      .subscribe({
+        next: (data: any) => {
+          console.log('data', data);
+        },
+        error: (error: any) => {
+          console.error('Error al generar la playlist:', error);
+        },
+      });
   }
 
   /// --- steps ---

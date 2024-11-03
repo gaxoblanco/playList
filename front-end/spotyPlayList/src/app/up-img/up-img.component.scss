@@ -13,12 +13,11 @@ input[type="file"].up-img-imput {
   align-content: center;
   justify-items: center;
   max-width: 1300px;
-  margin-top: 30px;
+  margin: 30px auto;
 
 }
 
 .up_img_container {
-  margin-bottom: 16px;
   width: 100%;
 }
 
@@ -151,7 +150,7 @@ mat-chip {
 
   }
   .img-container {
-    width: 340px; // Ancho más pequeño para pantallas pequeñas
+    max-width: 280px; // Ancho más pequeño para pantallas pequeñas
   }
 }
 

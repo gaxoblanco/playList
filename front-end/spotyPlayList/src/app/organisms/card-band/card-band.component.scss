@@ -35,6 +35,9 @@ mat-chip {
   flex-wrap: wrap;
   gap: 80px 26px; /* Espaciado entre las tarjetas */
   justify-content: center; /* Centra las tarjetas en la línea */
+  height: 70vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .band-card {
   width: 300px;
@@ -202,7 +205,6 @@ mat-chip {
   .band-list {
     overflow-y: auto;
     overflow-x: hidden;
-    height: 90vh;
   }
 }
 
