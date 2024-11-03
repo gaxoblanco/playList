@@ -52,6 +52,7 @@ export class UpImgComponent {
   requestTokenSpotify: boolean = true;
   selectedName: string = '';
   listb: any;
+  playListName: string = '';
   //-----
   bandListCards: ListBand[] = [];
   // -- circulo
@@ -63,7 +64,6 @@ export class UpImgComponent {
   zoneX: number = 0;
   originalImgWidth: number = 0;
   originalImgHeight: number = 0;
-  playListName: string = '';
 
   constructor(
     private procesListService: ProcesListService,
@@ -258,7 +258,6 @@ export class UpImgComponent {
 
   createPlayList(): void {
     // obtengo e lvalor del input playListName
-    const playListName = document.getElementById('playListName')?.nodeValue;
     // valido que tenga algo cargado
     if (this.playListName == '') {
       console.error('No se ha ingresado un nombre para la playlist');
@@ -269,11 +268,21 @@ export class UpImgComponent {
       console.error('No hay bandas en la lista');
       return;
     }
-    console.log('Creando playlist con nombre = ', playListName);
+    // valido que selectedFile no sea null
+    if (this.selectedFile === null) {
+      console.error('No se ha seleccionado un archivo');
+      return;
+    }
+
+    console.log('Creando playlist con nombre = ', this.playListName);
     this.observablesService.incrementNextStep();
     // Le paso a generatePlayList el valor del input playListName
     this.apiRequestService
-      .generatePlayList(this.playListName, this.bandListCards)
+      .generatePlayList(
+        this.playListName,
+        this.bandListCards,
+        this.selectedFile
+      )
       .subscribe({
         next: (data: any) => {
           console.log('data', data);

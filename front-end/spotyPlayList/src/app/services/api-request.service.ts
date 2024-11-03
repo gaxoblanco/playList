@@ -62,12 +62,24 @@ export class ApiRequestService {
   // Generar play list y obtengo la info de la misma
   generatePlayList(
     playListName: string,
-    bandListCards: ListBand[]
+    bandList: ListBand[],
+    selectedFile: File
   ): Observable<any> {
+    console.log(
+      'generatePlayList - playListName - img -->',
+      playListName,
+      bandList,
+      selectedFile
+    );
+
     // preparo el header con los tokens y envio playListName y bandListCards
     return this.http.post<any>(
-      `${this.apiUrl}/generate_playlist`,
-      { data: { playListName, bandListCards } },
+      `${this.apiUrl}/create_playlist`,
+      {
+        playlist_name: playListName,
+        bandList: bandList,
+        img: selectedFile,
+      },
       { headers: this.headers }
     );
   }
