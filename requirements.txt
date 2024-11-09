@@ -1,6 +1,14 @@
-transformers==4.30.2
-torch==2.0.1
-Pillow==9.5.0
-bitsandbytes==0.43.3
-python-dotenv
+# transformers==4.30.2
+# torch==2.0.1
+# Pillow==9.5.0
+# bitsandbytes==0.43.3
+
+
 flask
+flask_cors
+python-dotenv
+requests
+aiohttp
+oprncv-python
+pytesseract
+matplotlib

@@ -189,12 +189,12 @@ def api_create_playlist():
     res = process_list_band_add_to_playlist(
         access_token, bandListTopTen, playlist)
     print("N° de bandas agregadas a la play list -> :", res)
-    if (res['top_failed'] > 0):
+    if (res['top_failed'] == 0):
         return jsonify({"error": "Failed to add tracks to playlist"}), 500
 
     # Agregar portada del festival
-    img64 = image_to_base64(img)
-    upload_playlist_cover(access_token, playlist['band_id'], img64)
+    # img64 = image_to_base64(img)
+    # upload_playlist_cover(access_token, playlist['band_id'], img64)
 
     return jsonify(playlist, res)
 
