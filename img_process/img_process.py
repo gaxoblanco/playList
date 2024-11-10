@@ -14,13 +14,20 @@ https://colab.research.google.com/drive/1cZrU05ua1Qm7BGkRQe9MJKDbvCdozF-7#scroll
 import cv2
 import numpy as np
 import pytesseract
+import platform
 from PIL import Image
 import matplotlib.pyplot as plt
 
 from img_process.extract_names import clean_and_split_text, limpiar_array, obtener_posiciones_nombres
 
 
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+if platform.system() == "Windows":
+    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+elif platform.system() == "Linux":
+    pytesseract.pytesseract.tesseract_cmd = "/usr/bin/tesseract"
+else:
+    raise OSError("Unsupported operating system")
+
 # Función para procesar la imagen (limpiar ruido y binarizar)
 
 
