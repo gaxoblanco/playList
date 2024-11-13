@@ -21,6 +21,7 @@ import { ListBand, optionBand } from '../models/list_band';
 import { ApiRequestService } from '../services/api-request.service';
 import { OptionsListComponent } from '../molecule/options-list/options-list.component';
 import { CardBandComponent } from '../organisms/card-band/card-band.component';
+import { PlaylistDate } from '../models/playlist';
 @Component({
   selector: 'app-up-img',
   templateUrl: './up-img.component.html',
@@ -64,6 +65,26 @@ export class UpImgComponent {
   zoneX: number = 0;
   originalImgWidth: number = 0;
   originalImgHeight: number = 0;
+
+  playlistInfo: PlaylistDate = {
+    playlists: {
+      band_id: '',
+      name: 'LolaPalloza 2024',
+      href: '',
+      img: [''],
+    },
+    bandInfo: {
+      failed_bands: [
+        'ints',
+        '2minutos',
+        'andres calamaro',
+        'ella es tan cargosa',
+        'el zak',
+      ],
+      top_add: 0,
+      top_failed: 0,
+    },
+  };
 
   constructor(
     private procesListService: ProcesListService,
@@ -286,6 +307,14 @@ export class UpImgComponent {
       .subscribe({
         next: (data: any) => {
           console.log('data', data);
+          this.playlistInfo.playlists = data[0];
+          this.playlistInfo.bandInfo = data[1];
+          this.observablesService.incrementNextStep();
+
+          // el valor de la img viene en base64, lo modifico para cargar en el html
+          this.playlistInfo.playlists.img = [
+            'data:image/jpeg;base64,' + this.playlistInfo.playlists.img[0],
+          ];
         },
         error: (error: any) => {
           console.error('Error al generar la playlist:', error);

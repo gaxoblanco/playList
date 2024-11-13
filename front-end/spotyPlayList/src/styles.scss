@@ -7,7 +7,7 @@ body { margin: 0; font-family: 'Montserrat', sans-serif; }
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
 @import './variables.scss';
 body {
-  background-color: $spotify-black;
+  background-color: black;
   color: $white;
   margin: 0;
   padding: 0;
@@ -43,7 +43,9 @@ h1, h2, h3 {
   margin: 0px;
 }
 
-
+ul, li {
+  list-style-type: none;
+}
 // Para formularios y entradas de texto
 .mat-form-field {
   color: $white;
