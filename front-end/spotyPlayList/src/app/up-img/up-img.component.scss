@@ -249,10 +249,15 @@ mat-chip {
   justify-content: center;
   justify-items: center;
   grid-gap: 20px;
+  position: relative;
   .button--discard {
     background-color: $alert-warning;
     border-radius: 20px;
     color: black !important;
+  }
+  .span-user_band_name {
+    position: absolute;
+    top: -46px;
   }
 }
 .select_option--container {
@@ -260,9 +265,28 @@ mat-chip {
   border-radius: 12px;
   justify-content: center;
   border: 1px solid $spotify-gray;
-  background-color: #121212;
+  background-color: $spotify-dark-gray;
   div {
     justify-content: center;
+  }
+}
+.select_option--user_band_name {
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: $spotify-gray;
+  font-weight: bold;
+  input {
+    background-color: $spotify-gray;
+    border: none;
+    color: $white;
+    margin-left: 8px;
+    &:focus-visible {
+      outline: none; /* Elimina el borde de enfoque */
+      box-shadow: none; /* Elimina cualquier sombra de enfoque */
+    }
+  }
+  button {
+    background-color: $alert-success;
   }
 }
 

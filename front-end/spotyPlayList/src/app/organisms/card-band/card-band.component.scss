@@ -81,6 +81,10 @@ mat-chip {
     width: 50%;
     background-color: $spotify-light-gray;
     font-weight: bold;
+    &:focus-visible {
+      outline: none; /* Elimina el borde de enfoque */
+      box-shadow: none; /* Elimina cualquier sombra de enfoque */
+    }
   }
 }
 .band-card--footer {

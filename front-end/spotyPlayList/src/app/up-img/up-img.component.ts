@@ -1,4 +1,9 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  ChangeDetectorRef,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -12,6 +17,9 @@ import {
   animate,
 } from '@angular/animations';
 import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 import { LoadingModel } from '../models/loading';
 
@@ -35,6 +43,9 @@ import { PlaylistDate } from '../models/playlist';
     CommonModule,
     CardBandComponent,
     FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
   ],
 })
 export class UpImgComponent {
@@ -52,6 +63,11 @@ export class UpImgComponent {
   tokenSpotify: any | undefined;
   requestTokenSpotify: boolean = true;
   selectedName: string = '';
+
+  userBandName: string = '';
+  $userBandName: string = '';
+  showSuccessMessage: boolean = false;
+
   listb: any;
   playListName: string = '';
   //-----
@@ -89,7 +105,8 @@ export class UpImgComponent {
   constructor(
     private procesListService: ProcesListService,
     private apiRequestService: ApiRequestService,
-    private observablesService: ObservablesService
+    private observablesService: ObservablesService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -222,7 +239,34 @@ export class UpImgComponent {
       },
     });
   }
+  //----------------------------------------------------------------
+  onSubmitUserBandName(): void {
+    console.log(' userBandName', this.userBandName);
 
+    const band: ListBand = {
+      band_id: '',
+      name: this.userBandName,
+      img_zone: [this.zoneX, this.zoneY, 0, 0],
+    };
+    if (this.userBandName != '') {
+      // Cargo option en el observable updateBandListCorect
+      this.observablesService.addBandListCorect(band);
+      // cargar valor
+      this.$userBandName = this.userBandName;
+      // Mostrar el mensaje de éxito
+      this.showSuccessMessage = true;
+      // Ocultar el mensaje de éxito después de 3 segundos
+      setTimeout(() => {
+        this.showSuccessMessage = false;
+        // Limpiar el span
+        this.userBandName = '';
+        this.$userBandName = '';
+      }, 2000);
+      // Limpiar el campo de entrada después de enviar
+      this.userBandName = '';
+    }
+  }
+  //----------------------------------------------------------------
   selectOption(option: string): void {
     this.selectedName = option;
     console.log('Opción seleccion', option);
@@ -255,7 +299,15 @@ export class UpImgComponent {
 
     // cargo option en el observable updateBandListCorect
     this.observablesService.addBandListCorect(band);
-
+    // Mostrar el mensaje de éxito
+    this.$userBandName = band.name;
+    this.showSuccessMessage = true;
+    // Ocultar el mensaje de éxito después de 3 segundos
+    setTimeout(() => {
+      this.showSuccessMessage = false;
+      // Limpiar el campo de entrada después de enviar
+      this.$userBandName = '';
+    }, 2000);
     // Itero por las opciones en optionList y alimino las que tengan option como parte de su string
     this.optionList = this.optionList.filter((item) => !item.includes(option));
 

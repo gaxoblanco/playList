@@ -71,11 +71,34 @@
         {{ op }}
       </mat-chip>
     </mat-chip-grid>
+    <div>
+      <form
+        (ngSubmit)="onSubmitUserBandName()"
+        class="select_option--user_band_name"
+      >
+        <input
+          matInput
+          placeholder="Enter your option"
+          [(ngModel)]="userBandName"
+          name="userBandName"
+          required
+        />
+        <button mat-raised-button type="submit">Submit</button>
+      </form>
+    </div>
     <mat-chip-set>
       <mat-chip (click)="waitForUserConfirmation()" class="button--discard">
         Descartar este grupo de opciones
       </mat-chip>
     </mat-chip-set>
+    <!-- span to succes onSubmitUserBandName + userBandaName -->
+    <span
+      *ngIf="showSuccessMessage"
+      class="span-user_band_name"
+      aria-live="polite"
+    >
+      Band add : <mat-chip>{{ $userBandName }}</mat-chip>
+    </span>
   </div>
   <div *ngIf="step == 1">
     <!-- second Step - borrar y correguir bandas -->
@@ -93,7 +116,7 @@
     ></app-card-band>
   </div>
   <!-- <div class="playlist-card" *ngIf="playlistInfo && processResult"> -->
-  <mat-card class="playlist-card mat-card" *ngIf="step === 0">
+  <mat-card class="playlist-card mat-card" *ngIf="step === 3">
     <div class="playlist-image--container">
       <figure class="playlist-image">
         <img
