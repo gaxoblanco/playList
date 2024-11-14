@@ -13,7 +13,7 @@ input[type="file"].up-img-imput {
   align-content: center;
   justify-items: center;
   max-width: 1300px;
-  margin: 30px auto;
+  margin: 20px auto;
 
 }
 
@@ -292,6 +292,10 @@ mat-chip {
   border-radius: 20px;
   grid-gap: 20px;
   background-color: $spotify-dark-gray;
+  h2 {
+    font-size: 26px;
+    text-align: center;
+  }
   .playlist-image {
     width: 100%;
     padding-top: 100%;
@@ -308,14 +312,36 @@ mat-chip {
       height: 100%;
       object-fit: cover; /* Esto asegura que la imagen cubra todo el contenedor manteniendo la relación de aspecto */
     }
+    &--container {
+      position: relative;
+    }
   }
-  h2 {
-    font-size: 26px;
-    text-align: center;
+  .playlist-title {
+    position: absolute;
+    top: 93%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    background: $spotify-dark-deep-gray;
+    padding-top: 16px;
+    border-radius: 0 0 12px 12px;
+  }
+  .playlist--info-container {
+    margin-bottom: 18px;
+    border-bottom: 1px solid $spotify-gray;
+  }
+  .playlist--scroll-container {
+    margin-bottom: 26px;
+    @media (min-width: 961px) {
+      margin-bottom: 22px;
+    }
+  }
+  .playlist--h3 {
+    display: none;
   }
   .coffee-title {
     color: $spotify-light-gray;
-    margin-top: 16px;
+    margin: 20px 0;
   }
   .coffee-container {
     display: flex;
@@ -328,6 +354,9 @@ mat-chip {
     text-decoration: none;
     text-align: center;
   }
+  .scrollable-container {
+    height: 100px;
+  }
   .ul {
     padding: 0;
   }
@@ -336,6 +365,14 @@ mat-chip {
     margin-top: 8px;
     border-bottom: 1px solid $spotify-gray;
     padding-left: 20px;
+  }
+  @media (min-width: 961px) {
+    grid-template-columns: 1fr 1fr;
+    .playlist--h3 {
+      display: block;
+      font-size: 20px;
+      text-align: center;
+    }
   }
 }
 // .mat-button--play {
