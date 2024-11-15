@@ -18,4 +18,5 @@ export interface optionBand {
 interface top_track {
   name: string;
   url: string;
+  img_zone?: [number, number, number, number];
 }

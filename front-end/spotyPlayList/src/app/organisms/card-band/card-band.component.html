@@ -54,7 +54,16 @@
         </mat-card-subtitle>
       </mat-card-header>
     </div>
-    <div *ngIf="activeCardIndex === i" @toggleOptions class="band-list-options">
+    <!-- 5 options -->
+    <div
+      #bandListOptions
+      *ngIf="activeCardIndex === i"
+      @toggleOptions
+      class="band-list-options"
+      (mouseenter)="onMouseEnter()"
+      (mouseleave)="onMouseLeave()"
+      (wheel)="onWheel($event)"
+    >
       <app-options-list
         *ngFor="let optionBand of optionsBand"
         [band]="optionBand"

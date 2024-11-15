@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -53,6 +61,10 @@ import { OptionsListComponent } from 'src/app/molecule/options-list/options-list
 })
 export class CardBandComponent {
   @Input() bandList: ListBand[] = []; // Se recibe desde el componente padre
+  //  posicionamiento del puntero en img con bandList[0].img_zone
+  @Output() hoverPosition = new EventEmitter<Array<number>>();
+  @ViewChild('bandListOptions', { static: false }) bandListOptions!: ElementRef;
+
   optionsBand: ListBand[] = [
     // 1 cargando
     {
@@ -62,6 +74,7 @@ export class CardBandComponent {
         {
           name: 'Cargando...',
           url: 'Cargando...',
+          img_zone: [0, 0, 0, 0],
         },
       ],
       img: 'https://via.placeholder.com/150',
@@ -74,6 +87,7 @@ export class CardBandComponent {
         {
           name: 'Cargando...',
           url: 'Cargando...',
+          img_zone: [0, 0, 0, 0],
         },
       ],
       img: 'https://via.placeholder.com/150',
@@ -86,15 +100,18 @@ export class CardBandComponent {
         {
           name: 'Cargando...',
           url: 'Cargando...',
+          img_zone: [0, 0, 0, 0],
         },
       ],
       img: 'https://via.placeholder.com/150',
     },
   ];
-  //  posicionamiento del puntero en img con bandList[0].img_zone
-  @Output() hoverPosition = new EventEmitter<Array<number>>();
-  activeCardIndex: number | null = null;
+
   editedNames: string = '';
+  // 5 new options
+  activeCardIndex: number | null = null;
+  isHovered: boolean = false;
+  timeoutId: any;
 
   constructor(private apiRequestService: ApiRequestService) {}
 
@@ -120,6 +137,9 @@ export class CardBandComponent {
       const editedName = this.editedNames || name;
       this.getOptions(editedName); // Llama a getOptions con el nombre editado
       console.log('editetName-->', editedName);
+      // limpio el formulario
+      this.editedNames = '';
+      this.startTimeout();
     }
   }
   // --- Borrar la opción seleccionada
@@ -143,6 +163,44 @@ export class CardBandComponent {
       this.hoverPosition.emit(positionArray);
     } else {
       console.error('Invalid position array:', positionArray);
+    }
+  }
+
+  //----------------------------------------------------------------
+  // Método para manejar el hover
+  @HostListener('mouseenter', ['$event'])
+  onMouseEnter() {
+    this.isHovered = true;
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+    }
+  }
+
+  onMouseLeave() {
+    this.isHovered = false;
+    this.startTimeout();
+  }
+
+  startTimeout() {
+    this.timeoutId = setTimeout(() => {
+      if (!this.isHovered) {
+        this.activeCardIndex = null; // Ocultar el componente
+      }
+    }, 2500); // 2000 ms
+  }
+  // Maneja el evento wheel para desplazamiento lateral
+  onWheel(event: WheelEvent) {
+    if (this.isHovered && this.bandListOptions) {
+      const element = this.bandListOptions.nativeElement as HTMLElement;
+
+      // Desplazamiento suave
+      element.scrollBy({
+        left: event.deltaY, // Ajusta la dirección del desplazamiento
+        behavior: 'smooth', // Hace que el movimiento sea suave
+      });
+
+      // Previene el comportamiento predeterminado del scroll vertical
+      event.preventDefault();
     }
   }
 }
