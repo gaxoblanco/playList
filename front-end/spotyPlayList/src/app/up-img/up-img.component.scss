@@ -275,11 +275,13 @@ mat-chip {
   font-size: 14px;
   background-color: $spotify-gray;
   font-weight: bold;
+  display: flex;
   input {
     background-color: $spotify-gray;
     border: none;
     color: $white;
     margin-left: 8px;
+    width: 100%;
     &:focus-visible {
       outline: none; /* Elimina el borde de enfoque */
       box-shadow: none; /* Elimina cualquier sombra de enfoque */
@@ -287,7 +289,14 @@ mat-chip {
   }
   button {
     background-color: $alert-success;
+    width: 60%;
+    white-space: nowrap;
   }
+}
+.form_create_playlist {
+  @extend .select_option--user_band_name;
+  // Puedes agregar estilos adicionales aquí si es necesario
+  margin-bottom: 20px;
 }
 
 .image-figure {

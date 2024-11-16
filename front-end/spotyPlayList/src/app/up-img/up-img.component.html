@@ -6,19 +6,16 @@
 >
   <!-- you see up_img_container if step !== 3 -->
   <div class="up_img_container" *ngIf="step !== 3">
-    <span
-      *ngIf="step == 1 && loading == 'done'"
-      class="info--container--create_list"
-    >
+    <form (ngSubmit)="createPlayList()" class="form_create_playlist">
       <input
-        type="text"
-        [attr.placeholder]="'Nombre para la Play List'"
-        [(ngModel)]="playListName"
+        matInput
+        placeholder="Enter your option"
+        [(ngModel)]="userBandName"
+        name="userBandName"
+        required
       />
-      <button mat-flat-button (click)="createPlayList()">
-        Crear Play List
-      </button>
-    </span>
+      <button mat-raised-button type="submit">Create Play List</button>
+    </form>
     <mat-card-header
       [ngClass]="{
         'img-container': true,
@@ -87,7 +84,7 @@
           name="userBandName"
           required
         />
-        <button mat-raised-button type="submit">Submit</button>
+        <button mat-raised-button type="submit">Add band</button>
       </form>
     </div>
     <mat-chip-set>
