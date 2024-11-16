@@ -203,7 +203,7 @@ def _build_cors_preflight_response():
     """ Construye la respuesta de preflight para OPTIONS """
     response = jsonify({"message": "CORS preflight passed"})
     response.headers.add("Access-Control-Allow-Origin",
-                         "http://localhost:4200")
+                         "http://localhost:4200", "http://192.168.56.1:4200")
     response.headers.add("Access-Control-Allow-Headers",
                          "Content-Type,Authorization,access_token")
     response.headers.add("Access-Control-Allow-Methods", "GET,POST,OPTIONS")
