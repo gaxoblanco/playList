@@ -6,7 +6,11 @@
 >
   <!-- you see up_img_container if step !== 3 -->
   <div class="up_img_container" *ngIf="step !== 3">
-    <form (ngSubmit)="createPlayList()" class="form_create_playlist">
+    <form
+      *ngIf="step == 1 && loading == 'done'"
+      (ngSubmit)="createPlayList()"
+      class="form_create_playlist"
+    >
       <input
         matInput
         placeholder="Enter your option"
