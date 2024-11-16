@@ -9,25 +9,17 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import {
-  trigger,
-  state,
-  style,
-  transition,
-  animate,
-} from '@angular/animations';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LoadingModel } from '../models/loading';
 
 import { ProcesListService } from '../services/proces-list.service';
 import { ObservablesService } from '../services/observables.service';
-import { ListBand, optionBand } from '../models/list_band';
+import { ListBand } from '../models/list_band';
 import { ApiRequestService } from '../services/api-request.service';
-import { OptionsListComponent } from '../molecule/options-list/options-list.component';
 import { CardBandComponent } from '../organisms/card-band/card-band.component';
 import { PlaylistDate } from '../models/playlist';
 @Component({
@@ -46,6 +38,7 @@ import { PlaylistDate } from '../models/playlist';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatProgressSpinnerModule,
   ],
 })
 export class UpImgComponent {
@@ -105,8 +98,7 @@ export class UpImgComponent {
   constructor(
     private procesListService: ProcesListService,
     private apiRequestService: ApiRequestService,
-    private observablesService: ObservablesService,
-    private cdr: ChangeDetectorRef
+    private observablesService: ObservablesService
   ) {}
 
   ngOnInit(): void {
@@ -330,7 +322,8 @@ export class UpImgComponent {
   }
 
   createPlayList(): void {
-    // obtengo e lvalor del input playListName
+    // activo el spinner
+    this.loading = 'loading';
     // valido que tenga algo cargado
     if (this.playListName == '') {
       console.error('No se ha ingresado un nombre para la playlist');
@@ -358,6 +351,7 @@ export class UpImgComponent {
       )
       .subscribe({
         next: (data: any) => {
+          this.loading = 'done';
           console.log('data', data);
           this.playlistInfo.playlists = data[0];
           this.playlistInfo.bandInfo = data[1];
@@ -369,6 +363,7 @@ export class UpImgComponent {
           ];
         },
         error: (error: any) => {
+          this.loading = 'done';
           console.error('Error al generar la playlist:', error);
         },
       });

@@ -399,22 +399,7 @@ mat-chip {
     }
   }
 }
-// .mat-button--play {
-//   background-color: #007bff;
-//   color: white;
-//   border-radius: 50%;
-//   width: 40px;
-//   height: 40px;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   text-decoration: none;
 
-//   mat-icon {
-//     font-size: 24px;
-//   }
-
-//   &:hover {
-//     background-color: #0056b3;
-//   }
-// }
+.spinner-position {
+  position: absolute;
+}

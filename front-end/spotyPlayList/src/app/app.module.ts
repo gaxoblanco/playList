@@ -13,7 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { UpImgComponent } from './up-img/up-img.component';
 import { MatChipsModule } from '@angular/material/chips';
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { OptionsListComponent } from './molecule/options-list/options-list.component';
 import { CardBandComponent } from './organisms/card-band/card-band.component';
@@ -34,6 +34,7 @@ import { CardBandComponent } from './organisms/card-band/card-band.component';
     UpImgComponent,
     CardBandComponent,
     OptionsListComponent,
+    MatProgressSpinnerModule,
   ],
   providers: [
     AuthService, // Añadir el servicio de autenticación como proveedor
