@@ -9,7 +9,7 @@
       <button
         class="card-header--button"
         mat-raised-button
-        (click)="toggleOptions(i, band.name)"
+        (click)="toggleOptions(i, band.name, band.img_zone)"
       >
         <!-- icon de angular material de edit -->
         <mat-icon>edit</mat-icon>
@@ -62,7 +62,6 @@
       class="band-list-options"
       (mouseenter)="onMouseEnter()"
       (mouseleave)="onMouseLeave()"
-      (wheel)="onWheel($event)"
     >
       <app-options-list
         *ngFor="let optionBand of optionsBand"

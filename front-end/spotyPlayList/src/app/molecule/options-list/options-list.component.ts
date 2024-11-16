@@ -33,6 +33,8 @@ export class OptionsListComponent {
   ) {}
 
   changBand(index: number): void {
+    console.log('changBand->index:', index);
+
     const bandListCorectSubject = this.observablesService['bandListCorect$'];
     // Valido que llega el index
     if (index === undefined || index === null) {
@@ -42,8 +44,8 @@ export class OptionsListComponent {
     // Validar que this.band no sea undefined o null
     if (this.band) {
       // imprimo el valor de band y index
-      console.log('band:', this.band);
-      console.log('index:', index);
+      // console.log('band:', this.band);
+      // console.log('index:', index);
 
       // guardo la lista actual en una variable temporal
       this.upListByIndex = this.observablesService['bandListCorect'].getValue();

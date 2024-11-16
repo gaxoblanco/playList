@@ -74,9 +74,9 @@ export class CardBandComponent {
         {
           name: 'Cargando...',
           url: 'Cargando...',
-          img_zone: [0, 0, 0, 0],
         },
       ],
+      img_zone: [0, 0, 0, 0],
       img: 'https://via.placeholder.com/150',
     },
     // 2 cargando
@@ -87,9 +87,9 @@ export class CardBandComponent {
         {
           name: 'Cargando...',
           url: 'Cargando...',
-          img_zone: [0, 0, 0, 0],
         },
       ],
+      img_zone: [0, 0, 0, 0],
       img: 'https://via.placeholder.com/150',
     },
     // 3 cargando
@@ -100,9 +100,9 @@ export class CardBandComponent {
         {
           name: 'Cargando...',
           url: 'Cargando...',
-          img_zone: [0, 0, 0, 0],
         },
       ],
+      img_zone: [0, 0, 0, 0],
       img: 'https://via.placeholder.com/150',
     },
   ];
@@ -116,10 +116,14 @@ export class CardBandComponent {
   constructor(private apiRequestService: ApiRequestService) {}
 
   // --- obtener lista de opciones
-  getOptions(name: string): void {
+  getOptions(name: string, img_zone: [number, number, number, number]): void {
     this.apiRequestService.getNameOptions(name).subscribe({
       // obtener el nombre correcto
       next: (data) => {
+        // agrego img_zone a cada elemento de la lista
+        data.forEach((element: ListBand) => {
+          element.img_zone = img_zone;
+        });
         this.optionsBand = data;
         console.log('optionList-->', data);
       },
@@ -129,13 +133,21 @@ export class CardBandComponent {
     });
   }
   // --- activar solo en la tarjeta seleccionada
-  toggleOptions(index: number, name: string): void {
+  toggleOptions(
+    index: number,
+    name: string,
+    img_zone: [number, number, number, number] | undefined
+  ): void {
+    const safeImgZone: [number, number, number, number] = img_zone ?? [
+      0, 0, 0, 0,
+    ];
+
     if (this.activeCardIndex === index) {
       this.activeCardIndex = null; // Desactiva si se hace clic de nuevo
     } else {
       this.activeCardIndex = index; // Activa la tarjeta seleccionada
       const editedName = this.editedNames || name;
-      this.getOptions(editedName); // Llama a getOptions con el nombre editado
+      this.getOptions(editedName, safeImgZone); // Llama a getOptions con el nombre editado
       console.log('editetName-->', editedName);
       // limpio el formulario
       this.editedNames = '';
