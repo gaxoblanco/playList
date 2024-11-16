@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
-import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { ListBand } from '../models/list_band';
 import { ObservablesService } from './observables.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProcesListService {
-  private apiUrl = 'http://localhost:5000';
+  private apiUrl = environment.apiUrl;
   constructor(
     private http: HttpClient,
     private cookieService: CookieService,

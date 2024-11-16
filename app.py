@@ -20,7 +20,7 @@ import requests
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
 # Habilita CORS en toda la aplicación
-CORS(app, origins=["http://localhost:4200"],
+CORS(app, origins=["http://localhost:4200", "http://192.168.56.1:4200"],
      methods=["GET", "POST", "OPTIONS", "PUT", "DELETE"],
      allow_headers=["Content-Type", "Authorization", "code", "data"])
 

@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private authUrl = 'http://localhost:5000'; // URL de tu backend Flask
+  private authUrl = environment.apiUrl; // URL de tu backend Flask
   private accessToken: string | null = null;
 
   constructor(private http: HttpClient, private router: Router) {}

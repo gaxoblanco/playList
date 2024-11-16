@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { CookieService } from 'ngx-cookie-service';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { ListBand } from '../models/list_band';
 

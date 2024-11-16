@@ -5,12 +5,13 @@ import { Observable } from 'rxjs';
 import { ObservablesService } from './observables.service';
 import { AuthService } from './auth.service';
 import { ListBand } from '../models/list_band';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiRequestService {
-  private apiUrl = 'http://localhost:5000';
+  private apiUrl = environment.apiUrl;
   constructor(
     private http: HttpClient,
     private cookieService: CookieService,
