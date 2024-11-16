@@ -133,10 +133,10 @@ def associate_text_with_zones_grid(band_array, image_size, padding=10):
         grid_matrix[row][col] = band['name']
 
     # Imprimir la matriz de la cuadrícula
-    for row in grid_matrix:
-        print(row)
+    # for row in grid_matrix:
+    #     print(row)
 
-    return associations
+    # return associations
 
 
 # ----------------------------------------------------------------
@@ -186,12 +186,12 @@ def main(img):
 
     # Limpias las zonas que no contienen texto
     band_zone = limpiar_array(text_zones)
-    print("\nZonas de texto limpias:\n", band_zone)
+    print("\nZonas de texto limpias:\n")
 
     # Limpio y genero el array de objetos
     first_array_band = clean_and_split_text(texto)
     # valido que sea un array y imprimo su longitud
-    print("first_array_bnand:", first_array_band)
+    print("first_array_bnand:", )
 
     associated_data = obtener_posiciones_nombres(first_array_band, band_zone)
     print("\nTexto asociado a sus zonas:\n", associated_data)

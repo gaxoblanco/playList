@@ -13,4 +13,3 @@ oprncv-python
 pytesseract
 matplotlib
 tesseract-ocr
-platformdirs

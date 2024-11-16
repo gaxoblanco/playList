@@ -199,20 +199,6 @@ def api_create_playlist():
     return jsonify(playlist, res)
 
 
-# @app.route('/process_list_band_add_to_playlist', methods=['POST'])
-# def process_list_band_add():
-#     """
-#     Endpoint para procesar lista de bandas y añadirlas a una playlist.
-#     """
-#     data = request.get_json()
-#     access_token = data.get('Authorization')
-#     json_file = data.get('json_file')
-
-#     # process_list_band_add_to_playlist(access_token, json_file)
-
-#     return jsonify({"message": "List processed and added to playlist."})
-
-
 def _build_cors_preflight_response():
     """ Construye la respuesta de preflight para OPTIONS """
     response = jsonify({"message": "CORS preflight passed"})
