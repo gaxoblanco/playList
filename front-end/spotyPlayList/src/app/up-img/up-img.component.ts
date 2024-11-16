@@ -22,6 +22,8 @@ import { ListBand } from '../models/list_band';
 import { ApiRequestService } from '../services/api-request.service';
 import { CardBandComponent } from '../organisms/card-band/card-band.component';
 import { PlaylistDate } from '../models/playlist';
+import { environment } from '../../environments/environment';
+
 @Component({
   selector: 'app-up-img',
   templateUrl: './up-img.component.html',
@@ -174,7 +176,7 @@ export class UpImgComponent {
 
   // funcion login que llama la url http://localhost:5000/login
   login() {
-    window.location.href = 'http://localhost:5000/login';
+    window.location.href = `${environment}/login`;
   }
 
   onFileSelected(event: Event): void {

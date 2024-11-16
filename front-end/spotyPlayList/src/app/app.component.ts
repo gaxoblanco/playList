@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,7 @@ export class AppComponent {
 
   // funcion login que llama la url http://localhost:5000/login
   login() {
-    window.location.href = 'http://localhost:5000/login';
+    window.location.href = `${environment}/login`;
   }
 
   // Método que maneja el callback después de la autenticación
