@@ -18,7 +18,7 @@ export class AppComponent {
 
   // funcion login que llama la url http://localhost:5000/login
   login() {
-    window.location.href = `${environment}/login`;
+    window.location.href = `${environment.apiUrl}/login`;
   }
 
   // Método que maneja el callback después de la autenticación
