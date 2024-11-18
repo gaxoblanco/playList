@@ -1,7 +1,7 @@
 <div
   class="container--up_img"
   [ngClass]="{
-    'double-column': imgSelected && step !== 3,
+    'double-column': imgSelected && step !== 3 && loading === 'done',
   }"
 >
   <!-- you see up_img_container if step !== 3 -->
@@ -14,7 +14,7 @@
       <input
         matInput
         placeholder="Enter your option"
-        [(ngModel)]="userBandName"
+        [(ngModel)]="playListName"
         name="userBandName"
         required
       />
@@ -23,7 +23,7 @@
     <mat-card-header
       [ngClass]="{
         'img-container': true,
-        'img-container--selected': imgSelected
+        'img-container--selected': imgSelected && loading !== 'error',
       }"
     >
       <div *ngIf="requestTokenSpotify">
@@ -55,6 +55,54 @@
           }"
         ></div>
       </figure>
+      <!-- container error -->
+      <div *ngIf="loading == 'error'">
+        <!-- mensaje de error al subir la img con re intento -->
+        <div class="container-error" *ngIf="step == 0">
+          <span *ngIf="imgSelected" class="span--error" for="file-upload"
+            >Error to upload !</span
+          >
+          <button
+            *ngIf="imgSelected"
+            id="file-upload"
+            class="up-img-imput"
+            type="file"
+            (click)="trayAgain()"
+          >
+            Try again
+          </button>
+        </div>
+        <!-- mensaje de error al obtener el listado con las correciones -->
+        <div class="container-error" *ngIf="step == 1">
+          <span class="span--error" for="file-upload"
+            >Error - creating the list of artists !</span
+          >
+          <button
+            *ngIf="imgSelected"
+            id="file-upload"
+            class="up-img-imput"
+            type="file"
+            (click)="trayAgainStep1()"
+          >
+            Try again
+          </button>
+        </div>
+        <!-- volver a intentar crear la lista -->
+        <div class="container-error" *ngIf="step == 2">
+          <span class="span--error" for="file-upload"
+            >Error - creating the play list !</span
+          >
+          <button
+            *ngIf="imgSelected"
+            id="file-upload"
+            class="up-img-imput"
+            type="file"
+            (click)="trayAgainStep2()"
+          >
+            Create again
+          </button>
+        </div>
+      </div>
       <!-- span to start section if you don't login -->
       <span *ngIf="!requestTokenSpotify" class="popap">
         <h2>Para continuar necesitas iniciar sesion</h2>
@@ -105,10 +153,14 @@
       Band add : <mat-chip>{{ $userBandName }}</mat-chip>
     </span>
   </div>
+  <!-- container error -->
+
   <!-- spinner to loading -->
   <div *ngIf="loading == 'loading' && step == 1">
+    <p>Step - 1</p>
     <mat-spinner></mat-spinner>
   </div>
+
   <!-- Step to see the different bands and  correct errors -->
   <div *ngIf="step == 1 && loading == 'done'">
     <span class="info--container">

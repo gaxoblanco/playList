@@ -209,6 +209,15 @@ export class UpImgComponent {
       console.log('No se ha seleccionado ningún archivo');
     }
   }
+  trayAgain(): void {
+    this.loading = 'loading';
+    if (this.selectedFile) {
+      this.uploadImageToAPI(this.selectedFile);
+    } else {
+      this.loading = 'up';
+      this.imgSelected = '';
+    }
+  }
 
   // Método para manejar la carga de la imagen a la API y procesar la respuesta
   private uploadImageToAPI(file: File): void {
@@ -229,6 +238,7 @@ export class UpImgComponent {
         }
       },
       error: (error) => {
+        this.loading = 'error';
         console.error('Error al enviar la imagen:', error);
       },
     });
@@ -329,21 +339,24 @@ export class UpImgComponent {
     // valido que tenga algo cargado
     if (this.playListName == '') {
       console.error('No se ha ingresado un nombre para la playlist');
+      this.loading = 'error';
       return;
     }
     // valido que bandListCards tenga elementos
     if (this.bandListCards.length === 0) {
+      this.loading = 'error';
       console.error('No hay bandas en la lista');
       return;
     }
     // valido que selectedFile no sea null
     if (this.selectedFile === null) {
+      this.loading = 'error';
       console.error('No se ha seleccionado un archivo');
       return;
     }
 
     console.log('Creando playlist con nombre = ', this.playListName);
-    this.observablesService.incrementNextStep();
+    // this.observablesService.incrementNextStep();
     // Le paso a generatePlayList el valor del input playListName
     this.apiRequestService
       .generatePlayList(
@@ -358,19 +371,47 @@ export class UpImgComponent {
           this.playlistInfo.playlists = data[0];
           this.playlistInfo.bandInfo = data[1];
           this.observablesService.incrementNextStep();
-
+          this.observablesService.incrementNextStep();
           // el valor de la img viene en base64, lo modifico para cargar en el html
           this.playlistInfo.playlists.img = [
             'data:image/jpeg;base64,' + this.playlistInfo.playlists.img[0],
           ];
         },
         error: (error: any) => {
-          this.loading = 'done';
+          this.loading = 'error';
           console.error('Error al generar la playlist:', error);
         },
       });
   }
 
+  // --- trayAgainStep1 ---
+  trayAgainStep1(): void {
+    this.loading = 'loading';
+    // vuelvo a enviar la lista con correciones a this.apiRequestService.postList y espero la respeusta
+    this.listb = this.apiRequestService.postList(
+      this.observablesService['bandListCorect$']
+    );
+    this.listb.subscribe({
+      next: (data: any) => {
+        console.log('listb-->', this.listb);
+        this.bandListCards = data;
+        console.log('this.bandList--> ', this.bandListCards);
+        this.loading = 'done';
+        // actualizo el bandListCorect$
+        this.observablesService.updateBandListCorect(this.bandListCards);
+      },
+      error: (error: any) => {
+        this.loading = 'error';
+        console.error('Error al enviar la lista de correciones:', error);
+      },
+    });
+  }
+  // --- trayAgainStep2 ---
+  trayAgainStep2(): void {
+    this.loading = 'loading';
+    // Genero la lista de opciones
+    this.createPlayList();
+  }
   /// --- steps ---
 
   private handleStepChange(step: number): void {
@@ -401,6 +442,7 @@ export class UpImgComponent {
             this.observablesService.updateBandListCorect(this.bandListCards);
           },
           error: (error: any) => {
+            this.loading = 'error';
             console.error('Error al enviar la lista:', error);
           },
         });

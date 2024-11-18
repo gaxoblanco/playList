@@ -11,5 +11,6 @@ requests
 aiohttp
 oprncv-python
 pytesseract
+Pillow
 matplotlib
 tesseract-ocr
