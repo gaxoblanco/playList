@@ -139,9 +139,6 @@ def search_options():
     data = request.get_json()
     # obtengo access_token del header -> array de 1 string
     access_token = request.headers.get('Authorization')
-    # Eliminar el prefijo 'Bearer ' si está presente
-    if access_token and access_token.startswith('Bearer '):
-        access_token = access_token.split(' ')[1]
 
     # print("access_token:", access_token)
     # print("json_file-search_options:", data)
@@ -164,12 +161,14 @@ def api_create_playlist():
     Endpoint para crear una lista de reproducción.
     Requiere un token de acceso válido y los datos de la lista de reproducción.
     """
-    data = request.get_json()  # Captura el JSON enviado en el cuerpo
     # Captura el token de los headers
     access_token = request.headers.get('Authorization')
-    playlist_name = data.get('playlist_name')
-    bandList = data.get('bandList')
-    img = data.get('img')
+    # Obtener datos del formulario
+    playlist_name = request.form.get('playlist_name')
+    band_list = request.form.get('bandList')
+    img = request.files.get('img')
+
+    print("/create_playlist - img:", img)
 
     # Obtener el User ID del usuario autenticado
     user_id = get_user_id(access_token)
@@ -183,8 +182,10 @@ def api_create_playlist():
         return jsonify({"error": "Failed to create playlist"}), 500
 
     # Obtengo el top ten de las bandas
-    bandListTopTen = process_list_band_top(access_token, bandList)
-    print("bandListTopTen -> :", bandListTopTen)
+    if band_list:
+        band_listJSON = json.loads(band_list)
+        bandListTopTen = process_list_band_top(access_token, band_listJSON)
+        print("bandListTopTen -> :",)
 
     res = process_list_band_add_to_playlist(
         access_token, bandListTopTen, playlist)
@@ -193,8 +194,11 @@ def api_create_playlist():
         return jsonify({"error": "Failed to add tracks to playlist"}), 500
 
     # Agregar portada del festival
-    # img64 = image_to_base64(img)
-    # upload_playlist_cover(access_token, playlist['band_id'], img64)
+    if img:
+        img64 = image_to_base64(img)
+        img_status = upload_playlist_cover(
+            access_token, playlist['band_id'], img64)
+        print("img_status -> :", img_status)
 
     return jsonify(playlist, res)
 
@@ -204,8 +208,8 @@ def _build_cors_preflight_response():
     response = jsonify({"message": "CORS preflight passed"})
     response.headers.add("Access-Control-Allow-Origin",
                          "http://localhost:4200")
-    response.headers.add("Access-Control-Allow-Origin",
-                         "http://192.168.56.1:4200")
+    # response.headers.add("Access-Control-Allow-Origin",
+    #                      "http://192.168.56.1:4200")
     response.headers.add("Access-Control-Allow-Headers",
                          "Content-Type,Authorization,access_token")
     response.headers.add("Access-Control-Allow-Methods", "GET,POST,OPTIONS")
@@ -213,4 +217,4 @@ def _build_cors_preflight_response():
 
 
 if __name__ == '__main__':
-    app.run(port=2222, debug=True)
+    app.run(port=5000, debug=True)

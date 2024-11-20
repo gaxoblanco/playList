@@ -54,12 +54,13 @@ async def search_artist(access_token, artist_name):
 
 
 async def search_option(access_token, artist_name):
+    print("search_option access_token ->", access_token)
     """
     Busca un artista por su nombre y devuelve 5 opciones de artistas.
     """
     url = f'https://api.spotify.com/v1/search?q={artist_name}&type=artist&limit=10'
     headers = {
-        'Authorization': f'Bearer {access_token}'
+        'Authorization': f'{access_token}'
     }
 
     response = requests.get(url, headers=headers)
@@ -114,6 +115,9 @@ def get_top_tracks(access_token, artist_id):
     """
     Obtiene las canciones principales de un artista por su ID.
     """
+    if artist_id == '-':
+        # excape this elemente
+        return None
     # print("artist_id ->", artist_id)
     # print("access_token ->", access_token)
     url = f'https://api.spotify.com/v1/artists/{artist_id}/top-tracks'
@@ -169,18 +173,26 @@ def create_playlist(access_token, user_id, playlist_name):
         return None
 
 
-def upload_playlist_cover(access_token, playlist_id, image_base64):
+def upload_playlist_cover(access_token, playlist_id, image_data):
+    print("upload_playlist_cover access_token ->", access_token)
+    print("upload_playlist_cover playlist_id ->", playlist_id)
+    print("upload_playlist_cover image_data ->", image_data)
+
     url = f"https://api.spotify.com/v1/playlists/{playlist_id}/images"
     headers = {
-        "Authorization": f"Bearer {access_token}",
+        'Authorization': f'{access_token}',
         "Content-Type": "image/jpeg"  # Spotify requiere que sea un JPEG
     }
 
-    response = requests.put(url, headers=headers, data=image_base64)
+    response = requests.put(url, headers=headers, data=image_data)
 
-    # Verifica si la solicitud fue exitosa
+    # Manejo de la respuesta
     if response.status_code == 202:
         print("Imagen de portada cargada exitosamente!")
     else:
         print(f"Error al cargar la imagen: {response.status_code}")
-        print(response.json())  # Muestra detalles del error si ocurren
+        try:
+            print(response.json())  # Detalles del error si están disponibles
+        except Exception as e:
+            print(f"Error al decodificar la respuesta: {e}")
+        return response.status_code

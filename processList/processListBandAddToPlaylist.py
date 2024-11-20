@@ -26,6 +26,10 @@ def process_list_band_add_to_playlist(access_token, band_list_top_ten, playlist)
     failed_bands = []
 
     for band in band_list_top_ten:
+        if not band.get('top_tracks'):
+            fail_count += 1
+            failed_bands.append(band['name'])
+            continue
         try:
             track_uris = [track['uri'] for track in band.get('top_tracks', [])]
             if track_uris:
@@ -45,5 +49,5 @@ def process_list_band_add_to_playlist(access_token, band_list_top_ten, playlist)
             fail_count += 1
             failed_bands.append(band['name'])
 
-    print(f"Pistas añadidas a la playlist {playlist['name']}")
+    # print(f"Pistas añadidas a la playlist {playlist['name']}")
     return {"top_add": success_count, "top_failed": fail_count, "failed_bands": failed_bands}

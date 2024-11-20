@@ -73,15 +73,15 @@ export class ApiRequestService {
       selectedFile
     );
 
-    // preparo el header con los tokens y envio playListName y bandListCards
-    return this.http.post<any>(
-      `${this.apiUrl}/create_playlist`,
-      {
-        playlist_name: playListName,
-        bandList: bandList,
-        img: selectedFile,
-      },
-      { headers: this.headers }
-    );
+    // Crear un objeto FormData y agregar los campos
+    const formData: FormData = new FormData();
+    formData.append('playlist_name', playListName);
+    formData.append('bandList', JSON.stringify(bandList));
+    formData.append('img', selectedFile);
+
+    // Enviar la solicitud POST con FormData
+    return this.http.post<any>(`${this.apiUrl}/create_playlist`, formData, {
+      headers: this.headers,
+    });
   }
 }

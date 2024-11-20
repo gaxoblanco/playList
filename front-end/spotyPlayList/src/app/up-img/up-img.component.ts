@@ -181,9 +181,12 @@ export class UpImgComponent {
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
+    console.log('input-img', input);
 
     if (input.files && input.files.length > 0) {
       this.selectedFile = input.files[0];
+      console.log('selectedFile-img', this.selectedFile);
+
       this.loading = 'loading';
 
       // almaceno las dimeciones originales
@@ -223,6 +226,7 @@ export class UpImgComponent {
   private uploadImageToAPI(file: File): void {
     const formData = new FormData();
     formData.append('img', file);
+    console.log('formData-img', formData);
 
     this.apiRequestService.postImg(formData).subscribe({
       next: async (data: ListBand[]) => {
@@ -351,12 +355,16 @@ export class UpImgComponent {
     // valido que selectedFile no sea null
     if (this.selectedFile === null) {
       this.loading = 'error';
-      console.error('No se ha seleccionado un archivo');
+      console.error('No se ha seleccionado un archivo img');
       return;
     }
 
     console.log('Creando playlist con nombre = ', this.playListName);
-    // this.observablesService.incrementNextStep();
+    // creo el obj formData
+    const formData = new FormData();
+    formData.append('img', this.selectedFile);
+    console.log('formData-img create play', formData);
+
     // Le paso a generatePlayList el valor del input playListName
     this.apiRequestService
       .generatePlayList(

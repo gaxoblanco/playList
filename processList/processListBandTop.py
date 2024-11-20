@@ -10,14 +10,12 @@ def process_list_band_top(access_token, band_list):
         access_token (str): El token de autenticación de Spotify.
         band_list (list): Lista de bandas a procesar.
     """
-
-    # Procesar cada banda en la lista
     for band in band_list:
         try:
             print(f"Obteniendo top tracks para id {band['band_id']}...")
             # Obtener las top tracks de Spotify para la banda
             top_tracks = get_top_tracks(access_token, band['band_id'])
-            # print(f"Top tracks para {band['name']}: {top_tracks}")
+            # Añadir las top tracks al diccionario de la banda
             band['top_tracks'] = top_tracks
         except Exception as e:
             print(f"Error al obtener las top tracks para {band['name']}: {e}")
