@@ -53,24 +53,6 @@ input[type="file"].up-img-imput {
   height: 100%;
   object-fit: fill; /* Permite deformar la relación de aspecto */
 }
-.container-error {
-  display: grid;
-  justify-items: center;
-  gap: 10px;
-  text-align: center;
-  .span--error {
-    padding: 10px 20px;
-    border-radius: 20px;
-    font-size: 20px;
-    font-weight: bold;
-
-    // Estilo para la última letra
-    &::before {
-      content: attr(data-last-letter);
-      color: $alert-warning;
-    }
-  }
-}
 
 // Crear un botón personalizado
 .file-label {

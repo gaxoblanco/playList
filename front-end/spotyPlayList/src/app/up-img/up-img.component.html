@@ -56,8 +56,16 @@
         ></div>
       </figure>
       <!-- container error -->
-      <div *ngIf="loading == 'error'">
-        <!-- mensaje de error al subir la img con re intento -->
+      <app-error-container
+        *ngIf="loading == 'error'"
+        [loading]="loading"
+        [step]="step"
+        [imgSelected]="imgSelected"
+        (trayAgain)="trayAgain()"
+        (trayAgainStep1)="trayAgainStep1()"
+        (trayAgainStep2)="trayAgainStep2()"
+      ></app-error-container>
+      <!-- <div *ngIf="loading == 'error'">
         <div class="container-error" *ngIf="step == 0">
           <span *ngIf="imgSelected" class="span--error" for="file-upload"
             >Error to upload !</span
@@ -72,7 +80,6 @@
             Try again
           </button>
         </div>
-        <!-- mensaje de error al obtener el listado con las correciones -->
         <div class="container-error" *ngIf="step == 1">
           <span class="span--error" for="file-upload"
             >Error - creating the list of artists !</span
@@ -87,7 +94,6 @@
             Try again
           </button>
         </div>
-        <!-- volver a intentar crear la lista -->
         <div class="container-error" *ngIf="step == 2">
           <span class="span--error" for="file-upload"
             >Error - creating the play list !</span
@@ -102,7 +108,7 @@
             Create again
           </button>
         </div>
-      </div>
+      </div> -->
       <!-- span to start section if you don't login -->
       <span *ngIf="!requestTokenSpotify" class="popap">
         <h2>Para continuar necesitas iniciar sesion</h2>
@@ -157,7 +163,6 @@
 
   <!-- spinner to loading -->
   <div *ngIf="loading == 'loading' && step == 1">
-    <p>Step - 1</p>
     <mat-spinner></mat-spinner>
   </div>
 
@@ -175,10 +180,6 @@
       [bandList]="bandListCards"
       (hoverPosition)="updatePointerPosition($event)"
     ></app-card-band>
-  </div>
-  <!-- spinner to loading -->
-  <div *ngIf="loading == 'loading' && step == 2">
-    <mat-spinner></mat-spinner>
   </div>
 
   <!-- <div class="playlist-card" *ngIf="playlistInfo && processResult"> -->

@@ -1,0 +1,20 @@
+@import '../../../variables.scss';
+
+.container-error {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  text-align: center;
+  .span--error {
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 20px;
+    font-weight: bold;
+
+    // Estilo para la última letra
+    &::before {
+      content: attr(data-last-letter);
+      color: $alert-warning;
+    }
+  }
+}

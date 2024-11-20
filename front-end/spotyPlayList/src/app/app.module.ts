@@ -17,6 +17,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { OptionsListComponent } from './molecule/options-list/options-list.component';
 import { CardBandComponent } from './organisms/card-band/card-band.component';
+import { ErrorContainerComponent } from './organisms/error-container/error-container.component';
+
 @NgModule({
   declarations: [AppComponent, AuthCallbackComponent],
   imports: [
@@ -33,6 +35,7 @@ import { CardBandComponent } from './organisms/card-band/card-band.component';
     AppRoutingModule,
     UpImgComponent,
     CardBandComponent,
+    ErrorContainerComponent,
     OptionsListComponent,
     MatProgressSpinnerModule,
   ],

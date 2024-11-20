@@ -1,0 +1,47 @@
+<div>
+  <!-- mensaje de error al subir la img con re intento -->
+  <div class="container-error" *ngIf="step == 0">
+    <span *ngIf="imgSelected" class="span--error" for="file-upload"
+      >Error to upload !</span
+    >
+    <button
+      *ngIf="imgSelected"
+      id="file-upload"
+      class="up-img-imput"
+      type="file"
+      (click)="emitTrayAgain()"
+    >
+      Try again
+    </button>
+  </div>
+  <!-- mensaje de error al obtener el listado con las correciones -->
+  <div class="container-error" *ngIf="step == 1">
+    <span class="span--error" for="file-upload"
+      >Error - creating the list of artists !</span
+    >
+    <button
+      *ngIf="imgSelected"
+      id="file-upload"
+      class="up-img-imput"
+      type="file"
+      (click)="emitTrayAgainStep1()"
+    >
+      Try again
+    </button>
+  </div>
+  <!-- volver a intentar crear la lista -->
+  <div class="container-error" *ngIf="step == 2">
+    <span class="span--error" for="file-upload"
+      >Error - creating the play list !</span
+    >
+    <button
+      *ngIf="imgSelected"
+      id="file-upload"
+      class="up-img-imput"
+      type="file"
+      (click)="emitTrayAgainStep2()"
+    >
+      Create again
+    </button>
+  </div>
+</div>

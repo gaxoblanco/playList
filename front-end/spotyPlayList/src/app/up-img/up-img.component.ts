@@ -23,6 +23,7 @@ import { ApiRequestService } from '../services/api-request.service';
 import { CardBandComponent } from '../organisms/card-band/card-band.component';
 import { PlaylistDate } from '../models/playlist';
 import { environment } from '../../environments/environment';
+import { ErrorContainerComponent } from '../organisms/error-container/error-container.component';
 
 @Component({
   selector: 'app-up-img',
@@ -36,6 +37,7 @@ import { environment } from '../../environments/environment';
     MatIconModule,
     CommonModule,
     CardBandComponent,
+    ErrorContainerComponent,
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
