@@ -12,7 +12,15 @@ import PIL
 def reduce_image_size(img_read):
     # Obtengo el tamaño de la imagen
     img = Image.open(io.BytesIO(img_read))
-    # Obtengo cuánto kb pesa la imagen
+
+    # Convertir la imagen a JPEG si no lo es
+    if img.format != 'JPEG':
+        img = img.convert('RGB')
+
+    # Obtener el tamaño de la imagen en KB
+    img_byte_arr = io.BytesIO()
+    img.save(img_byte_arr, format='JPEG')
+    img_read = img_byte_arr.getvalue()
     img_size = len(img_read) / 1024
     print("img_size", img_size)
 

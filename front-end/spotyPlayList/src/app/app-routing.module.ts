@@ -6,7 +6,7 @@ import { UpImgComponent } from './up-img/up-img.component';
 const routes: Routes = [
   { path: 'callback', component: AuthCallbackComponent },
   {
-    path: 'up-img',
+    path: 'create-playlist',
     component: UpImgComponent,
   },
 ];

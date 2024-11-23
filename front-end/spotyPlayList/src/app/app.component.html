@@ -1,5 +1,8 @@
-<!-- button para ir a la url http://localhost:5000/login -->
-<button (click)="login()">Login</button>
-<!-- button para ir a local/up-img -->
-<button routerLink="/up-img">Subir Imagen</button>
+<div class="options-container">
+  <!-- button para ir a la url http://localhost:5000/login -->
+  <button (click)="login()">Login</button>
+  <!-- button para ir a crear una play list segun banner -->
+  <button routerLink="/create-playlist">Create Play List</button>
+  <button routerLink="/" disabled>Create schedule</button>
+</div>
 <router-outlet></router-outlet>
