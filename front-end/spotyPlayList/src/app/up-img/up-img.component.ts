@@ -24,6 +24,7 @@ import { CardBandComponent } from '../organisms/card-band/card-band.component';
 import { PlaylistDate } from '../models/playlist';
 import { environment } from '../../environments/environment';
 import { ErrorContainerComponent } from '../organisms/error-container/error-container.component';
+import { HeaderService } from '../services/header.service';
 
 @Component({
   selector: 'app-up-img',
@@ -102,10 +103,15 @@ export class UpImgComponent {
   constructor(
     private procesListService: ProcesListService,
     private apiRequestService: ApiRequestService,
-    private observablesService: ObservablesService
+    private observablesService: ObservablesService,
+    private headerService: HeaderService
   ) {}
 
   ngOnInit(): void {
+    // Actualizo headerService con la informacion del paso a realizar
+    this.headerService.updateHeader(
+      'Upload a cropped image containing a list of bands'
+    );
     // valido que tengo un token para Spotify
     this.tokenSpotify = localStorage.getItem('access_token');
     console.log('tokenSpotify', this.tokenSpotify);
@@ -237,6 +243,11 @@ export class UpImgComponent {
         this.procesListService.startGameCorrector(); // Iniciar el "game corrector"
         this.loading = 'done';
         console.log('data--data', data);
+        // Actualizo headerService con la informacion del paso a realizar
+        this.headerService.updateHeader(
+          'Review the suggested options in the interactive game and fix any errors as needed.'
+        );
+
         // Ajustar las posiciones de las bandas después de recibir la respuesta de la API
         if (data[0].img_zone) {
           this.zoneX = data[0].img_zone[0] | 0;
@@ -360,6 +371,10 @@ export class UpImgComponent {
       console.error('No se ha seleccionado un archivo img');
       return;
     }
+    // Actualizo headerService con la informacion del paso a realizar
+    this.headerService.updateHeader(
+      `Creating playlist ${this.playListName}, this can take a time.`
+    );
 
     console.log('Creando playlist con nombre = ', this.playListName);
     // creo el obj formData
@@ -386,6 +401,10 @@ export class UpImgComponent {
           this.playlistInfo.playlists.img = [
             'data:image/jpeg;base64,' + this.playlistInfo.playlists.img[0],
           ];
+          // Actualizo headerService con la informacion del paso a realizar
+          this.headerService.updateHeader(
+            `Check the final summary and consider supporting the project with a donation.`
+          );
         },
         error: (error: any) => {
           this.loading = 'error';
@@ -436,6 +455,10 @@ export class UpImgComponent {
         }
         break;
       case 1:
+        // Actualizo headerService con la informacion del paso a realizar
+        this.headerService.updateHeader('Loading the next step');
+        console.log(this.headerService.header$);
+
         this.loading = 'loading';
         // guardo el valor de postList en listb
         this.listb = this.apiRequestService.postList(
@@ -448,6 +471,10 @@ export class UpImgComponent {
             this.bandListCards = data;
             console.log('this.bandList--> ', this.bandListCards);
             this.loading = 'done';
+            // Actualizo headerService con la informacion del paso a realizar
+            this.headerService.updateHeader(
+              'Adjust the final list by removing or editing bands according to your preferences. /n Enter the name of your playlist and click "Create."'
+            );
             // actualizo el bandListCorect$
             this.observablesService.updateBandListCorect(this.bandListCards);
           },

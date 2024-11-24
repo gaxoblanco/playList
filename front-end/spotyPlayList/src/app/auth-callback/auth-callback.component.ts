@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { HeaderService } from '../services/header.service';
 
 @Component({
   selector: 'app-auth-callback',
@@ -10,12 +11,17 @@ import { AuthService } from '../services/auth.service';
 export class AuthCallbackComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private headerService: HeaderService
   ) {}
 
   accessToken: any = '';
 
   ngOnInit(): void {
+    // Actualizo headerService con la informacion del paso a realizar
+    this.headerService.updateHeader(
+      `We need you to connect to spotify to interact with your account.`
+    );
     // Obtener el access_token y refresh_token de la URL
     this.route.queryParams.subscribe((params) => {
       const refreshToken = params['refresh_token'];
@@ -24,7 +30,7 @@ export class AuthCallbackComponent implements OnInit {
         // Almacenar los tokens en el localStorage de manera segura
         // localStorage.setItem('access_token', accessToken);
         localStorage.setItem('refresh_token', refreshToken);
-        console.log('code:', code);
+        // console.log('code:', code);
 
         // le paso el authCode a handleCallback que es un observable y devuelve un array
         this.authService.handleCallback(code).subscribe((data) => {
