@@ -56,3 +56,29 @@ Result:
 -------
 A Spotify playlist is automatically generated, featuring the most popular songs of the bands attending the festival.
 
+--------------------------------
+# Tutorial for Playlist path
+**Upload the image:
+
+    Crop an image containing the list of festival bands beforehand.
+    Upload the image in the designated section of the app. Ensure the text is clear and legible.
+
+**Review suggested names:
+
+    The software will analyze the image and generate a list of potential band names.
+    You'll enter an interactive "game" where you can select, correct, or delete names as needed. This is important because recognition may not be perfect.
+
+**Confirm and adjust the list:
+
+    After finishing the process, review the final list of bands that will perform at the festival.
+    Make final adjustments: correct names, remove bands that don't belong, or delete ones you don’t want to include.
+
+**Create the playlist:
+
+    Enter a name for the playlist in the input field.
+    Click the "Create" button. The software will process the list and add the top 10 most popular songs of each band.
+
+**Finish and contribute:
+
+    You’ll receive a summary of the process, along with links to access your playlist.
+    If you’d like to support the project, you can use the available donation buttons.
