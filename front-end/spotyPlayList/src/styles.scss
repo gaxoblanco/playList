@@ -89,6 +89,23 @@ ul, li {
 .mdc-circular-progress__indeterminate-circle-graphic {
   stroke: $spotify-green !important;
 }
+//---
+.scrollable-container {
+  height: 90px; /* Altura fija del contenedor */
+  overflow: auto; /* Permite el scroll */
+}
+
+/* Ocultar la barra de desplazamiento en WebKit (Chrome, Safari) */
+.scrollable-container::-webkit-scrollbar {
+  width: 0; /* Ancho de la barra de scroll */
+  background: transparent; /* Fondo transparente para ocultar la barra */
+}
+
+/* Ocultar la barra de desplazamiento en Firefox */
+.scrollable-container {
+  scrollbar-width: none; /* Para Firefox */
+}
+//-----------------//
 .info--container {
   display: grid;
   justify-content: center;

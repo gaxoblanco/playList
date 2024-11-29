@@ -18,6 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { OptionsListComponent } from './molecule/options-list/options-list.component';
 import { CardBandComponent } from './organisms/card-band/card-band.component';
 import { ErrorContainerComponent } from './organisms/error-container/error-container.component';
+import { PlaylistinfoComponent } from './organisms/playlistinfo/playlistinfo.component';
 
 @NgModule({
   declarations: [AppComponent, AuthCallbackComponent],
@@ -38,6 +39,7 @@ import { ErrorContainerComponent } from './organisms/error-container/error-conta
     ErrorContainerComponent,
     OptionsListComponent,
     MatProgressSpinnerModule,
+    PlaylistinfoComponent,
   ],
   providers: [
     AuthService, // Añadir el servicio de autenticación como proveedor

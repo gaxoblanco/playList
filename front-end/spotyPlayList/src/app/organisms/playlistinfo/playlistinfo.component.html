@@ -1,0 +1,54 @@
+<!-- <div class="playlist-card" *ngIf="playlistInfo && processResult"> -->
+<mat-card class="playlist-card mat-card" *ngIf="step === 3">
+  <div class="playlist-image--container">
+    <figure class="playlist-image">
+      <img
+        [src]="playlistInfo.playlists.img[0]"
+        [alt]="playlistInfo.playlists.name"
+      />
+    </figure>
+    <div class="playlist-title">
+      <h2>{{ playlistInfo.playlists.name }}</h2>
+    </div>
+  </div>
+  <div>
+    <div class="playlist--info-container">
+      <h3 class="playlist--h3">Process information</h3>
+      <p>Result: {{ playlistInfo.bandInfo.top_add }} bands added</p>
+      <p>{{ playlistInfo.bandInfo.top_failed }} bands couldn't be added</p>
+    </div>
+    <div class="playlist--scroll-container">
+      <h3>Bands that could not been found</h3>
+      <div class="scrollable-container">
+        <ul class="ul">
+          <li
+            class="li"
+            *ngFor="let band of playlistInfo.bandInfo.failed_bands"
+          >
+            {{ band }}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <a class="mat-button" [href]="playlistInfo.playlists.href" target="_blank"
+      >Listen to playlist</a
+    >
+    <p class="coffee-title">
+      If you found this useful, please consider donating to support the
+    </p>
+    <div class="coffee-container">
+      <a
+        class="mat-button"
+        href="https://paypal.me/gaxoblanco?country.x=AR&locale.x=es_XC"
+        target="_blank"
+        >PayPal
+      </a>
+      <a
+        class="mat-button"
+        href="https://link.mercadopago.com.ar/festivalmusic"
+        target="_blank"
+        >Mercado Pago
+      </a>
+    </div>
+  </div>
+</mat-card>

@@ -124,23 +124,6 @@ mat-chip {
   object-fit: cover;
   border-radius: 8px;
 }
-//---
-.scrollable-container {
-  height: 90px; /* Altura fija del contenedor */
-  overflow: auto; /* Permite el scroll */
-}
-
-/* Ocultar la barra de desplazamiento en WebKit (Chrome, Safari) */
-.scrollable-container::-webkit-scrollbar {
-  width: 0; /* Ancho de la barra de scroll */
-  background: transparent; /* Fondo transparente para ocultar la barra */
-}
-
-/* Ocultar la barra de desplazamiento en Firefox */
-.scrollable-container {
-  scrollbar-width: none; /* Para Firefox */
-}
-//-----------------//
 
 /* Media queries para hacer el diseño más responsivo */
 @media (max-width: 600px) {
@@ -315,99 +298,6 @@ mat-chip {
 }
 
 
-// ---- band-list
-.playlist-card {
-  display: grid;
-  grid-template-columns: 1fr;
-  // align-items: center;
-  justify-content: center;
-  padding: 20px;
-  border-radius: 20px;
-  grid-gap: 20px;
-  background-color: $spotify-dark-gray;
-  h2 {
-    font-size: 26px;
-    text-align: center;
-  }
-  .playlist-image {
-    width: 100%;
-    padding-top: 100%;
-    border: none;
-    border-radius: 18px;
-    background-color: $spotify-gray;
-    text-align: center;
-    position: relative;
-    img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover; /* Esto asegura que la imagen cubra todo el contenedor manteniendo la relación de aspecto */
-    }
-    &--container {
-      position: relative;
-    }
-  }
-  .playlist-title {
-    position: absolute;
-    top: 93%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    background: $spotify-dark-deep-gray;
-    padding-top: 16px;
-    border-radius: 0 0 12px 12px;
-  }
-  .playlist--info-container {
-    margin-bottom: 18px;
-    border-bottom: 1px solid $spotify-gray;
-  }
-  .playlist--scroll-container {
-    margin-bottom: 26px;
-    @media (min-width: 961px) {
-      margin-bottom: 22px;
-    }
-  }
-  .playlist--h3 {
-    display: none;
-  }
-  .coffee-title {
-    color: $spotify-light-gray;
-    margin: 20px 0;
-  }
-  .coffee-container {
-    display: flex;
-    justify-content: space-between;
-    .mat-button {
-      background-color: $spotify-gray;
-    }
-  }
-  .mat-button {
-    text-decoration: none;
-    text-align: center;
-  }
-  .scrollable-container {
-    height: 100px;
-  }
-  .ul {
-    padding: 0;
-  }
-  .li {
-    padding-bottom: 8px;
-    margin-top: 8px;
-    border-bottom: 1px solid $spotify-gray;
-    padding-left: 20px;
-  }
-  @media (min-width: 961px) {
-    grid-template-columns: 1fr 1fr;
-    .playlist--h3 {
-      display: block;
-      font-size: 20px;
-      text-align: center;
-    }
-  }
-}
 
 .spinner-position {
   position: absolute;

@@ -25,6 +25,7 @@ import { PlaylistDate } from '../models/playlist';
 import { environment } from '../../environments/environment';
 import { ErrorContainerComponent } from '../organisms/error-container/error-container.component';
 import { HeaderService } from '../services/header.service';
+import { PlaylistinfoComponent } from '../organisms/playlistinfo/playlistinfo.component';
 
 @Component({
   selector: 'app-up-img',
@@ -36,7 +37,6 @@ import { HeaderService } from '../services/header.service';
     MatCardModule,
     MatChipsModule,
     MatIconModule,
-    CommonModule,
     CardBandComponent,
     ErrorContainerComponent,
     FormsModule,
@@ -44,6 +44,7 @@ import { HeaderService } from '../services/header.service';
     MatInputModule,
     MatButtonModule,
     MatProgressSpinnerModule,
+    PlaylistinfoComponent,
   ],
 })
 export class UpImgComponent {

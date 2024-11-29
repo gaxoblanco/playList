@@ -7,6 +7,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -24,7 +25,7 @@ import { FormsModule } from '@angular/forms';
 import { ListBand, optionBand } from 'src/app/models/list_band';
 import { ApiRequestService } from 'src/app/services/api-request.service';
 import { OptionsListComponent } from 'src/app/molecule/options-list/options-list.component';
-
+// import { addBandImg } from '../../../assets/addBand.jpg';
 @Component({
   selector: 'app-card-band',
   standalone: true,
@@ -112,8 +113,33 @@ export class CardBandComponent {
   activeCardIndex: number | null = null;
   isHovered: boolean = false;
   timeoutId: any;
+  // add new band
+  addBand: ListBand = {
+    band_id: '0',
+    name: 'Add band',
+    genres: ['Add extra band for your Play List'],
+    img_zone: [0, 0, 0, 0],
+    img: '../../../assets/addBand.jpg',
+  };
+  addBandHtml: string = '';
+  constructor(
+    private apiRequestService: ApiRequestService,
+    private http: HttpClient
+  ) {}
 
-  constructor(private apiRequestService: ApiRequestService) {}
+  ngOnInit(): void {
+    // una vez cargado bandList en el ultimo elemento le agrego , elemento mas
+    this.http
+      .get('assets/addBand.html', { responseType: 'text' })
+      .subscribe((data) => {
+        this.addBandHtml = data;
+      });
+    if (this.bandList.length > 0) {
+      const lastBand = this.bandList[this.bandList.length - 1];
+      this.addBand.img_zone = lastBand.img_zone;
+      this.bandList.push(this.addBand);
+    }
+  }
 
   // --- obtener lista de opciones
   getOptions(name: string, img_zone: [number, number, number, number]): void {
@@ -136,7 +162,7 @@ export class CardBandComponent {
   toggleOptions(
     index: number,
     name: string,
-    img_zone: [number, number, number, number] | undefined
+    img_zone: [number, number, number, number]
   ): void {
     const safeImgZone: [number, number, number, number] = img_zone ?? [
       0, 0, 0, 0,
@@ -154,6 +180,7 @@ export class CardBandComponent {
       this.startTimeout();
     }
   }
+
   // --- Borrar la opción seleccionada
   deleteOpcion(index: number): void {
     // valido que bandList tenga elementos
@@ -165,10 +192,10 @@ export class CardBandComponent {
   onCardHover(index: number, event: MouseEvent): void {
     const hoverElement = this.bandList[index];
     const positionArray = hoverElement.img_zone; // Assuming this is the array
-    console.log('position index --> ', index);
-    console.log('this band list --> ', this.bandList);
+    // console.log('position index --> ', index);
+    // console.log('this band list --> ', this.bandList);
 
-    console.log('positionArray-->', positionArray);
+    // console.log('positionArray-->', positionArray);
 
     // Emit the position array
     if (Array.isArray(positionArray) && positionArray.length >= 2) {

@@ -27,6 +27,15 @@ export class OptionsListComponent {
   @Input() index!: number; // Recibe el índice 'i' desde el padre
   upListByIndex: ListBand[] = [];
 
+  // add new band
+  addBand: ListBand = {
+    band_id: '0',
+    name: 'Add band',
+    genres: ['Add extra band for your Play List'],
+    img_zone: [0, 0, 0, 0],
+    img: '../../../assets/addBand.jpg',
+  };
+
   constructor(
     private observablesService: ObservablesService,
     private upImgComponent: UpImgComponent
@@ -35,7 +44,7 @@ export class OptionsListComponent {
   changBand(index: number): void {
     console.log('changBand->index:', index);
 
-    const bandListCorectSubject = this.observablesService['bandListCorect$'];
+    // const bandListCorectSubject = this.observablesService['bandListCorect$'];
     // Valido que llega el index
     if (index === undefined || index === null) {
       console.error('index is undefined or null');
@@ -43,14 +52,12 @@ export class OptionsListComponent {
     }
     // Validar que this.band no sea undefined o null
     if (this.band) {
-      // imprimo el valor de band y index
-      // console.log('band:', this.band);
-      // console.log('index:', index);
-
       // guardo la lista actual en una variable temporal
       this.upListByIndex = this.observablesService['bandListCorect'].getValue();
       // actualizo la lista temporal con el valor de this.band segun el index
       this.upListByIndex[index] = this.band;
+      // Agrego el obj para que el usuario agrege una banda mas
+      this.upListByIndex.push(this.addBand);
 
       // actualizo la lista con la funcion updateBandListCorect
       this.observablesService.updateBandListCorect(this.upListByIndex);
