@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { environment } from '../environments/environment';
 import { HeaderService } from './services/header.service';
 
@@ -7,10 +7,14 @@ import { HeaderService } from './services/header.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   headerText: string = 'SpotyPlayList';
-  constructor(private headerService: HeaderService) {}
   title = 'spotyPlayList';
+
+  constructor(
+    private headerService: HeaderService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   // funcion login que llama la url http://localhost:5000/login
   login() {
@@ -26,6 +30,7 @@ export class AppComponent {
   textHeader() {
     this.headerService.header$.subscribe((header) => {
       this.headerText = header;
+      this.cdr.detectChanges(); // Forzar la detección de cambios
     });
   }
 }
