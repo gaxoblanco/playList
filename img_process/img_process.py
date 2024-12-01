@@ -72,6 +72,8 @@ def get_text_zones(img):
 
 # Función para asociar texto limpio con zonas detectadas
 
+# Creo que la funcion associate_text_with_zones_grid no se usa mas
+
 
 def associate_text_with_zones_grid(band_array, image_size, padding=10):
     """
@@ -196,13 +198,4 @@ def main(img):
     associated_data = obtener_posiciones_nombres(first_array_band, band_zone)
     print("\nTexto asociado a sus zonas:\n", associated_data)
 
-    # # obtengo el image_size de la img subida
-    # image_size = img_cv.shape
-
-    # # Asociar el texto limpio con sus zonas
-    # associated_data = associate_text_with_zones_grid(
-    #     first_array_band, image_size)
-    # # print("\nTexto asociado a sus zonas:\n", associated_data)
-
-    # Retorna el texto detectado en formato JSON
     return associated_data
