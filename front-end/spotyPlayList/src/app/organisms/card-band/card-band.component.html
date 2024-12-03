@@ -4,6 +4,7 @@
     *ngFor="let band of bandList; let i = index"
     class="band-card"
     (mouseenter)="onCardHover(i, $event)"
+    [appMobileClick]="getSaludoFunction(i)"
   >
     <div class="band-card--header">
       <button
@@ -46,7 +47,7 @@
         }}</mat-card-title>
         <mat-card-subtitle
           class="scrollable-container"
-          *ngIf="band.genres!.length > 0"
+          *ngIf="band.genres && band.genres.length > 0"
         >
           <span class="genre-label" *ngFor="let genre of band.genres">{{
             genre

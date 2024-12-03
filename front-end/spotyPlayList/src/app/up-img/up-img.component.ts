@@ -205,31 +205,6 @@ export class UpImgComponent {
     });
   }
   //----------**************-----------------********---------
-  // Ajustar las posiciones en base a una img ajutada con ratio 1/1
-  // adjustBandPositions(): void {
-  //   if (!this.imgRef?.nativeElement) {
-  //     console.error('No se ha podido obtener la referencia de la imagen');
-  //     return;
-  //   }
-
-  //   this.originalImgWidth = this.imgRef.nativeElement.width;
-  //   this.originalImgHeight = this.imgRef.nativeElement.height;
-
-  //   const ratioX = this.originalImgWidth / this.imgWidth;
-  //   const ratioY = this.originalImgHeight / this.imgHeight;
-
-  //   this.boxX = this.zoneX * ratioX - 5;
-  //   this.boxY = this.zoneY * ratioY - 3;
-  //   this.boxX2 = this.zoneX2 * 3 * ratioX;
-  //   this.boxY2 = this.zoneY2 * 3 * ratioY;
-
-  //   console.log('Ajustando posiciones:', {
-  //     boxX: this.boxX,
-  //     boxY: this.boxY,
-  //     boxX2: this.boxX2,
-  //     boxY2: this.boxY2,
-  //   });
-  // }
 
   // Método que actualizará la posición del puntero
   updatePointerPosition(positionArray: Array<number>): void {

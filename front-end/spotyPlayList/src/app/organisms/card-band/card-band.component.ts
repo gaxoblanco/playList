@@ -12,7 +12,6 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import {
   trigger,
   state,
@@ -25,7 +24,8 @@ import { FormsModule } from '@angular/forms';
 import { ListBand, optionBand } from 'src/app/models/list_band';
 import { ApiRequestService } from 'src/app/services/api-request.service';
 import { OptionsListComponent } from 'src/app/molecule/options-list/options-list.component';
-// import { addBandImg } from '../../../assets/addBand.jpg';
+import { MobileClickDirective } from 'src/app/directive/mobile-click.directive';
+
 @Component({
   selector: 'app-card-band',
   standalone: true,
@@ -58,6 +58,7 @@ import { OptionsListComponent } from 'src/app/molecule/options-list/options-list
     CommonModule,
     OptionsListComponent,
     FormsModule,
+    MobileClickDirective,
   ],
 })
 export class CardBandComponent {
@@ -65,7 +66,11 @@ export class CardBandComponent {
   //  posicionamiento del puntero en img con bandList[0].img_zone
   @Output() hoverPosition = new EventEmitter<Array<number>>();
   @ViewChild('bandListOptions', { static: false }) bandListOptions!: ElementRef;
-
+  @HostListener('click', ['$event'])
+  onCardClick(event: Event): void {
+    // Some logic here
+    console.log(this.optionsBand); // Correct usage
+  }
   optionsBand: ListBand[] = [
     // 1 cargando
     {
@@ -77,6 +82,7 @@ export class CardBandComponent {
           url: 'Cargando...',
         },
       ],
+      genres: ['Cargando...'],
       img_zone: [0, 0, 0, 0],
       img: 'https://via.placeholder.com/150',
     },
@@ -90,6 +96,7 @@ export class CardBandComponent {
           url: 'Cargando...',
         },
       ],
+      genres: ['Cargando...'],
       img_zone: [0, 0, 0, 0],
       img: 'https://via.placeholder.com/150',
     },
@@ -104,6 +111,7 @@ export class CardBandComponent {
         },
       ],
       img_zone: [0, 0, 0, 0],
+      genres: ['Cargando...'],
       img: 'https://via.placeholder.com/150',
     },
   ];
@@ -205,11 +213,21 @@ export class CardBandComponent {
     }
   }
 
+  saludo(i: number): void {
+    console.log(`Saludo ${i}`);
+  }
+
+  getSaludoFunction(i: number): () => void {
+    return () => this.saludo(i);
+  }
+
   //----------------------------------------------------------------
   // Método para manejar el hover
   @HostListener('mouseenter', ['$event'])
   onMouseEnter() {
     this.isHovered = true;
+    console.log('hover');
+
     if (this.timeoutId) {
       clearTimeout(this.timeoutId);
     }

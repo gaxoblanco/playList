@@ -138,8 +138,6 @@ mat-chip {
 /* Media queries para hacer el diseño más responsivo */
 @media (max-width: 600px) {
   .band-inf--container {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
     .band-card--title {
       font-size: 0.8rem;
       line-height: 1.2;
@@ -148,10 +146,50 @@ mat-chip {
     }
   }
 }
+@media (max-width: 960px) {
+  .band-inf--container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    height: 140px;
+    figure {
+      width: 100px;
+      height: 140px;
+    }
+  }
+  .band-card--header {
+    top: -100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 10px 2px;
+  }
+  .band-card:hover {
+    transform: scale(1);
+    .band-card--header {
+      position: absolute;
+      top: -60px;
+      display: flex;
+      gap: 12px;
+    }
+    .band-card--footer{
+      position: absolute;
+      width: 100%;
+    }
+    .footer--active {
+      bottom: 0px;
+    }
+    .footer--inactive {
+      bottom: 0;
+      background-color: purple;
+      display: none;
+    }
+  }
+}
 
 @media (min-width: 601px) and (max-width: 960px) {
   .band-inf--container {
-        display: grid;
+    display: grid;
     grid-template-columns: 1fr 2fr;
     .band-image {
       width: 100px;
@@ -210,6 +248,11 @@ mat-chip {
   .band-list {
     overflow-y: auto;
     overflow-x: hidden;
+  }
+}
+@media (max-width: 960px) {
+  .band-list {
+    padding-top: 80px;
   }
 }
 
