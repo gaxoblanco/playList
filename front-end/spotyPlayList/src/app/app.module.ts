@@ -19,6 +19,7 @@ import { OptionsListComponent } from './molecule/options-list/options-list.compo
 import { CardBandComponent } from './organisms/card-band/card-band.component';
 import { ErrorContainerComponent } from './organisms/error-container/error-container.component';
 import { PlaylistinfoComponent } from './organisms/playlistinfo/playlistinfo.component';
+import { MobileClickDirective } from './directive/mobile-click.directive';
 
 @NgModule({
   declarations: [AppComponent, AuthCallbackComponent],
@@ -40,6 +41,7 @@ import { PlaylistinfoComponent } from './organisms/playlistinfo/playlistinfo.com
     OptionsListComponent,
     MatProgressSpinnerModule,
     PlaylistinfoComponent,
+    MobileClickDirective,
   ],
   providers: [
     AuthService, // Añadir el servicio de autenticación como proveedor

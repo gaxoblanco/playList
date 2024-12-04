@@ -100,17 +100,7 @@ mat-chip {
   background: none;
 }
 
-.band-inf--container {
-  width: 100%; /* Cambiado a 100% para pantallas pequeñas */
-  max-width: 300px; /* Ancho máximo para pantallas más grandes */
-  background-color: #1e1e1e; /* Color de fondo similar al de Spotify */
-  color: white; /* Texto en color blanco */
-  border-radius: 8px; /* Bordes redondeados */
-  overflow: hidden; /* Para recortar el contenido */
-  transition: transform 0.2s; /* Efecto de transformación suave */
-  border: 1px solid #535353; /* Borde delgado */
-  margin-bottom: 6px;
-}
+
 
 .band-card:hover {
   transform: scale(1.05); /* Efecto de hover */
@@ -154,23 +144,11 @@ mat-chip {
 
 /* Media queries para hacer el diseño más responsivo */
 @media (max-width: 600px) {
-  .band-inf--container {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-  }
   .img-container, .img-container--selected {
     max-width: 280px;
   }
 }
-@media (min-width: 601px) and (max-width: 960px) {
-  .band-inf--container {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-  }
-  .band-inf--container .band-image {
-    width: 100px;
-  }
-}
+
 @media (max-width: 960px) {
   .container--up_img {
     display: grid;
@@ -197,9 +175,6 @@ mat-chip {
   }
   .container--up_img:not(.double-column) {
     grid-template-columns: 1fr;
-  }
-  .band-inf--container {
-    height: 300px;
   }
   .band-inf--container .scrollable-container {
     height: 100%;

@@ -5,7 +5,9 @@ import {
   HostListener,
   Input,
   Output,
+  QueryList,
   ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -66,11 +68,7 @@ export class CardBandComponent {
   //  posicionamiento del puntero en img con bandList[0].img_zone
   @Output() hoverPosition = new EventEmitter<Array<number>>();
   @ViewChild('bandListOptions', { static: false }) bandListOptions!: ElementRef;
-  @HostListener('click', ['$event'])
-  onCardClick(event: Event): void {
-    // Some logic here
-    console.log(this.optionsBand); // Correct usage
-  }
+  @ViewChildren('bandCard') bandCards!: QueryList<ElementRef>;
   optionsBand: ListBand[] = [
     // 1 cargando
     {
@@ -121,6 +119,7 @@ export class CardBandComponent {
   activeCardIndex: number | null = null;
   isHovered: boolean = false;
   timeoutId: any;
+  activeElement: boolean = false;
   // add new band
   addBand: ListBand = {
     band_id: '0',
@@ -213,14 +212,64 @@ export class CardBandComponent {
     }
   }
 
-  saludo(i: number): void {
+  saludo(
+    i: number,
+    name: string,
+    img_zone: [number, number, number, number]
+  ): void {
     console.log(`Saludo ${i}`);
+    const positionArray = img_zone;
+    // Emit the position array
+    if (Array.isArray(positionArray) && positionArray.length >= 2) {
+      this.hoverPosition.emit(positionArray);
+    } else {
+      console.error('Invalid position array:', positionArray);
+    }
+
+    const cardElement = document.querySelector(`.band-card-${i}`);
+    if (this.activeCardIndex === i) {
+      this.activeCardIndex = null; // Desactiva si se hace clic de nuevo
+      cardElement?.classList.remove('active');
+    } else {
+      if (this.activeCardIndex !== null) {
+        const previousCardElement = document.querySelector(
+          `.band-card-${this.activeCardIndex}`
+        );
+        previousCardElement?.classList.remove('active');
+      }
+      this.activeCardIndex = i; // Activa la tarjeta seleccionada
+      cardElement?.classList.add('active');
+      const editedName = name;
+      this.getOptions(editedName, img_zone); // Llama a getOptions con el nombre editado
+      console.log('editetName-->', editedName);
+      // limpio el formulario
+      this.editedNames = '';
+      // Enfoca el input en el siguiente ciclo de detección
+      setTimeout(() => {
+        const input = document.querySelector(
+          `.band-card-${i} .band-name-input`
+        ) as HTMLInputElement;
+        if (input) {
+          input.focus();
+        }
+      });
+    }
   }
 
   getSaludoFunction(i: number): () => void {
-    return () => this.saludo(i);
+    return () => {
+      this.saludo(i, this.bandList[i].name, this.bandList[i].img_zone);
+      this.scrollToActiveCard(i);
+    };
   }
-
+  scrollToActiveCard(i: number): void {
+    if (this.bandCards && this.bandCards.length > i) {
+      const activeCard = this.bandCards.toArray()[i]?.nativeElement;
+      if (activeCard) {
+        activeCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  }
   //----------------------------------------------------------------
   // Método para manejar el hover
   @HostListener('mouseenter', ['$event'])

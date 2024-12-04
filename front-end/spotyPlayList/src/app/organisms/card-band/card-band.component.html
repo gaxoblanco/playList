@@ -2,9 +2,9 @@
 <div class="band-list" *ngIf="bandList.length > 0">
   <mat-card
     *ngFor="let band of bandList; let i = index"
-    class="band-card"
+    class="band-card band-card-{{ i }}"
     (mouseenter)="onCardHover(i, $event)"
-    [appMobileClick]="getSaludoFunction(i)"
+    #bandCard
   >
     <div class="band-card--header">
       <button
@@ -31,7 +31,11 @@
         <mat-icon>delete</mat-icon>
       </button>
     </div>
-    <div class="band-inf--container">
+    <div
+      class="band-inf--container"
+      [appMobileClick]="getSaludoFunction(i)"
+      (click)="$event.stopPropagation()"
+    >
       <figure>
         <img class="band-image" [src]="band.img" [alt]="band.name" />
       </figure>
