@@ -522,7 +522,7 @@ export class UpImgComponent {
             this.loading = 'done';
             // Actualizo headerService con la informacion del paso a realizar
             this.headerService.updateHeader(
-              'Adjust the final list by removing or editing bands according to your preferences. /n Enter the name of your playlist and click "Create."'
+              'Adjust the final list by removing or editing bands according to your preferences. \n Enter the name of your playlist and click "Create."'
             );
             // actualizo el bandListCorect$
             this.observablesService.updateBandListCorect(this.bandListCards);
