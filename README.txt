@@ -82,3 +82,11 @@ A Spotify playlist is automatically generated, featuring the most popular songs 
 
     You’ll receive a summary of the process, along with links to access your playlist.
     If you’d like to support the project, you can use the available donation buttons.
+
+------
+# Formato de los Obj
+** associated_data
+associated_data = {'name': 'tex in img', 'band_id': 'id by platform', 'img_zone': [X, Y, W, H]}
+
+** text_zone
+text_zone = {'text': 'tex in img', 'position': (X, Y, W, H)}

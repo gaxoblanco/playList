@@ -19,7 +19,7 @@ from PIL import Image
 import matplotlib.pyplot as plt
 
 from img_process.extract_names import clean_and_split_text, limpiar_array, obtener_posiciones_nombres
-
+from img_process.color_detection import get_dominant_color, best_contrast_color
 
 if platform.system() == "Windows":
     pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
@@ -169,6 +169,7 @@ def main(img):
     """
     # Lee la imagen desde el objeto FileStorage en un array de NumPy
     img_array = np.frombuffer(img.read(), np.uint8)
+    # Leer la imagen en formato OpenCV
     img_cv = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
 
     # Procesar la imagen
@@ -195,7 +196,24 @@ def main(img):
     # valido que sea un array y imprimo su longitud
     print("first_array_bnand:", )
 
+    # Associa el nombre completo con las zonas detectadas
     associated_data = obtener_posiciones_nombres(first_array_band, band_zone)
     print("\nTexto asociado a sus zonas:\n", associated_data)
 
-    return associated_data
+    # Detectar color predominante
+    dominant_color = get_dominant_color(img_cv)
+    print("Color predominante (fondo):", dominant_color)
+
+    # Calcular color de contraste
+    contrast_color = best_contrast_color(dominant_color)
+    print("Color sugerido para texto:", contrast_color)
+
+    # Preparar respuesta final en JSON
+    # Preparar respuesta final en JSON
+    result = {
+        "associated_data": associated_data,
+        # "dominant_color": dominant_color,
+        "contrast_color": contrast_color  # Convert set to list
+    }
+
+    return result

@@ -56,6 +56,7 @@ export class UpImgComponent {
   zoneY2: number = 0;
   originalImgWidth: number = 0;
   originalImgHeight: number = 0;
+  colorPointer: string = 'red';
 
   // Información de la playlist
   playlistInfo: PlaylistDate = {
@@ -276,9 +277,11 @@ export class UpImgComponent {
     console.log('formData-img', formData);
 
     this.apiRequestService.postImg(formData).subscribe({
-      next: async (data: ListBand[]) => {
-        localStorage.setItem('BandList', JSON.stringify(data)); // Guardar la lista de bandas en localStorage
-        this.observablesService.updateOptionList(data); // Actualizar el observable con la lista de bandas
+      next: async (data: any) => {
+        const bandList: ListBand[] = data.associated_data; // Extraer la lista de bandas de la respuesta
+        this.colorPointer = data.contrast_color; // Obtengo el color que mejor contrasta con la img subida
+        localStorage.setItem('BandList', JSON.stringify(bandList)); // Guardar la lista de bandas en localStorage
+        this.observablesService.updateOptionList(bandList); // Actualizar el observable con la lista de bandas
         this.procesListService.startGameCorrector(); // Iniciar el "game corrector"
         this.loading = 'done';
         console.log('data--data', data);
