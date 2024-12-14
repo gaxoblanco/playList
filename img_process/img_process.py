@@ -11,6 +11,7 @@ https://colab.research.google.com/drive/1cZrU05ua1Qm7BGkRQe9MJKDbvCdozF-7#scroll
 # pip install pytesseract
 # C:\Program Files\Tesseract-OCR
 
+import base64
 import cv2
 import numpy as np
 import pytesseract
@@ -163,14 +164,21 @@ def extract_text_by_zones(image, zones):
     return extracted_texts
 
 
-def main(img):
+def main(img64):
     """
     Función principal para procesar la imagen.
     """
-    # Lee la imagen desde el objeto FileStorage en un array de NumPy
-    img_array = np.frombuffer(img.read(), np.uint8)
-    # Leer la imagen en formato OpenCV
-    img_cv = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
+    # Verifica si la cadena tiene el prefijo correcto
+    if ',' in img64:
+        # Decodifica la parte Base64
+        img_data = base64.b64decode(img64.split(',')[1])
+    else:
+        raise ValueError(
+            "El formato de la imagen no es válido. No se encontró el prefijo esperado.")
+    # Decodifico la imagen base64
+    # img_data = base64.b64decode(img64.split(',')[1])
+    img = np.frombuffer(img_data, np.uint8)
+    img_cv = cv2.imdecode(img, cv2.IMREAD_COLOR)
 
     # Procesar la imagen
     clean_img = preprocess_image(img_cv)
@@ -181,7 +189,7 @@ def main(img):
 
     # Usar Tesseract para extraer texto
     texto = pytesseract.image_to_string(clean_img_pil)
-    print("\nTexto detectado:\n", texto)
+    # print("\nTexto detectado:\n", texto)
 
     # Detectar zonas de texto
     text_zones = get_text_zones(clean_img_pil)
@@ -198,22 +206,22 @@ def main(img):
 
     # Associa el nombre completo con las zonas detectadas
     associated_data = obtener_posiciones_nombres(first_array_band, band_zone)
-    print("\nTexto asociado a sus zonas:\n", associated_data)
+    print("\nTexto asociado a sus zonas:\n")
 
     # Detectar color predominante
     dominant_color = get_dominant_color(img_cv)
-    print("Color predominante (fondo):", dominant_color)
+    print("Color predominante (fondo):\n")
 
     # Calcular color de contraste
     contrast_color = best_contrast_color(dominant_color)
-    print("Color sugerido para texto:", contrast_color)
+    print("Color sugerido para texto:\n")
 
-    # Preparar respuesta final en JSON
     # Preparar respuesta final en JSON
     result = {
         "associated_data": associated_data,
         # "dominant_color": dominant_color,
         "contrast_color": contrast_color  # Convert set to list
     }
+    print("\nRespuesta final:\n", result)
 
     return result

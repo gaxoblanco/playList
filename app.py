@@ -7,6 +7,8 @@ import os
 from dotenv import load_dotenv
 from urllib.parse import urlencode
 import secrets
+
+import numpy as np
 from spotifyApi.spotify_auth import get_access_token, get_authorization_code
 from spotifyApi.spotify_api import create_playlist, search_option, get_top_tracks, get_user_id, upload_playlist_cover
 from processList.processListBandId import process_list_band_id
@@ -86,12 +88,15 @@ def up_img():
     """
     Sube una imagen a la API.
     """
-    # obtengo la img de la body
-    img = request.files['img']
-    print("img:", img)
+    # Valido que la img esté en el body
+    if 'img' not in request.form:
+        return jsonify({"error": "No image part"}), 400
+
+    # Obtengo la img del body
+    img64 = request.form['img']
 
     # proceso la img con /img_process/img_process.main y espero la respuesta que va a demorar unos segundos
-    img_json = main(img)
+    img_json = main(img64)
     # print("img_json-->:", img_json)
     # Antes de devolver el listado lo parseo
 
