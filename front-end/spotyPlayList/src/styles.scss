@@ -6,6 +6,7 @@ body { margin: 0; font-family: 'Montserrat', sans-serif; }
 // Tipografía
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
 @import './variables.scss';
+@import './cropper.scss';
 body {
   background-color: black;
   color: $white;

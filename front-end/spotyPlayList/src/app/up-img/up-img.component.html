@@ -39,7 +39,7 @@
         />
       </div>
       <!-- Contenedor para la imagen -->
-      <figure class="image-figure" *ngIf="imgSelected && loading == 'done'">
+      <figure class="image-figure" *ngIf="imgSelected && loading != 'loading'">
         <img
           #imgRef
           class="img-container--selected"
@@ -68,55 +68,19 @@
         (trayAgainStep1)="trayAgainStep1()"
         (trayAgainStep2)="trayAgainStep2()"
       ></app-error-container>
-      <!-- <div *ngIf="loading == 'error'">
-        <div class="container-error" *ngIf="step == 0">
-          <span *ngIf="imgSelected" class="span--error" for="file-upload"
-            >Error to upload !</span
-          >
-          <button
-            *ngIf="imgSelected"
-            id="file-upload"
-            class="up-img-imput"
-            type="file"
-            (click)="trayAgain()"
-          >
-            Try again
-          </button>
-        </div>
-        <div class="container-error" *ngIf="step == 1">
-          <span class="span--error" for="file-upload"
-            >Error - creating the list of artists !</span
-          >
-          <button
-            *ngIf="imgSelected"
-            id="file-upload"
-            class="up-img-imput"
-            type="file"
-            (click)="trayAgainStep1()"
-          >
-            Try again
-          </button>
-        </div>
-        <div class="container-error" *ngIf="step == 2">
-          <span class="span--error" for="file-upload"
-            >Error - creating the play list !</span
-          >
-          <button
-            *ngIf="imgSelected"
-            id="file-upload"
-            class="up-img-imput"
-            type="file"
-            (click)="trayAgainStep2()"
-          >
-            Create again
-          </button>
-        </div>
-      </div> -->
       <!-- span to start section if you don't login -->
       <span *ngIf="!requestTokenSpotify" class="popap">
         <h2>Para continuar necesitas iniciar sesion</h2>
         <button (click)="login()">Iniciar Sesion</button>
       </span>
+      <!-- Botón para recortar y enviar la imagen -->
+      <button
+        id="confirmCropButton"
+        *ngIf="imgSelected && bandListCards.length == 0 && loading == 'up'"
+        (click)="waitForCrop()"
+      >
+        Recortar y Enviar
+      </button>
     </mat-card-header>
   </div>
   <!-- Spinner to search bandErrorList -->

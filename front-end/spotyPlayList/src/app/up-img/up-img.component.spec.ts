@@ -8,7 +8,7 @@ describe('UpImgComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [UpImgComponent]
+      declarations: [UpImgComponent],
     });
     fixture = TestBed.createComponent(UpImgComponent);
     component = fixture.componentInstance;

@@ -9,8 +9,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { LoadingModel } from '../models/loading';
+import Cropper from 'cropperjs';
 
+import { LoadingModel } from '../models/loading';
 import { ProcesListService } from '../services/proces-list.service';
 import { ObservablesService } from '../services/observables.service';
 import { ListBand } from '../models/list_band';
@@ -43,7 +44,7 @@ import { PlaylistinfoComponent } from '../organisms/playlistinfo/playlistinfo.co
   ],
 })
 export class UpImgComponent {
-  @ViewChild('imgRef') imgRef!: ElementRef<HTMLImageElement>;
+  @ViewChild('imgRef', { static: false }) imgRef!: ElementRef<HTMLImageElement>;
 
   // Posiciones y dimensiones de la imagen
   boxX: number = 0;
@@ -115,36 +116,7 @@ export class UpImgComponent {
     this.initializeObservables();
     this.validateSpotifyToken();
     this.clearLocalStorage();
-
-    // // Actualizo headerService con la informacion del paso a realizar
-    // this.headerService.updateHeader(
-    //   'Upload a cropped image containing a list of bands'
-    // );
-    // // valido que tengo un token para Spotify
-    // this.tokenSpotify = localStorage.getItem('access_token');
-    // console.log('tokenSpotify', this.tokenSpotify);
-
-    // // clean localStorage
-    // localStorage.removeItem('uploadedImage');
-
-    // // Obersvo y voy actualizando el puntero de la img segun la posicion del options
-    // if (this.imgRef) {
-    //   this.observablesService.ImgPointer$.subscribe((imgPointer) => {
-    //     this.zoneX = imgPointer[0];
-    //     this.zoneY = imgPointer[1];
-    //     this.zoneX2 = imgPointer[2];
-    //     this.zoneY2 = imgPointer[3];
-    //   });
-    // }
-
-    // // Suscripción al observable nextStep$
-    // this.observablesService.nextStep$.subscribe((step) => {
-    //   // valido que this.step sea diferente a step
-    //   if (this.step !== step) {
-    //     this.step = step;
-    //     this.handleStepChange(step);
-    //   }
-    // });
+    console.log('loading-->', this.loading);
   }
 
   private initializeHeader(): void {
@@ -236,34 +208,83 @@ export class UpImgComponent {
       this.selectedFile = input.files[0];
       // console.log('selectedFile-img', this.selectedFile);
 
-      this.loading = 'loading';
-
       // almaceno las dimeciones originales
+      // const img = new Image();
+      // img.src = URL.createObjectURL(this.selectedFile);
+      // img.onload = () => {
+      //   this.imgWidth = img.width;
+      //   this.imgHeight = img.height;
+      //   console.log('imgWidth', this.imgWidth);
+      //   console.log('imgHeight', this.imgHeight);
+      // };
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        // Convierto la imagen a Base64
+        const base64 = reader.result as string;
+        this.imgSelected = base64; // Mostrar la imagen en la vista
+        localStorage.setItem('uploadedImage', base64 as string); // Guardar imagen en localStorage
+        console.log('Base64 generado:', this.imgSelected);
+        // inicializar el Cropper
+        this.initializeCropper();
+      };
+      reader.readAsDataURL(this.selectedFile);
+    } else {
+      console.log('No se ha seleccionado ningún archivo');
+    }
+  }
+  private cropperInstance: Cropper | null = null;
+  cropperEnabled: boolean = false;
+  initializeCropper(): void {
+    console.log('Inicializando cropper...');
+    setTimeout(() => {
+      if (this.imgRef && this.imgRef.nativeElement) {
+        this.cropperInstance = new Cropper(this.imgRef.nativeElement, {
+          aspectRatio: NaN, // Proporción de aspecto 1:1
+          viewMode: 1, // Vista previa
+          autoCropArea: 0.8, // Área de recorte automático al 100%
+          crop: (event) => {
+            // Actualizar las posiciones del puntero
+            this.updatePointerPosition([
+              event.detail.x,
+              event.detail.y,
+              event.detail.width,
+              event.detail.height,
+            ]);
+          },
+        });
+      } else {
+        console.error('El elemento <img> no se encontró en el DOM.');
+      }
+    }, 0); // Ajusta el tiempo si es necesario
+  }
+  waitForCrop(): void {
+    if (this.cropperInstance) {
+      const croppedCanvas = this.cropperInstance.getCroppedCanvas();
+      // console.log('Imagen recortada:', croppedCanvas.toDataURL());
+      this.imgSelected = croppedCanvas.toDataURL();
+      this.uploadImageToAPI(croppedCanvas.toDataURL());
+      this.cropperInstance.destroy(); // Finaliza el Cropper
+      this.cropperInstance = null; // Limpia la instancia del Cropper
+
+      // alamceno las dimenciones de la nueva img para el puntero
       const img = new Image();
-      img.src = URL.createObjectURL(this.selectedFile);
+      img.src = this.imgSelected;
       img.onload = () => {
         this.imgWidth = img.width;
         this.imgHeight = img.height;
         console.log('imgWidth', this.imgWidth);
         console.log('imgHeight', this.imgHeight);
       };
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imgSelected = reader.result; // Mostrar la imagen en la vista
-        localStorage.setItem('uploadedImage', reader.result as string); // Guardar imagen en localStorage
-      };
-      reader.readAsDataURL(this.selectedFile);
-      // Subir archivo a la API y manejar la respuesta
-      this.uploadImageToAPI(this.selectedFile);
     } else {
-      console.log('No se ha seleccionado ningún archivo');
+      console.error('El cropper no está inicializado.');
     }
   }
+
   trayAgain(): void {
     this.loading = 'loading';
-    if (this.selectedFile) {
-      this.uploadImageToAPI(this.selectedFile);
+    if (this.imgSelected) {
+      this.uploadImageToAPI(this.imgSelected);
     } else {
       this.loading = 'up';
       this.imgSelected = '';
@@ -271,7 +292,8 @@ export class UpImgComponent {
   }
 
   // Método para manejar la carga de la imagen a la API y procesar la respuesta
-  private uploadImageToAPI(file: File): void {
+  private uploadImageToAPI(file: string): void {
+    this.loading = 'loading';
     const formData = new FormData();
     formData.append('img', file);
     console.log('formData-img', formData);
