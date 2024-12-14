@@ -73,16 +73,17 @@
         <h2>Para continuar necesitas iniciar sesion</h2>
         <button (click)="login()">Iniciar Sesion</button>
       </span>
-      <!-- Botón para recortar y enviar la imagen -->
-      <button
-        id="confirmCropButton"
-        *ngIf="imgSelected && bandListCards.length == 0 && loading == 'up'"
-        (click)="waitForCrop()"
-      >
-        Recortar y Enviar
-      </button>
     </mat-card-header>
   </div>
+  <!-- Botón para recortar y enviar la imagen -->
+  <button
+    class="button--crop"
+    id="confirmCropButton"
+    *ngIf="imgSelected && bandListCards.length == 0 && loading == 'up'"
+    (click)="waitForCrop()"
+  >
+    Recortar y Enviar
+  </button>
   <!-- Spinner to search bandErrorList -->
   <div class="loading" *ngIf="loading == 'loading' && step == 0">
     <mat-spinner></mat-spinner>
