@@ -498,7 +498,7 @@ export class UpImgComponent {
       next: (data: any) => {
         console.log('listb-->', this.listb);
         this.bandListCards = data;
-        console.log('this.bandList--> ', this.bandListCards);
+        console.log('trayAgainStep1 this.bandList--> ', this.bandListCards);
         this.loading = 'done';
         // actualizo el bandListCorect$
         this.observablesService.updateBandListCorect(this.bandListCards);
@@ -543,7 +543,7 @@ export class UpImgComponent {
           next: (data: any) => {
             console.log('listb-->', this.listb);
             this.bandListCards = data;
-            console.log('this.bandList--> ', this.bandListCards);
+            console.log('Step1 this.bandList--> ', this.bandListCards);
             this.loading = 'done';
             // Actualizo headerService con la informacion del paso a realizar
             this.headerService.updateHeader(

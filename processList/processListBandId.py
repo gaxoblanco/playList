@@ -27,23 +27,50 @@ async def process_list_band_id(access_token, band_list):
     Returns:
         list: Lista con la información actualizada de cada banda.
     """
-    # Crear un semáforo para limitar el número de consultas concurrentes
-    # Ajusta el número según las políticas del tercero
-    semaphore = asyncio.Semaphore(5)
+    # Reducimos el semáforo a 2 para mayor control
+    semaphore = asyncio.Semaphore(2)
 
-    # Crear una lista de tareas para cada búsqueda de banda
-    tasks = [process_single_band(access_token, band, semaphore)
-             for band in band_list]
-    # Ejecutar todas las tareas de manera concurrente y obtener los resultados
-    resultado = await asyncio.gather(*tasks)
+    # Procesamos en lotes más pequeños para evitar sobrecarga
+    tamaño_lote = 30
+    resultado_final = []
 
-    # Contar cuántos elementos no tienen band_id
+    for i in range(0, len(band_list), tamaño_lote):
+        # Tomamos un lote de bandas
+        lote_actual = band_list[i:i + tamaño_lote]
+
+        # Crear tareas para el lote actual
+        tasks = [process_single_band(access_token, band, semaphore)
+                 for band in lote_actual]
+
+        try:
+            # Procesamos el lote actual
+            resultado_lote = await asyncio.gather(*tasks)
+            resultado_final.extend(resultado_lote)
+
+            # Pausa entre lotes para evitar sobrecarga
+            await asyncio.sleep(1)
+
+            print(
+                f"Lote {i//tamaño_lote + 1} procesado: {len(resultado_lote)} bandas")
+
+        except Exception as e:
+            print(f"Error procesando lote {i//tamaño_lote + 1}: {str(e)}")
+            # En caso de error, añadimos resultados vacíos para mantener la consistencia
+            resultado_lote = [{
+                "name": band.get("name", "Unknown"),
+                "band_id": "-",
+                "img": "-",
+                "genres": [],
+                "img_zone": band.get("img_zone", "-")
+            } for band in lote_actual]
+            resultado_final.extend(resultado_lote)
+
+    # Contar elementos sin band_id
     count_no_band_id = sum(
-        1 for band in resultado if band.get("band_id") == "-")
+        1 for band in resultado_final if band.get("band_id") == "-")
+    print(f"Número de elementos sin band_id: {count_no_band_id}")
 
-    print(f"Number of elements without band_id: {count_no_band_id}")
-
-    return resultado
+    return resultado_final
 
 
 async def process_single_band(access_token, band, semaphore):
