@@ -1,7 +1,7 @@
 import asyncio
 import copy
 import json
-from flask import Flask, redirect, request, jsonify, session
+from flask import Flask, redirect, request, jsonify, session, render_template, send_from_directory
 from flask_cors import CORS  # Importa CORS
 import os
 from dotenv import load_dotenv
@@ -19,8 +19,9 @@ from img_process.img_process import main
 from img_process.img64 import image_to_base64
 import requests
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', template_folder='static')
 app.secret_key = secrets.token_hex(16)
+
 # Habilita CORS en toda la aplicación
 CORS(app, origins=["http://localhost:4200", "http://192.168.56.1:4200"],
      methods=["GET", "POST", "OPTIONS", "PUT", "DELETE"],
@@ -220,6 +221,16 @@ def _build_cors_preflight_response():
     response.headers.add("Access-Control-Allow-Methods", "GET,POST,OPTIONS")
     return response
 
+# Ruta para servir la aplicación transpilada
+@app.route('/')
+def serve_vuetify():
+    return render_template('index.html')
+
+# Ruta para servir otros archivos estáticos si es necesario (CSS, JS, imágenes, etc.)
+@app.route('/<path:path>')
+def serve_static_files(path):
+    return send_from_directory(app.static_folder, path)
+
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    app.run(port=5000, debug=True, host='0.0.0.0')
