@@ -58,22 +58,22 @@
           }"
         ></div>
       </figure>
-      <!-- container error -->
-      <app-error-container
-        *ngIf="loading == 'error'"
-        [loading]="loading"
-        [step]="step"
-        [imgSelected]="imgSelected"
-        (trayAgain)="trayAgain()"
-        (trayAgainStep1)="trayAgainStep1()"
-        (trayAgainStep2)="trayAgainStep2()"
-      ></app-error-container>
       <!-- span to start section if you don't login -->
       <span *ngIf="!requestTokenSpotify" class="popap">
         <h2>Para continuar necesitas iniciar sesion</h2>
         <button (click)="login()">Iniciar Sesion</button>
       </span>
     </mat-card-header>
+    <!-- container error -->
+    <app-error-container
+      *ngIf="loading == 'error'"
+      [loading]="loading"
+      [step]="step"
+      [imgSelected]="imgSelected"
+      (trayAgain)="trayAgain()"
+      (trayAgainStep1)="trayAgainStep1()"
+      (trayAgainStep2)="trayAgainStep2()"
+    ></app-error-container>
   </div>
   <!-- Botón para recortar y enviar la imagen -->
   <button
