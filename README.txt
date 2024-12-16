@@ -1,10 +1,12 @@
 =========================================
-Project: Spotify Playlist from Festival Banner
+Project: Festival Music 
+=========================================
+Server: cd festivalMusic | git pull | docker-compose restart
 =========================================
 
 Overview:
 ---------
-This project automatically creates a Spotify playlist from an image of a festival banner, which displays the names of the bands attending the event. The process is divided into several stages, each handled by different scripts.
+This project automatically creates a playlist from an image of a festival banner, which displays the names of the bands attending the event. The process is divided into several stages, each handled by different scripts.
 
 Steps:
 ------
