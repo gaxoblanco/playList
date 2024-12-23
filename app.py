@@ -19,11 +19,12 @@ from img_process.img_process import main
 from img_process.img64 import image_to_base64
 import requests
 
-app = Flask(__name__, static_folder='static', template_folder='static')
+app = Flask(__name__, static_folder='static',
+            static_url_path='', template_folder='static')
 app.secret_key = secrets.token_hex(16)
 
 # Habilita CORS en toda la aplicación
-CORS(app, origins=["http://localhost:4200", "http://192.168.56.1:4200"],
+CORS(app, origins=["http://localhost:4200", "http://192.168.56.1:4200", "https://festivalmusic.gaxoblanco.com"],
      methods=["GET", "POST", "OPTIONS", "PUT", "DELETE"],
      allow_headers=["Content-Type", "Authorization", "code", "data"])
 
@@ -222,14 +223,18 @@ def _build_cors_preflight_response():
     return response
 
 # Ruta para servir la aplicación transpilada
+
+
 @app.route('/')
 def serve_vuetify():
     return render_template('index.html')
 
 # Ruta para servir otros archivos estáticos si es necesario (CSS, JS, imágenes, etc.)
+
+
 @app.route('/<path:path>')
 def serve_static_files(path):
-    return send_from_directory(app.static_folder, path)
+    return send_from_directory(app.static_folder, path)  # type: ignore
 
 
 if __name__ == '__main__':
