@@ -34,12 +34,9 @@ CORS(app, origins=["http://localhost:4200", "https://festivalmusic.gaxoblanco.co
 load_dotenv()
 
 CLIENT_ID = os.getenv('CLIENT_ID')
+REDIRECT_URI = 'https://festivalmusic.gaxoblanco.com/callback'
 SCOPE = "user-read-private user-read-email playlist-modify-public playlist-modify-private"
-# Configurar REDIRECT_URI dinámicamente
-if os.getenv('FLASK_ENV') == 'production':
-    REDIRECT_URI = "https://festivalmusic.gaxoblanco.com/callback"
-else:
-    REDIRECT_URI = "http://localhost:4200/callback"
+
 AUTH_URL = "https://accounts.spotify.com/authorize"
 
 
