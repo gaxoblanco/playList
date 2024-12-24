@@ -7,21 +7,22 @@ import os
 from dotenv import load_dotenv
 from urllib.parse import urlencode
 import secrets
+from flask import Blueprint
 
 import numpy as np
-from spotifyApi.spotify_auth import get_access_token, get_authorization_code
-from spotifyApi.spotify_api import create_playlist, search_option, get_top_tracks, get_user_id, upload_playlist_cover
+from spotifyApi.spotify_auth import get_access_token
+from spotifyApi.spotify_api import create_playlist, search_option, get_user_id, upload_playlist_cover
 from processList.processListBandId import process_list_band_id
 from processList.processListBandAddToPlaylist import process_list_band_add_to_playlist
 from processList.processListBandTop import process_list_band_top
-from detect_possible_errors import detect_possible_errors
 from img_process.img_process import main
 from img_process.img64 import image_to_base64
-import requests
 
 app = Flask(__name__, static_folder='static',
             static_url_path='', template_folder='static')
 app.secret_key = secrets.token_hex(16)
+# Blueprint para las rutas de la API
+api = Blueprint('api', __name__)
 
 # Habilita CORS en toda la aplicación
 CORS(app, origins=["http://localhost:4200", "http://192.168.56.1:4200", "https://festivalmusic.gaxoblanco.com"],
@@ -39,7 +40,7 @@ SCOPE = "user-read-private user-read-email playlist-modify-public playlist-modif
 AUTH_URL = "https://accounts.spotify.com/authorize"
 
 
-@app.route('/login')
+@api.route('/login')
 def login():
     """
     Inicia el proceso de autorización redirigiendo al usuario a la página de Spotify.
@@ -60,7 +61,7 @@ def login():
 
 
 # Intercambio de tokens
-@app.route('/callback', methods=['POST'])
+@api.route('/callback', methods=['POST'])
 def callback():
     """
     Maneja la redirección de Spotify después de la autorización.
@@ -85,7 +86,7 @@ def callback():
     return jsonify({"access_token": tokens[0], "refresh_token": tokens[1]})
 
 
-@app.route('/up_img', methods=['POST'])
+@api.route('/up_img', methods=['POST'])
 def up_img():
     """
     Sube una imagen a la API.
@@ -109,7 +110,7 @@ def up_img():
 # ----------
 
 
-@app.route('/band_list', methods=['POST', 'OPTIONS'])
+@api.route('/band_list', methods=['POST', 'OPTIONS'])
 def band_list():
     """
     Procesa la lista de bandas y devuelve un JSON con la informacion de la banda
@@ -136,7 +137,7 @@ def band_list():
 
 
 # ---------- search top 5 by name ----------
-@app.route('/search_options', methods=['POST', 'OPTIONS'])
+@api.route('/search_options', methods=['POST', 'OPTIONS'])
 def search_options():
     """
     Le envio al usuario las opciones de busqueda para la banda incorrecta que encontro
@@ -162,7 +163,7 @@ def search_options():
         return jsonify({"error": "Error en la búsqueda de opciones"}), 500
 
 
-@app.route('/create_playlist', methods=['POST'])
+@api.route('/create_playlist', methods=['POST'])
 def api_create_playlist():
     """
     Endpoint para crear una lista de reproducción.
@@ -208,6 +209,10 @@ def api_create_playlist():
         print("img_status -> :", img_status)
 
     return jsonify(playlist, res)
+
+
+# Registrar el blueprint en la app con el prefijo /API
+app.register_blueprint(api, url_prefix='/API')
 
 
 def _build_cors_preflight_response():

@@ -1,5 +1,5 @@
 // src/environments/environment.ts
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:5000', // Reemplaza con la IP y el puerto de tu servidor back-end
+  apiUrl: 'http://localhost:5000/API',
 };
