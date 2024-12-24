@@ -239,7 +239,16 @@ def serve_vuetify():
 
 @app.route('/<path:path>')
 def serve_static_files(path):
-    return send_from_directory(app.static_folder, path)  # type: ignore
+    """
+    Intenta servir archivos estáticos. Si no se encuentra el archivo,
+    redirige a index.html para que Angular maneje la ruta.
+    """
+    try:
+        # Intenta servir el archivo desde la carpeta estática
+        return send_from_directory(app.static_folder, path)  # type: ignore
+    except:
+        # Si el archivo no existe, redirige a index.html
+        return render_template('index.html')
 
 
 if __name__ == '__main__':
