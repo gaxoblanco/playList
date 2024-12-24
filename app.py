@@ -228,13 +228,6 @@ def _build_cors_preflight_response():
     response.headers.add("Access-Control-Allow-Methods", "GET,POST,OPTIONS")
     return response
 
-# Ruta para servir la aplicación transpilada
-
-
-@app.route('/')
-def serve_vuetify():
-    return render_template('index.html')
-
 # Ruta para servir otros archivos estáticos si es necesario (CSS, JS, imágenes, etc.)
 
 
