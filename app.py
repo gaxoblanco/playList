@@ -211,6 +211,7 @@ def api_create_playlist():
     return jsonify(playlist, res)
 
 
+# -------------------------------------------------------
 # Registrar el blueprint en la app con el prefijo /API
 app.register_blueprint(api, url_prefix='/API')
 
@@ -231,7 +232,6 @@ def _build_cors_preflight_response():
 # Ruta para servir otros archivos estáticos si es necesario (CSS, JS, imágenes, etc.)
 
 
-@app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve_static_files(path):
     if path.startswith('API'):
