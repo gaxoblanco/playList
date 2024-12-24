@@ -1,7 +1,7 @@
 import asyncio
 import copy
 import json
-from flask import Flask, redirect, request, jsonify, session, render_template, send_from_directory
+from flask import Flask, make_response, redirect, request, jsonify, session, render_template, send_from_directory
 from flask_cors import CORS  # Importa CORS
 import os
 from dotenv import load_dotenv
@@ -25,7 +25,7 @@ app.secret_key = secrets.token_hex(16)
 api = Blueprint('api', __name__)
 
 # Habilita CORS en toda la aplicación
-CORS(app, origins=["http://localhost:4200", "http://192.168.56.1:4200", "https://festivalmusic.gaxoblanco.com"],
+CORS(app, origins=["http://localhost:4200", "https://festivalmusic.gaxoblanco.com"],
      methods=["GET", "POST", "OPTIONS", "PUT", "DELETE"],
      allow_headers=["Content-Type", "Authorization", "code", "data"])
 
@@ -218,10 +218,11 @@ app.register_blueprint(api, url_prefix='/API')
 def _build_cors_preflight_response():
     """ Construye la respuesta de preflight para OPTIONS """
     response = jsonify({"message": "CORS preflight passed"})
-    response.headers.add("Access-Control-Allow-Origin",
-                         "http://localhost:4200")
+    response = make_response()
     # response.headers.add("Access-Control-Allow-Origin",
-    #                      "http://192.168.56.1:4200")
+    #                      "http://localhost:4200")
+    response.headers.add("Access-Control-Allow-Origin",
+                         "https://festivalmusic.gaxoblanco.com")
     response.headers.add("Access-Control-Allow-Headers",
                          "Content-Type,Authorization,access_token")
     response.headers.add("Access-Control-Allow-Methods", "GET,POST,OPTIONS")
@@ -237,18 +238,12 @@ def serve_vuetify():
 # Ruta para servir otros archivos estáticos si es necesario (CSS, JS, imágenes, etc.)
 
 
+@app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve_static_files(path):
-    """
-    Intenta servir archivos estáticos. Si no se encuentra el archivo,
-    redirige a index.html para que Angular maneje la ruta.
-    """
-    try:
-        # Intenta servir el archivo desde la carpeta estática
+    if path.startswith('API'):
         return send_from_directory(app.static_folder, path)  # type: ignore
-    except:
-        # Si el archivo no existe, redirige a index.html
-        return render_template('index.html')
+    return send_from_directory(app.static_folder, 'index.html')  # type: ignore
 
 
 if __name__ == '__main__':
