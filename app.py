@@ -243,13 +243,8 @@ def serve_static_files(path):
     # Si la ruta es para la API, devuelve un 404 porque no debe coincidir con archivos estáticos.
     if path.startswith('API'):
         return make_response("Not Found", 404)
-
-    # Intenta servir el archivo estático, si existe.
-    try:
-        return send_from_directory(app.static_folder, path)
-    except:
-        # Si no existe, devuelve el archivo principal de Angular (index.html).
-        return send_from_directory(app.static_folder, 'index.html')
+    # Si no existe, devuelve el archivo principal de Angular (index.html).
+    return send_from_directory(app.static_folder, 'index.html')
 
 
 if __name__ == '__main__':
