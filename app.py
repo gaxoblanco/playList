@@ -232,11 +232,24 @@ def _build_cors_preflight_response():
 # Ruta para servir otros archivos estáticos si es necesario (CSS, JS, imágenes, etc.)
 
 
+@app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve_static_files(path):
+    # Verifica que app.static_folder no sea None
+    if not app.static_folder:
+        raise RuntimeError(
+            "El directorio 'static_folder' no está configurado en la aplicación Flask.")
+
+    # Si la ruta es para la API, devuelve un 404 porque no debe coincidir con archivos estáticos.
     if path.startswith('API'):
-        return send_from_directory(app.static_folder, path)  # type: ignore
-    return send_from_directory(app.static_folder, 'index.html')  # type: ignore
+        return make_response("Not Found", 404)
+
+    # Intenta servir el archivo estático, si existe.
+    try:
+        return send_from_directory(app.static_folder, path)
+    except:
+        # Si no existe, devuelve el archivo principal de Angular (index.html).
+        return send_from_directory(app.static_folder, 'index.html')
 
 
 if __name__ == '__main__':
