@@ -5,9 +5,10 @@ import { UpImgComponent } from './up-img/up-img.component';
 
 const routes: Routes = [
   { path: 'callback', component: AuthCallbackComponent },
-  { path: 'create-playlist', component: UpImgComponent },
-  { path: '', redirectTo: 'create-playlist', pathMatch: 'full' }, // Redirige a create-playlist por defecto
-  { path: '**', redirectTo: '', pathMatch: 'full' }, // Redirige cualquier ruta desconocida al inicio
+  {
+    path: 'create-playlist',
+    component: UpImgComponent,
+  },
 ];
 
 @NgModule({
