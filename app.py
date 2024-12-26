@@ -34,7 +34,7 @@ CORS(app, origins=["http://localhost:4200", "https://festivalmusic.gaxoblanco.co
 load_dotenv()
 
 CLIENT_ID = os.getenv('CLIENT_ID')
-REDIRECT_URI = 'https://festivalmusic.gaxoblanco.com/callback'
+REDIRECT_URI = os.getenv('REDIRECT_URI')
 SCOPE = "user-read-private user-read-email playlist-modify-public playlist-modify-private"
 
 AUTH_URL = "https://accounts.spotify.com/authorize"
@@ -243,7 +243,8 @@ def serve_static_files(path):
     # Si la ruta es para la API, devuelve un 404 porque no debe coincidir con archivos estáticos.
     if path.startswith('API'):
         return make_response("Not Found", 404)
-    # Si no existe, devuelve el archivo principal de Angular (index.html).
+
+    # Devuelve index.html para cualquier otra ruta
     return send_from_directory(app.static_folder, 'index.html')
 
 
