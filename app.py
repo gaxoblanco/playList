@@ -234,21 +234,9 @@ def after_request(response):
                          'Content-Type,Authorization,code,data,access_token')
     response.headers.add('Access-Control-Allow-Methods',
                          'GET,POST,OPTIONS,PUT,DELETE')
+    # Max-Age para cachear la respuesta preflight por 1 hora (3600 segundos)
+    response.headers.add('Access-Control-Max-Age', '3600')
     return response
-
-
-# Contruye la respuesta de preflight para OPTIONS
-# def _build_cors_preflight_response():
-#     """Construye la respuesta de preflight para OPTIONS"""
-#     response = make_response()
-#     response.headers.add('Access-Control-Allow-Origin',
-#                          'https://festivalmusic.gaxoblanco.com')
-#     response.headers.add('Access-Control-Allow-Headers',
-#                          'Content-Type,Authorization,code,data,access_token')
-#     response.headers.add('Access-Control-Allow-Methods',
-#                          'GET,POST,OPTIONS,PUT,DELETE')
-#     response.headers.add('Access-Control-Max-Age', '3600')
-#     return response
 
 # Ruta para servir otros archivos estáticos si es necesario (CSS, JS, imágenes, etc.)
 
