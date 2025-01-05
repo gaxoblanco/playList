@@ -17,12 +17,15 @@ from processList.processListBandAddToPlaylist import process_list_band_add_to_pl
 from processList.processListBandTop import process_list_band_top
 from img_process.img_process import main
 from img_process.img64 import image_to_base64
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 app = Flask(__name__, static_folder='static',
             static_url_path='', template_folder='static')
 app.secret_key = secrets.token_hex(16)
 # Blueprint para las rutas de la API
 api = Blueprint('api', __name__)
+# soporte para proxy
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
 # Habilita CORS en toda la aplicación
 CORS(app, origins=["http://localhost:4200", "https://festivalmusic.gaxoblanco.com"],
@@ -216,17 +219,32 @@ def api_create_playlist():
 app.register_blueprint(api, url_prefix='/API')
 
 
+@app.after_request
+def after_request(response):
+    """Asegura que los headers CORS estén configurados consistentemente"""
+    if 'Access-Control-Allow-Origin' not in response.headers:
+        # En producción, podrías querer usar solo el dominio de producción
+        response.headers.add('Access-Control-Allow-Origin',
+                             'https://festivalmusic.gaxoblanco.com')
+
+    response.headers.add('Access-Control-Allow-Headers',
+                         'Content-Type,Authorization,code,data,access_token')
+    response.headers.add('Access-Control-Allow-Methods',
+                         'GET,POST,OPTIONS,PUT,DELETE')
+    return response
+
+
+# Contruye la respuesta de preflight para OPTIONS
 def _build_cors_preflight_response():
-    """ Construye la respuesta de preflight para OPTIONS """
-    response = jsonify({"message": "CORS preflight passed"})
+    """Construye la respuesta de preflight para OPTIONS"""
     response = make_response()
-    # response.headers.add("Access-Control-Allow-Origin",
-    #                      "http://localhost:4200")
-    response.headers.add("Access-Control-Allow-Origin",
-                         "https://festivalmusic.gaxoblanco.com")
-    response.headers.add("Access-Control-Allow-Headers",
-                         "Content-Type,Authorization,access_token")
-    response.headers.add("Access-Control-Allow-Methods", "GET,POST,OPTIONS")
+    response.headers.add('Access-Control-Allow-Origin',
+                         'https://festivalmusic.gaxoblanco.com')
+    response.headers.add('Access-Control-Allow-Headers',
+                         'Content-Type,Authorization,code,data,access_token')
+    response.headers.add('Access-Control-Allow-Methods',
+                         'GET,POST,OPTIONS,PUT,DELETE')
+    response.headers.add('Access-Control-Max-Age', '3600')
     return response
 
 # Ruta para servir otros archivos estáticos si es necesario (CSS, JS, imágenes, etc.)
@@ -244,9 +262,14 @@ def serve_static_files(path):
     if path.startswith('API'):
         return make_response("Not Found", 404)
 
-    # Devuelve index.html para cualquier otra ruta
-    return send_from_directory(app.static_folder, 'index.html')
+    # Comprueba si existe un archivo estático específico
+    try:
+        return send_from_directory(app.static_folder, path)
+    except:
+        # Si no encuentra el archivo, devuelve index.html para manejar rutas de Angular
+        return send_from_directory(app.static_folder, 'index.html')
 
 
 if __name__ == '__main__':
+    app.config['PROPAGATE_EXCEPTIONS'] = True
     app.run(port=5000, debug=True, host='0.0.0.0')
