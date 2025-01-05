@@ -23,7 +23,8 @@ app = Flask(__name__, static_folder='static',
             static_url_path='', template_folder='static')
 app.secret_key = secrets.token_hex(16)
 # soporte para proxy
-app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1,
+                        x_host=1, x_port=1, x_prefix=1)
 
 # Blueprint para las rutas de la API
 api = Blueprint('api', __name__)
