@@ -254,13 +254,27 @@ def serve_static_files(path):
     if path.startswith('API'):
         return make_response("Not Found", 404)
 
-    # Comprueba si existe un archivo estático específico
+    # -------------------------------------------------------
+    # Lista de extensiones de archivos estáticos conocidos
+    static_file_extensions = [
+        '.js', '.css', '.png', '.jpg', '.jpeg', '.gif', '.ico', '.svg',
+        '.woff', '.woff2', '.ttf', '.eot', '.map', '.json'
+    ]
+
+    # Si la ruta termina con una extensión conocida, intenta servir el archivo estático
+    if any(path.lower().endswith(ext) for ext in static_file_extensions):
+        try:
+            return send_from_directory(app.static_folder, path)
+        except Exception as e:
+            print(f"Error al servir archivo estático {path}: {str(e)}")
+            return make_response("File not found", 404)
+
+    # Para cualquier otra ruta, devuelve index.html para que Angular maneje el enrutamiento
     try:
-        return send_from_directory(app.static_folder, path)
-    except:
-        # Si no encuentra el archivo, devuelve index.html para manejar rutas de Angular
-        print("No se encontró el archivo:", path)
         return send_from_directory(app.static_folder, 'index.html')
+    except Exception as e:
+        print(f"Error al servir index.html: {str(e)}")
+        return make_response("index.html not found", 404)
 
 
 if __name__ == '__main__':
