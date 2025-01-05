@@ -22,10 +22,11 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 app = Flask(__name__, static_folder='static',
             static_url_path='', template_folder='static')
 app.secret_key = secrets.token_hex(16)
-# Blueprint para las rutas de la API
-api = Blueprint('api', __name__)
 # soporte para proxy
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
+
+# Blueprint para las rutas de la API
+api = Blueprint('api', __name__)
 
 # Habilita CORS en toda la aplicación
 CORS(app, origins=["http://localhost:4200", "https://festivalmusic.gaxoblanco.com"],
@@ -118,8 +119,8 @@ def band_list():
     """
     Procesa la lista de bandas y devuelve un JSON con la informacion de la banda
     """
-    if request.method == 'OPTIONS':
-        return _build_cors_preflight_response()
+    # if request.method == 'OPTIONS':
+    #     return _build_cors_preflight_response()
     data = request.get_json()
     # obtengo access_token del header -> array de 1 string
     access_token = request.headers.get('Authorization')
@@ -145,8 +146,8 @@ def search_options():
     """
     Le envio al usuario las opciones de busqueda para la banda incorrecta que encontro
     """
-    if request.method == 'OPTIONS':
-        return _build_cors_preflight_response()
+    # if request.method == 'OPTIONS':
+    #     return _build_cors_preflight_response()
     data = request.get_json()
     # obtengo access_token del header -> array de 1 string
     access_token = request.headers.get('Authorization')
@@ -218,12 +219,14 @@ def api_create_playlist():
 # Registrar el blueprint en la app con el prefijo /API
 app.register_blueprint(api, url_prefix='/API')
 
+# Antes de enturar a la ruta, hago un requerimiento de autorización
+
 
 @app.after_request
 def after_request(response):
     """Asegura que los headers CORS estén configurados consistentemente"""
     if 'Access-Control-Allow-Origin' not in response.headers:
-        # En producción, podrías querer usar solo el dominio de producción
+        # En producción
         response.headers.add('Access-Control-Allow-Origin',
                              'https://festivalmusic.gaxoblanco.com')
 
@@ -235,17 +238,17 @@ def after_request(response):
 
 
 # Contruye la respuesta de preflight para OPTIONS
-def _build_cors_preflight_response():
-    """Construye la respuesta de preflight para OPTIONS"""
-    response = make_response()
-    response.headers.add('Access-Control-Allow-Origin',
-                         'https://festivalmusic.gaxoblanco.com')
-    response.headers.add('Access-Control-Allow-Headers',
-                         'Content-Type,Authorization,code,data,access_token')
-    response.headers.add('Access-Control-Allow-Methods',
-                         'GET,POST,OPTIONS,PUT,DELETE')
-    response.headers.add('Access-Control-Max-Age', '3600')
-    return response
+# def _build_cors_preflight_response():
+#     """Construye la respuesta de preflight para OPTIONS"""
+#     response = make_response()
+#     response.headers.add('Access-Control-Allow-Origin',
+#                          'https://festivalmusic.gaxoblanco.com')
+#     response.headers.add('Access-Control-Allow-Headers',
+#                          'Content-Type,Authorization,code,data,access_token')
+#     response.headers.add('Access-Control-Allow-Methods',
+#                          'GET,POST,OPTIONS,PUT,DELETE')
+#     response.headers.add('Access-Control-Max-Age', '3600')
+#     return response
 
 # Ruta para servir otros archivos estáticos si es necesario (CSS, JS, imágenes, etc.)
 
@@ -267,6 +270,7 @@ def serve_static_files(path):
         return send_from_directory(app.static_folder, path)
     except:
         # Si no encuentra el archivo, devuelve index.html para manejar rutas de Angular
+        print("No se encontró el archivo:", path)
         return send_from_directory(app.static_folder, 'index.html')
 
 
