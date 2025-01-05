@@ -19,20 +19,59 @@ from img_process.img_process import main
 from img_process.img64 import image_to_base64
 from werkzeug.middleware.proxy_fix import ProxyFix
 
+
+# Configuración de orígenes permitidos
+ALLOWED_ORIGINS = [
+    "http://localhost:4200",
+    "https://festivalmusic.gaxoblanco.com"
+]
+
 app = Flask(__name__, static_folder='static',
             static_url_path='', template_folder='static')
 app.secret_key = secrets.token_hex(16)
-# soporte para proxy
-app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1,
-                        x_host=1, x_port=1, x_prefix=1)
 
 # Blueprint para las rutas de la API
 api = Blueprint('api', __name__)
 
-# Habilita CORS en toda la aplicación
-CORS(app, origins=["http://localhost:4200", "https://festivalmusic.gaxoblanco.com"],
-     methods=["GET", "POST", "OPTIONS", "PUT", "DELETE"],
-     allow_headers=["Content-Type", "Authorization", "code", "data"])
+# Soporte para proxy más completo
+app.wsgi_app = ProxyFix(
+    app.wsgi_app,
+    x_for=1,        # X-Forwarded-For
+    x_proto=1,      # X-Forwarded-Proto
+    x_host=1,       # X-Forwarded-Host
+    x_port=1,       # X-Forwarded-Port
+    x_prefix=1      # X-Forwarded-Prefix
+)
+
+# Configuración CORS más específica
+CORS(app,
+     resources={
+         r"/API/*": {
+             "origins": ALLOWED_ORIGINS,
+             "methods": ["GET", "POST", "OPTIONS", "PUT", "DELETE"],
+             "allow_headers": ["Content-Type", "Authorization", "code", "data", "access_token"],
+             "supports_credentials": True,  # Importante para las cookies/session
+             "max_age": 3600
+         }
+     }
+     )
+
+# Antes de enturar a la ruta, hago un requerimiento de autorización
+
+
+@app.after_request
+def after_request(response):
+    """Asegura que los headers CORS estén configurados consistentemente"""
+    origin = request.headers.get('Origin')
+    if origin in ALLOWED_ORIGINS:
+        response.headers.add('Access-Control-Allow-Origin', origin)
+        response.headers.add('Access-Control-Allow-Credentials', 'true')
+        response.headers.add('Access-Control-Allow-Headers',
+                             'Content-Type,Authorization,code,data,access_token')
+        response.headers.add('Access-Control-Allow-Methods',
+                             'GET,POST,OPTIONS,PUT,DELETE')
+        response.headers.add('Access-Control-Max-Age', '3600')
+    return response
 
 
 # Cargar variables de entorno
@@ -220,24 +259,6 @@ def api_create_playlist():
 # Registrar el blueprint en la app con el prefijo /API
 app.register_blueprint(api, url_prefix='/API')
 
-# Antes de enturar a la ruta, hago un requerimiento de autorización
-
-
-@app.after_request
-def after_request(response):
-    """Asegura que los headers CORS estén configurados consistentemente"""
-    if 'Access-Control-Allow-Origin' not in response.headers:
-        # En producción
-        response.headers.add('Access-Control-Allow-Origin',
-                             'https://festivalmusic.gaxoblanco.com')
-
-    response.headers.add('Access-Control-Allow-Headers',
-                         'Content-Type,Authorization,code,data,access_token')
-    response.headers.add('Access-Control-Allow-Methods',
-                         'GET,POST,OPTIONS,PUT,DELETE')
-    # Max-Age para cachear la respuesta preflight por 1 hora (3600 segundos)
-    response.headers.add('Access-Control-Max-Age', '3600')
-    return response
 
 # Ruta para servir otros archivos estáticos si es necesario (CSS, JS, imágenes, etc.)
 
@@ -278,5 +299,8 @@ def serve_static_files(path):
 
 
 if __name__ == '__main__':
-    # app.config['PROPAGATE_EXCEPTIONS'] = True
-    app.run(port=5000, debug=True, host='0.0.0.0')
+    # Configuraciones para producción
+    app.config['PROPAGATE_EXCEPTIONS'] = True
+    app.config['SESSION_COOKIE_SECURE'] = True
+    app.config['SESSION_COOKIE_SAMESITE'] = 'Strict'
+    app.run(port=5000, host='0.0.0.0')
