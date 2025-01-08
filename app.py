@@ -19,7 +19,6 @@ from img_process.img_process import main
 from img_process.img64 import image_to_base64
 from werkzeug.middleware.proxy_fix import ProxyFix
 
-
 # Configuración de orígenes permitidos
 ALLOWED_ORIGINS = [
     "http://localhost:4200",
@@ -286,26 +285,24 @@ def serve_static_files(path):
         '.woff', '.woff2', '.ttf', '.eot', '.map', '.json'
     ]
 
-    # Si la ruta termina con una extensión conocida, intenta servir el archivo estático
+    # Primero intenta servir el archivo estático si existe
     if any(path.lower().endswith(ext) for ext in static_file_extensions):
-        print(f"[DEBUG] Static file requested: {path}")
         try:
             return send_from_directory(app.static_folder, path)
         except Exception as e:
-            print(f"[DEBUG] Error serving static file: {str(e)}")
-            return make_response("File not found", 404)
+            app.logger.error(f"Error serving static file: {str(e)}")
+            # No retornamos 404 aquí, dejamos que continúe al index.html
 
-    # Para cualquier otra ruta que no sea un archivo estático, siempre devuelve index.html
+    # Para cualquier otra ruta, incluyendo archivos estáticos no encontrados,
+    # servimos index.html para que Angular maneje el routing
     try:
-        print(f"[DEBUG] Other path: {path}")
         response = send_from_directory(app.static_folder, 'index.html')
-        # Asegurarse de que el navegador no cachee index.html
         response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
         response.headers['Pragma'] = 'no-cache'
         response.headers['Expires'] = '0'
         return response
     except Exception as e:
-        print(f"Error al servir index.html: {str(e)}")
+        app.logger.error(f"Error serving index.html: {str(e)}")
         return make_response("index.html not found", 404)
 
 
