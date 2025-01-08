@@ -268,6 +268,7 @@ app.register_blueprint(api, url_prefix='/API')
 def serve_static_files(path):
     # Verifica que app.static_folder no sea None
     if not app.static_folder:
+        print("[DEBUG] No static folder configured")
         raise RuntimeError(
             "El directorio 'static_folder' no está configurado en la aplicación Flask.")
 
@@ -275,6 +276,7 @@ def serve_static_files(path):
     normalized_path = path.upper()
     # Si la ruta es para la API, devuelve un 404 porque no debe coincidir con archivos estáticos.
     if normalized_path.startswith('API/') or normalized_path == 'API':
+        print(f"[DEBUG] API route detected: {path}")
         return make_response("Not Found", 404)
 
     # -------------------------------------------------------
@@ -286,14 +288,16 @@ def serve_static_files(path):
 
     # Si la ruta termina con una extensión conocida, intenta servir el archivo estático
     if any(path.lower().endswith(ext) for ext in static_file_extensions):
+        print(f"[DEBUG] Static file requested: {path}")
         try:
             return send_from_directory(app.static_folder, path)
         except Exception as e:
-            print(f"Error al servir archivo estático {path}: {str(e)}")
+            print(f"[DEBUG] Error serving static file: {str(e)}")
             return make_response("File not found", 404)
 
     # Para cualquier otra ruta que no sea un archivo estático, siempre devuelve index.html
     try:
+        print(f"[DEBUG] Other path: {path}")
         response = send_from_directory(app.static_folder, 'index.html')
         # Asegurarse de que el navegador no cachee index.html
         response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
