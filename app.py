@@ -271,8 +271,10 @@ def serve_static_files(path):
         raise RuntimeError(
             "El directorio 'static_folder' no está configurado en la aplicación Flask.")
 
+    # Normalizar la ruta para la comparación
+    normalized_path = path.upper()
     # Si la ruta es para la API, devuelve un 404 porque no debe coincidir con archivos estáticos.
-    if path.startswith('API'):
+    if normalized_path.startswith('API/') or normalized_path == 'API':
         return make_response("Not Found", 404)
 
     # -------------------------------------------------------
@@ -290,9 +292,14 @@ def serve_static_files(path):
             print(f"Error al servir archivo estático {path}: {str(e)}")
             return make_response("File not found", 404)
 
-    # Para cualquier otra ruta, devuelve index.html para que Angular maneje el enrutamiento
+    # Para cualquier otra ruta que no sea un archivo estático, siempre devuelve index.html
     try:
-        return send_from_directory(app.static_folder, 'index.html')
+        response = send_from_directory(app.static_folder, 'index.html')
+        # Asegurarse de que el navegador no cachee index.html
+        response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+        response.headers['Pragma'] = 'no-cache'
+        response.headers['Expires'] = '0'
+        return response
     except Exception as e:
         print(f"Error al servir index.html: {str(e)}")
         return make_response("index.html not found", 404)
