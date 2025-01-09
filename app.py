@@ -299,15 +299,6 @@ def serve_static_files(path):
         '.woff', '.woff2', '.ttf', '.eot', '.map', '.json'
     ]
 
-    # Primero intenta servir el archivo estático si existe
-    if any(path.lower().endswith(ext) for ext in static_file_extensions):
-        try:
-            return send_from_directory(app.static_folder, path)
-        except Exception as e:
-            app.logger.info(
-                f"Static file not found: {path}, serving index.html instead")
-            # No retornamos 404 aquí, dejamos que continúe al index.html
-
     # Para cualquier otra ruta, incluyendo archivos estáticos no encontrados,
     # servimos index.html para que Angular maneje el routing
     try:
