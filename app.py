@@ -19,6 +19,9 @@ from img_process.img_process import main
 from img_process.img64 import image_to_base64
 from werkzeug.middleware.proxy_fix import ProxyFix
 
+import logging
+from logging.handlers import RotatingFileHandler
+
 # Configuración de orígenes permitidos
 ALLOWED_ORIGINS = [
     "http://localhost:4200",
@@ -28,6 +31,16 @@ ALLOWED_ORIGINS = [
 app = Flask(__name__, static_folder='static',
             static_url_path='', template_folder='static')
 app.secret_key = secrets.token_hex(16)
+
+# Configuración del logging
+handler = RotatingFileHandler('app.log', maxBytes=10000, backupCount=3)
+handler.setLevel(logging.INFO)
+formatter = logging.Formatter(
+    '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+handler.setFormatter(formatter)
+app.logger.addHandler(handler)
+app.logger.setLevel(logging.INFO)
 
 # Blueprint para las rutas de la API
 api = Blueprint('api', __name__)
@@ -265,9 +278,10 @@ app.register_blueprint(api, url_prefix='/API')
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve_static_files(path):
+    app.logger.info(f"Requested path: {path}")
     # Verifica que app.static_folder no sea None
     if not app.static_folder:
-        print("[DEBUG] No static folder configured")
+        app.logger.error("No static folder configured")
         raise RuntimeError(
             "El directorio 'static_folder' no está configurado en la aplicación Flask.")
 
@@ -275,7 +289,7 @@ def serve_static_files(path):
     normalized_path = path.upper()
     # Si la ruta es para la API, devuelve un 404 porque no debe coincidir con archivos estáticos.
     if normalized_path.startswith('API/') or normalized_path == 'API':
-        print(f"[DEBUG] API route detected: {path}")
+        app.logger.info(f"API route detected: {path}")
         return make_response("Not Found", 404)
 
     # -------------------------------------------------------
@@ -290,7 +304,8 @@ def serve_static_files(path):
         try:
             return send_from_directory(app.static_folder, path)
         except Exception as e:
-            app.logger.error(f"Error serving static file: {str(e)}")
+            app.logger.info(
+                f"Static file not found: {path}, serving index.html instead")
             # No retornamos 404 aquí, dejamos que continúe al index.html
 
     # Para cualquier otra ruta, incluyendo archivos estáticos no encontrados,
