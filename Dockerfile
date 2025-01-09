@@ -19,8 +19,11 @@ WORKDIR /app
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiar el código
+# Copiar el cï¿½digo
 COPY . /app
 
-# Ejecutar la aplicación
-CMD ["python", "app.py"]
+# Dar permisos al directorio de la aplicaciÃ³n
+RUN chmod -R 755 /app
+
+# Cambiar a gunicorn en lugar de python directamente
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--log-level", "info", "--access-logfile", "/app/logs/access.log", "--error-logfile", "/app/logs/error.log", "app:app"]

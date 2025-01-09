@@ -15,3 +15,5 @@ Pillow
 matplotlib
 tesseract-ocr
 opencv-python-headless
+
+gunicorn==21.2.0
