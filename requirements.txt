@@ -9,7 +9,7 @@ flask_cors
 python-dotenv
 requests
 aiohttp
-oprncv-python
+opencv-python
 pytesseract
 Pillow
 matplotlib
