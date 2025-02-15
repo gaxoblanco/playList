@@ -13,7 +13,7 @@ opencv-python
 pytesseract
 Pillow
 matplotlib
-tesseract-ocr
+# tesseract-ocr
 opencv-python-headless
 
 gunicorn==21.2.0
