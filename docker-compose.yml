@@ -9,8 +9,25 @@ services:
       - .:/app
       - ./logs:/app/logs
     working_dir: /app
-    command: python app.py
+    command: >
+      sh -c "if [ '$$ENVIRONMENT' = 'development' ]; then python app.py; else gunicorn --bind 0.0.0.0:5000 --log-level info --access-logfile /app/logs/access.log --error-logfile /app/logs/error.log app:app; fi"
     ports:
       - "5000:5000"
     environment:
       - PYTHONUNBUFFERED=1
+      - ENVIRONMENT=${ENVIRONMENT:-production}  # Por defecto es producción
+
+  frontend:
+    build:
+      context: ./front-end/spotyPlayList
+      dockerfile: Dockerfile
+    volumes:
+      - ./front-end/spotyPlayList:/app
+      - /app/node_modules  # Evita sobrescribir node_modules en desarrollo
+    working_dir: /app
+    ports:
+      - "4200:80"  # Mapea el puerto 80 de Nginx al puerto 4200 de tu máquina
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}  # Por defecto es producción
+    command: >
+      sh -c "if [ '$$NODE_ENV' = 'development' ]; then npm start -- --host 0.0.0.0; else nginx -g 'daemon off;'; fi"

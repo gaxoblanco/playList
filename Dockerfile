@@ -25,5 +25,5 @@ COPY . /app
 # Dar permisos al directorio de la aplicación
 RUN chmod -R 755 /app
 
-# Cambiar a gunicorn en lugar de python directamente
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--log-level", "info", "--access-logfile", "/app/logs/access.log", "--error-logfile", "/app/logs/error.log", "app:app"]
+# Cambiar a python app.py para desarrollo
+CMD ["python", "app.py"]
