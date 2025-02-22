@@ -140,7 +140,7 @@ export class UpImgComponent {
 
   private validateSpotifyToken(): void {
     this.tokenSpotify = localStorage.getItem('access_token');
-    console.log('tokenSpotify', this.tokenSpotify);
+    // console.log('tokenSpotify', this.tokenSpotify);
   }
 
   private clearLocalStorage(): void {
@@ -224,7 +224,7 @@ export class UpImgComponent {
         const base64 = reader.result as string;
         this.imgSelected = base64; // Mostrar la imagen en la vista
         localStorage.setItem('uploadedImage', base64 as string); // Guardar imagen en localStorage
-        console.log('Base64 generado:', this.imgSelected);
+        // console.log('Base64 generado:', this.imgSelected);
         // inicializar el Cropper
         this.initializeCropper();
       };
@@ -454,7 +454,7 @@ export class UpImgComponent {
     // creo el obj formData
     const formData = new FormData();
     formData.append('img', this.selectedFile);
-    console.log('formData-img create play', formData);
+    // console.log('formData-img create play', formData);
 
     // Le paso a generatePlayList el valor del input playListName
     this.apiRequestService
