@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     libtesseract-dev \
     build-essential \
     python3-dev \
+    nginx \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 

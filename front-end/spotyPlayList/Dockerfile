@@ -22,8 +22,9 @@ FROM nginx:alpine AS production
 # # 8. Copia los archivos compilados de Angular al servidor Nginx
 COPY --from=build /app/../../static /usr/share/nginx/html
 
-# 9. Expone el puerto 4200
-EXPOSE 4200
+# 9. Copia la configuración personalizada de Nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 
 # 10. Comando para iniciar Nginx
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon on;"]

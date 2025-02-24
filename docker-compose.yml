@@ -26,8 +26,8 @@ services:
       - /app/node_modules  # Evita sobrescribir node_modules en desarrollo
     working_dir: /app
     ports:
-      - "4200:80"  # Mapea el puerto 80 de Nginx al puerto 4200 de tu máquina
+      - "4200:4200"  # Mapea el puerto 80 de Nginx al puerto 4200 de tu máquina
     environment:
       - NODE_ENV=${NODE_ENV:-production}  # Por defecto es producción
     command: >
-      sh -c "if [ '$$NODE_ENV' = 'development' ]; then npm start -- --host 0.0.0.0; else nginx -g 'daemon off;'; fi"
+      sh -c "if [ '$$NODE_ENV' = 'development' ]; then npm start -- --host 0.0.0.0; else nginx -g 'daemon on;'; fi"
