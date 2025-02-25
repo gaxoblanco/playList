@@ -7,3 +7,6 @@ venv/
 id_raspberry
 id_raspberry.pub
 lola.py
+
+# Ignorar logs
+logs
