@@ -1,7 +1,16 @@
 import asyncio
 import copy
 import json
-from flask import Flask, make_response, redirect, request, jsonify, session, render_template, send_from_directory
+from flask import (
+    Flask,
+    make_response,
+    redirect,
+    request,
+    jsonify,
+    session,
+    render_template,
+    send_from_directory,
+)
 from flask_cors import CORS  # Importa CORS
 import os
 from dotenv import load_dotenv
@@ -11,105 +20,122 @@ from flask import Blueprint
 
 import numpy as np
 from spotifyApi.spotify_auth import get_access_token
-from spotifyApi.spotify_api import create_playlist, search_option, get_user_id, upload_playlist_cover
+from spotifyApi.spotify_api import (
+    create_playlist,
+    search_option,
+    get_user_id,
+    upload_playlist_cover,
+)
 from processList.processListBandId import process_list_band_id
 from processList.processListBandAddToPlaylist import process_list_band_add_to_playlist
 from processList.processListBandTop import process_list_band_top
 from img_process.img_process import main
 from img_process.img64 import image_to_base64
-from werkzeug.middleware.proxy_fix import ProxyFix
+# from werkzeug.middleware.proxy_fix import ProxyFix
 
 import logging
 from logging.handlers import RotatingFileHandler
 
-# Configuración de orígenes permitidos
-ALLOWED_ORIGINS = [
-    "http://localhost:4200",
-    "https://festivalmusic.gaxoblanco.com"
-]
+# # Configuración de orígenes permitidos
+# ALLOWED_ORIGINS = ["http://localhost:4200", "https://festivalmusic.gaxoblanco.com"]
 
-app = Flask(__name__, static_folder='static',
-            static_url_path='', template_folder='static')
+app = Flask(
+    __name__, static_folder="static", static_url_path="", template_folder="static"
+)
 app.secret_key = secrets.token_hex(16)
 
+# Truco para permitir enviar archivos grandes
+MEGABYTE = (2 ** 10) ** 2
+app.config['MAX_CONTENT_LENGTH'] = None
+app.config['MAX_FORM_MEMORY_SIZE'] = 50 * MEGABYTE
+
 # Configuración del logging
-handler = RotatingFileHandler('app.log', maxBytes=10000, backupCount=3)
+handler = RotatingFileHandler("app.log", maxBytes=10000, backupCount=3)
 handler.setLevel(logging.INFO)
-formatter = logging.Formatter(
-    '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
+formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 handler.setFormatter(formatter)
 app.logger.addHandler(handler)
 app.logger.setLevel(logging.INFO)
 
 # Blueprint para las rutas de la API
-api = Blueprint('api', __name__)
+api = Blueprint("api", __name__)
 
-# Soporte para proxy más completo
-app.wsgi_app = ProxyFix(
-    app.wsgi_app,
-    x_for=1,        # X-Forwarded-For
-    x_proto=1,      # X-Forwarded-Proto
-    x_host=1,       # X-Forwarded-Host
-    x_port=1,       # X-Forwarded-Port
-    x_prefix=1      # X-Forwarded-Prefix
-)
+# # Soporte para proxy más completo
+# app.wsgi_app = ProxyFix(
+#     app.wsgi_app,
+#     x_for=1,  # X-Forwarded-For
+#     x_proto=1,  # X-Forwarded-Proto
+#     x_host=1,  # X-Forwarded-Host
+#     x_port=1,  # X-Forwarded-Port
+#     x_prefix=1,  # X-Forwarded-Prefix
+# )
 
 # Configuración CORS más específica
-CORS(app,
-     resources={
-         r"/API/*": {
-             "origins": ALLOWED_ORIGINS,
-             "methods": ["GET", "POST", "OPTIONS", "PUT", "DELETE"],
-             "allow_headers": ["Content-Type", "Authorization", "code", "data", "access_token"],
-             "supports_credentials": True,  # Importante para las cookies/session
-             "max_age": 3600
-         }
-     }
-     )
+CORS(
+    app,
+    # resources={
+    #     r"/API/*": {
+    #         "origins": ALLOWED_ORIGINS,
+    #         "methods": ["GET", "POST", "OPTIONS", "PUT", "DELETE"],
+    #         "allow_headers": [
+    #             "Content-Type",
+    #             "Authorization",
+    #             "code",
+    #             "data",
+    #             "access_token",
+    #         ],
+    #         "supports_credentials": True,  # Importante para las cookies/session
+    #         "max_age": 3600,
+    #     }
+    # },
+)
 
 # Antes de enturar a la ruta, hago un requerimiento de autorización
 
 
-@app.after_request
-def after_request(response):
-    """Asegura que los headers CORS estén configurados consistentemente"""
-    origin = request.headers.get('Origin')
-    if origin in ALLOWED_ORIGINS:
-        response.headers.add('Access-Control-Allow-Origin', origin)
-        response.headers.add('Access-Control-Allow-Credentials', 'true')
-        response.headers.add('Access-Control-Allow-Headers',
-                             'Content-Type,Authorization,code,data,access_token')
-        response.headers.add('Access-Control-Allow-Methods',
-                             'GET,POST,OPTIONS,PUT,DELETE')
-        response.headers.add('Access-Control-Max-Age', '3600')
-    return response
-
+# @app.after_request
+# def after_request(response):
+#     """Asegura que los headers CORS estén configurados consistentemente"""
+#     origin = request.headers.get("Origin")
+#     if origin in ALLOWED_ORIGINS:
+#         response.headers.add("Access-Control-Allow-Origin", origin)
+#         response.headers.add("Access-Control-Allow-Credentials", "true")
+#         response.headers.add(
+#             "Access-Control-Allow-Headers",
+#             "Content-Type,Authorization,code,data,access_token",
+#         )
+#         response.headers.add(
+#             "Access-Control-Allow-Methods", "GET,POST,OPTIONS,PUT,DELETE"
+#         )
+#         response.headers.add("Access-Control-Max-Age", "3600")
+#     return response
 
 # Cargar variables de entorno
 load_dotenv()
 
-CLIENT_ID = os.getenv('CLIENT_ID')
-REDIRECT_URI = os.getenv('REDIRECT_URI')
-SCOPE = "user-read-private user-read-email playlist-modify-public playlist-modify-private"
+CLIENT_ID = os.getenv("CLIENT_ID")
+REDIRECT_URI = os.getenv("REDIRECT_URI")
+SCOPE = (
+    "user-read-private user-read-email playlist-modify-public playlist-modify-private"
+)
 
 AUTH_URL = "https://accounts.spotify.com/authorize"
 
 
-@api.route('/login')
+@api.route("/login")
 def login():
     """
     Inicia el proceso de autorización redirigiendo al usuario a la página de Spotify.
     """
     state = secrets.token_hex(16)
-    session['state'] = state
+    session["state"] = state
 
     auth_params = {
         "client_id": CLIENT_ID,
         "response_type": "code",
         "redirect_uri": REDIRECT_URI,
         "scope": SCOPE,
-        "state": state
+        "state": state,
     }
 
     auth_url = f"{AUTH_URL}?{urlencode(auth_params)}"
@@ -117,21 +143,21 @@ def login():
 
 
 # Intercambio de tokens
-@api.route('/callback', methods=['POST'])
+@api.route("/callback", methods=["POST"])
 def callback():
     """
     Maneja la redirección de Spotify después de la autorización.
     """
-    error = request.args.get('error')
-    state = request.args.get('state')
+    error = request.args.get("error")
+    state = request.args.get("state")
     data = request.get_json()
 
-    code = data.get('code')
+    code = data.get("code")
 
     if error:
         return jsonify({"error": error}), 400
 
-    if state != session.get('state'):
+    if state != session.get("state"):
         return jsonify({"error": "State mismatch. Possible CSRF attack."}), 403
 
     # print("body code:", code)
@@ -142,17 +168,17 @@ def callback():
     return jsonify({"access_token": tokens[0], "refresh_token": tokens[1]})
 
 
-@api.route('/up_img', methods=['POST'])
+@api.route("/up_img", methods=["POST"])
 def up_img():
     """
     Sube una imagen a la API.
     """
     # Valido que la img esté en el body
-    if 'img' not in request.form:
+    if "img" not in request.form:
         return jsonify({"error": "No image part"}), 400
 
     # Obtengo la img del body
-    img64 = request.form['img']
+    img64 = request.form["img"]
 
     # proceso la img con /img_process/img_process.main y espero la respuesta que va a demorar unos segundos
     img_json = main(img64)
@@ -163,10 +189,11 @@ def up_img():
     # le envio el json al front
     return jsonify(img_json)
 
+
 # ----------
 
 
-@api.route('/band_list', methods=['POST', 'OPTIONS'])
+@api.route("/band_list", methods=["POST"])
 def band_list():
     """
     Procesa la lista de bandas y devuelve un JSON con la informacion de la banda
@@ -175,10 +202,10 @@ def band_list():
     #     return _build_cors_preflight_response()
     data = request.get_json()
     # obtengo access_token del header -> array de 1 string
-    access_token = request.headers.get('Authorization')
+    access_token = request.headers.get("Authorization")
     # Eliminar el prefijo 'Bearer ' si está presente
-    if access_token and access_token.startswith('Bearer '):
-        access_token = access_token.split(' ')[1]
+    if access_token and access_token.startswith("Bearer "):
+        access_token = access_token.split(" ")[1]
 
     # print("access_token:", access_token)
     # print("json_file-band_list:", data)
@@ -193,7 +220,7 @@ def band_list():
 
 
 # ---------- search top 5 by name ----------
-@api.route('/search_options', methods=['POST', 'OPTIONS'])
+@api.route("/search_options", methods=["POST", "OPTIONS"])
 def search_options():
     """
     Le envio al usuario las opciones de busqueda para la banda incorrecta que encontro
@@ -202,7 +229,7 @@ def search_options():
     #     return _build_cors_preflight_response()
     data = request.get_json()
     # obtengo access_token del header -> array de 1 string
-    access_token = request.headers.get('Authorization')
+    access_token = request.headers.get("Authorization")
 
     # print("access_token:", access_token)
     # print("json_file-search_options:", data)
@@ -219,18 +246,18 @@ def search_options():
         return jsonify({"error": "Error en la búsqueda de opciones"}), 500
 
 
-@api.route('/create_playlist', methods=['POST'])
+@api.route("/create_playlist", methods=["POST"])
 def api_create_playlist():
     """
     Endpoint para crear una lista de reproducción.
     Requiere un token de acceso válido y los datos de la lista de reproducción.
     """
     # Captura el token de los headers
-    access_token = request.headers.get('Authorization')
+    access_token = request.headers.get("Authorization")
     # Obtener datos del formulario
-    playlist_name = request.form.get('playlist_name')
-    band_list = request.form.get('bandList')
-    img = request.files.get('img')
+    playlist_name = request.form.get("playlist_name")
+    band_list = request.form.get("bandList")
+    img = request.files.get("img")
 
     print("/create_playlist - img:", img)
 
@@ -249,19 +276,19 @@ def api_create_playlist():
     if band_list:
         band_listJSON = json.loads(band_list)
         bandListTopTen = process_list_band_top(access_token, band_listJSON)
-        print("bandListTopTen -> :",)
+        print(
+            "bandListTopTen -> :",
+        )
 
-    res = process_list_band_add_to_playlist(
-        access_token, bandListTopTen, playlist)
+    res = process_list_band_add_to_playlist(access_token, bandListTopTen, playlist)
     print("N° de bandas agregadas a la play list -> :", res)
-    if (res['top_failed'] == 0):
+    if res["top_failed"] == 0:
         return jsonify({"error": "Failed to add tracks to playlist"}), 500
 
     # Agregar portada del festival
     if img:
         img64 = image_to_base64(img)
-        img_status = upload_playlist_cover(
-            access_token, playlist['band_id'], img64)
+        img_status = upload_playlist_cover(access_token, playlist["band_id"], img64)
         print("img_status -> :", img_status)
 
     return jsonify(playlist, res)
@@ -269,52 +296,65 @@ def api_create_playlist():
 
 # -------------------------------------------------------
 # Registrar el blueprint en la app con el prefijo /API
-app.register_blueprint(api, url_prefix='/API')
+app.register_blueprint(api, url_prefix="/API")
 
 
-# Ruta para servir otros archivos estáticos si es necesario (CSS, JS, imágenes, etc.)
+# # Ruta para servir otros archivos estáticos si es necesario (CSS, JS, imágenes, etc.)
 
 
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def serve_static_files(path):
-    app.logger.info(f"Requested path: {path}")
-    # Verifica que app.static_folder no sea None
-    if not app.static_folder:
-        app.logger.error("No static folder configured")
-        raise RuntimeError(
-            "El directorio 'static_folder' no está configurado en la aplicación Flask.")
+# @app.route("/", defaults={"path": ""})
+# @app.route("/<path:path>")
+# def serve_static_files(path):
+#     app.logger.info(f"Requested path: {path}")
+#     # Verifica que app.static_folder no sea None
+#     if not app.static_folder:
+#         app.logger.error("No static folder configured")
+#         raise RuntimeError(
+#             "El directorio 'static_folder' no está configurado en la aplicación Flask."
+#         )
 
-    # Normalizar la ruta para la comparación
-    normalized_path = path.upper()
-    # Si la ruta es para la API, devuelve un 404 porque no debe coincidir con archivos estáticos.
-    if normalized_path.startswith('API/') or normalized_path == 'API':
-        app.logger.info(f"API route detected: {path}")
-        return make_response("Not Found", 404)
+#     # Normalizar la ruta para la comparación
+#     normalized_path = path.upper()
+#     # Si la ruta es para la API, devuelve un 404 porque no debe coincidir con archivos estáticos.
+#     if normalized_path.startswith("API/") or normalized_path == "API":
+#         app.logger.info(f"API route detected: {path}")
+#         return make_response("Not Found", 404)
 
-    # -------------------------------------------------------
-    # Lista de extensiones de archivos estáticos conocidos
-    static_file_extensions = [
-        '.js', '.css', '.png', '.jpg', '.jpeg', '.gif', '.ico', '.svg',
-        '.woff', '.woff2', '.ttf', '.eot', '.map', '.json'
-    ]
+#     # -------------------------------------------------------
+#     # Lista de extensiones de archivos estáticos conocidos
+#     static_file_extensions = [
+#         ".js",
+#         ".css",
+#         ".png",
+#         ".jpg",
+#         ".jpeg",
+#         ".gif",
+#         ".ico",
+#         ".svg",
+#         ".woff",
+#         ".woff2",
+#         ".ttf",
+#         ".eot",
+#         ".map",
+#         ".json",
+#     ]
 
-    # Para cualquier otra ruta, incluyendo archivos estáticos no encontrados,
-    # servimos index.html para que Angular maneje el routing
-    try:
-        response = send_from_directory(app.static_folder, 'index.html')
-        response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
-        response.headers['Pragma'] = 'no-cache'
-        response.headers['Expires'] = '0'
-        return response
-    except Exception as e:
-        app.logger.error(f"Error serving index.html: {str(e)}")
-        return make_response("index.html not found", 404)
+#     # Para cualquier otra ruta, incluyendo archivos estáticos no encontrados,
+#     # servimos index.html para que Angular maneje el routing
+#     try:
+#         response = send_from_directory(app.static_folder, "index.html")
+#         response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+#         response.headers["Pragma"] = "no-cache"
+#         response.headers["Expires"] = "0"
+#         return response
+#     except Exception as e:
+#         app.logger.error(f"Error serving index.html: {str(e)}")
+#         return make_response("index.html not found", 404)
 
 
-if __name__ == '__main__':
-    # Configuraciones para producción
-    app.config['PROPAGATE_EXCEPTIONS'] = True
-    app.config['SESSION_COOKIE_SECURE'] = True
-    app.config['SESSION_COOKIE_SAMESITE'] = 'Strict'
-    app.run(port=5000, host='0.0.0.0')
+if __name__ == "__main__":
+    # # Configuraciones para producción
+    # app.config["PROPAGATE_EXCEPTIONS"] = True
+    # app.config["SESSION_COOKIE_SECURE"] = True
+    # app.config["SESSION_COOKIE_SAMESITE"] = "Strict"
+    app.run(port=5000, host="0.0.0.0")

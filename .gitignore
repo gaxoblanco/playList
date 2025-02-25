@@ -1,5 +1,6 @@
 # Ignorar el archivo .env
 .env
+.env.production
 
 __pycache__/
 venv/

@@ -1,0 +1,5 @@
+front-end
+logs
+__pycache__
+.env
+.env.production

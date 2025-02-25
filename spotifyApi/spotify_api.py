@@ -49,7 +49,7 @@ async def search_artist(access_token, artist_name):
                 return {'id': artist_id, 'img': img, 'genres': genres, 'name': name}
             else:
                 print(f"Error en la búsqueda del artista: {response.status}")
-                print(await response.json())
+                # print(await response.json())
                 return None
 
 
