@@ -1,8 +1,12 @@
 # Ignorar el archivo .env
 .env
+.env.production
 
 __pycache__/
 venv/
 id_raspberry
 id_raspberry.pub
 lola.py
+
+# Ignorar logs
+logs

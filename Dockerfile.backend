@@ -1,0 +1,25 @@
+# Usa una imagen base de Python slim
+FROM python:3.10-slim
+
+# Instalar dependencias del sistema operativo necesarias (incluyendo Tesseract)
+RUN apt-get update && apt-get install -y \
+    libgl1-mesa-glx \
+    libgl1-mesa-dri \
+    tesseract-ocr \
+    libtesseract-dev \
+    build-essential \
+    python3-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Directorio de trabajo
+WORKDIR /app
+
+# Copiar el archivo de requerimientos e instalar las dependencias de Python
+COPY requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copiar las demas fuentes
+COPY . /app
+
+# Ejecutar el servidor
+CMD ["python", "app.py"]
