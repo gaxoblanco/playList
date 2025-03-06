@@ -52,7 +52,8 @@ app.config['MAX_FORM_MEMORY_SIZE'] = 50 * MEGABYTE
 # Configuración del logging
 handler = RotatingFileHandler("app.log", maxBytes=10000, backupCount=3)
 handler.setLevel(logging.INFO)
-formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+formatter = logging.Formatter(
+    "%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 handler.setFormatter(formatter)
 app.logger.addHandler(handler)
 app.logger.setLevel(logging.INFO)
@@ -157,8 +158,8 @@ def callback():
     if error:
         return jsonify({"error": error}), 400
 
-    if state != session.get("state"):
-        return jsonify({"error": "State mismatch. Possible CSRF attack."}), 403
+    # if state != session.get("state"):
+    #     return jsonify({"error": "State mismatch. Possible CSRF attack."}), 403
 
     # print("body code:", code)
 
@@ -280,7 +281,8 @@ def api_create_playlist():
             "bandListTopTen -> :",
         )
 
-    res = process_list_band_add_to_playlist(access_token, bandListTopTen, playlist)
+    res = process_list_band_add_to_playlist(
+        access_token, bandListTopTen, playlist)
     print("N° de bandas agregadas a la play list -> :", res)
     if res["top_failed"] == 0:
         return jsonify({"error": "Failed to add tracks to playlist"}), 500
@@ -288,7 +290,8 @@ def api_create_playlist():
     # Agregar portada del festival
     if img:
         img64 = image_to_base64(img)
-        img_status = upload_playlist_cover(access_token, playlist["band_id"], img64)
+        img_status = upload_playlist_cover(
+            access_token, playlist["band_id"], img64)
         print("img_status -> :", img_status)
 
     return jsonify(playlist, res)
