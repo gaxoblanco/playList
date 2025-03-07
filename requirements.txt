@@ -1,19 +1,21 @@
-# transformers==4.30.2
-# torch==2.0.1
-# Pillow==9.5.0
-# bitsandbytes==0.43.3
-
-
+# Framework web
 flask
 flask_cors
-python-dotenv
+gunicorn==21.2.0
+
+# Base de datos
+flask-sqlalchemy==3.1.1
+mysql-connector-python==8.0.33
+pymysql>=1.0.0
+cryptography>=41.0.0
+
+# HTTP y APIs
 requests
 aiohttp
+
+# Procesamiento de imágenes y OCR
 opencv-python
+opencv-python-headless
 pytesseract
 Pillow
 matplotlib
-# tesseract-ocr
-opencv-python-headless
-
-gunicorn==21.2.0

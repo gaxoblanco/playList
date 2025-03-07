@@ -1,4 +1,6 @@
 import asyncio
+from asyncio.log import logger
+import json
 from playlist_cover import update_playlist_cover
 from processList.processListBandAddToPlaylist import process_list_band_add_to_playlist
 from processList.processListBandId import process_list_band_id
@@ -6,6 +8,15 @@ from processList.processListBandTop import process_list_band_top
 from spotifyApi.spotify_api import search_artist, get_top_tracks, create_playlist, get_user_id
 from spotifyApi.spotify_auth import get_access_token, get_authorization_code
 from detect_possible_errors import detect_possible_errors
+
+from flask import Flask
+# Importa la instancia de db desde el archivo de modelos
+from spotifyApi.dataBase_operations import db
+
+# Crear la aplicación Flask
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://gaston:blanco@localhost:3306/festivalmusic'
+db.init_app(app)
 
 
 def main():
@@ -97,7 +108,17 @@ def main():
 
         elif opcion == '6':
             # Procesar lista de bandas desde un archivo JSON
-            asyncio.run(process_list_band_id(access_token, json_file))
+            try:
+                with open(json_file, 'r', encoding='utf-8') as file:
+                    bands_list = json.load(file)
+
+                # Añade el contexto de la aplicación aquí
+                with app.app_context():
+                    result = asyncio.run(
+                        process_list_band_id(access_token, bands_list))
+                    print("Resultado del procesamiento:", result)
+            except Exception as e:
+                logger.error(f"Error al procesar la lista de bandas: {e}")
 
         elif opcion == '7':
             # Procesar lista de bandas para obtener las Top Tracks

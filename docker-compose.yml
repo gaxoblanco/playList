@@ -1,7 +1,44 @@
 version: "3.8"
-
 services:
+  db:
+    image: mysql:8.0
+    container_name: sora-playlist-db
+    restart: always
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3307:3306"
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u${MYSQL_USER}", "-p${MYSQL_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: sora-playlist-phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "8080:80"
+    networks:
+      - app-network
+    depends_on:
+      - db
+
   sora-playlist-api:
+    container_name: sora-playlist-api
     build:
       context: .
       dockerfile: Dockerfile.backend
@@ -13,11 +50,19 @@ services:
       - .env.production
     environment:
       - PYTHONUNBUFFERED=1
+      - DB_HOST=db
+      - DB_NAME=${MYSQL_DATABASE}
+      - DB_USER=${MYSQL_USER}
+      - DB_PASSWORD=${MYSQL_PASSWORD}
     command: gunicorn --bind 0.0.0.0:5000 --timeout 500 app:app
     networks:
       - app-network
+    depends_on:
+      db:
+        condition: service_healthy
 
   sora-playlist-frontend:
+    container_name: sora-playlist-frontend
     build:
       context: ./front-end/spotyPlayList
       dockerfile: Dockerfile.frontend
@@ -33,3 +78,6 @@ services:
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  db-data:
