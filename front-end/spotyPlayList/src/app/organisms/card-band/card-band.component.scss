@@ -7,7 +7,7 @@ figure {
 
 // Crear un botón personalizado
 .file-label {
-  background-color: $spotify-green;  // Color verde de Spotify
+  background-color: $spotify-green; // Color verde de Spotify
   color: #FFFFFF;
   padding: 10px 20px;
   border-radius: 20px;
@@ -33,66 +33,91 @@ mat-chip {
 .band-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 80px 26px; /* Espaciado entre las tarjetas */
-  justify-content: center; /* Centra las tarjetas en la línea */
-  height: 70vh;
+  gap: 80px 26px;
+  /* Espaciado entre las tarjetas */
+  justify-content: center;
+  /* Centra las tarjetas en la línea */
+  height: 40vh;
   overflow-y: auto;
   overflow-x: hidden;
   padding-bottom: 200px;
 }
+
 .band-card {
   width: 300px;
   background: none;
 }
+
 .band-inf--container {
-  width: 100%; /* Cambiado a 100% para pantallas pequeñas */
-  max-width: 300px; /* Ancho máximo para pantallas más grandes */
-  background-color: #1e1e1e; /* Color de fondo similar al de Spotify */
-  color: white; /* Texto en color blanco */
-  border-radius: 8px; /* Bordes redondeados */
-  overflow: hidden; /* Para recortar el contenido */
-  transition: transform 0.2s; /* Efecto de transformación suave */
-  border: 1px solid $spotify-gray; /* Borde delgado */
+  width: 100%;
+  /* Cambiado a 100% para pantallas pequeñas */
+  max-width: 300px;
+  /* Ancho máximo para pantallas más grandes */
+  background-color: #1e1e1e;
+  /* Color de fondo similar al de Spotify */
+  color: white;
+  /* Texto en color blanco */
+  border-radius: 8px;
+  /* Bordes redondeados */
+  overflow: hidden;
+  /* Para recortar el contenido */
+  transition: transform 0.2s;
+  /* Efecto de transformación suave */
+  border: 1px solid $spotify-gray;
+  /* Borde delgado */
   margin-bottom: 6px;
   position: relative;
 }
 
 .band-card:hover {
-  transform: scale(1.05); /* Efecto de hover */
+  transform: scale(1.05);
+  /* Efecto de hover */
 }
-.band-card--header{
+
+.band-card--header {
   padding: 0px 16px;
   position: absolute;
-  top: 0; /* Por encima de su propia altura */
-  transition: top 0.3s; /* Efecto de transición suave */
+  top: 0;
+  /* Por encima de su propia altura */
+  transition: top 0.3s;
+  /* Efecto de transición suave */
   background: $spotify-dark-deep-gray;
   display: none;
   z-index: 1;
-  .card-header--button{
+
+  .card-header--button {
     padding: 6px 12px;
     border: 1px solid $alert-warning;
     background: $spotify-dark-deep-gray;
-    :hover{
+
+    :hover {
       background: $spotify-gray;
     }
   }
+
   .band-name-input {
     border-radius: 6px;
     font-size: 14px;
     width: 50%;
     background-color: $spotify-light-gray;
     font-weight: bold;
+
     &:focus-visible {
-      outline: none; /* Elimina el borde de enfoque */
-      box-shadow: none; /* Elimina cualquier sombra de enfoque */
+      outline: none;
+      /* Elimina el borde de enfoque */
+      box-shadow: none;
+      /* Elimina cualquier sombra de enfoque */
     }
   }
 }
+
 .band-card--footer {
-  padding: 0px 16px; /* Espaciado interno en el encabezado */
+  padding: 0px 16px;
+  /* Espaciado interno en el encabezado */
   // bottom por debajo de su propia altura
   bottom: -20%;
-  transition: bottom 0.3s; /* Efecto de transición suave */
+  transition: bottom 0.3s;
+  /* Efecto de transición suave */
   background: $spotify-dark-deep-gray;
   left: 0;
   padding: 10px;
@@ -100,11 +125,16 @@ mat-chip {
 
 .genre-label {
   display: inline-block;
-  border: 2px solid $spotify-green; /* Color de fondo para los géneros */
-  border-radius: 18px; /* Bordes redondeados para etiquetas */
-  padding: 2px 8px; /* Espaciado interno en etiquetas */
-  margin: 4px; /* Espaciado entre etiquetas */
-  font-size: 0.8rem; /* Tamaño de fuente más pequeño */
+  border: 2px solid $spotify-green;
+  /* Color de fondo para los géneros */
+  border-radius: 18px;
+  /* Bordes redondeados para etiquetas */
+  padding: 2px 8px;
+  /* Espaciado interno en etiquetas */
+  margin: 4px;
+  /* Espaciado entre etiquetas */
+  font-size: 0.8rem;
+  /* Tamaño de fuente más pequeño */
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -117,22 +147,29 @@ mat-chip {
   object-fit: cover;
   border-radius: 8px;
 }
+
 //---
 .scrollable-container {
-  height: 90px; /* Altura fija del contenedor */
-  overflow: auto; /* Permite el scroll */
+  height: 90px;
+  /* Altura fija del contenedor */
+  overflow: auto;
+  /* Permite el scroll */
 }
 
 /* Ocultar la barra de desplazamiento en WebKit (Chrome, Safari) */
 .scrollable-container::-webkit-scrollbar {
-  width: 0; /* Ancho de la barra de scroll */
-  background: transparent; /* Fondo transparente para ocultar la barra */
+  width: 0;
+  /* Ancho de la barra de scroll */
+  background: transparent;
+  /* Fondo transparente para ocultar la barra */
 }
 
 /* Ocultar la barra de desplazamiento en Firefox */
 .scrollable-container {
-  scrollbar-width: none; /* Para Firefox */
+  scrollbar-width: none;
+  /* Para Firefox */
 }
+
 //-----------------//
 
 /* Media queries para hacer el diseño más responsivo */
@@ -146,16 +183,19 @@ mat-chip {
     }
   }
 }
+
 @media (max-width: 960px) {
   .band-inf--container {
     display: grid;
     grid-template-columns: 1fr 2fr;
     height: 140px;
+
     figure {
       width: 100px;
       height: 140px;
     }
   }
+
   .band-card--header {
     top: -100%;
     display: none;
@@ -164,17 +204,21 @@ mat-chip {
     width: 100%;
     padding: 10px 2px;
   }
+
   .band-card.active {
     transform: scale(1);
+
     .band-card--header {
       position: absolute;
       top: -60px;
       display: flex;
       gap: 12px;
     }
+
     .footer--active {
       bottom: 0px;
     }
+
     .footer--inactive {
       bottom: 0;
       background-color: purple;
@@ -201,16 +245,19 @@ mat-chip {
 @media (min-width: 961px) {
   .band-inf--container {
     height: 300px;
+
     .scrollable-container {
       height: 100%;
       overflow: auto;
     }
+
     .band-card--title {
       font-size: 1.2rem;
       line-height: 1.4;
       margin-bottom: 14px 0;
     }
   }
+
   .band-card--header {
     top: -100%;
     display: none;
@@ -219,21 +266,26 @@ mat-chip {
     width: 100%;
     padding: 10px 2px;
   }
+
   .band-card:hover {
     transform: scale(1);
+
     .band-card--header {
       position: absolute;
       top: 0;
       display: flex;
       gap: 12px;
     }
-    .band-card--footer{
+
+    .band-card--footer {
       position: absolute;
       width: 100%;
     }
+
     .footer--active {
       bottom: 0px;
     }
+
     .footer--inactive {
       bottom: 0;
     }
@@ -246,9 +298,11 @@ mat-chip {
     overflow-x: hidden;
   }
 }
+
 @media (max-width: 960px) {
   .band-list {
     padding-top: 80px;
+    height: 30vh;
   }
 }
 
@@ -256,8 +310,10 @@ mat-chip {
   display: flex;
   overflow-x: auto;
   white-space: nowrap;
-  width: 300px; /* Asegura que el contenedor ocupe todo el ancho de su elemento padre */
-  -ms-overflow-style: none; /* Oculta la barra de desplazamiento en Internet Explorer y Edge */
+  width: 300px;
+  /* Asegura que el contenedor ocupe todo el ancho de su elemento padre */
+  -ms-overflow-style: none;
+  /* Oculta la barra de desplazamiento en Internet Explorer y Edge */
   scrollbar-width: none;
   background-color: $spotify-gray;
   border-radius: 8px;
@@ -267,11 +323,13 @@ mat-chip {
 }
 
 .band-list-options::-webkit-scrollbar {
-  width: 0; /* Oculta la barra de desplazamiento en Chrome, Safari y Opera */
+  width: 0;
+  /* Oculta la barra de desplazamiento en Chrome, Safari y Opera */
 }
 
-.band-list-options > * {
-  flex: 0 0 auto; /* Asegura que los elementos secundarios no se reduzcan y se mantengan en una fila */
-  margin-right: 10px; /* Espacio entre los elementos */
+.band-list-options>* {
+  flex: 0 0 auto;
+  /* Asegura que los elementos secundarios no se reduzcan y se mantengan en una fila */
+  margin-right: 10px;
+  /* Espacio entre los elementos */
 }
-
