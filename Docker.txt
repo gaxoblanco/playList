@@ -13,79 +13,8 @@
 ** Para detener ambos servicios
     docker-compose down
 
+*** Limpiar todo
+    docker system prune -a --volumes -f
 
-****************************************************************
-### Guía para ejecutar Docker con docker-compose
-
-## 1. Ejecución de cada entorno
-
-### 1.1 Para ENTORNO DE DESARROLLO
-Ejecuta el siguiente comando:
-
-```sh
-docker-compose up
-```
-
-- Esto ejecuta `docker-compose.yml` junto con `docker-compose.override.yml`.
-- Se ejecuta el frontend en modo desarrollo (`npm start`).
-- Se ejecuta el backend en modo desarrollo (`python app.py`).
-- Se montan volúmenes para que los cambios en el código se reflejen sin necesidad de reconstruir el contenedor.
-
----
-
-### 1.2 Para ENTORNO DE PRODUCCIÓN
-Si quieres ejecutar el entorno de producción, ignorando `docker-compose.override.yml`, usa:
-
-```sh
-docker-compose -f docker-compose.yml up --build -d
-```
-
-- Este comando solo usa `docker-compose.yml`.
-- Construye los contenedores (`--build`).
-- Corre en modo "detached" (`-d`), es decir, en segundo plano.
-- Se ejecuta el backend con Gunicorn.
-- Se ejecuta el frontend con `serve -s /static -l 4200`.
-
----
-
-## 2. Reiniciar los contenedores con cambios
-Si hiciste cambios en el código fuente y necesitas reiniciar los contenedores:
-
-```sh
-docker-compose down && docker-compose up --build
-```
-
-- `down` detiene y elimina los contenedores en ejecución.
-- `up --build` los reconstruye con los cambios realizados.
-
----
-
-## 3. Detener los contenedores
-Si necesitas detener todos los contenedores sin eliminar los volúmenes:
-
-```sh
-docker-compose down
-```
-
-Si también quieres eliminar los volúmenes de datos:
-
-```sh
-docker-compose down -v
-```
-
----
-
-## 4. Resumen de comandos
-
-| Entorno | Comando |
-|---------|---------|
-| **Desarrollo** | `docker-compose up` |
-| **Producción** | `docker-compose -f docker-compose.yml up --build -d` |
-| **Reiniciar con cambios** | `docker-compose down && docker-compose up --build` |
-| **Detener contenedores** | `docker-compose down` |
-| **Eliminar contenedores y volúmenes** | `docker-compose down -v` |
-
----
-
-Con estos comandos puedes manejar los diferentes entornos sin modificar el `docker-compose.yml` original. ¡Listo para usar Docker con facilidad! 🚀
-
+/** MySQL directamente: localhost:3307
+/** Frontend derectamente: localhost

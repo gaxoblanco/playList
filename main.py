@@ -1,3 +1,4 @@
+import asyncio
 from playlist_cover import update_playlist_cover
 from processList.processListBandAddToPlaylist import process_list_band_add_to_playlist
 from processList.processListBandId import process_list_band_id
@@ -52,9 +53,11 @@ def main():
         if opcion == '1':
             # Buscar artista
             artista = input("Introduce el nombre del artista: ")
-            artist_id = search_artist(access_token, artista)
-            if artist_id:
-                print(f"ID del artista {artista}: {artist_id}")
+            artist_data = asyncio.run(search_artist(access_token, artista))
+            if artist_data:
+                print(f"ID del artista {artista}: {artist_data}")
+            else:
+                print("Error: Artista no encontrado.")
 
         elif opcion == '2':
             # Obtener Top Tracks de un artista
@@ -72,6 +75,7 @@ def main():
                 print(f"Tu User ID es: {user_id}")
 
         elif opcion == '4':
+            print("Corroborando posibles errores en los nombres de las bandas...")
             # Corroborar que no existan 2 bandas en la misma entrada
             detect_possible_errors(json_file)
 
@@ -86,22 +90,27 @@ def main():
                 playlist_name = input(
                     "Introduce el nombre de la lista de reproducción: ")
                 playlist = create_playlist(
-                    access_token, user_id, playlist_name, json_file)
+                    access_token, user_id, playlist_name)
                 if playlist:
                     print(
                         f"Lista de reproducción creada: {playlist}")
 
         elif opcion == '6':
             # Procesar lista de bandas desde un archivo JSON
-            process_list_band_id(access_token, json_file)
+            asyncio.run(process_list_band_id(access_token, json_file))
 
         elif opcion == '7':
             # Procesar lista de bandas para obtener las Top Tracks
             process_list_band_top(access_token, json_file)
 
         elif opcion == '8':
+            print("Procesando lista de bandas para obtener las Top Tracks")
             # Procesar lista de bandas para añadir a una lista de reproducción
-            process_list_band_add_to_playlist(access_token, json_file)
+            bandListTopTen = process_list_band_top(access_token, json_file)
+            print("Procesando lista de bandas para añadir a una lista de reproducción...")
+            # Procesar lista de bandas para añadir a una lista de reproducción
+            process_list_band_add_to_playlist(
+                access_token, bandListTopTen, playlist)
 
         elif opcion == '9':
             # Salir
