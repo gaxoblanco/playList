@@ -45,7 +45,7 @@ def get_authorization_code():
 
     while True:
         redirected_url = input(
-            "URL completa después de la autorización: ").strip()
+            "URL completa, ...callback?code='token': ").strip()
 
         # Parsear la URL y extraer el código
         parsed_url = urlparse(redirected_url)

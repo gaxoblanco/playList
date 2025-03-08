@@ -35,6 +35,8 @@ from img_process.img64 import image_to_base64
 
 import logging
 from logging.handlers import RotatingFileHandler
+# Importa la instancia de db desde el archivo de modelos
+from spotifyApi.dataBase_operations import db
 
 # # Configuración de orígenes permitidos
 # ALLOWED_ORIGINS = ["http://localhost:4200", "https://festivalmusic.gaxoblanco.com"]
@@ -61,66 +63,29 @@ app.logger.setLevel(logging.INFO)
 # Blueprint para las rutas de la API
 api = Blueprint("api", __name__)
 
-# # Soporte para proxy más completo
-# app.wsgi_app = ProxyFix(
-#     app.wsgi_app,
-#     x_for=1,  # X-Forwarded-For
-#     x_proto=1,  # X-Forwarded-Proto
-#     x_host=1,  # X-Forwarded-Host
-#     x_port=1,  # X-Forwarded-Port
-#     x_prefix=1,  # X-Forwarded-Prefix
-# )
-
-# Configuración CORS más específica
-CORS(
-    app,
-    # resources={
-    #     r"/API/*": {
-    #         "origins": ALLOWED_ORIGINS,
-    #         "methods": ["GET", "POST", "OPTIONS", "PUT", "DELETE"],
-    #         "allow_headers": [
-    #             "Content-Type",
-    #             "Authorization",
-    #             "code",
-    #             "data",
-    #             "access_token",
-    #         ],
-    #         "supports_credentials": True,  # Importante para las cookies/session
-    #         "max_age": 3600,
-    #     }
-    # },
-)
-
-# Antes de enturar a la ruta, hago un requerimiento de autorización
-
-
-# @app.after_request
-# def after_request(response):
-#     """Asegura que los headers CORS estén configurados consistentemente"""
-#     origin = request.headers.get("Origin")
-#     if origin in ALLOWED_ORIGINS:
-#         response.headers.add("Access-Control-Allow-Origin", origin)
-#         response.headers.add("Access-Control-Allow-Credentials", "true")
-#         response.headers.add(
-#             "Access-Control-Allow-Headers",
-#             "Content-Type,Authorization,code,data,access_token",
-#         )
-#         response.headers.add(
-#             "Access-Control-Allow-Methods", "GET,POST,OPTIONS,PUT,DELETE"
-#         )
-#         response.headers.add("Access-Control-Max-Age", "3600")
-#     return response
 
 # Cargar variables de entorno
 load_dotenv()
+# Variables para la base de datos
+DB_HOST = os.getenv("DB_HOST", "db")
+DB_NAME = os.getenv("DB_NAME", "festivalmusic")
+DB_USER = os.getenv("DB_USER", "gaston")
+DB_PASSWORD = os.getenv("DB_PASSWORD", "blanco")
+DB_PORT = os.getenv("DB_PORT", "3306")
 
 CLIENT_ID = os.getenv("CLIENT_ID")
-REDIRECT_URI = os.getenv("REDIRECT_URI")
+REDIRECT_URI = os.getenv("REDIRECT_URI")  # os.getenv("REDIRECT_URI")
 SCOPE = (
     "user-read-private user-read-email playlist-modify-public playlist-modify-private"
 )
 
 AUTH_URL = "https://accounts.spotify.com/authorize"
+
+# Configuración de SQLAlchemy usando variables de entorno
+app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# Inicializa la base de datos con la app
+db.init_app(app)
 
 
 @api.route("/login")
@@ -215,9 +180,12 @@ def band_list():
         return jsonify({"error, token is required": data}), 400
     # Hacer una copia de data y pasarlo a la función para evitar modificar el objeto original
     data_copy = copy.deepcopy(data)
+    print("data_copy:", data_copy)
     # Ejecuta el procesamiento asincrónico de las bandas
-    resultado = asyncio.run(process_list_band_id(access_token, data_copy))
-    return jsonify(resultado)
+    # Añade el contexto de la aplicación aquí
+    with app.app_context():
+        result = asyncio.run(process_list_band_id(access_token, data_copy))
+    return jsonify(result)
 
 
 # ---------- search top 5 by name ----------

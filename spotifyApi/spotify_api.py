@@ -43,10 +43,11 @@ async def search_artist(access_token, artist_name):
                 img = data['artists']['items'][0]['images'][0]['url']
                 genres = data['artists']['items'][0]['genres']
                 name = data['artists']['items'][0]['name']
+                popularity = data['artists']['items'][0]['popularity']
                 # Esperar un pequeño intervalo entre solicitudes para evitar sobrecargar la API
                 await asyncio.sleep(0.2)
 
-                return {'id': artist_id, 'img': img, 'genres': genres, 'name': name}
+                return {'id': artist_id, 'img': img, 'genres': genres, 'name': name, 'popularity': popularity}
             else:
                 print(f"Error en la búsqueda del artista: {response.status}")
                 # print(await response.json())
