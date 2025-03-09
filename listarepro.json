@@ -1,0 +1,137 @@
+[
+  {
+    "band_id": "1",
+    "name": "caballeros de la quema",
+    "img_zone": [14, 20, 246, 33]
+  },
+  {
+    "band_id": "2",
+    "name": "el plan de la mariposa",
+    "img_zone": [768, 20, 46, 33]
+  },
+  {
+    "band_id": "3",
+    "name": "bersuit",
+    "img_zone": [685, 65, 172, 33]
+  },
+  {
+    "band_id": "4",
+    "name": "jovenes pordioseros",
+    "img_zone": [139, 110, 183, 33]
+  },
+  {
+    "band_id": "5",
+    "name": "kapanga",
+    "img_zone": [656, 110, 199, 33]
+  },
+  {
+    "band_id": "6",
+    "name": "la delio valdez",
+    "img_zone": [329, 0, 44, 65]
+  },
+  {
+    "band_id": "7",
+    "name": "la mississippi",
+    "img_zone": [329, 0, 44, 65]
+  },
+  {
+    "band_id": "8",
+    "name": "lisandro aristimuno",
+    "img_zone": [261, 200, 205, 33]
+  },
+  {
+    "band_id": "9",
+    "name": "mancha de rolando",
+    "img_zone": [148, 245, 177, 33]
+  },
+  {
+    "band_id": "10",
+    "name": "massacre",
+    "img_zone": [629, 245, 218, 33]
+  },
+  {
+    "band_id": "11",
+    "name": "pier",
+    "img_zone": [165, 290, 92, 33]
+  },
+  {
+    "band_id": "12",
+    "name": "piti fernandez",
+    "img_zone": [291, 290, 79, 33]
+  },
+  {
+    "band_id": "13",
+    "name": "ale kurz",
+    "img_zone": [655, 290, 78, 33]
+  },
+  {
+    "band_id": "14",
+    "name": "basta de besos",
+    "img_zone": [70, 338, 92, 23]
+  },
+  {
+    "band_id": "15",
+    "name": "coral",
+    "img_zone": [329, 338, 96, 23]
+  },
+  {
+    "band_id": "16",
+    "name": "daniela milagros",
+    "img_zone": [460, 334, 120, 42]
+  },
+  {
+    "band_id": "17",
+    "name": "don adams",
+    "img_zone": [758, 338, 60, 23]
+  },
+  {
+    "band_id": "18",
+    "name": "duna",
+    "img_zone": [62, 373, 81, 23]
+  },
+  {
+    "band_id": "19",
+    "name": "guillermo beresnak",
+    "img_zone": [168, 373, 166, 23]
+  },
+  {
+    "band_id": "20",
+    "name": "julieta rada",
+    "img_zone": [519, 373, 118, 23]
+  },
+  {
+    "band_id": "21",
+    "name": "kchiporros",
+    "img_zone": [751, 373, 184, 23]
+  },
+  {
+    "band_id": "22",
+    "name": "la burrita cumbion",
+    "img_zone": [329, 0, 44, 65]
+  },
+  {
+    "band_id": "23",
+    "name": "la nave terrenal",
+    "img_zone": [329, 0, 44, 65]
+  },
+  {
+    "band_id": "24",
+    "name": "los mentidores",
+    "img_zone": [169, 443, 51, 23]
+  },
+  {
+    "band_id": "25",
+    "name": "los muertos no manejan",
+    "img_zone": [169, 443, 51, 23]
+  },
+  {
+    "band_id": "26",
+    "name": "los pulpas",
+    "img_zone": [169, 443, 51, 23]
+  },
+  {
+    "band_id": "27",
+    "name": "los tabaleros",
+    "img_zone": [169, 443, 51, 23]
+  }
+]

@@ -15,11 +15,8 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 # Copiar el archivo de requerimientos e instalar las dependencias de Python
-COPY requirements.txt /app/
+COPY ./back-end/requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
-
-# Copiar las demas fuentes
-COPY . /app
 
 # Ejecutar el servidor
 CMD ["python", "app.py"]

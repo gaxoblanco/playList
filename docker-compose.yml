@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   db:
     image: mysql:8.0
@@ -7,25 +5,24 @@ services:
     restart: always
     volumes:
       - db-data:/var/lib/mysql
-      - ./mysql/init:/docker-entrypoint-initdb.d
+      - ./back-end/mysql/init:/docker-entrypoint-initdb.d
     env_file:
-      - .env.production
+      - ./.env.production
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: festivalmusic
-      MYSQL_USER: gaston
-      MYSQL_PASSWORD: blanco
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3307:3306"
     networks:
       - app-network
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u${MYSQL_USER}", "--password=${MYSQL_PASSWORD}"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "${MYSQL_USER}", "--password=${MYSQL_PASSWORD}"]
       interval: 10s
       timeout: 10s
       retries: 10
       start_period: 30s
-
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: sora-playlist-phpmyadmin
@@ -40,18 +37,17 @@ services:
       - app-network
     depends_on:
       - db
-
   sora-playlist-api:
     container_name: sora-playlist-api
     build:
       context: .
-      dockerfile: Dockerfile.backend
+      dockerfile: ./back-end/Dockerfile.backend
     volumes:
-      - ./logs:/app/logs
+      - ./back-end:/app
     ports:
       - "5000:5000"
     env_file:
-      - .env.production
+      - ./.env.production
     environment:
       - PYTHONUNBUFFERED=1
       - DB_HOST=db
@@ -64,7 +60,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-
   sora-playlist-frontend:
     container_name: sora-playlist-frontend
     build:
@@ -78,10 +73,8 @@ services:
       - sora-playlist-api
     networks:
       - app-network
-
 networks:
   app-network:
     driver: bridge
-
 volumes:
   db-data:

@@ -1,7 +1,3 @@
--- Crear la base de datos si no existe
-CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE}; -- nombre de la base de datos por defecto
-USE ${MYSQL_DATABASE};
-
 -- Crear tabla de bandas
 CREATE TABLE IF NOT EXISTS band_spotify (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -28,11 +24,6 @@ CREATE TABLE IF NOT EXISTS band_genre_spotify (
     FOREIGN KEY (genre_id) REFERENCES genre_spotify(id) ON DELETE CASCADE,
     UNIQUE KEY band_genre_unique (band_id, genre_id)
 );
-
--- Crear índices para optimizar búsquedas
-CREATE INDEX IF NOT EXISTS idx_band_id_spotify ON band_spotify(id_spotify);
-CREATE INDEX IF NOT EXISTS idx_band_names ON band_spotify(names);
-CREATE INDEX IF NOT EXISTS idx_genre_names ON genre_spotify(names);
 
 -- Insertar algunos géneros predeterminados
 INSERT IGNORE INTO genre_spotify (names) VALUES 
