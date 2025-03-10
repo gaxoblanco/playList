@@ -46,6 +46,11 @@ def main():
     while True:
         json_file = input(
             "Introduce el nombre del archivo JSON a procesar (con extensión .json): ")
+        # Comprobar que el archivo tenga la texto
+        if not json_file:
+            print(
+                "No se paso un archivo. Se usa por defecto listarepro.json")
+            json_file = "listarepro.json"
         # Comprobar que el archivo tenga la extensión .json
         if not json_file.endswith('.json'):
             # si no la tiene se la añadimos

@@ -33,7 +33,7 @@ export class OptionsListComponent {
     name: 'Add band',
     genres: ['Add extra band for your Play List'],
     img_zone: [0, 0, 0, 0],
-    img: '../../../assets/addBand.jpg',
+    img_url: '../../../assets/addBand.jpg',
   };
 
   constructor(

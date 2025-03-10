@@ -82,7 +82,7 @@ export class CardBandComponent {
       ],
       genres: ['Cargando...'],
       img_zone: [0, 0, 0, 0],
-      img: 'https://via.placeholder.com/150',
+      img_url: 'https://via.placeholder.com/150',
     },
     // 2 cargando
     {
@@ -96,7 +96,7 @@ export class CardBandComponent {
       ],
       genres: ['Cargando...'],
       img_zone: [0, 0, 0, 0],
-      img: 'https://via.placeholder.com/150',
+      img_url: 'https://via.placeholder.com/150',
     },
     // 3 cargando
     {
@@ -110,7 +110,7 @@ export class CardBandComponent {
       ],
       img_zone: [0, 0, 0, 0],
       genres: ['Cargando...'],
-      img: 'https://via.placeholder.com/150',
+      img_url: 'https://via.placeholder.com/150',
     },
   ];
 
@@ -126,7 +126,7 @@ export class CardBandComponent {
     name: 'Add band',
     genres: ['Add extra band for your Play List'],
     img_zone: [0, 0, 0, 0],
-    img: '../../../assets/addBand.jpg',
+    img_url: '../../../assets/addBand.jpg',
   };
   addBandHtml: string = '';
   constructor(

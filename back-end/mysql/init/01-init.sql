@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS band_spotify (
     id_spotify VARCHAR(30) NOT NULL UNIQUE,
     names VARCHAR(100) NOT NULL,
     img_url VARCHAR(255),
-    popularidad INT,
+    popularity INT,
     date_create TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     date_up TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
