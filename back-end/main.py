@@ -1,7 +1,7 @@
 import asyncio
 from asyncio.log import logger
 import json
-from playlist_cover import update_playlist_cover
+# from playlist_cover import update_playlist_cover
 from processList.processListBandAddToPlaylist import process_list_band_add_to_playlist
 from processList.processListBandId import process_list_band_id
 from processList.processListBandTop import process_list_band_top
@@ -43,8 +43,21 @@ def main():
     print("Autenticado correctamente.", access_token)
 
     # Preguntar al usuario por el nombre del archivo JSON con que vamos a trabajar
-    json_file = input(
-        "Introduce el nombre del archivo JSON a procesar (con extensión .json): ")
+    while True:
+        json_file = input(
+            "Introduce el nombre del archivo JSON a procesar (con extensión .json): ")
+        # Comprobar que el archivo tenga la extensión .json
+        if not json_file.endswith('.json'):
+            # si no la tiene se la añadimos
+            json_file += '.json'
+        # valido que el archivo exista en el directorio
+        try:
+            with open(json_file, 'r', encoding='utf-8') as file:
+                bands_list = json.load(file)
+            break  # Salir del bucle si el archivo se carga correctamente
+        except FileNotFoundError:
+            # si no existe el archivo, le pido que lo vuevla a intentar
+            print("El archivo no existe. Inténtalo de nuevo.")
 
     user_id = None
     while True:
