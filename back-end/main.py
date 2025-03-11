@@ -1,7 +1,9 @@
 import asyncio
 from asyncio.log import logger
+from datetime import datetime
 import json
 # from playlist_cover import update_playlist_cover
+from manage_login_token import manage_login_token
 from processList.processListBandAddToPlaylist import process_list_band_add_to_playlist
 from processList.processListBandId import process_list_band_id
 from processList.processListBandTop import process_list_band_top
@@ -25,21 +27,7 @@ def main():
     """
     print("Autenticando...")
 
-    # Obtener el código de autorización
-    authorization_code = get_authorization_code()
-    # authorization_code = get_access_token_deprecate()
-
-    if not authorization_code:
-        print("No se pudo obtener el código de autorización.")
-        return
-
-    # Obtener el token de acceso y de actualización
-    access_token, refresh_token = get_access_token(authorization_code)
-
-    # if not access_token:
-    #     print("No se pudo autenticar.")
-    #     return
-
+    access_token = manage_login_token()
     print("Autenticado correctamente.", access_token)
 
     # Preguntar al usuario por el nombre del archivo JSON con que vamos a trabajar
