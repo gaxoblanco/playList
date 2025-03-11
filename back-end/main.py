@@ -1,5 +1,6 @@
 import asyncio
 from asyncio.log import logger
+import base64
 from datetime import datetime
 import json
 # from playlist_cover import update_playlist_cover
@@ -10,6 +11,7 @@ from processList.processListBandTop import process_list_band_top
 from spotifyApi.spotify_api import search_artist, get_top_tracks, create_playlist, get_user_id
 from spotifyApi.spotify_auth import get_access_token, get_authorization_code
 from detect_possible_errors import detect_possible_errors
+from img_process.img_process import img_process
 
 from flask import Flask
 # Importa la instancia de db desde el archivo de modelos
@@ -63,7 +65,8 @@ def main():
         print("6. Procesar lista de bandas desde JSON")
         print("7. Procesar lista de bandas para obtener las Top Tracks")
         print("8. Procesar lista de bandas para añadir a una lista de reproducción")
-        print("9. Salir")
+        print("9. Procesar imagen para obtener texto")
+        print("10. Salir")
 
         opcion = input("Selecciona una opción: ")
 
@@ -122,7 +125,7 @@ def main():
                 with app.app_context():
                     result = asyncio.run(
                         process_list_band_id(access_token, bands_list))
-                    print("Resultado del procesamiento:", result)
+                    print("Resultado del procesamiento:", result[0:5])
             except Exception as e:
                 logger.error(f"Error al procesar la lista de bandas: {e}")
 
@@ -138,8 +141,32 @@ def main():
             # Procesar lista de bandas para añadir a una lista de reproducción
             process_list_band_add_to_playlist(
                 access_token, bandListTopTen, playlist)
-
         elif opcion == '9':
+            # Le solicito al usuario la ruta de la imagen a procesar
+            ruta_img = input(
+                "Introduce la ruta de la imagen a procesar con el nombre: ")
+
+            # si la rita esta vacia, se usa una por defecto
+            if not ruta_img:
+                ruta_img = 'imageQ.jpg'
+
+            # Valido si termina con .jpg, si no se lo agrego
+            if not ruta_img.endswith('.jpg'):
+                ruta_img += '.jpg'
+
+            # Primero convierto la imagen a base64
+            with open(ruta_img, "rb") as img_file:
+                # Leo el archivo binario
+                binary_data = img_file.read()
+                # Codifico a base64
+                base64_encoded = base64.b64encode(binary_data)
+                # Convierto de bytes a string y agrego el prefijo de datos
+                img_base64 = f"data:image/jpeg;base64,{base64_encoded.decode('utf-8')}"
+                img_result = img_process(img_base64)
+            # Ahora puedo llamar a main con la imagen en base64
+            print(f'resutlado de procesar la img ->', img_result)
+
+        elif opcion == '10':
             # Salir
             print("Saliendo del programa...")
             break

@@ -132,8 +132,8 @@ async def process_list_band_id(access_token, bands_list):
 
     print('results del search ->', processed_results[0])
     # print('bands_in_db ->', bands_in_db)
-    print("processed_results ->", len(processed_results))
-    print("bands_in_db ->", len(bands_in_db))
+    print("processed_results ->", processed_results)
+    print("bands_in_db ->", bands_in_db)
 
     # Primero, agregamos todas las bandas de bands_in_db
     processed_bands = merge_and_sort_bands(
