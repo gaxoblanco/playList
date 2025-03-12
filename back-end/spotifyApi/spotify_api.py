@@ -2,7 +2,7 @@ import asyncio
 from time import sleep
 import aiohttp
 import requests
-import json
+from processList.services.normalize_band_name import normalize_band_name
 
 
 def get_user_id(access_token):
@@ -26,32 +26,142 @@ def get_user_id(access_token):
         return None
 
 
-async def search_artist(access_token, artist_name):
+async def search_artist(access_token, artist_name, max_retries=3, base_delay=1.0):
     """
     Busca un artista por su nombre y devuelve su ID.
+    Verifica que el nombre devuelto coincida con el buscado tras normalización.
+
+    Args:
+        access_token: Token de acceso para la API de Spotify
+        artist_name: Nombre del artista a buscar
+        max_retries: Número máximo de reintentos (por defecto: 3)
+        base_delay: Tiempo de espera base en segundos (por defecto: 1.0)
+
+    Returns:
+        dict: Datos del artista o datos con formato de error si no coincide
     """
+    import random
+
+    # Normalizamos el nombre original para comparar después
+    normalized_search_name = normalize_band_name(artist_name)
+
     url = f'https://api.spotify.com/v1/search?q={artist_name}&type=artist&limit=1'
     headers = {
         'Authorization': f'Bearer {access_token}'
     }
 
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url, headers=headers) as response:
-            if response.status == 200:
-                data = await response.json()
-                artist_id = data['artists']['items'][0]['id']
-                img = data['artists']['items'][0]['images'][0]['url']
-                genres = data['artists']['items'][0]['genres']
-                name = data['artists']['items'][0]['name']
-                popularity = data['artists']['items'][0]['popularity']
-                # Esperar un pequeño intervalo entre solicitudes para evitar sobrecargar la API
-                await asyncio.sleep(0.2)
+    for attempt in range(max_retries + 1):
+        try:
+            async with aiohttp.ClientSession() as session:
+                # Timeout para evitar bloqueos prolongados
+                timeout = aiohttp.ClientTimeout(total=10)
+                async with session.get(url, headers=headers, timeout=timeout) as response:
+                    if response.status == 200:
+                        data = await response.json()
 
-                return {'id': artist_id, 'img': img, 'genres': genres, 'name': name, 'popularity': popularity}
-            else:
-                print(f"Error en la búsqueda del artista: {response.status}")
-                # print(await response.json())
-                return None
+                        # Verificar que hay resultados
+                        if not data['artists']['items']:
+                            print(
+                                f"No se encontraron resultados para: {artist_name}")
+                            return {
+                                'id': f"-no-results-{normalized_search_name}",
+                                'img': "img_error",
+                                'genres': [],
+                                'name': artist_name,
+                                'popularity': 0
+                            }
+
+                        # Obtener datos del artista
+                        artist = data['artists']['items'][0]
+                        artist_id = artist['id']
+                        img = artist['images'][0]['url'] if artist['images'] else ""
+                        genres = artist['genres']
+                        name = artist['name']
+                        popularity = artist['popularity']
+
+                        # Normalizar y comparar nombres
+                        normalized_result_name = normalize_band_name(name)
+                        names_match = normalized_search_name == normalized_result_name
+
+                        # Si los nombres no coinciden, marcar como error de coincidencia
+                        if not names_match:
+                            print(
+                                f"Nombre devuelto '{name}' no coincide con búsqueda '{artist_name}'")
+                            return {
+                                'id': f"-mismatch-{normalized_search_name}",
+                                'img': "img_error",
+                                'genres': [],
+                                'name': artist_name,  # Mantenemos el nombre original
+                                'popularity': 0
+                            }
+
+                        # Esperar un pequeño intervalo entre solicitudes
+                        await asyncio.sleep(0.2)
+
+                        return {
+                            'id': artist_id,
+                            'img': img,
+                            'genres': genres,
+                            'name': name,
+                            'popularity': popularity
+                        }
+
+                    elif response.status == 429:  # Too Many Requests
+                        # Leer el header Retry-After si está disponible
+                        retry_after = int(
+                            response.headers.get('Retry-After', 1))
+                        print(
+                            f"Límite de tasa excedido. Esperando {retry_after} segundos...")
+                        await asyncio.sleep(retry_after)
+                        continue  # Reintentar inmediatamente después de esperar
+
+                    else:
+                        print(
+                            f"Error en la búsqueda del artista: {response.status}")
+                        error_text = await response.text()
+                        # Mostrar solo los primeros 200 caracteres
+                        print(f"Detalles del error: {error_text[:200]}...")
+
+                        # Si es un error 400 o 401, puede ser un problema con el token
+                        if response.status in (400, 401):
+                            print(
+                                "Error de autenticación. Verifica el token de acceso.")
+                            return {
+                                'id': f"-auth-error",
+                                'img': "img_error",
+                                'genres': [],
+                                'name': artist_name,
+                                'popularity': 0
+                            }
+
+        except asyncio.TimeoutError:
+            print(f"Timeout al conectar con Spotify para {artist_name}")
+
+        except aiohttp.ClientConnectorError as e:
+            print(f"Error de conexión con Spotify: {str(e)}")
+
+        except Exception as e:
+            print(
+                f"Error inesperado al buscar artista {artist_name}: {str(e)}")
+
+        # Si no es el último intento, esperar y reintentar
+        if attempt < max_retries:
+            # Backoff exponencial con jitter (variación aleatoria)
+            delay = base_delay * (2 ** attempt) + random.uniform(0, 0.5)
+            print(
+                f"Reintentando búsqueda de {artist_name} en {delay:.2f} segundos (intento {attempt+1}/{max_retries})")
+            await asyncio.sleep(delay)
+        else:
+            print(f"Se agotaron los reintentos para {artist_name}")
+            return {
+                'id': f"-max-retries-{normalized_search_name}",
+                'img': "img_error",
+                'genres': [],
+                'name': artist_name,
+                'popularity': 0
+            }
+
+    return None  # Este return no debería alcanzarse nunca, pero lo mantenemos por seguridad
 
 
 async def search_option(access_token, artist_name):

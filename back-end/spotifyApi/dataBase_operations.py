@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
 from sqlalchemy.orm import scoped_session, sessionmaker
-
+from processList.services.normalize_band_name import normalize_band_name
 from services.compare_dictstring import find_bands_dict_array
 
 # Inicializar SQLAlchemy
@@ -106,86 +106,88 @@ def search_bands_db_from_list(bands_list):
     if not bands_list or not isinstance(bands_list, list):
         return {"error": "La entrada debe ser una lista de bandas"}, 400
 
-    result = []
+    # imprimo el name de las bandas
+    print('search_bands_db_from_list bands_list ->',
+          [band["name"] for band in bands_list])
 
     # Extraer los nombres de las bandas de la lista
     band_names = [band["name"] for band in bands_list]
-    # valido que sea una lista de str
-    if not all(isinstance(name, str) for name in band_names):
-        return {"error": "El nombre de las bandas debe ser un string"}, 400
-    # Creo una consula SQL a la columna names para obtener todas las bandas que estan en la lista band_names
-    bands_query = Band.query.filter(
-        Band.names.in_(band_names)).all()  # type: ignore
-
-    # imprimo el largo de la lista de bandas
+    print('band_names ->', len(band_names))
+    # Consulta a la base de datos
+    bands_query = Band.query.filter(Band.names.in_(band_names)).distinct(  # type: ignore
+        Band.id_spotify).all()  # type: ignore
     print('bands_query len ->', len(bands_query))
-    print('bands_list len ->', len(bands_list))
 
-    # Comparo los array y obtengo los entonctrados y los no encontrados
-    bands_found, bands_not_found = find_bands_dict_array(
-        band_names, bands_query)
-    # bands_found => <Band> object
-    # bands_not_found => <str> object
+    # Creamos diccionarios para búsqueda eficiente
+    db_bands_by_name = {normalize_band_name(
+        band.names): band for band in bands_query}
+    print('db_bands_by_name ->', len(db_bands_by_name))
+    # Dividimos en encontradas y no encontradas
+    found_bands = []
+    not_found_bands = []
+    id_work_processed = set()  # Para rastrear qué id_work han sido procesados
 
-    # Si no encontramos bandas, retornamos temprano
-    if not len(bands_found) > 0:
-        return [], bands_not_found
-
-    # Obtenemos los IDs de las bandas encontradas para consultar los géneros
-    band_ids = [band.id for band in bands_found]
-
-    # --- obtengo los generos de las bandas encontradas ---
-    # Hago una sola consulta para obtener todos los genre_id de los bands_ids
-    band_genres_query = BandGenre.query.filter(
-        BandGenre.band_id.in_(band_ids)).all()  # type: ignore
-
-    # Ahora obtenemos todos los géneros necesarios
-    genre_ids = [bg.genre_id for bg in band_genres_query]
-    genres = Genre.query.filter(Genre.id.in_(genre_ids)).all()
-
-    # Crear un diccionario para mapear genre_id a nombre de género
-    genre_dict = {genre.id: genre.names for genre in genres}
-    # Organizar los géneros por band_id
-    band_genres = {}
-    for bg in band_genres_query:
-        if bg.band_id not in band_genres:
-            band_genres[bg.band_id] = []
-        # Añadir el nombre del género usando nuestro diccionario
-        if bg.genre_id in genre_dict:
-            band_genres[bg.band_id].append(genre_dict[bg.genre_id])
-
-    # --- obtengo los generos de las bandas encontradas ---
-    # Convertimos bands_found (lista de objetos Band) a un diccionario para búsqueda eficiente
-    bands_found_dict = {}
-    for band in bands_found:
-        # Usando minúsculas para case-insensitive
-        bands_found_dict[band.names.lower()] = band
-
-    # Ahora iteramos sobre bands_list y actualizamos con la información
+    # Procesar cada banda original una sola vez
     for band in bands_list:
-        # Convertimos a minúsculas para la comparación
-        band_name = band["name"].lower()
+        band_name = normalize_band_name(band["name"])
+        id_work = band.get('id_work')
 
-        if band_name in bands_found_dict:
-            found_band = bands_found_dict[band_name]
-            band["band_id"] = found_band.id_spotify
-            band["popularity"] = found_band.popularity
-            band["img_url"] = found_band.img_url
-            # Ahora agregamos la información de géneros
-            band["genres"] = band_genres.get(found_band.id, [])
+        # Evitar procesar el mismo id_work dos veces
+        if id_work in id_work_processed:
+            continue
+        id_work_processed.add(id_work)
 
-            result.append(band)
+        if band_name in db_bands_by_name:
+            # Banda encontrada en DB
+            db_band = db_bands_by_name[band_name]
+            found_bands.append(db_band)
+
+            # Actualizar el item original con datos de la DB
+            band["band_id"] = db_band.id_spotify
+            band["popularity"] = db_band.popularity
+            band["img_url"] = db_band.img_url
+
+            # No agregar a not_found_bands
         else:
-            # Buscamos en bands_not_found
-            for not_found_band in bands_not_found:
-                if 'name' in not_found_band and not_found_band['name'].lower() == band_name:
-                    # Añadimos información de img_zone a la banda no encontrada
-                    not_found_band['img_zone'] = band.get('img_zone', [])
-                    break
+            # Banda no encontrada en DB
+            not_found_bands.append(
+                {'name': band["name"], 'id_work': id_work, 'img_zone': band.get('img_zone', [])})
 
-    print('bands_list result ->', len(result))
-    print('bands_not_found ->', len(bands_not_found))
-    return result, bands_not_found
+    # Mantenemos result y not_found_bands separados ahora
+    result = []
+
+    # Solo procesar géneros si hay bandas encontradas
+    if found_bands:
+        # Obtener géneros para bandas encontradas
+        band_ids = [band.id for band in found_bands]
+        band_genres_query = BandGenre.query.filter(
+            BandGenre.band_id.in_(band_ids)).all()  # type: ignore
+        genre_ids = [bg.genre_id for bg in band_genres_query]
+        genres = Genre.query.filter(Genre.id.in_(genre_ids)).all()
+
+        # Mapeo de géneros
+        genre_dict = {genre.id: genre.names for genre in genres}
+        band_genres = {}
+        for bg in band_genres_query:
+            if bg.band_id not in band_genres:
+                band_genres[bg.band_id] = []
+            if bg.genre_id in genre_dict:
+                band_genres[bg.band_id].append(genre_dict[bg.genre_id])
+
+        # Actualizar bandas encontradas con géneros
+        for band in bands_list:
+            band_name = band["name"].lower()
+            if band_name in db_bands_by_name:
+                db_band = db_bands_by_name[band_name]
+                band["genres"] = band_genres.get(db_band.id, [])
+                result.append(band)
+
+    # print('bands_found ->', [(band.names, '-')
+    #       for band in found_bands])  # como biene de la API mantengo los acentos y mayusculas
+    # print('bands_not_found ->',
+    #       [(band["name"], band['id_work']) for band in not_found_bands])
+
+    return result, not_found_bands
 
 
 def add_band(band_data):

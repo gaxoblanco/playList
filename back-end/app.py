@@ -29,7 +29,7 @@ from spotifyApi.spotify_api import (
 from processList.processListBandId import process_list_band_id
 from processList.processListBandAddToPlaylist import process_list_band_add_to_playlist
 from processList.processListBandTop import process_list_band_top
-from img_process.img_process import main
+from img_process.img_process import img_process
 from img_process.img64 import image_to_base64
 # from werkzeug.middleware.proxy_fix import ProxyFix
 
@@ -147,7 +147,7 @@ def up_img():
     img64 = request.form["img"]
 
     # proceso la img con /img_process/img_process.main y espero la respuesta que va a demorar unos segundos
-    img_json = main(img64)
+    img_json = img_process(img64)
     # print("img_json-->:", img_json)
     # Antes de devolver el listado lo parseo
 

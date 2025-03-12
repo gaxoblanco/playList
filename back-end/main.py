@@ -4,7 +4,7 @@ import base64
 from datetime import datetime
 import json
 # from playlist_cover import update_playlist_cover
-from manage_login_token import manage_login_token
+from service_main.manage_login_token import manage_login_token
 from processList.processListBandAddToPlaylist import process_list_band_add_to_playlist
 from processList.processListBandId import process_list_band_id
 from processList.processListBandTop import process_list_band_top
@@ -125,7 +125,11 @@ def main():
                 with app.app_context():
                     result = asyncio.run(
                         process_list_band_id(access_token, bands_list))
-                    print("Resultado del procesamiento:", result[0:5])
+
+                    # imprimo solo los name + id_work de result
+                    print('result ->', [
+                        {'name': band['name'], 'id_work': band['id_work']} for band in result])  # type: ignore
+
             except Exception as e:
                 logger.error(f"Error al procesar la lista de bandas: {e}")
 

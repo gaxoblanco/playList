@@ -27,12 +27,12 @@
   {
     "band_id": "6",
     "name": "la delio valdez",
-    "img_zone": [329, 0, 44, 65]
+    "img_zone": [329, 0, 20, 65]
   },
   {
     "band_id": "7",
     "name": "la mississippi",
-    "img_zone": [329, 0, 44, 65]
+    "img_zone": [129, 0, 44, 65]
   },
   {
     "band_id": "8",
@@ -107,7 +107,7 @@
   {
     "band_id": "22",
     "name": "la burrita cumbion",
-    "img_zone": [329, 0, 44, 65]
+    "img_zone": [329, 0, 44, 75]
   },
   {
     "band_id": "23",
