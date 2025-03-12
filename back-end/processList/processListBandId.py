@@ -9,7 +9,9 @@ from spotifyApi.spotify_api import search_artist
 from spotifyApi.dataBase_operations import search_band_db, add_band, search_bands_db_from_list
 from services.merge_sort_bands import merge_and_sort_bands
 from services.add_id_work_to_bands import add_id_work_to_bands
-from processList.services.normalize_band_name import normalize_band_name
+from services.normalize_band_name import normalize_band_name
+from processList.services.already_search import already_search
+from services.validate_stats_code import validate_status_code
 # Añadir el directorio padre al path para poder importar
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -67,75 +69,29 @@ async def process_list_band_id(access_token, bands_list):
     N = 5
     semaphore = asyncio.Semaphore(N)
 
+    # Backoff Exponencial
     async def search_band(band_name, band_item):
         # Normalizamos el nombre de la banda para usarlo como clave
         normalized_name = normalize_band_name(band_name)
 
         # Verificar si esta banda ya está siendo procesada
-        async with bands_lock:
-            if normalized_name in processing_bands:
-                print(
-                    f"La banda '{band_name}' ya está siendo procesada, esperando...")
-                # Esperar a que termine el procesamiento previo
-                await processing_bands[normalized_name]
-                print(f"Procesamiento previo de '{band_name}' completado")
-
-                # Verificar si la banda ya fue añadida a la base de datos por otra tarea
-                existing_band = search_band_db(normalized_name)
-                if isinstance(existing_band, tuple):
-                    existing_band, status_code = existing_band
-                    if status_code in [400, 404, 500]:
-                        print(
-                            f"Error al buscar la banda '{band_name}': {status_code}")
-                        return None
-
-                if isinstance(existing_band, dict) and 'id' in existing_band:
-                    print(
-                        f"La banda '{band_name}' ya fue añadida por otro proceso")
-                    # Actualizar el item con datos de la base de datos
-                    band_item['band_id'] = existing_band.get('band_id', '')
-                    band_item['name'] = existing_band.get('name', '')
-                    band_item['img_url'] = existing_band.get('img_url', '')
-                    band_item['popularity'] = existing_band.get(
-                        'popularity', 0)
-                    band_item['genres'] = existing_band.get('genres', [])
-                    return band_item
-
-            # Marcar esta banda como en procesamiento con un Future
-            task_future = asyncio.Future()
-            processing_bands[normalized_name] = task_future
+        result = await already_search(bands_lock, band_name, processing_bands, band_item)
+        if result:
+            return result
 
         try:
             # No encontramos la banda en la DB, buscamos en Spotify
             print("Buscando en Spotify...", band_name, band_item)
 
-            # Buscar la banda en Spotify
+            # Buscar la banda en Spotify con Backoff Exponencial
             spotify_data = await search_artist(access_token, band_name)
 
             if spotify_data and 'id' in spotify_data:
                 # Añadir la banda a la base de datos
                 result, status_code = add_band(spotify_data)
 
-                # Si se añadió correctamente o ya existía
-                if status_code in [201, 409]:
-                    # Actualizar el item con datos de Spotify
-                    band_item['band_id'] = spotify_data['id']
-                    band_item['name'] = spotify_data.get('name', '')
-                    band_item['img_url'] = spotify_data.get('img', '')
-                    band_item['popularity'] = spotify_data.get('popularity', 0)
-                    band_item['genres'] = spotify_data.get('genres', [])
-
-                    # Si la banda ya existía, obtenemos su ID de la base de datos
-                    if status_code == 409 and 'id' in result:
-                        warnings.warn(
-                            f"Banda '{band_name} - {spotify_data.get('name')}' ya existe en la base de datos.")
-
-                    print("Banda añadida:", band_item)
-                    return band_item
-                else:
-                    # Si hubo un error al añadir, añadimos solo lo que tenemos
-                    band_item['error'] = "No se pudo guardar en la base de datos"
-                    return band_item
+                # Valido y actuo segun lo ocurrido
+                return validate_status_code(status_code, result, band_item, spotify_data, band_name)
             else:
                 # No se encontró en Spotify, añadimos solo lo que tenemos
                 band_item['error'] = "No se encontró en Spotify"
@@ -146,7 +102,7 @@ async def process_list_band_id(access_token, bands_list):
                 if not processing_bands[normalized_name].done():
                     processing_bands[normalized_name].set_result(True)
 
-    # Función para procesar una banda
+    # Orquestador principal de consultas -> Semáforos
     async def process_band(band_item):
         # Validar que band_item sea un diccionario
         if not isinstance(band_item, dict):

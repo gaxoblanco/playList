@@ -18,6 +18,7 @@
 # pip install opencv-python-headless matplotlib pytesseract
 # pip install pytesseract
 # C:\Program Files\Tesseract-OCR
+import json
 import re
 import base64
 import cv2
@@ -100,6 +101,6 @@ def img_process(img64):
         # "dominant_color": dominant_color,
         "contrast_color": contrast_color  # Convert set to list
     }
-    print("\nRespuesta final:\n", result)
+    # print("\nRespuesta final:\n", result)
 
     return result

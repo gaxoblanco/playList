@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
 from sqlalchemy.orm import scoped_session, sessionmaker
-from processList.services.normalize_band_name import normalize_band_name
+from services.normalize_band_name import normalize_band_name
 from services.compare_dictstring import find_bands_dict_array
 
 # Inicializar SQLAlchemy

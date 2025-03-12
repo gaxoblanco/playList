@@ -1,4 +1,4 @@
-from processList.services.normalize_band_name import normalize_band_name
+from services.normalize_band_name import normalize_band_name
 
 
 def add_id_work_to_bands(bands_list):

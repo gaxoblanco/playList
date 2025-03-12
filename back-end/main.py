@@ -66,7 +66,7 @@ def main():
         print("7. Procesar lista de bandas para obtener las Top Tracks")
         print("8. Procesar lista de bandas para añadir a una lista de reproducción")
         print("9. Procesar imagen para obtener texto")
-        print("10. Salir")
+        print("00. Salir")
 
         opcion = input("Selecciona una opción: ")
 
@@ -125,10 +125,9 @@ def main():
                 with app.app_context():
                     result = asyncio.run(
                         process_list_band_id(access_token, bands_list))
-
+                    print('resultados con muchos not ->', result)
                     # imprimo solo los name + id_work de result
-                    print('result ->', [
-                        {'name': band['name'], 'id_work': band['id_work']} for band in result])  # type: ignore
+                    # print('result ->', [ {'name': band['name'], 'id_work': band['id_work']} for band in result])  # type: ignore
 
             except Exception as e:
                 logger.error(f"Error al procesar la lista de bandas: {e}")
@@ -169,8 +168,12 @@ def main():
                 img_result = img_process(img_base64)
             # Ahora puedo llamar a main con la imagen en base64
             print(f'resutlado de procesar la img ->', img_result)
+            # Valido si el archivo prueva.json existe, si existe remplazo la informacion con img_result
+            # Valido si el archivo prueva.json existe, si existe remplazo la informacion con img_result
+            with open('prueva.json', 'w', encoding='utf-8') as file:
+                json.dump(img_result, file)
 
-        elif opcion == '10':
+        elif opcion == '00':
             # Salir
             print("Saliendo del programa...")
             break
