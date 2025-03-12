@@ -84,17 +84,25 @@ async def process_list_band_id(access_token, bands_list):
 
             # Buscar la banda en Spotify con Backoff Exponencial
             spotify_data = await search_artist(access_token, band_name)
-
+            # print('search_artist spotify_data ->', spotify_data)
             if spotify_data and 'id' in spotify_data:
-                if (spotify_data['band_id'] != '-error-'):
-                    # Añadir la banda a la base de datos
+                # Verificamos que el ID no sea un código de error
+                if not any(error_type in str(spotify_data['id']) for error_type in ["-timeout-", "-connection-error-", "-error-", "-circuit-open-"]):
+                    # Tenemos la información válida, añadimos la banda a la DB
                     result, status_code = add_band(spotify_data)
-
-                # Valido y actuo segun lo ocurrido
-                return validate_status_code(status_code, result, band_item, spotify_data, band_name)
+                    # Validamos y actuamos según lo ocurrido
+                    return validate_status_code(status_code, result, band_item, spotify_data, band_name)
+                else:
+                    # Es un ID con formato de error, devolvemos los datos sin intentar guardar
+                    # Actualizar el item con datos de error
+                    band_item['band_id'] = spotify_data['id']
+                    band_item['name'] = spotify_data.get('name', '')
+                    band_item['img_url'] = spotify_data.get('img', '')
+                    band_item['popularity'] = spotify_data.get('popularity', 0)
+                    band_item['genres'] = spotify_data.get('genres', [])
+                    return band_item
             else:
                 # No se encontró en Spotify, añadimos solo lo que tenemos
-                band_item['error'] = "No se encontró en Spotify"
                 return band_item
         finally:
             # Marcar el procesamiento como completado

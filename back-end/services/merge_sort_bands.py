@@ -23,8 +23,8 @@ def merge_and_sort_bands(bands_in_db, processed_results):
         if 'id_work' in band:
             combined_bands[band['id_work']] = band
 
-            # Verificar si la banda tiene mismatch con "queralt lahoz"
-            if 'band_id' in band and "-mismatch-queralt lahoz" in str(band['band_id']):
+            # Verificar si la banda tiene -error- en el band_id
+            if 'band_id' in band and "-error-" in str(band['band_id']):
                 mismatch_count += 1
             else:
                 no_mismatch_count += 1
@@ -37,7 +37,7 @@ def merge_and_sort_bands(bands_in_db, processed_results):
                 duplicates.append(band)
             else:
                 # Verificar si la banda tiene mismatch con "queralt lahoz"
-                if 'band_id' in band and "-mismatch-queralt lahoz" in str(band['band_id']):
+                if 'band_id' in band and "-error-" in str(band['band_id']):
                     mismatch_count += 1
                 else:
                     no_mismatch_count += 1
