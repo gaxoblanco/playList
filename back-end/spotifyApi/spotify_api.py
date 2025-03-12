@@ -1,10 +1,22 @@
 import asyncio
+import random
 from time import sleep
+import time
 import aiohttp
 import requests
 from services.normalize_band_name import normalize_band_name
-from services.execute_backoff import execute_with_backoff
-from services.fetch_artist_data import fetch_artist_data
+from spotifyApi.services.circuit_breaker import CircuitBreaker
+from spotifyApi.services.fetch_artist_data import fetch_artist_data
+from spotifyApi.services.create_error_response import create_error_response
+
+# Crear un Circuit Breaker global para el servicio de Spotify
+spotify_circuit_breaker = CircuitBreaker(failure_threshold=5, recovery_time=60)
+# Variables globales para el circuit breaker
+consecutive_failures = 0
+MAX_CONSECUTIVE_FAILURES = 5
+circuit_open = False
+last_failure_time = 0
+CIRCUIT_RESET_TIME = 300  # 5 minutos en segundos
 
 
 def get_user_id(access_token):
@@ -42,18 +54,38 @@ async def search_artist(access_token, artist_name, max_retries=3, base_delay=1.0
     Returns:
         dict: Datos del artista o datos con formato de error si no coincide
     """
-    import random
+    global consecutive_failures, circuit_open, last_failure_time
+
+# Comprobar si el circuit breaker está abierto (cortado)
+    current_time = time.time()
+    if circuit_open:
+        # Verificar si ha pasado suficiente tiempo para resetear el circuit breaker
+        if current_time - last_failure_time > CIRCUIT_RESET_TIME:
+            print("Circuit breaker: Reseteando después del período de enfriamiento")
+            circuit_open = False
+            consecutive_failures = 0
+        else:
+            # Circuito abierto, devolver error sin intentar la búsqueda
+            print(
+                f"Circuit breaker: Abierto, omitiendo búsqueda de '{artist_name}'")
+            return {
+                'id': f"-circuit-open-{normalize_band_name(artist_name)}",
+                'img': "img_error",
+                'genres': [],
+                'name': artist_name,
+                'popularity': 0,
+                'error_info': "Servicio temporalmente suspendido por múltiples fallos"
+            }
 
     # Normalizamos el nombre original para comparar después
     normalized_search_name = normalize_band_name(artist_name)
-
     url = f'https://api.spotify.com/v1/search?q={artist_name}&type=artist&limit=1'
     headers = {
         'Authorization': f'Bearer {access_token}'
     }
 
-    # Extracción de funciones modulares
-    return await execute_with_backoff(
+    # Ejecutar con backoff exponencial
+    result = await execute_with_circuit_breaker_and_backoff(
         fetch_artist_data,
         url,
         headers,
@@ -62,6 +94,103 @@ async def search_artist(access_token, artist_name, max_retries=3, base_delay=1.0
         max_retries,
         base_delay
     )
+
+    # Verificar si el resultado indica un error
+    if result and any(error_type in str(result.get('id', '')) for error_type in
+                      ["-timeout-", "-connection-error-", "-error-"]):
+        # Incrementar contador de fallos consecutivos
+        consecutive_failures += 1
+        last_failure_time = current_time
+        print(
+            f"Circuit breaker: Incrementando contador de fallos a {consecutive_failures}")
+
+        # Verificar si debemos abrir el circuit breaker
+        if consecutive_failures >= MAX_CONSECUTIVE_FAILURES:
+            circuit_open = True
+            print(
+                f"Circuit breaker: ABIERTO después de {consecutive_failures} fallos consecutivos")
+    else:
+        # Resetear contador de fallos si hay éxito
+        if consecutive_failures > 0:
+            print("Circuit breaker: Reseteando contador de fallos por respuesta exitosa")
+            consecutive_failures = 0
+
+    # Reportar el resultado para monitoreo si es un error
+    if result and "-" in str(result.get('id', '')):
+        print(
+            f"Advertencia: La búsqueda de '{artist_name}' devolvió un resultado parcial: {result.get('id')}")
+
+    return result
+
+
+async def execute_with_circuit_breaker_and_backoff(func, *args, max_retries=3, base_delay=1.0, **kwargs):
+    artist_name = args[2] if len(args) > 2 else "Unknown"
+    normalized_search_name = args[3] if len(args) > 3 else "unknown"
+
+    for attempt in range(max_retries + 1):
+        try:
+            # Intenta ejecutar la función
+            result = await func(*args, **kwargs)
+            # Si obtenemos un resultado, lo devolvemos inmediatamente
+            if result:
+                return result
+
+        except asyncio.TimeoutError as e:
+            print(f"Timeout al conectar con Spotify para {artist_name}")
+            if attempt >= max_retries:
+                # Crear respuesta de error formateada pero útil
+                return {
+                    'id': f"-timeout-{normalized_search_name}",
+                    'img': "img_error",
+                    'genres': [],
+                    'name': artist_name,
+                    'popularity': 0,
+                    'error_info': "Timeout en la conexión con Spotify"
+                }
+
+        except aiohttp.ClientConnectorError as e:
+            print(f"Error de conexión con Spotify: {str(e)}")
+            if attempt >= max_retries:
+                return {
+                    'id': f"-connection-error-{normalized_search_name}",
+                    'img': "img_error",
+                    'genres': [],
+                    'name': artist_name,
+                    'popularity': 0,
+                    'error_info': f"Error de conexión: {str(e)}"
+                }
+
+        except Exception as e:
+            print(
+                f"Error inesperado al buscar artista {artist_name}: {str(e)}")
+            if attempt >= max_retries:
+                return {
+                    'id': f"-error-",
+                    'img': "img_error",
+                    'genres': [],
+                    'name': artist_name,
+                    'popularity': 0,
+                    'error_info': f"Error: {str(e)}"
+                }
+
+        # Si no es el último intento, aplicar backoff
+        if attempt < max_retries:
+            # Backoff exponencial con jitter
+            delay = base_delay * (2 ** attempt) + random.uniform(0.1, 0.5)
+            print(
+                f"Reintentando búsqueda de {artist_name} en {delay:.2f} segundos (intento {attempt+1}/{max_retries})")
+            await asyncio.sleep(delay)
+
+    # Este punto solo se alcanza si hay un fallo en la lógica
+    # Proporcionar un resultado por defecto para evitar que el proceso se rompa
+    return {
+        'id': f"-fallback-{normalized_search_name}",
+        'img': "img_error",
+        'genres': [],
+        'name': artist_name,
+        'popularity': 0,
+        'error_info': "Falló por razón desconocida"
+    }
 
 
 async def search_option(access_token, artist_name):

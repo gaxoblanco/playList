@@ -107,21 +107,20 @@ def search_bands_db_from_list(bands_list):
         return {"error": "La entrada debe ser una lista de bandas"}, 400
 
     # imprimo el name de las bandas
-    print('search_bands_db_from_list bands_list ->',
-          [band["name"] for band in bands_list])
+    # print('search_bands_db_from_list bands_list ->',[band["name"] for band in bands_list])
 
     # Extraer los nombres de las bandas de la lista
     band_names = [band["name"] for band in bands_list]
-    print('band_names ->', len(band_names))
+    # print('band_names ->', len(band_names))
     # Consulta a la base de datos
     bands_query = Band.query.filter(Band.names.in_(band_names)).distinct(  # type: ignore
         Band.id_spotify).all()  # type: ignore
-    print('bands_query len ->', len(bands_query))
+    # print('bands_query len ->', len(bands_query))
 
     # Creamos diccionarios para búsqueda eficiente
     db_bands_by_name = {normalize_band_name(
         band.names): band for band in bands_query}
-    print('db_bands_by_name ->', len(db_bands_by_name))
+    # print('db_bands_by_name ->', len(db_bands_by_name))
     # Dividimos en encontradas y no encontradas
     found_bands = []
     not_found_bands = []

@@ -179,12 +179,12 @@ def band_list():
     if not access_token:
         return jsonify({"error, token is required": data}), 400
     # Hacer una copia de data y pasarlo a la función para evitar modificar el objeto original
-    data_copy = copy.deepcopy(data)
-    print("data_copy:", data_copy)
+    bands_list = copy.deepcopy(data)
+    print("data_copy:", bands_list)
     # Ejecuta el procesamiento asincrónico de las bandas
-    # Añade el contexto de la aplicación aquí
     with app.app_context():
-        result = asyncio.run(process_list_band_id(access_token, data_copy))
+        result = asyncio.run(process_list_band_id(access_token, bands_list))
+    print("result:", result)
     return jsonify(result)
 
 

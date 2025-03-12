@@ -11,7 +11,7 @@ from services.merge_sort_bands import merge_and_sort_bands
 from services.add_id_work_to_bands import add_id_work_to_bands
 from services.normalize_band_name import normalize_band_name
 from processList.services.already_search import already_search
-from services.validate_stats_code import validate_status_code
+from processList.services.validate_stats_code import validate_status_code
 # Añadir el directorio padre al path para poder importar
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -69,7 +69,6 @@ async def process_list_band_id(access_token, bands_list):
     N = 5
     semaphore = asyncio.Semaphore(N)
 
-    # Backoff Exponencial
     async def search_band(band_name, band_item):
         # Normalizamos el nombre de la banda para usarlo como clave
         normalized_name = normalize_band_name(band_name)
@@ -87,8 +86,9 @@ async def process_list_band_id(access_token, bands_list):
             spotify_data = await search_artist(access_token, band_name)
 
             if spotify_data and 'id' in spotify_data:
-                # Añadir la banda a la base de datos
-                result, status_code = add_band(spotify_data)
+                if (spotify_data['band_id'] != '-error-'):
+                    # Añadir la banda a la base de datos
+                    result, status_code = add_band(spotify_data)
 
                 # Valido y actuo segun lo ocurrido
                 return validate_status_code(status_code, result, band_item, spotify_data, band_name)
@@ -135,8 +135,7 @@ async def process_list_band_id(access_token, bands_list):
 
     # Consultamos en la DB cuales tenemos - y obtengo array de objetos band_id, name, img_zone, genres, popularity, img_url
     bands_in_db, bands_to_search = search_bands_db_from_list(bands_to_process)
-    print(
-        f"Lista original: {len(bands_list)} bands_in_db + bands_to_search: {len(bands_in_db)} + {len(bands_to_search)}")  # type: ignore
+    # print(f"Lista original: {len(bands_list)} bands_in_db + bands_to_search: {len(bands_in_db)} + {len(bands_to_search)}")  # type: ignore
     # imrpimo los name de bands_to_search
     print('estan aca bands_to_search ->', [band["name"]
           for band in bands_to_search])  # type: ignore
@@ -153,23 +152,16 @@ async def process_list_band_id(access_token, bands_list):
     # Filtrar resultados para eliminar los None
     processed_results = [result for result in results if result is not None]
 
-    print('results del search ->', processed_results[0])
-    # print('bands_in_db ->', bands_in_db)
-    # print("bands_to_search ->", processed_results[0:5])
-    print("processed_results ->", len(processed_results))
-    # print("bands_in_db ->", bands_in_db[0:5])  # type: ignore
-    print("bands_in_db ->", len(bands_in_db))
-
     # Junto las 2 listas y las ordeno segun el id_work incremental
-    processed_bands, duplicates = merge_and_sort_bands(
+    processed_bands, duplicates, report = merge_and_sort_bands(
         bands_in_db, processed_results)
 
     # Verificar si hay duplicados y alertar al programador
-    if duplicates:
-        print(
-            f"¡Atención! Se encontraron {len(duplicates)} bandas duplicadas.")
-        for dup in duplicates:
-            print(
-                f"ID: {dup['id_work']}, Nombre DB: {dup['name_in_db']}, Nombre Spotify: {dup['name_processed']}")
+    # if duplicates:
+    #     print(
+    #         f"¡Atención! Se encontraron {len(duplicates)} bandas duplicadas.")
+    #     for dup in duplicates:
+    #         print(
+    #             f"ID: {dup['id_work']}, Nombre DB: {dup['name_in_db']}, Nombre Spotify: {dup['name_processed']}")
 
     return processed_bands
