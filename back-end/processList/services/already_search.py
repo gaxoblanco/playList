@@ -24,17 +24,6 @@ async def already_search(bands_lock, band_name, processing_bands, band_item):
                     return None
 
             if isinstance(existing_band, dict) and 'id' in existing_band:
-                print(
-                    f"La banda '{band_name}' ya fue añadida por otro proceso")
-                # Actualizar el item con datos de la base de datos
-                band_item['band_id'] = existing_band.get('band_id', '')
-                band_item['name'] = existing_band.get('name', '')
-                band_item['img_url'] = existing_band.get('img_url', '')
-                band_item['popularity'] = existing_band.get(
-                    'popularity', 0)
-                band_item['genres'] = existing_band.get('genres', [])
-                return band_item
+                return existing_band
 
-        # Marcar esta banda como en procesamiento con un Future
-        task_future = asyncio.Future()
-        processing_bands[normalized_name] = task_future
+    return None

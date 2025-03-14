@@ -9,6 +9,7 @@ from processList.processListBandAddToPlaylist import process_list_band_add_to_pl
 from processList.processListBandId import process_list_band_id
 from processList.processListBandTop import process_list_band_top
 from spotifyApi.spotify_api import search_artist, get_top_tracks, create_playlist, get_user_id
+from spotifyApi.services.sincro_search import search_option_with_background_storage
 from spotifyApi.spotify_auth import get_access_token, get_authorization_code
 from detect_possible_errors import detect_possible_errors
 from img_process.img_process import img_process
@@ -58,6 +59,7 @@ def main():
     while True:
         print("\n--- Menú ---")
         print("1. Buscar artista")
+        print("1.2 Buscar artista con almacenamiento en segundo plano")
         print("2. Obtener Top Tracks de un artista")
         print("3. Obtener mi User ID")
         print("4. Corroborar posibles errores en los nombres de las bandas")
@@ -74,6 +76,15 @@ def main():
             # Buscar artista
             artista = input("Introduce el nombre del artista: ")
             artist_data = asyncio.run(search_artist(access_token, artista))
+            if artist_data:
+                print(f"ID del artista {artista}: {artist_data}")
+            else:
+                print("Error: Artista no encontrado.")
+        if opcion == '1.2':
+            # Buscar artista
+            artista = input("Introduce el nombre del artista: ")
+            artist_data = search_option_with_background_storage(
+                access_token, artista)
             if artist_data:
                 print(f"ID del artista {artista}: {artist_data}")
             else:
