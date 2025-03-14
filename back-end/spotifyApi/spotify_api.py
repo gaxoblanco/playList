@@ -85,14 +85,11 @@ async def search_artist(access_token, artist_name, max_retries=3, base_delay=1.0
     }
 
     # Ejecutar con backoff exponencial
-    result = await execute_with_circuit_breaker_and_backoff(
-        fetch_artist_data,
+    result = await fetch_artist_data(
         url,
         headers,
         artist_name,
         normalized_search_name,
-        max_retries,
-        base_delay
     )
 
     # Verificar si el resultado indica un error
@@ -121,76 +118,6 @@ async def search_artist(access_token, artist_name, max_retries=3, base_delay=1.0
             f"Advertencia: La búsqueda de '{artist_name}' devolvió un resultado parcial: {result.get('id')}")
 
     return result
-
-
-async def execute_with_circuit_breaker_and_backoff(func, *args, max_retries=3, base_delay=1.0, **kwargs):
-    artist_name = args[2] if len(args) > 2 else "Unknown"
-    normalized_search_name = args[3] if len(args) > 3 else "unknown"
-
-    for attempt in range(max_retries + 1):
-        try:
-            # Intenta ejecutar la función
-            result = await func(*args, **kwargs)
-            # Si obtenemos un resultado, lo devolvemos inmediatamente
-            if result:
-                return result
-
-        except asyncio.TimeoutError as e:
-            print(f"Timeout al conectar con Spotify para {artist_name}")
-            if attempt >= max_retries:
-                # Crear respuesta de error formateada pero útil
-                return {
-                    'id': f"-timeout-{normalized_search_name}",
-                    'img': "img_error",
-                    'genres': [],
-                    'name': artist_name,
-                    'popularity': 0,
-                    'error_info': "Timeout en la conexión con Spotify"
-                }
-
-        except aiohttp.ClientConnectorError as e:
-            print(f"Error de conexión con Spotify: {str(e)}")
-            if attempt >= max_retries:
-                return {
-                    'id': f"-connection-error-{normalized_search_name}",
-                    'img': "img_error",
-                    'genres': [],
-                    'name': artist_name,
-                    'popularity': 0,
-                    'error_info': f"Error de conexión: {str(e)}"
-                }
-
-        except Exception as e:
-            print(
-                f"Error inesperado al buscar artista {artist_name}: {str(e)}")
-            if attempt >= max_retries:
-                return {
-                    'id': f"-error-",
-                    'img': "img_error",
-                    'genres': [],
-                    'name': artist_name,
-                    'popularity': 0,
-                    'error_info': f"Error: {str(e)}"
-                }
-
-        # Si no es el último intento, aplicar backoff
-        if attempt < max_retries:
-            # Backoff exponencial con jitter
-            delay = base_delay * (2 ** attempt) + random.uniform(0.1, 0.5)
-            print(
-                f"Reintentando búsqueda de {artist_name} en {delay:.2f} segundos (intento {attempt+1}/{max_retries})")
-            await asyncio.sleep(delay)
-
-    # Este punto solo se alcanza si hay un fallo en la lógica
-    # Proporcionar un resultado por defecto para evitar que el proceso se rompa
-    return {
-        'id': f"-fallback-{normalized_search_name}",
-        'img': "img_error",
-        'genres': [],
-        'name': artist_name,
-        'popularity': 0,
-        'error_info': "Falló por razón desconocida"
-    }
 
 
 async def search_option(access_token, artist_name):
