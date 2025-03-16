@@ -1,4 +1,66 @@
-front-end
-logs
-__pycache__
-.env
+# Excluir el directorio del front-end
+front-end/
+/front-end
+
+# Excluir logs
+logs/
+*.log
+
+# Excluir cachés de Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Excluir entornos virtuales
+venv/
+env/
+.env/
+.venv/
+
+# Excluir archivos de sistema
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Excluir archivos de git
+.git/
+.github/
+.gitignore
+.gitattributes
+
+# Excluir archivos de desarrollo y pruebas
+*.md
+*.rst
+tests/
+test_*.py
+*_test.py
+
+# Excluir archivos de documentación
+docs/
+*.pdf
+*.doc
+*.docx
+
+# Excluir archivos temporales y de respaldo
+*.bak
+*.swp
+*.tmp
+*~
+
+# Específicos para tu proyecto
+css/
+instance/
+static/
+timeTables/
+uploads/
+.env*
+docker-compose*.yml
+Dockerfile*
+*example*
+requirements-dev.txt
+detect_possible_errors.py
