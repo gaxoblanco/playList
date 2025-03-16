@@ -116,7 +116,6 @@ export class UpImgComponent {
     this.initializeObservables();
     this.validateSpotifyToken();
     this.clearLocalStorage();
-    console.log('loading-->', this.loading);
   }
 
   private initializeHeader(): void {
@@ -170,12 +169,12 @@ export class UpImgComponent {
     this.boxX2 = this.zoneX2 * 3 * ratioX;
     this.boxY2 = this.zoneY2 * 3 * ratioY;
 
-    console.log('Posiciones ajustadas:', {
-      boxX: this.boxX,
-      boxY: this.boxY,
-      boxX2: this.boxX2,
-      boxY2: this.boxY2,
-    });
+    // console.log('Posiciones ajustadas:', {
+    //   boxX: this.boxX,
+    //   boxY: this.boxY,
+    //   boxX2: this.boxX2,
+    //   boxY2: this.boxY2,
+    // });
   }
   //----------**************-----------------********---------
 
@@ -273,8 +272,8 @@ export class UpImgComponent {
       img.onload = () => {
         this.imgWidth = img.width;
         this.imgHeight = img.height;
-        console.log('imgWidth', this.imgWidth);
-        console.log('imgHeight', this.imgHeight);
+        // console.log('imgWidth', this.imgWidth);
+        // console.log('imgHeight', this.imgHeight);
       };
     } else {
       console.error('El cropper no está inicializado.');
@@ -296,7 +295,7 @@ export class UpImgComponent {
     this.loading = 'loading';
     const formData = new FormData();
     formData.append('img', file);
-    console.log('formData-img', formData);
+    // console.log('formData-img', formData);
 
     this.apiRequestService.postImg(formData).subscribe({
       next: async (data: any) => {
@@ -306,7 +305,7 @@ export class UpImgComponent {
         this.observablesService.updateOptionList(bandList); // Actualizar el observable con la lista de bandas
         this.procesListService.startGameCorrector(); // Iniciar el "game corrector"
         this.loading = 'done';
-        console.log('data--data', data);
+        // console.log('data--data', data);
         // Actualizo headerService con la informacion del paso a realizar
         this.headerService.updateHeader(
           'Review the suggested options in the interactive game and fix any errors as needed.'
@@ -334,7 +333,7 @@ export class UpImgComponent {
   }
   //----------------------------------------------------------------
   onSubmitUserBandName(): void {
-    console.log(' userBandName', this.userBandName);
+    // console.log(' userBandName', this.userBandName);
 
     const band: ListBand = {
       band_id: '',
@@ -362,7 +361,7 @@ export class UpImgComponent {
   //----------------------------------------------------------------
   selectOption(option: string): void {
     this.selectedName = option;
-    console.log('Opción seleccion', option);
+    // console.log('Opción seleccion', option);
     // actualizo el puntero
     this.observablesService.ImgPointer$.subscribe((imgPointer) => {
       this.zoneX = imgPointer[0];
@@ -466,7 +465,6 @@ export class UpImgComponent {
       .subscribe({
         next: (data: any) => {
           this.loading = 'done';
-          console.log('data', data);
           this.playlistInfo.playlists = data[0];
           this.playlistInfo.bandInfo = data[1];
           this.observablesService.incrementNextStep();
@@ -496,9 +494,7 @@ export class UpImgComponent {
     );
     this.listb.subscribe({
       next: (data: any) => {
-        console.log('listb-->', this.listb);
         this.bandListCards = data;
-        console.log('trayAgainStep1 this.bandList--> ', this.bandListCards);
         this.loading = 'done';
         // actualizo el bandListCorect$
         this.observablesService.updateBandListCorect(this.bandListCards);
@@ -531,7 +527,6 @@ export class UpImgComponent {
       case 1:
         // Actualizo headerService con la informacion del paso a realizar
         this.headerService.updateHeader('Loading the next step');
-        console.log(this.headerService.header$);
 
         this.loading = 'loading';
         // guardo el valor de postList en listb
@@ -541,9 +536,7 @@ export class UpImgComponent {
 
         this.listb.subscribe({
           next: (data: any) => {
-            console.log('listb-->', this.listb);
             this.bandListCards = data;
-            console.log('Step1 this.bandList--> ', this.bandListCards);
             this.loading = 'done';
             // Actualizo headerService con la informacion del paso a realizar
             this.headerService.updateHeader(

@@ -158,7 +158,6 @@ export class CardBandComponent {
           element.img_zone = img_zone;
         });
         this.optionsBand = data;
-        console.log('optionList-->', data);
       },
       error: (error) => {
         console.error('Error al obtener las opciones:', error);
@@ -217,7 +216,6 @@ export class CardBandComponent {
     name: string,
     img_zone: [number, number, number, number]
   ): void {
-    console.log(`Saludo ${i}`);
     const positionArray = img_zone;
     // Emit the position array
     if (Array.isArray(positionArray) && positionArray.length >= 2) {
@@ -241,7 +239,7 @@ export class CardBandComponent {
       cardElement?.classList.add('active');
       const editedName = name;
       this.getOptions(editedName, img_zone); // Llama a getOptions con el nombre editado
-      console.log('editetName-->', editedName);
+      // console.log('editetName-->', editedName);
       // limpio el formulario
       this.editedNames = '';
       // Enfoca el input en el siguiente ciclo de detección
@@ -275,7 +273,7 @@ export class CardBandComponent {
   @HostListener('mouseenter', ['$event'])
   onMouseEnter() {
     this.isHovered = true;
-    console.log('hover');
+    // console.log('hover');
 
     if (this.timeoutId) {
       clearTimeout(this.timeoutId);

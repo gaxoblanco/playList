@@ -42,7 +42,7 @@ export class OptionsListComponent {
   ) {}
 
   changBand(index: number): void {
-    console.log('changBand->index:', index);
+    // console.log('changBand->index:', index);
 
     // const bandListCorectSubject = this.observablesService['bandListCorect$'];
     // Valido que llega el index
@@ -63,9 +63,9 @@ export class OptionsListComponent {
       this.observablesService.updateBandListCorect(this.upListByIndex);
     }
     // imprimo la nueva lista actualizada
-    console.log(
-      'bandListCorect updated:',
-      this.observablesService['bandListCorect'].getValue()
-    );
+    // console.log(
+    //   'bandListCorect updated:',
+    //   this.observablesService['bandListCorect'].getValue()
+    // );
   }
 }
