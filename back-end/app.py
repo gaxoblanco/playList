@@ -3,13 +3,10 @@ import copy
 import json
 from flask import (
     Flask,
-    make_response,
     redirect,
     request,
     jsonify,
     session,
-    render_template,
-    send_from_directory,
 )
 from flask_cors import CORS  # Importa CORS
 import os
@@ -18,14 +15,13 @@ from urllib.parse import urlencode
 import secrets
 from flask import Blueprint
 
-import numpy as np
 from spotifyApi.spotify_auth import get_access_token
 from spotifyApi.spotify_api import (
     create_playlist,
-    search_option,
     get_user_id,
     upload_playlist_cover,
 )
+from spotifyApi.services.sincro_search import search_option_with_background_storage
 from processList.processListBandId import process_list_band_id
 from processList.processListBandAddToPlaylist import process_list_band_add_to_playlist
 from processList.processListBandTop import process_list_band_top
@@ -169,9 +165,6 @@ def band_list():
     data = request.get_json()
     # obtengo access_token del header -> array de 1 string
     access_token = request.headers.get("Authorization")
-    # Eliminar el prefijo 'Bearer ' si está presente
-    if access_token and access_token.startswith("Bearer "):
-        access_token = access_token.split(" ")[1]
 
     # print("access_token:", access_token)
     # print("json_file-band_list:", data)
@@ -194,21 +187,22 @@ def search_options():
     """
     Le envio al usuario las opciones de busqueda para la banda incorrecta que encontro
     """
-    # if request.method == 'OPTIONS':
-    #     return _build_cors_preflight_response()
-    data = request.get_json()
+    data = request.get_json()  # data === {'data': 'band name'}
     # obtengo access_token del header -> array de 1 string
     access_token = request.headers.get("Authorization")
-
-    # print("access_token:", access_token)
-    # print("json_file-search_options:", data)
 
     if not access_token:
         return jsonify({"error, token is required": data}), 400
 
+    # Extraer el nombre del artista del JSON recibido
+    artist_name = data.get('data')
+    if not artist_name:
+        return jsonify({"error": "El nombre del artista es requerido -> {'data': 'band name'}"}), 400
+
     # Ejecutar la función asíncrona y obtener el resultado
     try:
-        option_list = asyncio.run(search_option(access_token, data))
+        option_list = search_option_with_background_storage(
+            access_token, artist_name)
         return jsonify(option_list)
     except Exception as e:
         print(f"Error al buscar opciones del artista: {e}")

@@ -81,7 +81,7 @@ async def search_artist(access_token, artist_name, max_retries=3, base_delay=1.0
     normalized_search_name = normalize_band_name(artist_name)
     url = f'https://api.spotify.com/v1/search?q={artist_name}&type=artist&limit=1'
     headers = {
-        'Authorization': f'Bearer {access_token}'
+        'Authorization': f'{access_token}'
     }
 
     # Ejecutar con backoff exponencial
@@ -127,7 +127,7 @@ async def search_option(access_token, artist_name):
     """
     url = f'https://api.spotify.com/v1/search?q={artist_name}&type=artist&limit=10'
     headers = {
-        'Authorization': f'Bearer {access_token}'
+        'Authorization': f'{access_token}'
     }
 
     response = requests.get(url, headers=headers)
@@ -150,7 +150,7 @@ async def search_option(access_token, artist_name):
                                 artist_list.append({
                                     'band_id': artist.get('id', '-'),
                                     'name': artist.get('name', 'Unknown'),
-                                    'img': artist['images'][0]['url'] if artist.get('images') else None,
+                                    'img_url': artist['images'][0]['url'] if artist.get('images') else None,
                                     'href': artist['external_urls']['spotify'] if artist.get('external_urls') else None,
                                     'genres': artist.get('genres', []),
                                     'popularity': artist.get('popularity', 0)

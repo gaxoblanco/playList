@@ -65,6 +65,8 @@ def merge_and_sort_bands(bands_in_db, processed_results):
     print(
         f"Bandas sin mismatch 'queralt lahoz': {report['no_mismatch_queralt_lahoz']}")
     print(f"Duplicados encontrados: {report['duplicates_found']}")
+    print(f"Ejemplo formato de banda: {sorted_bands[0:4]}")
     print("------------------------")
 
-    return sorted_bands, duplicates, report
+    # return sorted_bands, duplicates, report
+    return sorted_bands

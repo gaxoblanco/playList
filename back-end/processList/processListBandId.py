@@ -126,6 +126,7 @@ async def process_list_band_id(access_token, bands_list):
         try:
             async with semaphore:  # Esto asegura que solo N tareas se ejecuten a la vez
                 return await search_band(band_name, band_item)
+        # Capturar cualquier excepción para evitar que el proceso se detenga
         except Exception as e:
             print(f"Error al procesar la banda '{band_name}': {e}")
             # devuelvo el item con un band_id = '-error-'
@@ -166,7 +167,7 @@ async def process_list_band_id(access_token, bands_list):
     print('processed_results ->', len(processed_results))
     print('bands_in_db ->', len(bands_in_db))
     # Junto las 2 listas y las ordeno segun el id_work incremental
-    processed_bands, duplicates, report = merge_and_sort_bands(
+    processed_bands = merge_and_sort_bands(
         bands_in_db, processed_results)
 
-    return processed_bands, report
+    return processed_bands

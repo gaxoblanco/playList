@@ -31,6 +31,8 @@ def main():
     print("Autenticando...")
 
     access_token = manage_login_token()
+    # le agrego Bearer  al token
+    access_token = f"Bearer {access_token}"
     print("Autenticado correctamente.", access_token)
 
     # Preguntar al usuario por el nombre del archivo JSON con que vamos a trabajar

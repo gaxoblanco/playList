@@ -9,7 +9,7 @@ from flask import Flask
 from spotifyApi.dataBase_operations import db
 # Crear la aplicación Flask
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://gaston:blanco@localhost:3306/festivalmusic'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://gaston:blanco@localhost:3307/festivalmusic'
 db.init_app(app)
 
 
@@ -17,23 +17,32 @@ def search_option_with_background_storage(access_token, artist_name):
     """
     Versión sincrónica que inicia un hilo separado para almacenamiento
     """
-    # Obtener resultados (convertimos función asíncrona a síncrona)
-    artist_list = asyncio.run(search_option(access_token, artist_name))
+    # Crear un nuevo loop de eventos para esta solicitud
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
 
-    if artist_list and len(artist_list) > 0:
-        # Iniciar un hilo separado para el almacenamiento
-        storage_thread = threading.Thread(
-            target=store_artists_in_thread,
-            args=(artist_list,),
-            daemon=False  # False = el hilo continuará incluso si el programa principal termina
-        )
-        storage_thread.start()
-        print("Hilo de almacenamiento iniciado")
-        print("search_option_with_background_storage artist_list ->", artist_list)
-        return artist_list  # Devolver resultados al usuario
-    else:
-        # retorno un json de error
-        return {"error": "No se encontraron artistas"}
+    try:
+        # Obtener resultados (convertimos función asíncrona a síncrona)
+        artist_list = loop.run_until_complete(
+            search_option(access_token, artist_name))
+
+        if artist_list and len(artist_list) > 0:
+            # Iniciar un hilo separado para el almacenamiento
+            storage_thread = threading.Thread(
+                target=store_artists_in_thread,
+                args=(artist_list,),
+                daemon=False  # False = el hilo continuará incluso si el programa principal termina
+            )
+            storage_thread.start()
+            print("Hilo de almacenamiento iniciado")
+            print("search_option_with_background_storage artist_list ->", artist_list)
+            return artist_list  # Devolver resultados al usuario
+        else:
+            # retorno un json de error
+            return {"error": "No se encontraron artistas"}
+    finally:
+        # Cerrar el loop de eventos al finalizar
+        loop.close()
 
 
 def store_artists_in_thread(artist_list):
@@ -58,7 +67,7 @@ def store_artists_in_thread(artist_list):
                         # Nombre del artista
                         "name": artist['name'],
                         # URL de imagen o valor por defecto
-                        "img": artist.get('img') or "no_image",
+                        "img": artist.get('img_url') or "no_image",
                         # Lista de géneros
                         "genres": artist.get('genres', []),
                         # Popularidad (opcional)
