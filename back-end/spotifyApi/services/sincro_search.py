@@ -17,8 +17,6 @@ def search_option_with_background_storage(access_token, artist_name):
     """
     Versión sincrónica que inicia un hilo separado para almacenamiento
     """
-    # Asegúrate de importar la app principal aquí
-    app = current_app
     # Obtener resultados (convertimos función asíncrona a síncrona)
     artist_list = asyncio.run(search_option(access_token, artist_name))
 
@@ -30,10 +28,12 @@ def search_option_with_background_storage(access_token, artist_name):
             daemon=False  # False = el hilo continuará incluso si el programa principal termina
         )
         storage_thread.start()
-
-        return artist_list
+        print("Hilo de almacenamiento iniciado")
+        print("search_option_with_background_storage artist_list ->", artist_list)
+        return artist_list  # Devolver resultados al usuario
     else:
-        return None
+        # retorno un json de error
+        return {"error": "No se encontraron artistas"}
 
 
 def store_artists_in_thread(artist_list):

@@ -134,12 +134,10 @@ def main():
 
                 # Añade el contexto de la aplicación aquí
                 with app.app_context():
-                    result = asyncio.run(
+                    result, report = asyncio.run(
                         process_list_band_id(access_token, bands_list))
-                    print('resultados con muchos not ->', result)
-                    # imprimo solo los name + id_work de result
-                    # print('result ->', [ {'name': band['name'], 'id_work': band['id_work']} for band in result])  # type: ignore
-
+                    print(
+                        f"Resultado del procesamiento {len(result)} ->: {result}")
             except Exception as e:
                 logger.error(f"Error al procesar la lista de bandas: {e}")
 

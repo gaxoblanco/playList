@@ -128,6 +128,9 @@ async def process_list_band_id(access_token, bands_list):
                 return await search_band(band_name, band_item)
         except Exception as e:
             print(f"Error al procesar la banda '{band_name}': {e}")
+            # devuelvo el item con un band_id = '-error-'
+            band_item['band_id'] = '-error-'
+            return band_item
 
     # Quitar las entradas sin name y crear un conjunto para deduplicar
     unique_bands = {}
@@ -160,16 +163,10 @@ async def process_list_band_id(access_token, bands_list):
     # Filtrar resultados para eliminar los None
     processed_results = [result for result in results if result is not None]
 
+    print('processed_results ->', len(processed_results))
+    print('bands_in_db ->', len(bands_in_db))
     # Junto las 2 listas y las ordeno segun el id_work incremental
     processed_bands, duplicates, report = merge_and_sort_bands(
         bands_in_db, processed_results)
 
-    # Verificar si hay duplicados y alertar al programador
-    # if duplicates:
-    #     print(
-    #         f"¡Atención! Se encontraron {len(duplicates)} bandas duplicadas.")
-    #     for dup in duplicates:
-    #         print(
-    #             f"ID: {dup['id_work']}, Nombre DB: {dup['name_in_db']}, Nombre Spotify: {dup['name_processed']}")
-
-    return processed_bands
+    return processed_bands, report
