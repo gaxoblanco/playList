@@ -7,7 +7,7 @@ RUN npm install
 # Copia el resto del código fuente
 COPY . .
 # Aumentar memoria disponible para Node.js
-ENV NODE_OPTIONS="--max-old-space-size=8192"
+ENV NODE_OPTIONS="--max-old-space-size=512"
 # Ejecuta el build de Angular
 RUN npx ng build --configuration production
 # Etapa 2: Servir la aplicación con Nginx
