@@ -1,4 +1,33 @@
+# Dependencias
 node_modules
+
+# Output
 dist
-.angular
+tmp
+
+# Configuración IDE
+.idea
 .vscode
+.angular
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Logs y archivos temporales
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Testing
+coverage
+
+# VCS
+.git
+.gitignore
+
+# Archivos que no se necesitan para la compilación
+README.md
+LICENSE
+.editorconfig

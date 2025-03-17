@@ -6,6 +6,8 @@ COPY package.json package-lock.json ./
 RUN npm install
 # Copia el resto del código fuente
 COPY . .
+# Aumentar memoria disponible para Node.js
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 # Ejecuta el build de Angular
 RUN npx ng build --configuration production
 
