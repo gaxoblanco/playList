@@ -9,10 +9,7 @@ COPY . .
 # Aumentar memoria disponible para Node.js
 ENV NODE_OPTIONS="--max-old-space-size=8192"
 # Ejecuta el build de Angular
-# RUN npx ng build --configuration production
-# Opción 2: Compilar en modo JIT en lugar de AOT (más rápido pero menos optimizado)
-RUN npx ng build --configuration production --aot=false
-
+RUN npx ng build --configuration production
 # Etapa 2: Servir la aplicación con Nginx
 FROM nginx:stable-alpine
 # Copia los archivos transpilados al directorio de Nginx
