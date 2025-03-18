@@ -136,7 +136,7 @@ def main():
 
                 # Añade el contexto de la aplicación aquí
                 with app.app_context():
-                    result, report = asyncio.run(
+                    result = asyncio.run(
                         process_list_band_id(access_token, bands_list))
                     print(
                         f"Resultado del procesamiento {len(result)} ->: {result}")

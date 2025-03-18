@@ -26,4 +26,4 @@ async def already_search(bands_lock, band_name, processing_bands, band_item):
             if isinstance(existing_band, dict) and 'id' in existing_band:
                 return existing_band
 
-    return None
+    return {}

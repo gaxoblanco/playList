@@ -172,7 +172,7 @@ async def search_option(access_token, artist_name):
                     return None
             else:
                 print(
-                    f"Error en la búsqueda del artista: {response.status}")
+                    f"Error en la búsqueda del artista API: {response.status}")
                 print(response.json())
                 return None
 
