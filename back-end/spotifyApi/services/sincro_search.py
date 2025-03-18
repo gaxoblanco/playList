@@ -13,7 +13,7 @@ from spotifyApi.dataBase_operations import db
 # db.init_app(app)
 
 
-def search_option_with_background_storage(access_token, artist_name):
+def search_option_with_background_storage(access_token, artist_name, app):
     """
     Versión sincrónica que inicia un hilo separado para almacenamiento
     """
@@ -30,7 +30,7 @@ def search_option_with_background_storage(access_token, artist_name):
             # Iniciar un hilo separado para el almacenamiento
             storage_thread = threading.Thread(
                 target=store_artists_in_thread,
-                args=(artist_list,),
+                args=(artist_list, app),
                 daemon=False  # False = el hilo continuará incluso si el programa principal termina
             )
             storage_thread.start()

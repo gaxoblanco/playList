@@ -203,7 +203,7 @@ def search_options():
     try:
         with app.app_context():
             option_list = search_option_with_background_storage(
-                access_token, artist_name)
+                access_token, artist_name, app)
         return jsonify(option_list)
     except Exception as e:
         print(f"Error al buscar opciones del artista: {e}")
