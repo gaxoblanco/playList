@@ -38,7 +38,7 @@ export class ApiRequestService {
   // Envio el json con correciones y obtengo el band_id
   postList(list: any): Observable<any> {
     const data = list.source._value;
-    console.log('data --=>', data);
+    // console.log('data --=>', data);
     // console.log('headers -->', this.headers);
 
     return this.http.post<any>(`${this.apiUrl}/band_list`, data, {

@@ -182,7 +182,7 @@ def band_list():
 
 
 # ---------- search top 5 by name ----------
-@api.route("/search_options", methods=["POST", "OPTIONS"])
+@api.route("/search_options", methods=["POST"])
 def search_options():
     """
     Le envio al usuario las opciones de busqueda para la banda incorrecta que encontro
@@ -190,7 +190,7 @@ def search_options():
     data = request.get_json()  # data === {'data': 'band name'}
     # obtengo access_token del header -> array de 1 string
     access_token = request.headers.get("Authorization")
-
+    print("/search_options access_token:", access_token)
     if not access_token:
         return jsonify({"error, token is required": data}), 400
 
@@ -201,8 +201,9 @@ def search_options():
 
     # Ejecutar la función asíncrona y obtener el resultado
     try:
-        option_list = search_option_with_background_storage(
-            access_token, artist_name)
+        with app.app_context():
+            option_list = search_option_with_background_storage(
+                access_token, artist_name)
         return jsonify(option_list)
     except Exception as e:
         print(f"Error al buscar opciones del artista: {e}")
