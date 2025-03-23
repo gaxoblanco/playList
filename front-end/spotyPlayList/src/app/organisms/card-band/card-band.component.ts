@@ -69,7 +69,8 @@ export class CardBandComponent {
   @Output() hoverPosition = new EventEmitter<Array<number>>();
   @ViewChild('bandListOptions', { static: false }) bandListOptions!: ElementRef;
   @ViewChildren('bandCard') bandCards!: QueryList<ElementRef>;
-  optionsBand: ListBand[] = [
+  optionsBand: ListBand[] = [];
+  loadinOptionsBand: ListBand[] = [
     // 1 cargando
     {
       band_id: '1',
@@ -135,6 +136,8 @@ export class CardBandComponent {
   ) {}
 
   ngOnInit(): void {
+    // cargo las opcionmes de loadin optionsBand
+    this.optionsBand = this.loadinOptionsBand;
     // una vez cargado bandList en el ultimo elemento le agrego , elemento mas
     this.http
       .get('assets/addBand.html', { responseType: 'text' })
@@ -150,6 +153,9 @@ export class CardBandComponent {
 
   // --- obtener lista de opciones
   getOptions(name: string, img_zone: [number, number, number, number]): void {
+    // cargo los componentes de carga mientras espero
+    this.optionsBand = this.loadinOptionsBand;
+    console.log('Loading options with placeholder data:', this.optionsBand.length);
     this.apiRequestService.getNameOptions(name).subscribe({
       // obtener el nombre correcto
       next: (data) => {

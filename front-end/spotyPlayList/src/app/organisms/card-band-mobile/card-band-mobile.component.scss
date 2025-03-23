@@ -1,0 +1,492 @@
+@import '../../../variables.scss';
+
+// --------------------
+// Variables específicas del componente
+// --------------------
+$card-border-radius: 8px;
+$transition-speed: 0.3s;
+$action-button-size: 32px;
+
+// --------------------
+// Estilos básicos
+// --------------------
+figure {
+  margin: 0;
+}
+
+// --------------------
+// Componente de lista de bandas
+// --------------------
+.band-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 26px;
+  justify-content: center;
+  height: 40vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 200px;
+}
+
+// --------------------
+// informacion del array
+// --------------------
+.band-info--container {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 20px;
+
+  h4 {
+    font-size: 1.2rem;
+    margin: 0;
+  }
+
+  p {
+    font-size: 0.8rem;
+    margin: 0;
+    color: $spotify-gray;
+  }
+}
+
+// --------------------
+// Tarjeta de banda
+// --------------------
+.band-card {
+  width: 300px;
+  background: none;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+// --------------------
+// Contenedor principal de la banda
+// --------------------
+.band-inf--container {
+  width: 100%;
+  max-width: 300px;
+  background-color: #1e1e1e;
+  color: white;
+  border-radius: $card-border-radius;
+  overflow: hidden;
+  transition: transform $transition-speed;
+  border: 1px solid $spotify-gray;
+  margin-bottom: 6px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+// --------------------
+// Contenido de la banda (título + acciones)
+// --------------------
+.band-content {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+// --------------------
+// Imagen de la banda
+// --------------------
+.band-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: $card-border-radius;
+}
+
+// --------------------
+// Header de la tarjeta (formulario de edición)
+// --------------------
+.band-card--header {
+  padding: 0px 16px;
+  position: absolute;
+  top: 0;
+  transition: top $transition-speed;
+  background: $spotify-dark-deep-gray;
+  display: none;
+  z-index: 1;
+  width: 100%;
+
+  .card-header--button {
+    padding: 6px 12px;
+    border: 1px solid $alert-warning;
+    background: $spotify-dark-deep-gray;
+
+    &:hover {
+      background: $spotify-gray;
+    }
+  }
+
+  .band-name-input {
+    border-radius: 6px;
+    font-size: 14px;
+    width: 50%;
+    background-color: $spotify-light-gray;
+    font-weight: bold;
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+}
+
+// --------------------
+// Footer de la tarjeta (información)
+// --------------------
+.band-card--footer {
+  padding: 10px 16px;
+  bottom: -20%;
+  transition: bottom $transition-speed;
+  background: $spotify-dark-deep-gray;
+  left: 0;
+}
+
+// --------------------
+// Título de la banda
+// --------------------
+.band-card--title {
+  margin: 0;
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// --------------------
+// Contenedor del título para modo no-edición
+// --------------------
+.band-title-container {
+  flex: 1;
+  margin-right: 34px;
+  margin-left: -40px;
+  cursor: text; // Cambia el cursor a indicar que es editable
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.05); // Sutil resaltado al pasar el mouse
+    border-radius: 4px;
+  }
+
+  input {
+    background: none;
+  }
+}
+
+.band-display-name {
+  padding: 8px; // Añadir padding para que coincida con el input
+}
+
+// --------------------
+// Campo de entrada para edición
+// --------------------
+.band-edit-container {
+  width: 100%;
+}
+
+.band-name-input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid $spotify-green;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all $transition-speed ease;
+
+  &:focus {
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 0 2px rgba($spotify-green, 0.3);
+  }
+}
+
+// Hacer que el input se parezca al texto normal cuando no está enfocado
+.band-name-input:not(:focus) {
+  border-color: transparent;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+// --------------------
+// Etiquetas de género
+// --------------------
+.genre-label {
+  display: inline-block;
+  border: 2px solid $spotify-green;
+  border-radius: 18px;
+  padding: 2px 8px;
+  margin: 4px;
+  font-size: 0.8rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+// --------------------
+// Contenedor con scroll
+// --------------------
+.scrollable-container {
+  height: 90px;
+  overflow: auto;
+  scrollbar-width: none; // Firefox
+
+  &::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+  }
+}
+
+// --------------------
+// Botones de acción
+// --------------------
+.band-actions {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.action-button {
+  background-color: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  width: $action-button-size;
+  height: $action-button-size;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  &.edit:hover {
+    color: $spotify-green;
+  }
+
+  &.delete:hover {
+    color: $alert-danger;
+  }
+}
+
+// --------------------
+// Contenedor para modo edición
+// --------------------
+.band-edit-container {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.band-name-input {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 14px;
+  transition: all $transition-speed ease;
+
+  &:focus {
+    outline: none;
+    border-color: $spotify-green;
+    box-shadow: 0 0 0 2px rgba($spotify-green, 0.3);
+  }
+}
+
+// --------------------
+// Opciones de la lista de bandas
+// --------------------
+.band-list-options {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  width: 300px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  background-color: $spotify-gray;
+  border-radius: $card-border-radius;
+  padding: 4px;
+
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+
+  >* {
+    flex: 0 0 auto;
+    margin-right: 10px;
+  }
+}
+
+// --------------------
+// Estilos para el botón personalizado de carga de archivos
+// --------------------
+.file-label {
+  background-color: $spotify-green;
+  color: #FFFFFF;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  text-align: center;
+  display: inline-block;
+  transition: background-color $transition-speed ease;
+  font-weight: 600;
+  text-transform: uppercase;
+
+  &:hover {
+    background-color: darken($spotify-green, 10%);
+  }
+}
+
+// --------------------
+// Media Queries
+// --------------------
+
+// Móvil y tablets pequeñas
+@media (max-width: 600px) {
+  .band-inf--container {
+    .band-card--title {
+      font-size: 0.8rem;
+      line-height: 1.2;
+      margin: 6px 0;
+    }
+  }
+}
+
+// Móvil y tablets
+@media (max-width: 960px) {
+  .band-inf--container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+
+    figure {
+      width: 60px;
+      height: 60px;
+    }
+  }
+
+  .band-card--header {
+    top: -100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 10px 2px;
+    display: none;
+  }
+
+  .band-list {
+    padding-top: 80px;
+    height: 0vh;
+  }
+
+  #genres-container {
+    display: none;
+  }
+
+  // Estados activo e inactivo para móvil
+  .band-card.active {
+    transform: scale(1);
+
+    // .band-card--header {
+    //   position: absolute;
+    //   top: -60px;
+    //   display: flex;
+    //   gap: 12px;
+    // }
+
+    .footer--active {
+      bottom: 0px;
+    }
+
+    .footer--inactive {
+      bottom: 0;
+      background-color: purple;
+      display: none;
+    }
+  }
+
+  // Botones de acción en móvil (ocultos por defecto)
+  .band-actions {
+    opacity: 0;
+    transition: opacity $transition-speed ease;
+
+    &.visible {
+      opacity: 1;
+    }
+  }
+}
+
+// Desktop
+@media (min-width: 961px) {
+  .band-inf--container {
+    height: 300px;
+
+    .scrollable-container {
+      height: 100%;
+      overflow: auto;
+    }
+
+    .band-card--title {
+      font-size: 1.2rem;
+      line-height: 1.4;
+      margin-bottom: 14px 0;
+    }
+  }
+
+  .band-card--header {
+    top: -100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 10px 2px;
+  }
+
+  // Interacciones en Desktop
+  .band-card:hover {
+    transform: scale(1);
+
+    .band-card--header {
+      position: absolute;
+      top: 0;
+      display: flex;
+      gap: 12px;
+    }
+
+    .band-card--footer {
+      position: absolute;
+      width: 100%;
+    }
+
+    .footer--active {
+      bottom: 0px;
+    }
+
+    .footer--inactive {
+      bottom: 0;
+    }
+  }
+
+  // Botones de acción en desktop (siempre visibles)
+  .band-actions {
+    opacity: 1;
+  }
+}
+
+// Pantallas grandes
+@media (min-width: 1024px) {
+  .band-list {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+}

@@ -3,10 +3,12 @@
 figure {
   margin: 0;
 }
+
 // Ocultar el input file
 input[type="file"].up-img-imput {
-  display: none;  // Oculta el input file original
+  display: none; // Oculta el input file original
 }
+
 .container--up_img {
   display: grid;
   flex-direction: column;
@@ -29,38 +31,42 @@ input[type="file"].up-img-imput {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;                // Ocupa todo el ancho del contenedor
-  max-width: 400px;           // Establece un ancho máximo para grandes pantallas
-  aspect-ratio: 1 / 1;        // Mantiene la proporción 1:1 (cuadrada)
+  width: 100%; // Ocupa todo el ancho del contenedor
+  max-width: 400px; // Establece un ancho máximo para grandes pantallas
+  aspect-ratio: 1 / 1; // Mantiene la proporción 1:1 (cuadrada)
   border: 2px dashed $spotify-light-gray; // Color de borde
-  border-radius: 20px;        // Bordes redondeados
+  border-radius: 20px; // Bordes redondeados
   margin: 0 auto;
   cursor: pointer;
   transition: border-color 0.3s ease;
+
   &--selected {
     // herreda las propiedades del padre
     @extend .img-container;
-    border: none;               // Sin borde
-    width: 100%;                // Ocupa todo el ancho del contenedor
+    border: none; // Sin borde
+    width: 100%; // Ocupa todo el ancho del contenedor
     // height: 100%;               // Ocupa todo el alto del contenedor
-    border-radius: 20px;       // Bordes redondeados
-    overflow: hidden;           // Oculta el contenido que se sale del contenedor
+    border-radius: 20px; // Bordes redondeados
+    overflow: hidden; // Oculta el contenido que se sale del contenedor
 
   }
+
   // Efecto hover
   &:hover {
     border-color: darken($spotify-light-gray, 10%);
   }
 }
+
 .img-selected {
   width: 100%;
   height: 100%;
-  object-fit: fill; /* Permite deformar la relación de aspecto */
+  object-fit: fill;
+  /* Permite deformar la relación de aspecto */
 }
 
 // Crear un botón personalizado
 .file-label {
-  background-color: $spotify-green;  // Color verde de Spotify
+  background-color: $spotify-green; // Color verde de Spotify
   color: #FFFFFF;
   padding: 10px 20px;
   border-radius: 20px;
@@ -86,25 +92,34 @@ mat-chip {
 .band-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px; /* Espaciado entre las tarjetas */
-  justify-content: center; /* Centra las tarjetas en la línea */
+  gap: 16px;
+  /* Espaciado entre las tarjetas */
+  justify-content: center;
+  /* Centra las tarjetas en la línea */
 }
+
 .band-card {
   width: 300px;
   background: none;
 }
 
 .band-card:hover {
-  transform: scale(1.05); /* Efecto de hover */
+  transform: scale(1.05);
+  /* Efecto de hover */
 }
 
 .genre-label {
   display: inline-block;
-  border: 2px solid $spotify-green; /* Color de fondo para los géneros */
-  border-radius: 18px; /* Bordes redondeados para etiquetas */
-  padding: 2px 8px; /* Espaciado interno en etiquetas */
-  margin: 4px; /* Espaciado entre etiquetas */
-  font-size: 0.8rem; /* Tamaño de fuente más pequeño */
+  border: 2px solid $spotify-green;
+  /* Color de fondo para los géneros */
+  border-radius: 18px;
+  /* Bordes redondeados para etiquetas */
+  padding: 2px 8px;
+  /* Espaciado interno en etiquetas */
+  margin: 4px;
+  /* Espaciado entre etiquetas */
+  font-size: 0.8rem;
+  /* Tamaño de fuente más pequeño */
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -122,7 +137,8 @@ mat-chip {
 @media (max-width: 600px) {
 
   .img-container {
-    max-width: 280px; // Ancho más pequeño para pantallas pequeñas
+    max-width: 180px; // Ancho más pequeño para pantallas pequeñas
+    margin-bottom: 20px;
   }
 }
 
@@ -132,11 +148,20 @@ mat-chip {
     display: grid;
     grid-template-rows: 1fr;
   }
+
+  .create_playlist--container {
+    padding: 20px;
+  }
+
   .game_corrector--container {
     position: absolute;
     bottom: 30px;
     margin-top: 30px;
     padding: 0 30px;
+  }
+
+  .img-container {
+    margin-bottom: 30px;
   }
 }
 
@@ -147,10 +172,12 @@ mat-chip {
     align-items: center;
     grid-gap: 20px;
     margin-bottom: 20px;
+
     &.double-column {
-      grid-template-columns: 1fr  1fr;
+      grid-template-columns: 1fr 1fr;
       padding: 0 30px;
     }
+
     &:not(.double-column) {
       grid-template-columns: 1fr;
     }
@@ -162,17 +189,20 @@ mat-chip {
     .footer--active {
       bottom: 60px;
     }
+
     .footer--inactive {
       bottom: 0;
     }
   }
 }
+
 @media (min-width: 1024px) {
   .container--up_img {
     &.double-column {
       grid-template-columns: 1fr 2fr;
       padding: 0 30px;
     }
+
     &:not(.double-column) {
       grid-template-columns: 1fr;
     }
@@ -183,8 +213,10 @@ mat-chip {
   display: flex;
   // overflow-x: auto;
   white-space: nowrap;
-  width: 100%; /* Asegura que el contenedor ocupe todo el ancho de su elemento padre */
-  -ms-overflow-style: none; /* Oculta la barra de desplazamiento en Internet Explorer y Edge */
+  width: 100%;
+  /* Asegura que el contenedor ocupe todo el ancho de su elemento padre */
+  -ms-overflow-style: none;
+  /* Oculta la barra de desplazamiento en Internet Explorer y Edge */
   scrollbar-width: none;
   background-color: $spotify-gray;
   border-radius: 8px;
@@ -192,12 +224,15 @@ mat-chip {
 }
 
 .band-list-options::-webkit-scrollbar {
-  width: 0; /* Oculta la barra de desplazamiento en Chrome, Safari y Opera */
+  width: 0;
+  /* Oculta la barra de desplazamiento en Chrome, Safari y Opera */
 }
 
-.band-list-options > * {
-  flex: 0 0 auto; /* Asegura que los elementos secundarios no se reduzcan y se mantengan en una fila */
-  margin-right: 10px; /* Espacio entre los elementos */
+.band-list-options>* {
+  flex: 0 0 auto;
+  /* Asegura que los elementos secundarios no se reduzcan y se mantengan en una fila */
+  margin-right: 10px;
+  /* Espacio entre los elementos */
 }
 
 // ---- SelectOption ----
@@ -207,49 +242,60 @@ mat-chip {
   justify-items: center;
   grid-gap: 20px;
   position: relative;
+
   .button--discard {
     background-color: $alert-warning;
     border-radius: 20px;
     color: black !important;
   }
+
   .span-user_band_name {
     position: absolute;
     top: -46px;
   }
 }
+
 .select_option--container {
   padding: 12px;
   border-radius: 12px;
   justify-content: center;
   border: 1px solid $spotify-gray;
   background-color: $spotify-dark-gray;
+
   div {
     justify-content: center;
   }
 }
+
 .select_option--user_band_name {
   border-radius: 6px;
   font-size: 14px;
   background-color: $spotify-gray;
   font-weight: bold;
   display: flex;
+
   input {
     background-color: $spotify-gray;
     border: none;
     color: $white;
     margin-left: 8px;
     width: 100%;
+
     &:focus-visible {
-      outline: none; /* Elimina el borde de enfoque */
-      box-shadow: none; /* Elimina cualquier sombra de enfoque */
+      outline: none;
+      /* Elimina el borde de enfoque */
+      box-shadow: none;
+      /* Elimina cualquier sombra de enfoque */
     }
   }
+
   button {
     background-color: $alert-success;
     width: 60%;
     white-space: nowrap;
   }
 }
+
 .form_create_playlist {
   @extend .select_option--user_band_name;
   // Puedes agregar estilos adicionales aquí si es necesario
@@ -257,17 +303,22 @@ mat-chip {
 }
 
 .image-figure {
-  position: relative; /* Posiciona el contenedor de la imagen */
+  position: relative;
+  /* Posiciona el contenedor de la imagen */
 }
 
 .moving-circle {
-  position: absolute; /* Posiciona el círculo sobre la imagen */
+  position: absolute;
+  /* Posiciona el círculo sobre la imagen */
   width: 120px;
   height: 40px;
-  border-radius: 12px 0 0 12px; /* Hace que el div sea un círculo */
+  border-radius: 12px 0 0 12px;
+  /* Hace que el div sea un círculo */
   // background-color: #ffff0080; /* Color del círculo */
-  pointer-events: none; /* Ignora eventos de puntero para que no interfiera con otros elementos */
-  transition: top 0.5s, left 0.5s; /* Transición suave para el movimiento */
+  pointer-events: none;
+  /* Ignora eventos de puntero para que no interfiera con otros elementos */
+  transition: top 0.5s, left 0.5s;
+  /* Transición suave para el movimiento */
   border: 6px solid;
   border-right: none;
 }

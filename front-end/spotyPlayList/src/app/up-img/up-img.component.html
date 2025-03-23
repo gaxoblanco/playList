@@ -6,20 +6,6 @@
 >
   <!-- you see up_img_container if step !== 3 -->
   <div class="up_img_container" *ngIf="step !== 3">
-    <form
-      *ngIf="step == 1 && loading == 'done'"
-      (ngSubmit)="createPlayList()"
-      class="form_create_playlist"
-    >
-      <input
-        matInput
-        placeholder="Enter your option"
-        [(ngModel)]="playListName"
-        name="userBandName"
-        required
-      />
-      <button mat-raised-button type="submit">Create Play List</button>
-    </form>
     <mat-card-header
       [ngClass]="{
         'img-container': true,
@@ -136,18 +122,47 @@
 
   <!-- Step to see the different bands and  correct errors -->
   <div *ngIf="step == 1 && loading == 'done'">
-    <span class="info--container">
+    <!-- <span class="info--container">
       <h3>
         Selecciona las bandas que no corresponden y corrigelas antes de generar
         la play list
       </h3>
-    </span>
+    </span> -->
     <!-- <button mat-flat-button (click)="waitForUserConfirmation()">Continuar</button> -->
     <!-- Lista de las bandas con img -->
-    <app-card-band
-      [bandList]="bandListCards"
-      (hoverPosition)="updatePointerPosition($event)"
-    ></app-card-band>
+    <!-- Responsive card components -->
+    <ng-container *ngIf="!isMobile">
+      <!-- Desktop version -->
+      <app-card-band
+        [bandList]="bandListCards"
+        (hoverPosition)="updatePointerPosition($event)"
+      ></app-card-band>
+    </ng-container>
+
+    <ng-container *ngIf="isMobile">
+      <!-- Mobile version -->
+      <app-card-band-mobile
+        [bandList]="bandListCards"
+        (hoverPosition)="updatePointerPosition($event)"
+      ></app-card-band-mobile>
+    </ng-container>
+    <!-- Nombra y envia a generar la play list -->
+    <div class="create_playlist--container">
+      <form
+        *ngIf="step == 1 && loading == 'done'"
+        (ngSubmit)="createPlayList()"
+        class="form_create_playlist"
+      >
+        <input
+          matInput
+          placeholder="Enter your option"
+          [(ngModel)]="playListName"
+          name="userBandName"
+          required
+        />
+        <button mat-raised-button type="submit">Create Play List</button>
+      </form>
+    </div>
   </div>
 
   <app-playlistinfo

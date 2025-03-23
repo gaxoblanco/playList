@@ -20,6 +20,7 @@ import { CardBandComponent } from './organisms/card-band/card-band.component';
 import { ErrorContainerComponent } from './organisms/error-container/error-container.component';
 import { PlaylistinfoComponent } from './organisms/playlistinfo/playlistinfo.component';
 import { MobileClickDirective } from './directive/mobile-click.directive';
+import { CardBandMobileComponent } from './organisms/card-band-mobile/card-band-mobile.component';
 
 @NgModule({
   declarations: [AppComponent, AuthCallbackComponent],
@@ -37,6 +38,7 @@ import { MobileClickDirective } from './directive/mobile-click.directive';
     AppRoutingModule,
     UpImgComponent,
     CardBandComponent,
+    CardBandMobileComponent,
     ErrorContainerComponent,
     OptionsListComponent,
     MatProgressSpinnerModule,

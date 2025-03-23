@@ -19,3 +19,9 @@ interface top_track {
   name: string;
   url: string;
 }
+
+// extencion de ListBand para edicion/search
+export interface ListBandEdit extends ListBand {
+  isEditing?: boolean;
+  editedName?: string;
+}

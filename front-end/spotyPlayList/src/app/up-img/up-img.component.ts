@@ -22,6 +22,7 @@ import { environment } from '../../environments/environment';
 import { ErrorContainerComponent } from '../organisms/error-container/error-container.component';
 import { HeaderService } from '../services/header.service';
 import { PlaylistinfoComponent } from '../organisms/playlistinfo/playlistinfo.component';
+import { CardBandMobileComponent } from "../organisms/card-band-mobile/card-band-mobile.component";
 
 @Component({
   selector: 'app-up-img',
@@ -41,7 +42,8 @@ import { PlaylistinfoComponent } from '../organisms/playlistinfo/playlistinfo.co
     MatButtonModule,
     MatProgressSpinnerModule,
     PlaylistinfoComponent,
-  ],
+    CardBandMobileComponent
+],
 })
 export class UpImgComponent {
   @ViewChild('imgRef', { static: false }) imgRef!: ElementRef<HTMLImageElement>;
@@ -59,21 +61,23 @@ export class UpImgComponent {
   originalImgHeight: number = 0;
   colorPointer: string = 'red';
 
+  // Screen size properties
+  isMobile: boolean = false;
+  breakpointMobile: number = 960; // Breakpoint for mobile (match with your media queries)
+
   // Información de la playlist
   playlistInfo: PlaylistDate = {
     playlists: {
       band_id: '',
-      name: 'LolaPalloza 2024',
+      name: 'Loading...',
       href: '',
       img: [''],
     },
     bandInfo: {
       failed_bands: [
-        'ints',
-        '2minutos',
-        'andres calamaro',
-        'ella es tan cargosa',
-        'el zak',
+        'loading...',
+        'loading...',
+        'loading...',
       ],
       top_add: 0,
       top_failed: 0,
@@ -109,15 +113,25 @@ export class UpImgComponent {
     private apiRequestService: ApiRequestService,
     private observablesService: ObservablesService,
     private headerService: HeaderService
-  ) {}
+  ) {
+    // Check initial screen size
+    this.checkScreenSize();
+  }
 
   ngOnInit(): void {
     this.initializeHeader();
     this.initializeObservables();
     this.validateSpotifyToken();
     this.clearLocalStorage();
-  }
 
+    // Listen for window resize events to update the screen size detection
+    window.addEventListener('resize', () => {
+      this.checkScreenSize();
+    });
+  }
+  checkScreenSize(): void {
+    this.isMobile = window.innerWidth < this.breakpointMobile;
+  }
   private initializeHeader(): void {
     this.headerService.updateHeader(
       'Upload a cropped image containing a list of bands'

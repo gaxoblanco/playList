@@ -1,96 +1,91 @@
 @import '../../../variables.scss';
 
+// ======================
+// VARIABLES
+// ======================
+$card-border-radius: 8px;
+$transition-speed: 0.3s;
+$card-width: 300px;
+
+// ======================
+// BASIC ELEMENTS
+// ======================
 figure {
   margin: 0;
 }
 
-
-// Crear un botón personalizado
-.file-label {
-  background-color: $spotify-green; // Color verde de Spotify
-  color: #FFFFFF;
-  padding: 10px 20px;
-  border-radius: 20px;
-  cursor: pointer;
-  text-align: center;
-  display: inline-block;
-  transition: background-color 0.3s ease;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-// Hover para cambiar el color
-.file-label:hover {
-  background-color: darken($spotify-green, 10%);
-}
-
-
-mat-chip {
-  margin: 5px;
-}
-
-
+// ======================
+// BAND LIST CONTAINER
+// ======================
 .band-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 80px 26px;
-  /* Espaciado entre las tarjetas */
+  gap: 86px 26px;
   justify-content: center;
-  /* Centra las tarjetas en la línea */
   height: 40vh;
   overflow-y: auto;
   overflow-x: hidden;
   padding-bottom: 200px;
 }
 
+// ======================
+// BAND CARD
+// ======================
 .band-card {
-  width: 300px;
+  width: $card-width;
   background: none;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 }
 
+// ======================
+// BAND INFO CONTAINER
+// ======================
 .band-inf--container {
   width: 100%;
-  /* Cambiado a 100% para pantallas pequeñas */
-  max-width: 300px;
-  /* Ancho máximo para pantallas más grandes */
+  max-width: $card-width;
   background-color: #1e1e1e;
-  /* Color de fondo similar al de Spotify */
   color: white;
-  /* Texto en color blanco */
-  border-radius: 8px;
-  /* Bordes redondeados */
+  border-radius: $card-border-radius;
   overflow: hidden;
-  /* Para recortar el contenido */
-  transition: transform 0.2s;
-  /* Efecto de transformación suave */
+  transition: transform $transition-speed;
   border: 1px solid $spotify-gray;
-  /* Borde delgado */
   margin-bottom: 6px;
   position: relative;
 }
 
-.band-card:hover {
-  transform: scale(1.05);
-  /* Efecto de hover */
+// ======================
+// BAND IMAGE
+// ======================
+.band-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: $card-border-radius;
 }
 
+// ======================
+// CARD HEADER
+// ======================
 .band-card--header {
   padding: 0px 16px;
   position: absolute;
   top: 0;
-  /* Por encima de su propia altura */
-  transition: top 0.3s;
-  /* Efecto de transición suave */
+  transition: top $transition-speed;
   background: $spotify-dark-deep-gray;
   display: none;
   z-index: 1;
+  width: 100%;
 
   .card-header--button {
     padding: 6px 12px;
     border: 1px solid $alert-warning;
     background: $spotify-dark-deep-gray;
 
-    :hover {
+    &:hover {
       background: $spotify-gray;
     }
   }
@@ -104,87 +99,131 @@ mat-chip {
 
     &:focus-visible {
       outline: none;
-      /* Elimina el borde de enfoque */
       box-shadow: none;
-      /* Elimina cualquier sombra de enfoque */
     }
   }
 }
 
+// ======================
+// CARD FOOTER
+// ======================
 .band-card--footer {
-  padding: 0px 16px;
-  /* Espaciado interno en el encabezado */
-  // bottom por debajo de su propia altura
+  padding: 10px 16px;
   bottom: -20%;
-  transition: bottom 0.3s;
-  /* Efecto de transición suave */
+  transition: bottom $transition-speed;
   background: $spotify-dark-deep-gray;
   left: 0;
-  padding: 10px;
 }
 
+// ======================
+// BAND TITLE
+// ======================
+.band-card--title {
+  margin: 0;
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// ======================
+// GENRE LABELS
+// ======================
 .genre-label {
   display: inline-block;
   border: 2px solid $spotify-green;
-  /* Color de fondo para los géneros */
   border-radius: 18px;
-  /* Bordes redondeados para etiquetas */
   padding: 2px 8px;
-  /* Espaciado interno en etiquetas */
   margin: 4px;
-  /* Espaciado entre etiquetas */
   font-size: 0.8rem;
-  /* Tamaño de fuente más pequeño */
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-
 }
 
-.band-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-//---
+// ======================
+// SCROLLABLE CONTAINER
+// ======================
 .scrollable-container {
   height: 90px;
-  /* Altura fija del contenedor */
   overflow: auto;
-  /* Permite el scroll */
+  scrollbar-width: none; // Firefox
+
+  &::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+  }
 }
 
-/* Ocultar la barra de desplazamiento en WebKit (Chrome, Safari) */
-.scrollable-container::-webkit-scrollbar {
-  width: 0;
-  /* Ancho de la barra de scroll */
-  background: transparent;
-  /* Fondo transparente para ocultar la barra */
-}
-
-/* Ocultar la barra de desplazamiento en Firefox */
-.scrollable-container {
+// ======================
+// BAND LIST OPTIONS
+// ======================
+.band-list-options {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  width: $card-width;
+  -ms-overflow-style: none;
   scrollbar-width: none;
-  /* Para Firefox */
+  background-color: $spotify-gray;
+  border-radius: $card-border-radius;
+  padding: 4px;
+  position: absolute;
+  bottom: -66px;
+  z-index: 10; // Ensure options appear above other elements
+
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+
+  >* {
+    flex: 0 0 auto;
+    margin-right: 10px;
+  }
 }
 
-//-----------------//
+// ======================
+// FILE UPLOAD BUTTON
+// ======================
+.file-label {
+  background-color: $spotify-green;
+  color: #FFFFFF;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  text-align: center;
+  display: inline-block;
+  transition: background-color $transition-speed ease;
+  font-weight: 600;
+  text-transform: uppercase;
 
-/* Media queries para hacer el diseño más responsivo */
+  &:hover {
+    background-color: darken($spotify-green, 10%);
+  }
+}
+
+// ======================
+// RESPONSIVE DESIGN
+// ======================
+
+// Mobile & Small Tablets (up to 600px)
 @media (max-width: 600px) {
   .band-inf--container {
     .band-card--title {
       font-size: 0.8rem;
       line-height: 1.2;
       margin: 6px 0;
-
     }
   }
 }
 
+// Mobile & Tablets (up to 960px)
 @media (max-width: 960px) {
+  .band-list {
+    padding-top: 80px;
+    height: 30vh;
+  }
+
   .band-inf--container {
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -227,21 +266,7 @@ mat-chip {
   }
 }
 
-// @media (min-width: 601px) and (max-width: 960px) {
-//   .band-inf--container {
-//     display: grid;
-//     grid-template-columns: 1fr 2fr;
-//     .band-image {
-//       width: 100px;
-//     }
-//     .band-card--title {
-//       font-size: 1rem;
-//       line-height: 1.4;
-//       margin-bottom: 10px 0;
-//     }
-//   }
-// }
-
+// Desktop (961px and above)
 @media (min-width: 961px) {
   .band-inf--container {
     height: 300px;
@@ -292,44 +317,10 @@ mat-chip {
   }
 }
 
+// Large Screens (1024px and above)
 @media (min-width: 1024px) {
   .band-list {
     overflow-y: auto;
     overflow-x: hidden;
   }
-}
-
-@media (max-width: 960px) {
-  .band-list {
-    padding-top: 80px;
-    height: 30vh;
-  }
-}
-
-.band-list-options {
-  display: flex;
-  overflow-x: auto;
-  white-space: nowrap;
-  width: 300px;
-  /* Asegura que el contenedor ocupe todo el ancho de su elemento padre */
-  -ms-overflow-style: none;
-  /* Oculta la barra de desplazamiento en Internet Explorer y Edge */
-  scrollbar-width: none;
-  background-color: $spotify-gray;
-  border-radius: 8px;
-  padding: 4px;
-  position: absolute;
-  bottom: -66px;
-}
-
-.band-list-options::-webkit-scrollbar {
-  width: 0;
-  /* Oculta la barra de desplazamiento en Chrome, Safari y Opera */
-}
-
-.band-list-options>* {
-  flex: 0 0 auto;
-  /* Asegura que los elementos secundarios no se reduzcan y se mantengan en una fila */
-  margin-right: 10px;
-  /* Espacio entre los elementos */
 }

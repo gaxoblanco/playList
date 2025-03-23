@@ -1,0 +1,64 @@
+<!-- bandas detectadas -->
+ <div class="band-info--container">
+  <h4>
+    Bandas detectadas
+  </h4>
+<p>{{bandList.length}} bandas</p>
+ </div>
+<!-- Lista de las bandas con img -->
+<div class="band-list" *ngIf="bandList.length > 0">
+  <mat-card
+    *ngFor="let band of bandList; let i = index"
+    class="band-card band-card-{{ i }}"
+    (mouseenter)="onCardHover(i, $event)"
+    #bandCard
+  >
+    <!-- Contenedor principal de la banda -->
+    <div
+      class="band-inf--container"
+      [appMobileClick]="getSaludoFunction(i)"
+      (click)="$event.stopPropagation()"
+    >
+      <figure>
+        <img class="band-image" [src]="band.img_url" [alt]="band.name" />
+      </figure>
+
+      <!-- Contenido principal: nombre, géneros, y acciones -->
+      <div class="band-content">
+        <!-- Nombre de la banda -->
+        <div class="band-title-container">
+          <input
+              class="band-name-input"
+              [(ngModel)]="editedNames[i]"
+              [attr.placeholder]="band.name"
+              aria-label="Edit band name"
+              (keyup.enter)="saveEdit(i, editedNames[i])"
+          />
+        </div>
+
+        <!-- Botón de eliminar (visible en ambos modos) -->
+        <div class="band-actions" [class.visible]="isDesktop || activeCardIndex === i">
+          <button class="action-button delete" (click)="deleteOpcion(i)" aria-label="Eliminar banda">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lista de opciones de bandas (visible al activar en ambos modos) -->
+    <div
+      #bandListOptions
+      *ngIf="activeCardIndex === i"
+      @toggleOptions
+      class="band-list-options"
+      (mouseenter)="onMouseEnter()"
+      (mouseleave)="onMouseLeave()"
+    >
+      <app-options-list
+        *ngFor="let optionBand of optionsBand"
+        [band]="optionBand"
+        [index]="i"
+      ></app-options-list>
+    </div>
+  </mat-card>
+</div>

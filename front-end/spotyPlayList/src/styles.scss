@@ -1,27 +1,38 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: 'Montserrat', sans-serif; }
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+}
 
 // Tipografía
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
 @import './variables.scss';
 @import './cropper.scss';
+
 body {
   background-color: black;
   color: $white;
   margin: 0;
   padding: 0;
 }
+
 input {
   font-family: 'Montserrat', sans-serif;
 }
-button, .mat-button {
+
+button,
+.mat-button {
   background-color: $spotify-green;
   color: $white;
   font-weight: 600;
   border-radius: 20px;
-  padding: 10px 20px;
+  // padding: 10px 20px;
   text-transform: uppercase;
   transition: background-color 0.3s ease;
   border: none;
@@ -31,21 +42,26 @@ button, .mat-button {
     background-color: darken($spotify-green, 10%);
   }
 }
+
 img {
   margin: 0;
   padding: 0;
 }
 
 // Para títulos
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   color: $white;
   font-weight: 600;
   margin: 0px;
 }
 
-ul, li {
+ul,
+li {
   list-style-type: none;
 }
+
 // Para formularios y entradas de texto
 .mat-form-field {
   color: $white;
@@ -84,27 +100,35 @@ ul, li {
 }
 
 .container {
-    margin: 20px;
+  margin: 20px;
 }
+
 .mdc-circular-progress__indeterminate-circle-graphic {
   stroke: $spotify-green !important;
 }
+
 //---
 .scrollable-container {
-  height: 90px; /* Altura fija del contenedor */
-  overflow: auto; /* Permite el scroll */
+  height: 90px;
+  /* Altura fija del contenedor */
+  overflow: auto;
+  /* Permite el scroll */
 }
 
 /* Ocultar la barra de desplazamiento en WebKit (Chrome, Safari) */
 .scrollable-container::-webkit-scrollbar {
-  width: 0; /* Ancho de la barra de scroll */
-  background: transparent; /* Fondo transparente para ocultar la barra */
+  width: 0;
+  /* Ancho de la barra de scroll */
+  background: transparent;
+  /* Fondo transparente para ocultar la barra */
 }
 
 /* Ocultar la barra de desplazamiento en Firefox */
 .scrollable-container {
-  scrollbar-width: none; /* Para Firefox */
+  scrollbar-width: none;
+  /* Para Firefox */
 }
+
 //-----------------//
 .info--container {
   display: grid;
@@ -115,29 +139,35 @@ ul, li {
   padding: 2px 12px;
   border-radius: 10px;
   text-align: center;
+
   h3 {
     margin: 0px;
   }
+
   @media (max-width: 768px) {
     h3 {
       font-size: 12px;
     }
   }
+
   &--create_list {
     @extend .info--container;
     padding: 10px 12px;
     grid-template-columns: 2fr 1fr;
     gap: 20px;
+
     button {
       font-size: 12px;
       white-space: nowrap;
     }
+
     input {
       font-size: 12px;
       border-radius: 18px;
       border: none;
       padding-left: 12px;
     }
+
     @media (max-width: 961px) {
       font-size: 10px;
       position: fixed;
@@ -149,4 +179,3 @@ ul, li {
     }
   }
 }
-

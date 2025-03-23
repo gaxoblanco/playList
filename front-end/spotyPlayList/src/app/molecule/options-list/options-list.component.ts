@@ -4,10 +4,8 @@ import { ListBand, optionBand } from 'src/app/models/list_band';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
-import { take } from 'rxjs/operators';
 
 import { ObservablesService } from 'src/app/services/observables.service';
-import { UpImgComponent } from 'src/app/up-img/up-img.component';
 
 @Component({
   selector: 'app-options-list',
@@ -38,7 +36,6 @@ export class OptionsListComponent {
 
   constructor(
     private observablesService: ObservablesService,
-    private upImgComponent: UpImgComponent
   ) {}
 
   changBand(index: number): void {
