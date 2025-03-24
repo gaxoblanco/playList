@@ -79,11 +79,11 @@
     *ngIf="imgSelected && loading == 'done' && bandListCards.length == 0"
     class="game_corrector--container"
   >
-    <mat-chip-grid class="select_option--container">
+    <div class="select_option--container">
       <mat-chip *ngFor="let op of optionList" (click)="selectOption(op)">
         {{ op }}
       </mat-chip>
-    </mat-chip-grid>
+    </div>
     <div>
       <form
         (ngSubmit)="onSubmitUserBandName()"

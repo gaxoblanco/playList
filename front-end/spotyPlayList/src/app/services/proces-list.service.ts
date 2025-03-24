@@ -4,6 +4,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { ListBand } from '../models/list_band';
 import { ObservablesService } from './observables.service';
 import { environment } from '../../environments/environment';
+import { first, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -96,56 +97,58 @@ export class ProcesListService {
   startGameCorrector(): void {
     // nextStep$ == 0 start process
     this.observablesService.resetNextStep();
-    this.observablesService.optionList$.subscribe(async (options) => {
-      for (const option of options) {
-        // posiciono el puntero de la imagen
-        this.observablesService.updateImgPointer(option.img_zone);
-        // Convertimos el nombre a minúsculas y lo separamos en palabras
-        const words = option.name.trim().toLowerCase().split(' ');
-        // genero las combinaciones de palabras
-        const bandErrors = this.generateWordCombinations(option.name);
 
-        // valido que el split tenga 3 palabras
-        if (words.length > 2) {
-          const isValidName = this.isValidBandName(words);
-          // valido que sea un nombre valido
-          if (isValidName) {
-            this.observablesService.addBandListCorect(option);
-            // emito un movimiento emitShowContinueButton
-            this.observablesService.emitShowContinueButton();
+    // first() para asegurarte de que la suscripción se completa después de un valor
+    this.observablesService.optionList$.pipe(
+      first(), // estudiar mas al respecto
+      switchMap(async (options) => {
+        for (const option of options) {
+          // posiciono el puntero de la imagen
+          this.observablesService.updateImgPointer(option.img_zone);
+          // Convertimos el nombre a minúsculas y lo separamos en palabras
+          const words = option.name.trim().toLowerCase().split(' ');
+          // genero las combinaciones de palabras
+          const bandErrors = this.generateWordCombinations(option.name);
+
+          // valido que el split tenga 3 palabras
+          if (words.length > 2) {
+            const isValidName = this.isValidBandName(words);
+            // valido que sea un nombre valido
+            if (isValidName) {
+              this.observablesService.addBandListCorect(option);
+              // emito un movimiento emitShowContinueButton
+              this.observablesService.emitShowContinueButton();
+            } else {
+              // elimino las opciones en bandErrors que sean un conector o middleConectr
+              const cleanBandErrors = bandErrors.filter(
+                (item: string) => !this.connectors.includes(item)
+              );
+              // cargo las nuevas opciones en el observable updateOptionError
+              console.log('es un conector de inicio de nombre', words[1]);
+              this.observablesService.updateOptionError(cleanBandErrors);
+
+              // espero a que showContinueButtonSubject cambie
+              // para continuar con el siguiente grupo
+              await this.observablesService
+                .waitForShowContinueButton()
+                .then(() => {
+                  console.log('Siguiente grupo');
+                });
+            }
           } else {
-            // elimino las opciones en bandErrors que sean un conector o middleConectr
-            const cleanBandErrors = bandErrors.filter(
-              (item: string) => !this.connectors.includes(item)
-            );
-            // cargo las nuevas opciones en el observable updateOptionError
-            console.log('es un conector de inicio de nombre', words[1]);
-            this.observablesService.updateOptionError(cleanBandErrors);
-
-            // espero a que showContinueButtonSubject cambie
-            // para continuar con el siguiente grupo
-            await this.observablesService
-              .waitForShowContinueButton()
-              .then(() => {
-                console.log('Siguiente grupo');
-              });
+            const band: ListBand = {
+              band_id: '',
+              name: option.name.trim().toLowerCase(),
+              img_zone: option.img_zone,
+            };
+            // cargo option en el observable updateBandListCorect
+            this.observablesService.addBandListCorect(band);
           }
-        } else {
-          const band: ListBand = {
-            band_id: '',
-            name: option.name.trim().toLowerCase(),
-            img_zone: option.img_zone,
-          };
-          // cargo option en el observable updateBandListCorect
-          this.observablesService.addBandListCorect(band);
         }
-      }
-      this.observablesService.incrementNextStep();
-      console.log(
-        'proces-list.services bandListCorect$:',
-        this.observablesService['bandListCorect$']
-      );
-    });
+        this.observablesService.incrementNextStep();
+        return options;
+      })
+    ).subscribe();
   }
   //----------------------------------------------------------------
   //

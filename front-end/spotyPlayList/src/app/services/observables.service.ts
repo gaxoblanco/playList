@@ -63,8 +63,9 @@ export class ObservablesService {
   // Method to wait for showContinueButton to change
   waitForShowContinueButton(): Promise<void> {
     return new Promise((resolve) => {
-      this.showContinueButtonSubject.subscribe(() => {
+      const subscription = this.showContinueButtonSubject.subscribe(() => {
         resolve();
+        subscription.unsubscribe(); // Auto-cancelar después de resolver
       });
     });
   }

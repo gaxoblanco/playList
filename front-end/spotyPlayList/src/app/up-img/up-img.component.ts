@@ -23,6 +23,7 @@ import { ErrorContainerComponent } from '../organisms/error-container/error-cont
 import { HeaderService } from '../services/header.service';
 import { PlaylistinfoComponent } from '../organisms/playlistinfo/playlistinfo.component';
 import { CardBandMobileComponent } from "../organisms/card-band-mobile/card-band-mobile.component";
+import { Subscription, take } from 'rxjs';
 
 @Component({
   selector: 'app-up-img',
@@ -108,6 +109,10 @@ export class UpImgComponent {
   imgWidth!: number;
   imgHeight!: number;
 
+  private cropperInstance: Cropper | null = null;
+  cropperEnabled: boolean = false;
+  private subscriptions: Subscription[] = []; // guardo las subscripciones para poder desuscribirme
+
   constructor(
     private procesListService: ProcesListService,
     private apiRequestService: ApiRequestService,
@@ -124,10 +129,21 @@ export class UpImgComponent {
     this.validateSpotifyToken();
     this.clearLocalStorage();
 
-    // Listen for window resize events to update the screen size detection
+    // escuchamos el evento resize para ajustar el tamaño de la imagen
     window.addEventListener('resize', () => {
       this.checkScreenSize();
     });
+
+    // Subscribe al observable optionError$ para actualizar las opciones
+    this.subscriptions.push(
+      this.observablesService.optionError$.subscribe((options) => {
+        this.optionList = options;
+        this.adjustBandPositions();
+      })
+    );
+  }
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
   checkScreenSize(): void {
     this.isMobile = window.innerWidth < this.breakpointMobile;
@@ -153,13 +169,17 @@ export class UpImgComponent {
 
   private validateSpotifyToken(): void {
     this.tokenSpotify = localStorage.getItem('access_token');
-    // console.log('tokenSpotify', this.tokenSpotify);
+    if (this.tokenSpotify) {
+      // this.requestTokenSpotify = false;
+      console.log('Mensaje de que falta token', this.tokenSpotify);
+    }
   }
 
   private clearLocalStorage(): void {
     localStorage.removeItem('uploadedImage');
   }
 
+  // llevar al servicio para img_processing
   private calculateRatios(): { ratioX: number; ratioY: number } {
     this.originalImgWidth = this.imgRef.nativeElement.width;
     this.originalImgHeight = this.imgRef.nativeElement.height;
@@ -169,7 +189,7 @@ export class UpImgComponent {
       ratioY: this.originalImgHeight / this.imgHeight,
     };
   }
-
+  // llevar al servicio para img_processing
   adjustBandPositions(): void {
     if (!this.imgRef?.nativeElement) {
       console.error('No se ha podido obtener la referencia de la imagen');
@@ -182,16 +202,10 @@ export class UpImgComponent {
     this.boxY = this.zoneY * ratioY - 3;
     this.boxX2 = this.zoneX2 * 3 * ratioX;
     this.boxY2 = this.zoneY2 * 3 * ratioY;
-
-    // console.log('Posiciones ajustadas:', {
-    //   boxX: this.boxX,
-    //   boxY: this.boxY,
-    //   boxX2: this.boxX2,
-    //   boxY2: this.boxY2,
-    // });
   }
   //----------**************-----------------********---------
 
+  // llevar al servicio para img_processing
   // Método que actualizará la posición del puntero
   updatePointerPosition(positionArray: Array<number>): void {
     if (this.step === 1) {
@@ -246,8 +260,7 @@ export class UpImgComponent {
       console.log('No se ha seleccionado ningún archivo');
     }
   }
-  private cropperInstance: Cropper | null = null;
-  cropperEnabled: boolean = false;
+  // llevar al servicio para img_processing
   initializeCropper(): void {
     console.log('Inicializando cropper...');
     setTimeout(() => {
@@ -271,6 +284,7 @@ export class UpImgComponent {
       }
     }, 0); // Ajusta el tiempo si es necesario
   }
+  // llevar al servicio para img_processing
   waitForCrop(): void {
     if (this.cropperInstance) {
       const croppedCanvas = this.cropperInstance.getCroppedCanvas();
@@ -304,45 +318,61 @@ export class UpImgComponent {
     }
   }
 
+  // llevar al servicio para img_processing
   // Método para manejar la carga de la imagen a la API y procesar la respuesta
   private uploadImageToAPI(file: string): void {
     this.loading = 'loading';
     const formData = new FormData();
     formData.append('img', file);
-    // console.log('formData-img', formData);
 
     this.apiRequestService.postImg(formData).subscribe({
       next: async (data: any) => {
-        const bandList: ListBand[] = data.associated_data; // Extraer la lista de bandas de la respuesta
-        this.colorPointer = data.contrast_color; // Obtengo el color que mejor contrasta con la img subida
-        localStorage.setItem('BandList', JSON.stringify(bandList)); // Guardar la lista de bandas en localStorage
-        this.observablesService.updateOptionList(bandList); // Actualizar el observable con la lista de bandas
-        this.procesListService.startGameCorrector(); // Iniciar el "game corrector"
-        this.loading = 'done';
-        // console.log('data--data', data);
-        // Actualizo headerService con la informacion del paso a realizar
-        this.headerService.updateHeader(
-          'Review the suggested options in the interactive game and fix any errors as needed.'
-        );
-        // Actualizo las opciones
-        this.observablesService.optionError$.subscribe((options) => {
-          this.optionList = options;
-          this.adjustBandPositions();
-        });
+        try {
+          // Verificar que data tenga la estructura esperada
+          if (!data || !data.associated_data) {
+            console.error('Respuesta de API inválida:', data);
+            this.loading = 'error';
+            return;
+          }
 
-        // Ajustar las posiciones de las bandas después de recibir la respuesta de la API
-        if (data[0].img_zone) {
-          // ----------------- No actualiza las posiciones de las bandas al iniciar el componente
-          this.zoneX = data[0].img_zone[0] | 0;
-          this.zoneY = data[0].img_zone[1] | 0;
-          this.zoneX2 = data[0].img_zone[2] | 0;
-          this.zoneY2 = data[0].img_zone[3] | 0;
+          // Guardar la lista de bandas en localStorage y en el servicio
+          const bandList: ListBand[] = data.associated_data;
+          this.colorPointer = data.contrast_color || 'red';
+
+          localStorage.setItem('BandList', JSON.stringify(bandList));
+          this.observablesService.updateOptionList(bandList);
+          this.procesListService.startGameCorrector();
+          this.loading = 'done';
+
+          this.headerService.updateHeader(
+            'Review the suggested options in the interactive game and fix any errors as needed.'
+          );
+
+          // Usar take(1) para evitar múltiples suscripciones
+          this.observablesService.optionError$.pipe( // no requiere guardar referencia a la subscripción
+            take(1)
+          ).subscribe((options) => {
+            this.optionList = options;
+            this.adjustBandPositions();
+            // Auto-cancela
+          });
+
+          // Posicionar el puntero en la primera banda
+          if (bandList && bandList.length > 0 && bandList[0].img_zone) {
+            this.zoneX = bandList[0].img_zone[0] | 0;
+            this.zoneY = bandList[0].img_zone[1] | 0;
+            this.zoneX2 = bandList[0].img_zone[2] | 0;
+            this.zoneY2 = bandList[0].img_zone[3] | 0;
+          }
+        } catch (error) {
+          console.error('Error procesando datos:', error);
+          this.loading = 'error';
         }
       },
       error: (error) => {
         this.loading = 'error';
         console.error('Error al enviar la imagen:', error);
-      },
+      }
     });
   }
   //----------------------------------------------------------------
@@ -372,7 +402,7 @@ export class UpImgComponent {
       this.userBandName = '';
     }
   }
-  //----------------------------------------------------------------
+  //-------------------------- Crear su componente --------------------------------------
   selectOption(option: string): void {
     this.selectedName = option;
     // console.log('Opción seleccion', option);
@@ -426,16 +456,25 @@ export class UpImgComponent {
       this.observablesService.emitShowContinueButton();
     }
   }
-  //----------------------------------------------------------------
+  //                   ------- Va con el nuevo componente ---------
   // Función para esperar a que el usuario haga clic en "continuar"
   async waitForUserConfirmation(): Promise<void> {
     console.log('Esperando a que el usuario haga clic en "continuar"');
-    // emito un movimiento waitForShowContinueButton
     this.observablesService.emitShowContinueButton();
     return new Promise<void>((resolve) => {
       const button = document.getElementById('continue-button');
+      if (button) {
+        button.addEventListener('click', () => {
+          resolve();
+        }, { once: true }); // 'once: true' para que el listener se elimine después de usarse
+      } else {
+        console.error('Button "continue-button" not found - agregar contador');
+        // Timeout para evitar que se quede colgada para siempre
+        setTimeout(resolve, 10000); // Ejemplo: resolver después de 10 segundos
+      }
     });
   }
+
 
   createPlayList(): void {
     // activo el spinner
