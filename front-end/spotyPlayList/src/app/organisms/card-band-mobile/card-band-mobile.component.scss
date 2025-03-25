@@ -102,64 +102,7 @@ figure {
   border-radius: $card-border-radius;
 }
 
-// --------------------
-// Header de la tarjeta (formulario de edición)
-// --------------------
-.band-card--header {
-  padding: 0px 16px;
-  position: absolute;
-  top: 0;
-  transition: top $transition-speed;
-  background: $spotify-dark-deep-gray;
-  display: none;
-  z-index: 1;
-  width: 100%;
 
-  .card-header--button {
-    padding: 6px 12px;
-    border: 1px solid $alert-warning;
-    background: $spotify-dark-deep-gray;
-
-    &:hover {
-      background: $spotify-gray;
-    }
-  }
-
-  .band-name-input {
-    border-radius: 6px;
-    font-size: 14px;
-    width: 50%;
-    background-color: $spotify-light-gray;
-    font-weight: bold;
-
-    &:focus-visible {
-      outline: none;
-      box-shadow: none;
-    }
-  }
-}
-
-// --------------------
-// Footer de la tarjeta (información)
-// --------------------
-.band-card--footer {
-  padding: 10px 16px;
-  bottom: -20%;
-  transition: bottom $transition-speed;
-  background: $spotify-dark-deep-gray;
-  left: 0;
-}
-
-// --------------------
-// Título de la banda
-// --------------------
-.band-card--title {
-  margin: 0;
-  font-size: 16px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 
 // --------------------
 // Contenedor del título para modo no-edición
@@ -181,16 +124,6 @@ figure {
   }
 }
 
-.band-display-name {
-  padding: 8px; // Añadir padding para que coincida con el input
-}
-
-// --------------------
-// Campo de entrada para edición
-// --------------------
-.band-edit-container {
-  width: 100%;
-}
 
 .band-name-input {
   width: 100%;
@@ -208,6 +141,11 @@ figure {
     background-color: rgba(255, 255, 255, 0.2);
     box-shadow: 0 0 0 2px rgba($spotify-green, 0.3);
   }
+
+  // Cambia el color del texto del placeholder
+  &::placeholder {
+    color: rgb(211, 211, 211); // Cambia esto al color que desees
+  }
 }
 
 // Hacer que el input se parezca al texto normal cuando no está enfocado
@@ -216,34 +154,6 @@ figure {
   background-color: rgba(255, 255, 255, 0.05);
 }
 
-// --------------------
-// Etiquetas de género
-// --------------------
-.genre-label {
-  display: inline-block;
-  border: 2px solid $spotify-green;
-  border-radius: 18px;
-  padding: 2px 8px;
-  margin: 4px;
-  font-size: 0.8rem;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-// --------------------
-// Contenedor con scroll
-// --------------------
-.scrollable-container {
-  height: 90px;
-  overflow: auto;
-  scrollbar-width: none; // Firefox
-
-  &::-webkit-scrollbar {
-    width: 0;
-    background: transparent;
-  }
-}
 
 // --------------------
 // Botones de acción
@@ -329,40 +239,11 @@ figure {
   }
 }
 
-// --------------------
-// Estilos para el botón personalizado de carga de archivos
-// --------------------
-.file-label {
-  background-color: $spotify-green;
-  color: #FFFFFF;
-  padding: 10px 20px;
-  border-radius: 20px;
-  cursor: pointer;
-  text-align: center;
-  display: inline-block;
-  transition: background-color $transition-speed ease;
-  font-weight: 600;
-  text-transform: uppercase;
-
-  &:hover {
-    background-color: darken($spotify-green, 10%);
-  }
-}
 
 // --------------------
 // Media Queries
 // --------------------
 
-// Móvil y tablets pequeñas
-@media (max-width: 600px) {
-  .band-inf--container {
-    .band-card--title {
-      font-size: 0.8rem;
-      line-height: 1.2;
-      margin: 6px 0;
-    }
-  }
-}
 
 // Móvil y tablets
 @media (max-width: 960px) {
@@ -435,12 +316,6 @@ figure {
     .scrollable-container {
       height: 100%;
       overflow: auto;
-    }
-
-    .band-card--title {
-      font-size: 1.2rem;
-      line-height: 1.4;
-      margin-bottom: 14px 0;
     }
   }
 

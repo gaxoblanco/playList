@@ -11,9 +11,11 @@
   overflow: hidden;
   border: 1px solid $spotify-gray;
   transition: transform 0.2s;
+
   &:hover {
     transform: scale(1.05);
   }
+
   .band-card-option--figure {
     margin: 0;
   }

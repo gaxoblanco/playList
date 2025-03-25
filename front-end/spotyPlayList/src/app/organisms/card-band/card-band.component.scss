@@ -5,7 +5,7 @@
 // ======================
 $card-border-radius: 8px;
 $transition-speed: 0.3s;
-$card-width: 300px;
+$card-width: 200px;
 
 // ======================
 // BASIC ELEMENTS
@@ -22,7 +22,7 @@ figure {
   flex-wrap: wrap;
   gap: 86px 26px;
   justify-content: center;
-  // height: 40vh;
+  height: 60vh;
   overflow-y: auto;
   overflow-x: hidden;
   // padding-bottom: 200px;
@@ -81,7 +81,6 @@ figure {
   width: 100%;
 
   .card-header--button {
-    padding: 6px 12px;
     border: 1px solid $alert-warning;
     background: $spotify-dark-deep-gray;
 
@@ -269,7 +268,7 @@ figure {
 // Desktop (961px and above)
 @media (min-width: 961px) {
   .band-inf--container {
-    height: 300px;
+    height: $card-width;
 
     .scrollable-container {
       height: 100%;
@@ -277,7 +276,7 @@ figure {
     }
 
     .band-card--title {
-      font-size: 1.2rem;
+      font-size: 1rem;
       line-height: 1.4;
       margin-bottom: 14px 0;
     }

@@ -35,7 +35,8 @@ figure {
 }
 
 // Contenedor de imagen
-.up_img_container {
+.up_img_container,
+.game_corrector--container {
   width: 50%;
 }
 
@@ -111,14 +112,14 @@ mat-chip {
 }
 
 // Tarjetas de bandas
-.band-card {
-  width: 300px;
-  background: none;
+// .band-card {
+//   width: 300px;
+//   background: none;
 
-  &:hover {
-    transform: scale(1.05);
-  }
-}
+//   &:hover {
+//     transform: scale(1.05);
+//   }
+// }
 
 // Etiquetas de género
 .genre-label {
@@ -184,15 +185,16 @@ mat-chip {
 
 // Contenedor de opciones de selección
 .select_option--container {
+  display: block;
   padding: 12px;
   border-radius: 12px;
-  justify-content: center;
   border: 1px solid $spotify-gray;
   background-color: $spotify-dark-gray;
   overflow-y: auto;
+  text-align: center; // Centra el contenido horizontalmente
 
   div {
-    justify-content: center;
+    margin: auto; // Centra el contenido dentro del contenedor
   }
 }
 
@@ -251,6 +253,12 @@ mat-chip {
   position: absolute;
 }
 
+.create_playlist--container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
 // Media queries
 @media (max-width: 960px) {
   .up_img_container {
@@ -264,7 +272,8 @@ mat-chip {
   }
 
   .create_playlist--container {
-    // width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
     padding: 20px;
     position: sticky;
     bottom: 0; // Posiciona el contenedor pegado al pie de la pantalla
@@ -288,6 +297,7 @@ mat-chip {
     position: absolute;
     bottom: 30px;
     padding: 0 30px;
+    width: 80%;
   }
 
   .select_option--container {
@@ -305,17 +315,17 @@ mat-chip {
 
   }
 
-  .band-card:hover {
-    transform: scale(1);
+  // .band-card:hover {
+  //   transform: scale(1);
 
-    .footer--active {
-      bottom: 60px;
-    }
+  //   .footer--active {
+  //     bottom: 60px;
+  //   }
 
-    .footer--inactive {
-      bottom: 0;
-    }
-  }
+  //   .footer--inactive {
+  //     bottom: 0;
+  //   }
+  // }
 }
 
 // @media (min-width: 1024px) {
