@@ -174,81 +174,81 @@ export class CardBandMobileComponent {
     this.optionsBand = this.loadinOptionsBand;
     this.apiRequestService.getNameOptions(name).subscribe({
       // obtener el nombre correcto
-      // next: (response) => {
-      //   console.log('Respuesta de API:', response); // Para depuración
+      next: (response) => {
+        console.log('Respuesta de API:', response); // Para depuración
 
-      //   try {
-      //     // Intentar determinar el tipo de respuesta y procesarla adecuadamente
-      //     let processedData: ListBand[] = [];
+        try {
+          // Intentar determinar el tipo de respuesta y procesarla adecuadamente
+          let processedData: ListBand[] = [];
 
-      //     if (response === null || response === undefined) {
-      //       // La respuesta es null o undefined
-      //       throw new Error('La respuesta de la API es null o undefined');
-      //     }
+          if (response === null || response === undefined) {
+            // La respuesta es null o undefined
+            throw new Error('La respuesta de la API es null o undefined');
+          }
 
-      //     if (Array.isArray(response)) {
-      //       // La respuesta ya es un array
-      //       processedData = response;
-      //     } else if (typeof response === 'object') {
-      //       // La respuesta es un objeto, intentar extraer el array
-      //       // Esto depende de la estructura exacta de tu respuesta
-      //       const possibleArrays = Object.values(response).filter(val => Array.isArray(val));
+          if (Array.isArray(response)) {
+            // La respuesta ya es un array
+            processedData = response;
+          } else if (typeof response === 'object') {
+            // La respuesta es un objeto, intentar extraer el array
+            // Esto depende de la estructura exacta de tu respuesta
+            const possibleArrays = Object.values(response).filter(val => Array.isArray(val));
 
-      //       if (possibleArrays.length > 0) {
-      //         // Usa el primer array encontrado
-      //         processedData = possibleArrays[0] as ListBand[];
-      //       } else {
-      //         // Intenta convertir el objeto en un array si tiene una estructura compatible
-      //         if (response && typeof response === 'object' && 'band_id' in response) {
-      //           // Si parece ser un solo elemento de ListBand
-      //           processedData = [response as ListBand];
-      //         } else {
-      //           throw new Error('No se pudo extraer un array de la respuesta');
-      //         }
-      //       }
-      //     } else {
-      //       throw new Error(`Respuesta inesperada de tipo: ${typeof response}`);
-      //     }
+            if (possibleArrays.length > 0) {
+              // Usa el primer array encontrado
+              processedData = possibleArrays[0] as ListBand[];
+            } else {
+              // Intenta convertir el objeto en un array si tiene una estructura compatible
+              if (response && typeof response === 'object' && 'band_id' in response) {
+                // Si parece ser un solo elemento de ListBand
+                processedData = [response as ListBand];
+              } else {
+                throw new Error('No se pudo extraer un array de la respuesta');
+              }
+            }
+          } else {
+            throw new Error(`Respuesta inesperada de tipo: ${typeof response}`);
+          }
 
-      //     // Ahora es seguro procesar los datos
-      //     if (processedData.length > 0) {
-      //       processedData.forEach(element => {
-      //         element.img_zone = img_zone;
-      //       });
-      //       this.optionsBand = processedData;
-      //     } else {
-      //       // Array vacío
-      //       this.optionsBand = [{
-      //         band_id: '0',
-      //         name: 'No se encontraron opciones',
-      //         genres: ['Intenta con otro nombre'],
-      //         img_zone: img_zone,
-      //         img_url: 'https://via.placeholder.com/150',
-      //       }];
-      //     }
+          // Ahora es seguro procesar los datos
+          if (processedData.length > 0) {
+            processedData.forEach(element => {
+              element.img_zone = img_zone;
+            });
+            this.optionsBand = processedData;
+          } else {
+            // Array vacío
+            this.optionsBand = [{
+              band_id: '0',
+              name: 'No se encontraron opciones',
+              genres: ['Intenta con otro nombre'],
+              img_zone: img_zone,
+              img_url: 'https://via.placeholder.com/150',
+            }];
+          }
 
-      //   } catch (error) {
-      //     console.error('Error procesando la respuesta:', error);
-      //     this.optionsBand = [{
-      //       band_id: '0',
-      //       name: 'Error de formato en respuesta',
-      //       genres: ['Intenta con otro nombre'],
-      //       img_zone: img_zone,
-      //       img_url: 'https://via.placeholder.com/150',
-      //     }];
-      //   }
-      // },
-      // error: (error) => {
-      //   console.error('Error al obtener las opciones:', error);
-      //   // En caso de error, mostrar mensaje amigable
-      //   this.optionsBand = [{
-      //     band_id: '0',
-      //     name: 'Error al cargar opciones',
-      //     genres: ['Intenta nuevamente'],
-      //     img_zone: img_zone,
-      //     img_url: 'https://via.placeholder.com/150',
-      //   }];
-      // },
+        } catch (error) {
+          console.error('Error procesando la respuesta:', error);
+          this.optionsBand = [{
+            band_id: '0',
+            name: 'Error de formato en respuesta',
+            genres: ['Intenta con otro nombre'],
+            img_zone: img_zone,
+            img_url: 'https://via.placeholder.com/150',
+          }];
+        }
+      },
+      error: (error) => {
+        console.error('Error al obtener las opciones:', error);
+        // En caso de error, mostrar mensaje amigable
+        this.optionsBand = [{
+          band_id: '0',
+          name: 'Error al cargar opciones',
+          genres: ['Intenta nuevamente'],
+          img_zone: img_zone,
+          img_url: 'https://via.placeholder.com/150',
+        }];
+      },
     });
   }
   // --- activar solo en la tarjeta seleccionada
