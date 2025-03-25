@@ -87,6 +87,7 @@ input[type="file"].up-img-imput {
     border: none;
     border-radius: 16px;
     overflow: hidden;
+    padding: 0;
   }
 
   &--step1 {
@@ -289,7 +290,7 @@ mat-chip {
   }
 
   .image-figure {
-    width: 200px;
+    width: 260px;
     height: auto;
   }
 

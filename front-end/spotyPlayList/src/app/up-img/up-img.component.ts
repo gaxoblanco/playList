@@ -233,17 +233,6 @@ export class UpImgComponent {
     // console.log('input-img', input);
     if (input.files && input.files.length > 0) {
       this.selectedFile = input.files[0];
-      // console.log('selectedFile-img', this.selectedFile);
-
-      // almaceno las dimeciones originales
-      // const img = new Image();
-      // img.src = URL.createObjectURL(this.selectedFile);
-      // img.onload = () => {
-      //   this.imgWidth = img.width;
-      //   this.imgHeight = img.height;
-      //   console.log('imgWidth', this.imgWidth);
-      //   console.log('imgHeight', this.imgHeight);
-      // };
 
       const reader = new FileReader();
       reader.onload = () => {
