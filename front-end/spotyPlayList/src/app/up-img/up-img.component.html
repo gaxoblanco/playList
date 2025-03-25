@@ -13,7 +13,7 @@
       }"
     >
       <div *ngIf="requestTokenSpotify">
-        <label *ngIf="!imgSelected" class="file-label" for="file-upload"
+        <label *ngIf="!imgSelected" class="file-label pulse" for="file-upload"
           >Subir Imagen</label
         >
         <input
@@ -28,6 +28,7 @@
       <figure class="image-figure" *ngIf="imgSelected && loading != 'loading'">
         <img
           #imgRef
+          id="up_img_container"
           class="img-container--selected"
           [src]="imgSelected"
           alt="Imagen seleccionada"
@@ -38,8 +39,6 @@
           [ngStyle]="{
             'top.px': boxY - 12,
             'left.px': boxX - 12,
-            'width.px': boxX2,
-            'height.px': boxY2,
             'border-color': colorPointer
           }"
         ></div>
@@ -63,7 +62,7 @@
   </div>
   <!-- Botón para recortar y enviar la imagen -->
   <button
-    class="button--crop"
+    class="button--crop pulse"
     id="confirmCropButton"
     *ngIf="imgSelected && bandListCards.length == 0 && loading == 'up'"
     (click)="waitForCrop()"
@@ -142,6 +141,7 @@
     <ng-container *ngIf="isMobile">
       <!-- Mobile version -->
       <app-card-band-mobile
+        style="display: flex; flex-direction: column;  flex: 1;"
         [bandList]="bandListCards"
         (hoverPosition)="updatePointerPosition($event)"
       ></app-card-band-mobile>
@@ -151,7 +151,7 @@
       <form
         *ngIf="step == 1 && loading == 'done'"
         (ngSubmit)="createPlayList()"
-        class="form_create_playlist"
+        class="form_create_playlist pulse"
       >
         <input
           matInput
@@ -160,7 +160,14 @@
           name="userBandName"
           required
         />
-        <button mat-raised-button type="submit">Create Play List</button>
+        <button mat-raised-button type="submit">
+          <p style="margin: 0; display: flex;">Create
+            <!-- Componente de Icon: Icono SVG -->
+            <svg class="icon" viewBox="0 0 24 24">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"></path>
+            </svg>
+          </p>
+        </button>
       </form>
     </div>
   </div>

@@ -6,7 +6,7 @@
 <p>{{bandList.length}} bandas</p>
  </div>
 <!-- Lista de las bandas con img -->
-<div class="band-list" *ngIf="bandList.length > 0">
+<div class="band-list--mobile" *ngIf="bandList.length > 0">
   <mat-card
     *ngFor="let band of bandList; let i = index"
     class="band-card band-card-{{ i }}"
@@ -50,7 +50,7 @@
       #bandListOptions
       *ngIf="activeCardIndex === i"
       @toggleOptions
-      class="band-list-options"
+      class="band-list--mobile--options"
       (mouseenter)="onMouseEnter()"
       (mouseleave)="onMouseLeave()"
     >

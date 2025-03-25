@@ -5,19 +5,38 @@ figure {
   margin: 0;
 }
 
+.icon {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+  margin-left: 12px;
+}
+
+.mdc-button__label {
+  display: flex;
+  align-items: center;
+}
+
 // Estructura principal
 .container--up_img {
-  display: grid;
+  display: flex;
   flex-direction: column;
-  align-content: center;
-  justify-items: center;
+  align-items: center;
+  justify-content: space-between;
   max-width: 1300px;
   margin: 20px auto;
+  height: 70vh;
+
+  &.double-column {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 30px;
+  }
 }
 
 // Contenedor de imagen
 .up_img_container {
-  width: 100%;
+  width: 50%;
 }
 
 // Estilos para el input de archivo
@@ -49,7 +68,9 @@ input[type="file"].up-img-imput {
   align-items: center;
   width: 100%;
   max-width: 400px;
-  aspect-ratio: 1 / 1;
+  min-height: 45vh;
+  max-width: 40vh;
+  // aspect-ratio: 1 / 1;
   border: 2px dashed $spotify-light-gray;
   border-radius: 20px;
   margin: 0 auto;
@@ -63,9 +84,12 @@ input[type="file"].up-img-imput {
   &--selected {
     @extend .img-container;
     border: none;
-    width: 100%;
-    border-radius: 20px;
+    border-radius: 16px;
     overflow: hidden;
+  }
+
+  &--step1 {
+    @extend .img-container;
   }
 }
 
@@ -78,6 +102,7 @@ input[type="file"].up-img-imput {
 // Botones
 .button--crop {
   margin-top: 20px;
+  padding: 10px 20px;
 }
 
 // Estilos para chips
@@ -164,6 +189,7 @@ mat-chip {
   justify-content: center;
   border: 1px solid $spotify-gray;
   background-color: $spotify-dark-gray;
+  overflow-y: auto;
 
   div {
     justify-content: center;
@@ -201,12 +227,13 @@ mat-chip {
 // Formulario para crear playlist
 .form_create_playlist {
   @extend .select_option--user_band_name;
-  margin-bottom: 20px;
+  // margin-bottom: 20px;
 }
 
 // Imagen y círculo en movimiento
 .image-figure {
   position: relative;
+  width: 400px;
 }
 
 .moving-circle {
@@ -225,51 +252,57 @@ mat-chip {
 }
 
 // Media queries
-@media (max-width: 600px) {
-  .img-container {
-    max-width: 180px;
-    margin-bottom: 20px;
-  }
-}
-
 @media (max-width: 960px) {
-  .container--up_img {
-    display: grid;
-    grid-template-rows: 1fr;
+  .up_img_container {
+    width: 100%;
+  }
+
+  .img-container {
+    &--selected {
+      min-height: 0;
+    }
   }
 
   .create_playlist--container {
+    // width: 100%;
     padding: 20px;
+    position: sticky;
+    bottom: 0; // Posiciona el contenedor pegado al pie de la pantalla
+    background-color: $spotify-dark-gray; // Asegura que el fondo sea visible
+    z-index: 10;
+  }
+
+  .container--up_img {
+    &.double-column {
+      flex-direction: column;
+    }
+
+  }
+
+  .image-figure {
+    width: 200px;
+    height: auto;
   }
 
   .game_corrector--container {
     position: absolute;
     bottom: 30px;
-    margin-top: 30px;
     padding: 0 30px;
   }
 
-  .img-container {
-    margin-bottom: 30px;
+  .select_option--container {
+    max-height: 90px;
   }
 }
 
+
 @media (min-width: 961px) {
   .container--up_img {
-    display: grid;
-    height: 80vh;
+    display: flex;
     align-items: center;
     grid-gap: 20px;
     margin-bottom: 20px;
 
-    &.double-column {
-      grid-template-columns: 1fr 1fr;
-      padding: 0 30px;
-    }
-
-    &:not(.double-column) {
-      grid-template-columns: 1fr;
-    }
   }
 
   .band-card:hover {
@@ -285,15 +318,11 @@ mat-chip {
   }
 }
 
-@media (min-width: 1024px) {
-  .container--up_img {
-    &.double-column {
-      grid-template-columns: 1fr 2fr;
-      padding: 0 30px;
-    }
+// @media (min-width: 1024px) {
+//   .container--up_img {
+//     &.double-column {
+//       padding: 0 30px;
+//     }
 
-    &:not(.double-column) {
-      grid-template-columns: 1fr;
-    }
-  }
-}
+//   }
+// }

@@ -26,6 +26,12 @@ input {
   font-family: 'Montserrat', sans-serif;
 }
 
+.app {
+  display: grid;
+  height: 100vh;
+  align-content: start;
+}
+
 button,
 .mat-button {
   background-color: $spotify-green;
@@ -178,4 +184,24 @@ li {
       width: 80vw;
     }
   }
+}
+
+
+/* Animación de pulso para el botón */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(29, 185, 84, 0.7);
+  }
+
+  70% {
+    box-shadow: 0 0 0 10px rgba(29, 185, 84, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(29, 185, 84, 0);
+  }
+}
+
+.pulse {
+  animation: pulse 1.5s infinite;
 }

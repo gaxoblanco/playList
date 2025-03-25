@@ -17,15 +17,17 @@ figure {
 // --------------------
 // Componente de lista de bandas
 // --------------------
-.band-list {
+.band-list--mobile {
   display: flex;
   flex-wrap: wrap;
   gap: 16px 26px;
   justify-content: center;
-  height: 40vh;
+  height: 20vh;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-bottom: 200px;
+  // padding-bottom: 200px;
+  // flex: 1;
+  width: 100%;
 }
 
 // --------------------
@@ -306,7 +308,7 @@ figure {
 // --------------------
 // Opciones de la lista de bandas
 // --------------------
-.band-list-options {
+.band-list--mobile--options {
   display: flex;
   overflow-x: auto;
   white-space: nowrap;
@@ -384,9 +386,8 @@ figure {
     display: none;
   }
 
-  .band-list {
-    padding-top: 80px;
-    height: 0vh;
+  .band-list--mobile {
+    // padding-top: 80px;
   }
 
   #genres-container {
@@ -485,7 +486,7 @@ figure {
 
 // Pantallas grandes
 @media (min-width: 1024px) {
-  .band-list {
+  .band-list--mobile {
     overflow-y: auto;
     overflow-x: hidden;
   }

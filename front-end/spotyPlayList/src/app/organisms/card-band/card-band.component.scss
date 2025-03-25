@@ -22,10 +22,10 @@ figure {
   flex-wrap: wrap;
   gap: 86px 26px;
   justify-content: center;
-  height: 40vh;
+  // height: 40vh;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-bottom: 200px;
+  // padding-bottom: 200px;
 }
 
 // ======================
@@ -323,4 +323,18 @@ figure {
     overflow-y: auto;
     overflow-x: hidden;
   }
+}
+
+// height vh
+@media (min-height: 800px) {
+  .band-list {
+    height: 8vh;
+  }
+}
+
+@media (min-height: 900px) {
+  .band-list {
+    height: 15vh;
+  }
+
 }

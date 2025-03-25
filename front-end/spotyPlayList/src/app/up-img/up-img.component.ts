@@ -586,7 +586,10 @@ export class UpImgComponent {
         this.listb = this.apiRequestService.postList(
           this.observablesService['bandListCorect$']
         );
+        console.log('quitando img-container--selected');
 
+        // le agrego styles min-height-0px a up_img_container
+        document.getElementById('up_img_container')?.style.setProperty('min-height', '0px');
         this.listb.subscribe({
           next: (data: any) => {
             this.bandListCards = data;

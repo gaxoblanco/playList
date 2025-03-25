@@ -1,5 +1,9 @@
 @import '../variables.scss';
 
+.header-container {
+  height: 20vh;
+}
+
 .options-container {
   display: flex;
   gap: 20px;
@@ -7,7 +11,7 @@
 }
 
 .header {
-  width: 70%;
+  width: 80%;
   display: flex;
   justify-content: center;
   margin: 0 auto;
