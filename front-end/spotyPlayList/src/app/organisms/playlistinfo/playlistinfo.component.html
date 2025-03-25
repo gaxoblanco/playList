@@ -14,8 +14,8 @@
   <div>
     <div class="playlist--info-container">
       <h3 class="playlist--h3">Process information</h3>
-      <p>Result: {{ playlistInfo.bandInfo.top_add }} bands added</p>
-      <p>{{ playlistInfo.bandInfo.top_failed }} bands couldn't be added</p>
+      <p>Bands: {{ playlistInfo.bandInfo.top_add }} added</p>
+      <p>{{ playlistInfo.bandInfo.top_failed }} couldn't be added</p>
     </div>
     <div class="playlist--scroll-container">
       <h3>Bands that could not been found</h3>
@@ -30,7 +30,10 @@
         </ul>
       </div>
     </div>
-    <a class="mat-button" [href]="playlistInfo.playlists.href" target="_blank"
+    <a
+      class="mat-button btn-createPL pulse"
+      [href]="playlistInfo.playlists.href"
+      target="_blank"
       >Listen to playlist</a
     >
     <p class="coffee-title">

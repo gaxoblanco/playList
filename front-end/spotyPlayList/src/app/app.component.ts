@@ -2,6 +2,7 @@ import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { environment } from '../environments/environment';
 import { HeaderService } from './services/header.service';
 import { ListBand } from './models/list_band';
+import { PlaylistDate } from './models/playlist';
 
 @Component({
   selector: 'app-root',
@@ -48,6 +49,24 @@ export class AppComponent implements OnInit {
       genres: ['Rock', 'Pop', 'Rock', 'Pop', 'Rock', 'Pop', 'Rock', 'Pop'],
     },
   ];
+  step: number = 3;
+  playlistInfo: PlaylistDate = {
+      playlists: {
+        band_id: '',
+        name: 'Loading...',
+        href: '',
+        img: [''],
+      },
+      bandInfo: {
+        failed_bands: [
+          'loading...',
+          'loading...',
+          'loading...',
+        ],
+        top_add: 0,
+        top_failed: 0,
+      },
+    };
   wor() {
     console.log('holas');
   }
