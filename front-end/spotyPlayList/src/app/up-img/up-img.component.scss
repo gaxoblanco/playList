@@ -45,6 +45,10 @@ input[type="file"].up-img-imput {
   display: none;
 }
 
+.up-img-imput {
+  padding: 8px 16px;
+}
+
 .file-label {
   background-color: $spotify-green;
   color: #FFFFFF;

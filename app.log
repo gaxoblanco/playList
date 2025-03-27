@@ -1,14 +1,129 @@
-2025-01-09 12:03:36,900 - app - INFO - Requested path: 
-2025-01-09 15:36:05,016 - app - INFO - Requested path: 
-2025-01-09 16:08:07,478 - app - INFO - Requested path: 
-2025-01-09 22:24:50,211 - app - INFO - Requested path: 
-2025-01-09 22:31:24,109 - app - INFO - Requested path: 
-2025-02-24 15:03:08,504 - app - INFO - Requested path: 
-2025-02-24 15:09:36,176 - app - INFO - Requested path: 
-2025-02-24 15:10:05,781 - app - INFO - Requested path: 
-2025-02-24 15:38:02,407 - app - INFO - Requested path: 
-2025-02-24 15:39:26,532 - app - INFO - Requested path: 
-2025-02-24 15:40:56,582 - app - INFO - Requested path: 
-2025-02-24 15:41:53,966 - app - INFO - Requested path: 
-2025-02-24 15:42:40,491 - app - INFO - Requested path: 
-2025-02-24 15:58:51,965 - app - INFO - Content-Length: 3038840
+2025-03-25 10:51:47,741 - app - ERROR - Exception on /API/band_list [POST]
+Traceback (most recent call last):
+  File "F:\spotify\venv\lib\site-packages\pymysql\connections.py", line 649, in connect
+    sock = socket.create_connection(
+  File "C:\Python310\lib\socket.py", line 824, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "C:\Python310\lib\socket.py", line 955, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno 11001] getaddrinfo failed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\engine\base.py", line 146, in __init__
+    self._dbapi_connection = engine.raw_connection()
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\engine\base.py", line 3298, in raw_connection
+    return self.pool.connect()
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\pool\base.py", line 449, in connect
+    return _ConnectionFairy._checkout(self)
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\pool\base.py", line 1263, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\pool\base.py", line 712, in checkout
+    rec = pool._do_get()
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\pool\impl.py", line 179, in _do_get
+    with util.safe_reraise():
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\pool\impl.py", line 177, in _do_get
+    return self._create_connection()
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\pool\base.py", line 390, in _create_connection
+    return _ConnectionRecord(self)
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\pool\base.py", line 674, in __init__
+    self.__connect()
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\engine\create.py", line 646, in connect
+    return dialect.connect(*cargs, **cparams)
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\engine\default.py", line 622, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+  File "F:\spotify\venv\lib\site-packages\pymysql\connections.py", line 361, in __init__
+    self.connect()
+  File "F:\spotify\venv\lib\site-packages\pymysql\connections.py", line 716, in connect
+    raise exc
+pymysql.err.OperationalError: (2003, "Can't connect to MySQL server on 'db' ([Errno 11001] getaddrinfo failed)")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "F:\spotify\venv\lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+  File "F:\spotify\venv\lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "F:\spotify\venv\lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "F:\spotify\venv\lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "F:\spotify\venv\lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "F:\spotify\back-end\app.py", line 182, in band_list
+    result = asyncio.run(process_list_band_id(access_token, bands_list))
+  File "C:\Python310\lib\asyncio\runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "C:\Python310\lib\asyncio\base_events.py", line 641, in run_until_complete
+    return future.result()
+  File "F:\spotify\back-end\processList\processListBandId.py", line 149, in process_list_band_id
+    bands_in_db, bands_to_search = search_bands_db_from_list(bands_to_process)
+  File "F:\spotify\back-end\spotifyApi\dataBase_operations.py", line 117, in search_bands_db_from_list
+    Band.id_spotify).all()  # type: ignore
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\orm\query.py", line 2699, in all
+    return self._iter().all()  # type: ignore
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\orm\query.py", line 2853, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\orm\session.py", line 2365, in execute
+    return self._execute_internal(
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\orm\session.py", line 2241, in _execute_internal
+    conn = self._connection_for_bind(bind)
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\orm\session.py", line 2110, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+  File "<string>", line 2, in _connection_for_bind
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\orm\session.py", line 1189, in _connection_for_bind
+    conn = bind.connect()
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\engine\base.py", line 3274, in connect
+    return self._connection_cls(self)
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\engine\base.py", line 148, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\engine\base.py", line 2439, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\engine\base.py", line 146, in __init__
+    self._dbapi_connection = engine.raw_connection()
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\engine\base.py", line 3298, in raw_connection
+    return self.pool.connect()
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\pool\base.py", line 449, in connect
+    return _ConnectionFairy._checkout(self)
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\pool\base.py", line 1263, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\pool\base.py", line 712, in checkout
+    rec = pool._do_get()
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\pool\impl.py", line 179, in _do_get
+    with util.safe_reraise():
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\pool\impl.py", line 177, in _do_get
+    return self._create_connection()
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\pool\base.py", line 390, in _create_connection
+    return _ConnectionRecord(self)
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\pool\base.py", line 674, in __init__
+    self.__connect()
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\engine\create.py", line 646, in connect
+    return dialect.connect(*cargs, **cparams)
+  File "F:\spotify\venv\lib\site-packages\sqlalchemy\engine\default.py", line 622, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+  File "F:\spotify\venv\lib\site-packages\pymysql\connections.py", line 361, in __init__
+    self.connect()
+  File "F:\spotify\venv\lib\site-packages\pymysql\connections.py", line 716, in connect
+    raise exc
+sqlalchemy.exc.OperationalError: (pymysql.err.OperationalError) (2003, "Can't connect to MySQL server on 'db' ([Errno 11001] getaddrinfo failed)")
+(Background on this error at: https://sqlalche.me/e/20/e3q8)

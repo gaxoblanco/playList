@@ -37,9 +37,12 @@ from spotifyApi.dataBase_operations import db
 # # Configuración de orígenes permitidos
 # ALLOWED_ORIGINS = ["http://localhost:4200", "https://festivalmusic.gaxoblanco.com"]
 
-app = Flask(
-    __name__, static_folder="static", static_url_path="", template_folder="static"
-)
+app = Flask(__name__, static_folder="static",
+            static_url_path="", template_folder="static")
+# Configurar CORS para toda la aplicación
+CORS(app, resources={
+     r"/API/*": {"origins": ["http://localhost:4200", "https://festivalmusic.gaxoblanco.com"]}})
+
 app.secret_key = secrets.token_hex(16)
 
 # Truco para permitir enviar archivos grandes
@@ -119,10 +122,8 @@ def callback():
     if error:
         return jsonify({"error": error}), 400
 
-    # if state != session.get("state"):
-    #     return jsonify({"error": "State mismatch. Possible CSRF attack."}), 403
-
-    # print("body code:", code)
+# information_loading => Informacion random sobre bandas para el tiempo de espera
+    # Aprobecho y le cargo un information_loading
 
     # intercambio de código por token de acceso
     tokens = get_access_token(code)  # --------
@@ -264,63 +265,5 @@ def api_create_playlist():
 # Registrar el blueprint en la app con el prefijo /API
 app.register_blueprint(api, url_prefix="/API")
 
-
-# # Ruta para servir otros archivos estáticos si es necesario (CSS, JS, imágenes, etc.)
-
-
-# @app.route("/", defaults={"path": ""})
-# @app.route("/<path:path>")
-# def serve_static_files(path):
-#     app.logger.info(f"Requested path: {path}")
-#     # Verifica que app.static_folder no sea None
-#     if not app.static_folder:
-#         app.logger.error("No static folder configured")
-#         raise RuntimeError(
-#             "El directorio 'static_folder' no está configurado en la aplicación Flask."
-#         )
-
-#     # Normalizar la ruta para la comparación
-#     normalized_path = path.upper()
-#     # Si la ruta es para la API, devuelve un 404 porque no debe coincidir con archivos estáticos.
-#     if normalized_path.startswith("API/") or normalized_path == "API":
-#         app.logger.info(f"API route detected: {path}")
-#         return make_response("Not Found", 404)
-
-#     # -------------------------------------------------------
-#     # Lista de extensiones de archivos estáticos conocidos
-#     static_file_extensions = [
-#         ".js",
-#         ".css",
-#         ".png",
-#         ".jpg",
-#         ".jpeg",
-#         ".gif",
-#         ".ico",
-#         ".svg",
-#         ".woff",
-#         ".woff2",
-#         ".ttf",
-#         ".eot",
-#         ".map",
-#         ".json",
-#     ]
-
-#     # Para cualquier otra ruta, incluyendo archivos estáticos no encontrados,
-#     # servimos index.html para que Angular maneje el routing
-#     try:
-#         response = send_from_directory(app.static_folder, "index.html")
-#         response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-#         response.headers["Pragma"] = "no-cache"
-#         response.headers["Expires"] = "0"
-#         return response
-#     except Exception as e:
-#         app.logger.error(f"Error serving index.html: {str(e)}")
-#         return make_response("index.html not found", 404)
-
-
 if __name__ == "__main__":
-    # # Configuraciones para producción
-    # app.config["PROPAGATE_EXCEPTIONS"] = True
-    # app.config["SESSION_COOKIE_SECURE"] = True
-    # app.config["SESSION_COOKIE_SAMESITE"] = "Strict"
     app.run(port=5000, host="0.0.0.0")

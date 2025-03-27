@@ -13,6 +13,7 @@ from spotifyApi.services.sincro_search import search_option_with_background_stor
 from spotifyApi.spotify_auth import get_access_token, get_authorization_code
 from detect_possible_errors import detect_possible_errors
 from img_process.img_process import img_process
+from random_info.information_loading import generet_random_info
 
 from flask import Flask
 # Importa la instancia de db desde el archivo de modelos
@@ -61,7 +62,6 @@ def main():
     while True:
         print("\n--- Menú ---")
         print("1. Buscar artista")
-        print("1.2 Buscar artista con almacenamiento en segundo plano")
         print("2. Obtener Top Tracks de un artista")
         print("3. Obtener mi User ID")
         print("4. Corroborar posibles errores en los nombres de las bandas")
@@ -70,6 +70,7 @@ def main():
         print("7. Procesar lista de bandas para obtener las Top Tracks")
         print("8. Procesar lista de bandas para añadir a una lista de reproducción")
         print("9. Procesar imagen para obtener texto")
+        print("10. Obtener información de manera aleatoria")
         print("00. Salir")
 
         opcion = input("Selecciona una opción: ")
@@ -78,15 +79,6 @@ def main():
             # Buscar artista
             artista = input("Introduce el nombre del artista: ")
             artist_data = asyncio.run(search_artist(access_token, artista))
-            if artist_data:
-                print(f"ID del artista {artista}: {artist_data}")
-            else:
-                print("Error: Artista no encontrado.")
-        if opcion == '1.2':
-            # Buscar artista
-            artista = input("Introduce el nombre del artista: ")
-            artist_data = search_option_with_background_storage(
-                access_token, artista)
             if artist_data:
                 print(f"ID del artista {artista}: {artist_data}")
             else:
@@ -183,6 +175,11 @@ def main():
             # Valido si el archivo prueva.json existe, si existe remplazo la informacion con img_result
             with open('prueva.json', 'w', encoding='utf-8') as file:
                 json.dump(img_result, file)
+
+        elif opcion == '10':
+            # Funcion para obtener un information_loading random
+            info = generet_random_info(db.session)
+            print(f"Resultado de la información aleatoria: {info}")
 
         elif opcion == '00':
             # Salir
