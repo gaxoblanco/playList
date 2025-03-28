@@ -205,3 +205,93 @@ li {
 .pulse {
   animation: pulse 1.5s infinite;
 }
+
+
+:root {
+  --primary-color: #1DB954;
+  /* spotify-green */
+  --text-on-primary: #FFFFFF;
+  /* white */
+  --background-color: #191414;
+  /* spotify-black */
+  --secondary-background: #121212;
+  /* spotify-dark-gray */
+  --background-translucent: #12121299;
+  /* spotify-dark-deep-gray */
+  --text-primary: #FFFFFF;
+  /* white */
+  --text-secondary: #B3B3B3;
+  /* spotify-light-gray */
+  --text-muted: #535353;
+  /* spotify-gray */
+  --surface-color: #1e1e1e;
+  /* b_g_600 */
+
+  /* Alert colors */
+  --alert-success: #28a745;
+  --alert-danger: #dc3545;
+  --alert-warning: #bd6203;
+  --alert-info: #17a2b8;
+}
+
+.steps {
+  background-color: var(--secondary-background);
+  text-align: center;
+}
+
+.steps h2 {
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  color: var(--text-primary);
+}
+
+.step-cards {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.step-card {
+  flex: 1;
+  min-width: 250px;
+  max-width: 350px;
+  background-color: var(--surface-color);
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.step-card:hover,
+.step-card:focus-within {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.step-icon {
+  background-color: var(--primary-color);
+  color: var(--text-on-primary);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.step-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.step-card p {
+  color: var(--text-secondary);
+}

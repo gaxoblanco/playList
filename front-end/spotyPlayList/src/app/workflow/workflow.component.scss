@@ -1,0 +1,154 @@
+.workflow-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 85%;
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+.workflow-path {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 4px;
+  background-color: var(--primary-color);
+  /* Línea de color principal */
+  transform: translateX(-50%);
+  z-index: 1;
+  /* Asegúrate de que esté detrás de los pasos */
+}
+
+.workflow-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  /* Asegura que el contenido ocupe el mismo espacio */
+}
+
+.workflow-step {
+  position: relative;
+  z-index: 2;
+  /* Asegúrate de que los pasos estén por encima de la línea */
+  display: flex;
+  margin-bottom: 80px;
+  align-items: stretch;
+
+  &:nth-child(odd) {
+    flex-direction: row;
+  }
+
+  &:nth-child(even) {
+    flex-direction: row-reverse;
+  }
+}
+
+/* Audio Card Styles */
+.audio-card {
+  width: 100%;
+  max-width: 800px;
+  background-color: var(--surface-color);
+  border-radius: 12px;
+  margin-bottom: 60px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  z-index: 3;
+}
+
+.audio-card-header {
+  display: flex;
+  gap: 20px;
+  margin: 0 auto;
+}
+
+.audio-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+}
+
+.audio-card-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 25px;
+  gap: 20px;
+}
+
+.audio-icon {
+  flex: 0 0 80px;
+  height: 80px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // color: var(--text-on-primary);
+  box-shadow: 0 0 20px rgba(29, 185, 84, 0.4);
+}
+
+.audio-text {
+  flex: 1 1 300px;
+}
+
+.audio-text h3 {
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.audio-text p {
+  color: var(--text-secondary);
+}
+
+.audio-controls {
+  flex: 1 1 100%;
+  margin-top: 15px;
+}
+
+.audio-controls audio {
+  width: 100%;
+  height: 40px;
+  border-radius: 25px;
+  background-color: var(--background-color);
+}
+
+/* Custom Audio Controls Styling */
+audio::-webkit-media-controls-panel {
+  background-color: var(--background-color);
+}
+
+audio::-webkit-media-controls-play-button {
+  background-color: var(--primary-color);
+  border-radius: 50%;
+}
+
+@media (max-width: 768px) {
+
+  .workflow-path {
+    left: 50%;
+    width: 4px;
+    height: 100%;
+  }
+}
+
+@media (max-width: 680px) {
+
+  .audio-card-header {
+    flex-direction: column-reverse;
+
+    .audio-icon {
+      width: 104px;
+      height: 104px;
+      margin: 0 auto;
+    }
+
+    .audio-text {
+      flex: 0;
+    }
+  }
+}

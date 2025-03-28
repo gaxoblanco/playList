@@ -7,7 +7,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class HeaderService {
   constructor() {}
   // Obersable que va cambiando el contenido del header segun la ruta
-  private headerSubject = new BehaviorSubject<string>('SpotyPlayList');
+  private headerSubject = new BehaviorSubject<string>('Lineup Playlist');
   // Metodo para emitir el valor del header
   emitHeader(value: string): void {
     this.headerSubject.next(value);

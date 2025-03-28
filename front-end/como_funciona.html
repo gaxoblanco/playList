@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LineUp Playlist - Cómo Funciona</title>
+    <style>
+        :root {
+            --primary-color: #1DB954; /* spotify-green */
+            --text-on-primary: #FFFFFF; /* white */
+            --background-color: #191414; /* spotify-black */
+            --secondary-background: #121212; /* spotify-dark-gray */
+            --background-translucent: #12121299; /* spotify-dark-deep-gray */
+            --text-primary: #FFFFFF; /* white */
+            --text-secondary: #B3B3B3; /* spotify-light-gray */
+            --text-muted: #535353; /* spotify-gray */
+            --surface-color: #1e1e1e; /* b_g_600 */
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Circular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+        
+        body {
+            color: var(--text-primary);
+            background-color: var(--background-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary-color);
+            color: var(--text-on-primary);
+            padding: 8px;
+            z-index: 100;
+            transition: top 0.3s;
+        }
+        
+        .skip-link:focus {
+            top: 0;
+        }
+        
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .workflow-section {
+            padding: 4rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .workflow-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .workflow-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+        
+        .workflow-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 1000px;
+            position: relative;
+        }
+        
+        .workflow-path {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 4px;
+            background-color: var(--primary-color);
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+        
+        .workflow-step {
+            display: flex;
+            margin-bottom: 80px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .workflow-step:nth-child(odd) {
+            flex-direction: row;
+        }
+        
+        .workflow-step:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+        
+        .workflow-icon-container {
+            flex: 0 0 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .workflow-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: var(--surface-color);
+            border: 3px solid var(--primary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(29, 185, 84, 0.3);
+            position: relative;
+            z-index: 3;
+        }
+        
+        .workflow-icon-img {
+            width: 50px;
+            height: 50px;
+            color: var(--primary-color);
+            font-size: 2.5rem;
+        }
+        
+        .workflow-connector {
+            flex: 0 0 60px;
+            position: relative;
+        }
+        
+        .workflow-connector::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 60px;
+            height: 4px;
+            background-color: var(--primary-color);
+        }
+        
+        .workflow-step:nth-child(odd) .workflow-connector::before {
+            right: 0;
+        }
+        
+        .workflow-step:nth-child(even) .workflow-connector::before {
+            left: 0;
+        }
+        
+        .workflow-content {
+            flex: 1;
+            background-color: var(--surface-color);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .workflow-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .workflow-step:nth-child(odd) .workflow-content {
+            margin-right: 30px;
+        }
+        
+        .workflow-step:nth-child(even) .workflow-content {
+            margin-left: 30px;
+        }
+        
+        .workflow-content::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            transform: translateY(-50%);
+        }
+        
+        .workflow-step:nth-child(odd) .workflow-content::after {
+            right: -10px;
+            border-left: 10px solid var(--surface-color);
+        }
+        
+        .workflow-step:nth-child(even) .workflow-content::after {
+            left: -10px;
+            border-right: 10px solid var(--surface-color);
+        }
+        
+        .workflow-content h3 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .workflow-content p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+        
+        .workflow-details {
+            padding-left: 20px;
+            margin-top: 15px;
+            border-left: 2px solid var(--text-muted);
+        }
+        
+        .workflow-details li {
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            list-style-type: none;
+            position: relative;
+        }
+        
+        .workflow-details li::before {
+            content: "•";
+            color: var(--primary-color);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+        .workflow-image {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--text-muted);
+        }
+        
+        /* Accessibility Enhancements */
+        .accessibility-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--surface-color);
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+        }
+        
+        .accessibility-button {
+            background-color: var(--primary-color);
+            color: var(--text-on-primary);
+            border: none;
+            padding: 0.5rem;
+            margin: 0.2rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .font-size-controls {
+            margin-top: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        @media (max-width: 768px) {
+            .workflow-step, 
+            .workflow-step:nth-child(odd), 
+            .workflow-step:nth-child(even) {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .workflow-path {
+                left: 50%;
+                width: 4px;
+                height: 100%;
+            }
+            
+            .workflow-icon-container {
+                margin-bottom: 20px;
+            }
+            
+            .workflow-content, 
+            .workflow-step:nth-child(odd) .workflow-content, 
+            .workflow-step:nth-child(even) .workflow-content {
+                margin: 0;
+                width: 85%;
+            }
+            
+            .workflow-content::after {
+                display: none;
+            }
+            
+            .workflow-connector {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+    
+    <main id="main-content">
+        <section class="workflow-section">
+            <h2 class="workflow-title">Cómo Funciona LineUp Playlist</h2>
+            
+            <div class="workflow-container">
+                <div class="workflow-path"></div>
+                
+                <!-- Step 1 -->
+                <div class="workflow-step">
+                    <div class="workflow-content">
+                        <h3>Captura el Line-up</h3>
+                        <p>¡Viste un póster de festival que te interesa! Simplemente abre la app y toma una foto.</p>
+                        <div class="workflow-details">
+                            <ul>
+                                <li>Tecnología OCR avanzada detecta automáticamente los nombres de las bandas</li>
+                                <li>Funciona con todo tipo de pósters y diseños</li>
+                                <li>Reconoce incluso tipografías artísticas y difíciles</li>
+                            </ul>
+                        </div>
+                        <img src="/api/placeholder/300/180" alt="Captura de pantalla mostrando la interfaz de captura de póster" class="workflow-image">
+                    </div>
+                    <div class="workflow-connector"></div>
+                    <div class="workflow-icon-container">
+                        <div class="workflow-icon">
+                            <div class="workflow-icon-img">📷</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="workflow-step">
+                    <div class="workflow-content">
+                        <h3>Revisa y Personaliza</h3>
+                        <p>Nuestra app identificará todas las bandas del póster y te mostrará una lista completa.</p>
+                        <div class="workflow-details">
+                            <ul>
+                                <li>Verifica que todas las bandas se hayan detectado correctamente</li>
+                                <li>Agrega manualmente cualquier banda que falte</li>
+                                <li>Elimina artistas que no te interesen escuchar</li>
+                            </ul>
+                        </div>
+                        <img src="/api/placeholder/300/180" alt="Interfaz de revisión de bandas detectadas" class="workflow-image">
+                    </div>
+                    <div class="workflow-connector"></div>
+                    <div class="workflow-icon-container">
+                        <div class="workflow-icon">
+                            <div class="workflow-icon-img">✏️</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="workflow-step">
+                    <div class="workflow-content">
+                        <h3>Crea tu Playlist</h3>
+                        <p>Con un solo toque, generamos una playlist personalizada con todas las bandas seleccionadas.</p>
+                        <div class="workflow-details">
+                            <ul>
+                                <li>Inclusión automática de los temas más populares de cada artista</li>
+                                <li>Dale un nombre personalizado a tu playlist</li>
+                                <li>Integración perfecta con tu plataforma de streaming favorita</li>
+                            </ul>
+                        </div>
+                        <img src="/api/placeholder/300/180" alt="Proceso de creación de playlist con las bandas detectadas" class="workflow-image">
+                    </div>
+                    <div class="workflow-connector"></div>
+                    <div class="workflow-icon-container">
+                        <div class="workflow-icon">
+                            <div class="workflow-icon-img">🎧</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 4 -->
+                <div class="workflow-step">
+                    <div class="workflow-content">
+                        <h3>Descubre y Decide</h3>
+                        <p>Escucha la música, descubre nuevos artistas y decide si el festival merece la pena.</p>
+                        <div class="workflow-details">
+                            <ul>
+                                <li>Marca tus artistas favoritos para destacarlos</li>
+                                <li>Comparte la playlist con amigos para decidir en grupo</li>
+                                <li>Úsala para prepararte antes del festival</li>
+                            </ul>
+                        </div>
+                        <img src="/api/placeholder/300/180" alt="Reproducción de la playlist y descubrimiento de nuevos artistas" class="workflow-image">
+                    </div>
+                    <div class="workflow-connector"></div>
+                    <div class="workflow-icon-container">
+                        <div class="workflow-icon">
+                            <div class="workflow-icon-img">🎵</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <div class="accessibility-controls" role="region" aria-label="Controles de accesibilidad">
+        <button class="accessibility-button" id="toggle-high-contrast">Alto Contraste</button>
+        <div class="font-size-controls">
+            <button class="accessibility-button" id="decrease-font">A-</button>
+            <button class="accessibility-button" id="increase-font">A+</button>
+        </div>
+    </div>
+</body>
+</html>

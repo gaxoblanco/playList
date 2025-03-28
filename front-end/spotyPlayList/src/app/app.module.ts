@@ -21,9 +21,12 @@ import { ErrorContainerComponent } from './organisms/error-container/error-conta
 import { PlaylistinfoComponent } from './organisms/playlistinfo/playlistinfo.component';
 import { MobileClickDirective } from './directive/mobile-click.directive';
 import { CardBandMobileComponent } from './organisms/card-band-mobile/card-band-mobile.component';
+import { StepCardComponent } from './components/workflow/step-card/step-card.component';
+import { StepSectionComponent } from './components/workflow/step-section/step-section.component';
+import { WorkflowComponent } from './workflow/workflow.component';
 
 @NgModule({
-  declarations: [AppComponent, AuthCallbackComponent],
+  declarations: [AppComponent, AuthCallbackComponent, StepCardComponent, StepSectionComponent, WorkflowComponent],
   imports: [
     BrowserModule,
     HttpClientModule,

@@ -10,8 +10,8 @@ import { PlaylistDate } from './models/playlist';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  headerText: string = 'SpotyPlayList';
-  title = 'spotyPlayList';
+  headerText: string = 'Lineup Playlist';
+  title = 'Lineup Playlist';
 
   constructor(
     private headerService: HeaderService,

@@ -1,0 +1,103 @@
+.workflow-content {
+  flex: 1;
+  background-color: var(--surface-color);
+  border-radius: 10px;
+  padding: 25px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s;
+  max-width: 600px;
+}
+
+.workflow-content:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.workflow-step:nth-child(odd) .workflow-content {
+  margin-right: 30px;
+}
+
+.workflow-step:nth-child(even) .workflow-content {
+  margin-left: 30px;
+}
+
+.workflow-content::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  transform: translateY(-50%);
+}
+
+.workflow-step:nth-child(odd) .workflow-content::after {
+  right: -10px;
+  border-left: 10px solid var(--surface-color);
+}
+
+.workflow-step:nth-child(even) .workflow-content::after {
+  left: -10px;
+  border-right: 10px solid var(--surface-color);
+}
+
+.workflow-content h3 {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.workflow-content p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
+.workflow-details {
+  padding-left: 20px;
+  margin-top: 15px;
+}
+
+.workflow-details li {
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  list-style-type: none;
+  position: relative;
+}
+
+.workflow-details li::before {
+  content: "•";
+  color: var(--primary-color);
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
+
+.workflow-image {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  border-radius: 8px;
+  margin-top: 15px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--text-muted);
+}
+
+@media (max-width: 768px) {
+
+  .workflow-content,
+  .workflow-step:nth-child(odd) .workflow-content,
+  .workflow-step:nth-child(even) .workflow-content {
+    margin: 0;
+    width: 85%;
+  }
+
+  .workflow-content::after {
+    display: none;
+  }
+}

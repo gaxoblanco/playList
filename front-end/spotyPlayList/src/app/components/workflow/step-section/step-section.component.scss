@@ -1,0 +1,80 @@
+// app-step-section.component.scss
+:host {
+  display: block;
+  width: 100%;
+}
+
+.workflow-step {
+  display: flex;
+  margin-bottom: 80px;
+  position: relative;
+  z-index: 2;
+
+  &.is-odd {
+    flex-direction: row-reverse;
+  }
+}
+
+.workflow-icon-container {
+  flex: 0 0 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.workflow-icon {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: var(--surface-color);
+  border: 3px solid var(--primary-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 20px rgba(29, 185, 84, 0.3);
+  position: relative;
+  z-index: 3;
+}
+
+.workflow-icon-img {
+  color: var(--primary-color);
+  font-size: 2.5rem;
+}
+
+.workflow-connector {
+  flex: 0 0 60px;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 60px;
+    height: 4px;
+    background-color: var(--primary-color);
+  }
+}
+
+// Simplificamos la lógica de dirección de los conectores
+.is-odd .workflow-connector::before {
+  left: 0;
+}
+
+:not(.is-odd) .workflow-connector::before {
+  right: 0;
+}
+
+@media (max-width: 768px) {
+  .workflow-step {
+    flex-direction: column !important;
+    align-items: center;
+  }
+
+  .workflow-icon-container {
+    margin-bottom: 20px;
+  }
+
+  .workflow-connector {
+    display: none;
+  }
+}

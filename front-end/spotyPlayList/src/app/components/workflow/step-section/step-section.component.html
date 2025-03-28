@@ -1,0 +1,15 @@
+<div class="workflow-step" [ngClass]="{'is-odd': isOdd}">
+  <app-step-card
+    [title]="title"
+    [parrafo]="parrafo"
+    [opciones]="opciones"
+    [imageSrc]="imageSrc"
+    [imageAlt]="imageAlt"
+  ></app-step-card>
+  <div class="workflow-connector"></div>
+  <div class="workflow-icon-container">
+    <div class="workflow-icon">
+      <div class="workflow-icon-img">{{ iconRef }}</div>
+    </div>
+  </div>
+</div>
