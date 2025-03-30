@@ -1,8 +1,9 @@
-import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { environment } from '../environments/environment';
 import { HeaderService } from './services/header.service';
 import { ListBand } from './models/list_band';
 import { PlaylistDate } from './models/playlist';
+import { LanguageService } from './services/language.service';
 
 @Component({
   selector: 'app-root',
@@ -10,10 +11,18 @@ import { PlaylistDate } from './models/playlist';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  @ViewChild('langBtn') langBtn!: ElementRef;
+  @ViewChild('langDropdown') langDropdown!: ElementRef;
+  @ViewChild('langText') langText!: ElementRef;
   headerText: string = 'Lineup Playlist';
-  title = 'Lineup Playlist';
+  // title = 'Lineup Playlist';
+  currentLanguage: string = 'en';
+  // Textos dinámicos para los botones
+  loginText: string = 'Login';
+  createPlaylistText: string = 'Create Play List';
 
   constructor(
+    private languageService: LanguageService,
     private headerService: HeaderService,
     private cdr: ChangeDetectorRef
   ) {}
@@ -67,17 +76,22 @@ export class AppComponent implements OnInit {
         top_failed: 0,
       },
     };
-  wor() {
-    console.log('holas');
+  ngOnInit() {
+    this.textHeader();
+    this.languageService.language$.subscribe((language) => {
+      this.currentLanguage = language; // Actualiza el idioma actual
+      this.cdr.detectChanges(); // Forzar la detección de cambios
+      this.updateButtonTexts(language); // Actualiza los textos de los botones según el idioma
+    });
+  }
+
+  toggleLanguage(): void {
+    const newLanguage = this.currentLanguage === 'en' ? 'es' : 'en';
+    this.languageService.setLanguage(newLanguage); // Cambia el idioma globalmente
   }
   // funcion login que llama la url http://localhost:5000/login
   login() {
     window.location.href = `${environment.apiUrl}/login`;
-  }
-
-  // Método que maneja el callback después de la autenticación
-  ngOnInit() {
-    this.textHeader();
   }
 
   // Función para actualizar la variable headerText con el valor del header
@@ -86,5 +100,30 @@ export class AppComponent implements OnInit {
       this.headerText = header;
       this.cdr.detectChanges(); // Forzar la detección de cambios
     });
+  }
+  toggleLanguageDropdown(event: Event): void {
+    event.stopPropagation();
+    const dropdown = this.langDropdown.nativeElement;
+    dropdown.classList.toggle('show');
+  }
+
+  closeLanguageDropdown(event: Event): void {
+    const dropdown = this.langDropdown.nativeElement;
+    if (!this.langBtn.nativeElement.contains(event.target)) {
+      dropdown.classList.remove('show');
+    }
+  }
+  changeLanguage(lang: string): void {
+    this.languageService.setLanguage(lang); // Cambia el idioma globalmente
+    this.currentLanguage = lang; // Actualiza el idioma actual en el componente
+  }
+  private updateButtonTexts(language: string): void {
+    if (language === 'en') {
+      this.loginText = 'Login';
+      this.createPlaylistText = 'Create Play List';
+    } else {
+      this.loginText = 'Iniciar Sesión';
+      this.createPlaylistText = 'Crear Lista de Reproducción';
+    }
   }
 }

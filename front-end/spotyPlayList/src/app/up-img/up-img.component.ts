@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -23,7 +23,8 @@ import { ErrorContainerComponent } from '../organisms/error-container/error-cont
 import { HeaderService } from '../services/header.service';
 import { PlaylistinfoComponent } from '../organisms/playlistinfo/playlistinfo.component';
 import { CardBandMobileComponent } from "../organisms/card-band-mobile/card-band-mobile.component";
-import { Subscription, take } from 'rxjs';
+import { Subject, Subscription, take } from 'rxjs';
+import { LanguageService } from '../services/language.service';
 
 @Component({
   selector: 'app-up-img',
@@ -48,6 +49,8 @@ import { Subscription, take } from 'rxjs';
 })
 export class UpImgComponent {
   @ViewChild('imgRef', { static: false }) imgRef!: ElementRef<HTMLImageElement>;
+  // ViewChild para el contenedor de imagen
+  @ViewChild('upImgContainer', { static: false }) upImgContainer?: ElementRef;
 
   // Posiciones y dimensiones de la imagen
   boxX: number = 0;
@@ -112,15 +115,24 @@ export class UpImgComponent {
   private cropperInstance: Cropper | null = null;
   cropperEnabled: boolean = false;
   private subscriptions: Subscription[] = []; // guardo las subscripciones para poder desuscribirme
+  uploadImageText: string = 'Upload Image';
 
   constructor(
+    private languageService: LanguageService,
     private procesListService: ProcesListService,
     private apiRequestService: ApiRequestService,
     private observablesService: ObservablesService,
-    private headerService: HeaderService
+    private headerService: HeaderService,
+    private renderer: Renderer2
   ) {
     // Check initial screen size
     this.checkScreenSize();
+    this.initializeLanguage();
+  }
+  private initializeLanguage(): void {
+    this.languageService.language$.subscribe((language) => {
+      this.uploadImageText = language === 'en' ? 'Upload Image' : 'Subir Imagen';
+    });
   }
 
   ngOnInit(): void {
@@ -149,9 +161,18 @@ export class UpImgComponent {
     this.isMobile = window.innerWidth < this.breakpointMobile;
   }
   private initializeHeader(): void {
-    this.headerService.updateHeader(
-      'Upload a cropped image containing a list of bands'
-    );
+    // valido en que idioma estamos
+    this.languageService.language$.subscribe((language) => {
+      if (language === 'en') {
+        this.headerService.updateHeader(
+          'Upload the image of the lineup you want to analyze.'
+        );
+      } else {
+        this.headerService.updateHeader(
+          'Sube la imagen del lineup que quieres analizar.'
+        );
+      }
+    });
   }
 
   private initializeObservables(): void {
@@ -333,9 +354,19 @@ export class UpImgComponent {
           this.procesListService.startGameCorrector();
           this.loading = 'done';
 
-          this.headerService.updateHeader(
-            'Review the suggested options in the interactive game and fix any errors as needed.'
-          );
+          // valido el idioma y actualizo el this.headerService.updateHeader
+          this.languageService.language$.subscribe((language) => {
+            if (language === 'en') {
+              this.headerService.updateHeader(
+                'The text recognition may be wrong, we believe these names are misspelled.'
+              );
+            } else {
+              this.headerService.updateHeader(
+                'El reconocimiento de texto se puede equivocar, creemos que estos nombres están mal escritos.'
+              );
+            }
+
+          });
 
           // Usar take(1) para evitar múltiples suscripciones
           this.observablesService.optionError$.pipe( // no requiere guardar referencia a la subscripción
@@ -567,18 +598,29 @@ export class UpImgComponent {
         }
         break;
       case 1:
-        // Actualizo headerService con la informacion del paso a realizar
-        this.headerService.updateHeader('Loading the next step');
-
+        // Actualizo el estado de carga
         this.loading = 'loading';
-        // guardo el valor de postList en listb
+
+        // Utilizo takeUntil
+        this.languageService.language$
+          .pipe(take(1))
+          .subscribe(language => {
+            const headerText = language === 'en'
+              ? 'Loading the next step'
+              : 'Cargando el siguiente paso';
+            this.headerService.updateHeader(headerText);
+          });
+
+        // guardo el valor de postList en listb ------
         this.listb = this.apiRequestService.postList(
           this.observablesService['bandListCorect$']
         );
-        console.log('quitando img-container--selected');
+        // console.log('quitando img-container--selected');
 
         // le agrego styles min-height-0px a up_img_container
-        document.getElementById('up_img_container')?.style.setProperty('min-height', '0px');
+        if (this.upImgContainer) {
+          this.renderer.setStyle(this.upImgContainer.nativeElement, 'min-height', '0px');
+        }
         this.listb.subscribe({
           next: (data: any) => {
             this.bandListCards = data;
@@ -587,6 +629,17 @@ export class UpImgComponent {
             this.headerService.updateHeader(
               'Adjust the final list by removing or editing bands according to your preferences. \n Enter the name of your playlist and click "Create."'
             );
+            this.languageService.language$.subscribe((language) => {
+              if (language === 'en') {
+                this.headerService.updateHeader(
+                  'Adjust the final list by removing or editing bands according to your preferences. \n Enter the name of your playlist and click "Create.'
+                );
+              } else {
+                this.headerService.updateHeader(
+                  'Ajusta la lista final eliminando o editando bandas según tus preferencias. \n Ingresa el nombre de tu playlist y haz clic en "Crear.'
+                );
+              }
+            });
             // actualizo el bandListCorect$
             this.observablesService.updateBandListCorect(this.bandListCards);
           },
@@ -602,7 +655,18 @@ export class UpImgComponent {
 
         break;
       case 3:
-        // Genero la playList
+        // Actualizo el header para invitar al usuario a disfrutar de la música y generar una donación
+        this.languageService.language$.subscribe((language) => {
+          if (language === 'en') {
+            this.headerService.updateHeader(
+              'Enjoy the music and consider supporting the project with a donation.'
+            );
+          } else {
+            this.headerService.updateHeader(
+              'Disfruta de la música y considera apoyar el proyecto con una donación.'
+            );
+          }
+        });
         break;
       default:
         console.error('Paso no reconocido:', step);

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { HeaderService } from '../services/header.service';
+import { LanguageService } from '../services/language.service';
 
 @Component({
   selector: 'app-auth-callback',
@@ -10,6 +11,7 @@ import { HeaderService } from '../services/header.service';
 })
 export class AuthCallbackComponent implements OnInit {
   constructor(
+    private languageService: LanguageService,
     private route: ActivatedRoute,
     private authService: AuthService,
     private headerService: HeaderService
@@ -18,10 +20,19 @@ export class AuthCallbackComponent implements OnInit {
   accessToken: any = '';
 
   ngOnInit(): void {
-    // Actualizo headerService con la informacion del paso a realizar
-    this.headerService.updateHeader(
-      `We need you to connect to spotify to interact with your account.`
-    );
+    // Actualizo headerService con la informacion del paso a realizar segun el idioma
+    this.languageService.language$.subscribe((language) => {
+      if (language === 'en') {
+        this.headerService.updateHeader(
+          'You need connect to spotify to interact with your account.'
+        );
+      } else {
+        this.headerService.updateHeader(
+          'Necesitas conectar a spotify para interactuar con tu cuenta.'
+        );
+      }
+    });
+
     // Obtener el access_token y refresh_token de la URL
     this.route.queryParams.subscribe((params) => {
       const refreshToken = params['refresh_token'];

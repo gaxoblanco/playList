@@ -1,21 +1,36 @@
-<header class="header-container">
-  <div class="options-container">
-    <!-- button para ir a la url http://localhost:5000/login -->
-    <button
-      class="btn-navigation"
-      (click)="login()">Login
-    </button>
-    <!-- button para ir a crear una play list segun banner -->
-    <button
-      class="btn-navigation"
-      routerLink="/create-playlist">Create Play List
-    </button>
-    <!-- <button routerLink="/" disabled>Create schedule</button> -->
-  </div>
-  <div class="header">
-    {{ headerText }}
+
+<header class="header">
+  <div class="header-container">
+    <div class="logo">
+      <span class="logo-text">LineUp</span>
+    </div>
+
+    <div class="header-actions">
+      <!-- Botón para login -->
+      <button class="btn-navigation" (click)="login()">{{ loginText }}</button>
+      <!-- Botón para crear una playlist -->
+      <button class="btn-navigation" routerLink="/create-playlist">{{ createPlaylistText }}</button>
+
+      <!-- Switch de idioma -->
+      <div class="lang-switcher">
+        <button class="lang-btn" id="langBtn" #langBtn (click)="toggleLanguageDropdown($event)">
+          <span class="lang-text" #langText>{{ currentLanguage.toUpperCase() }}</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+
+        <div class="lang-dropdown" id="langDropdown" #langDropdown>
+          <a href="javascript:void(0)" class="active" data-lang="es" (click)="changeLanguage('es')">Español</a>
+          <a href="javascript:void(0)" data-lang="en" (click)="changeLanguage('en')">English</a>
+        </div>
+      </div>
+    </div>
   </div>
 </header>
+<div class="header-text pulse-gray">
+  {{ headerText }}
+</div>
 <!-- <app-playlistinfo
   [playlistInfo]="playlistInfo"
   [step]="step"

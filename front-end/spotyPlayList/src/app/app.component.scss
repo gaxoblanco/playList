@@ -1,26 +1,275 @@
+// _header.scss - Enfoque Mobile First
+
+// Importación de variables
 @import '../variables.scss';
 
-.header-container {
-  height: 20vh;
+// Estilos base compartidos
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.options-container {
-  display: flex;
-  gap: 20px;
-  padding: 20px;
-}
-
+// Header - Mobile First
 .header {
-  width: 80%;
-  display: flex;
-  justify-content: center;
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 0 30px 0;
+  background: $spotify-black;
+  z-index: 100;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.header-container {
+  width: 100%;
   margin: 0 auto;
-  // padding: 20px 10px;
-  font-size: 16px;
-  border-radius: 10px;
+  padding: 0 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  height: auto;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo img {
+  height: 30px;
+  margin-right: 8px;
+}
+
+.logo-text {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: $white;
+  letter-spacing: -0.5px;
+}
+
+.header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.header-text {
+  margin: 20px auto;
+  font-size: 22px;
+  padding: 18px;
+  border-radius: 8px;
+  border: 2px solid $spotify-black;
+}
+
+// Botones de acción
+.action-btn {
+  background-color: $spotify-green;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 8px 15px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
   text-align: center;
+  min-width: 100px;
+  max-width: 45%;
+
+  &:hover {
+    background-color: $alert-success;
+    transform: translateY(-2px);
+  }
+
+  &.outline {
+    background-color: transparent;
+    border: 2px solid $spotify-green;
+    color: $spotify-green;
+
+    &:hover {
+      background-color: rgba(29, 185, 84, 0.1);
+    }
+  }
+}
+
+// Selector de idioma
+.lang-switcher {
+  position: relative;
+  margin: 0 5px;
+}
+
+.lang-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 30px;
+  color: $white;
+  padding: 8px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  min-width: 60px;
+  border-radius: 14px;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+}
+
+.lang-text {
+  margin-right: 6px;
+  font-weight: 600;
+}
+
+.lang-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+  margin-top: 8px;
+  background: $spotify-dark-gray;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  min-width: 100px;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.2s ease;
+  z-index: 101;
+
+  &.show {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  a {
+    display: block;
+    padding: 10px 15px;
+    color: $spotify-gray;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: $white;
+    }
+
+    &.active {
+      color: $spotify-green;
+    }
+  }
+}
+
+// Info banner
+.info-banner {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 12px 15px;
+  margin: 15px auto;
+  width: 90%;
+  text-align: center;
+  font-size: 13px;
+  color: $spotify-gray;
 }
 
 .btn-navigation {
-  padding: 8px 16px;
+  padding: 8px 12px;
+}
+
+// Tablet (576px+)
+@media (min-width: 576px) {
+  .header-container {
+    padding: 0 20px;
+    gap: 15px;
+  }
+
+  .action-btn {
+    padding: 8px 16px;
+    font-size: 13px;
+    max-width: 180px;
+  }
+
+  .info-banner {
+    padding: 15px 20px;
+    width: 85%;
+    font-size: 14px;
+  }
+}
+
+// Tablet grandes (768px+)
+@media (min-width: 768px) {
+  .header {
+    padding: 12px 0;
+  }
+
+  .header-container {
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 90%;
+  }
+
+  .logo {
+    justify-content: flex-start;
+  }
+
+  .header-actions {
+    width: auto;
+    justify-content: flex-end;
+  }
+
+  .action-btn {
+    flex: 0 1 auto;
+  }
+
+  .info-banner {
+    max-width: 90%;
+  }
+}
+
+// Desktop (992px+)
+@media (min-width: 992px) {
+  .header {
+    padding: 15px 0;
+  }
+
+  .header-container {
+    max-width: 1280px;
+  }
+
+  .logo img {
+    height: 36px;
+  }
+
+  .logo-text {
+    font-size: 1.5rem;
+  }
+
+  .action-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .lang-btn {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+
+  .info-banner {
+    max-width: 1280px;
+    padding: 15px 20px;
+  }
 }

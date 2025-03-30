@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { LanguageService } from '../services/language.service';
 
 @Component({
   selector: 'app-workflow',
@@ -8,6 +9,20 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 export class WorkflowComponent {
   @ViewChild('audioPlayer') audioPlayer!: ElementRef<HTMLAudioElement>;
   isPlaying: boolean = false; // Variable para rastrear el estado de reproducción
+  listen_step: any = {}; // Contendrá los datos según el idioma
+  steps: any = {}; // Contendrá los pasos según el idioma
+
+
+  constructor(private languageService: LanguageService) {}
+
+  ngOnInit(): void {
+    this.languageService.language$.subscribe((language) => {
+      this.listen_step =
+        language === 'en' ? this.listen_step_en[0] : this.listen_step_es[0];
+      this.steps =
+        language === 'en' ? this.steps_en : this.steps_es;
+    });
+  }
 
   toggleAudio(): void {
     const audio = this.audioPlayer.nativeElement;
@@ -21,6 +36,8 @@ export class WorkflowComponent {
       this.isPlaying = false; // Cambia el estado a "pausado"
     }
   }
+
+
   listen_step_es = [
     {title: 'Escucha cómo funciona LineUp Playlist',
     parrafo: '¡Descubre cómo LineUp Playlist te ayuda a crear la playlist perfecta para tu festival favorito!',}
@@ -80,7 +97,7 @@ export class WorkflowComponent {
       iconRef: '🎵'
     }
   ];
-  steps = [
+  steps_en = [
     {
       title: 'Capture the Line-up',
       parrafo: 'Spotted a festival poster that caught your eye? Simply open the web page and snap a photo of the banner.',

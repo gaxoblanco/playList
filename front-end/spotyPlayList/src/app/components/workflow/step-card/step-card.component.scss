@@ -1,6 +1,8 @@
+@import '../../../../variables.scss';
+
 .workflow-content {
   flex: 1;
-  background-color: var(--surface-color);
+  background-color: $b_g_600; // Reemplazado por la variable SCSS
   border-radius: 10px;
   padding: 25px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -35,16 +37,16 @@
 
 .workflow-step:nth-child(odd) .workflow-content::after {
   right: -10px;
-  border-left: 10px solid var(--surface-color);
+  border-left: 10px solid $b_g_600; // Reemplazado por la variable SCSS
 }
 
 .workflow-step:nth-child(even) .workflow-content::after {
   left: -10px;
-  border-right: 10px solid var(--surface-color);
+  border-right: 10px solid $b_g_600; // Reemplazado por la variable SCSS
 }
 
 .workflow-content h3 {
-  color: var(--primary-color);
+  color: $spotify-green; // Reemplazado por la variable SCSS
   font-size: 1.5rem;
   margin-bottom: 15px;
   display: flex;
@@ -52,7 +54,7 @@
 }
 
 .workflow-content p {
-  color: var(--text-secondary);
+  color: $spotify-light-gray; // Reemplazado por la variable SCSS
   font-size: 1rem;
   margin-bottom: 15px;
 }
@@ -63,7 +65,7 @@
 }
 
 .workflow-details li {
-  color: var(--text-secondary);
+  color: $spotify-light-gray; // Reemplazado por la variable SCSS
   margin-bottom: 8px;
   list-style-type: none;
   position: relative;
@@ -71,7 +73,7 @@
 
 .workflow-details li::before {
   content: "•";
-  color: var(--primary-color);
+  color: $spotify-green; // Reemplazado por la variable SCSS
   font-weight: bold;
   display: inline-block;
   width: 1em;
@@ -85,7 +87,7 @@
   border-radius: 8px;
   margin-top: 15px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-  border: 1px solid var(--text-muted);
+  border: 1px solid $spotify-gray; // Reemplazado por la variable SCSS
 }
 
 @media (max-width: 768px) {

@@ -357,6 +357,14 @@ figure {
   }
 }
 
+@media (min-width: 720px) and (max-width: 960px) {
+  .band-list--mobile--options {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
 // Pantallas grandes
 @media (min-width: 1024px) {
   .band-list--mobile {

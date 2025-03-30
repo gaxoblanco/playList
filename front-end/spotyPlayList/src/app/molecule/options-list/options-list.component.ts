@@ -17,7 +17,6 @@ import { ObservablesService } from 'src/app/services/observables.service';
     MatChipsModule,
     MatIconModule,
     CommonModule,
-    OptionsListComponent,
   ],
 })
 export class OptionsListComponent {
