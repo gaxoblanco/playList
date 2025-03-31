@@ -125,6 +125,10 @@ async def search_option(access_token, artist_name):
     """
     Busca un artista por su nombre y devuelve 5 opciones de artistas.
     """
+    # Valido que access_token tenga barrer si no el agrego
+    if not access_token:
+        access_token = "Bearer " + access_token
+
     url = f'https://api.spotify.com/v1/search?q={artist_name}&type=artist&limit=10'
     headers = {
         'Authorization': f'{access_token}'

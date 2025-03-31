@@ -41,7 +41,7 @@ app = Flask(__name__, static_folder="static",
             static_url_path="", template_folder="static")
 # Configurar CORS para toda la aplicación
 CORS(app, resources={
-     r"/API/*": {"origins": ["http://localhost:4200", "https://festivalmusic.gaxoblanco.com"]}})
+     r"/API/*": {"origins": ["http://localhost:4200", "http://localhost:8000", "https://festivalmusic.gaxoblanco.com"]}})
 
 app.secret_key = secrets.token_hex(16)
 
@@ -178,7 +178,7 @@ def band_list():
     # Ejecuta el procesamiento asincrónico de las bandas
     with app.app_context():
         result = asyncio.run(process_list_band_id(access_token, bands_list))
-    print("result:", result)
+    # print("result:", result)
     return jsonify(result)
 
 

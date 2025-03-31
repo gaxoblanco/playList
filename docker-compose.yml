@@ -1,20 +1,4 @@
 services:
-  # Servicio para generar certificados SSL
-  # ssl-cert-generator:
-  #   image: alpine:latest
-  #   command: >
-  #     sh -c "
-  #       apk add --no-cache openssl &&
-  #       mkdir -p /certs &&
-  #       openssl req -x509 -nodes -days 365 -newkey rsa:2048 
-  #       -keyout /certs/key.pem 
-  #       -out /certs/cert.pem 
-  #       -subj '/C=ES/ST=State/L=City/O=Organization/CN=localhost'
-  #     "
-  #   volumes:
-  #     - ./ssl:/certs
-  #   networks:
-  #     - app-network
   # Servicio para la base de datos
   db:
     image: mysql:8.0

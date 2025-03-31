@@ -1,4 +1,9 @@
 
+# Los contenedores corren en:
+    Frontend ->  http://localhost:8000/
+    Backend  ->  http://localhost:5000/
+    PhpMyAdmin -> http://localhost:8080/
+    
 * Para desarrollo, levanta el servidor con:
      $env:ENVIRONMENT="development"; $env:NODE_ENV="development"; docker-compose up --build
      

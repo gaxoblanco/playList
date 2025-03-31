@@ -1,4 +1,3 @@
-
 <header class="header">
   <div class="header-container">
     <div class="logo">
@@ -9,20 +8,50 @@
       <!-- Botón para login -->
       <button class="btn-navigation" (click)="login()">{{ loginText }}</button>
       <!-- Botón para crear una playlist -->
-      <button class="btn-navigation" routerLink="/create-playlist">{{ createPlaylistText }}</button>
+      <button class="btn-navigation" routerLink="/create-playlist">
+        {{ createPlaylistText }}
+      </button>
 
       <!-- Switch de idioma -->
       <div class="lang-switcher">
-        <button class="lang-btn" id="langBtn" #langBtn (click)="toggleLanguageDropdown($event)">
-          <span class="lang-text" #langText>{{ currentLanguage.toUpperCase() }}</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <button
+          class="lang-btn"
+          id="langBtn"
+          #langBtn
+          (click)="toggleLanguageDropdown($event)"
+        >
+          <span class="lang-text" #langText>{{
+            currentLanguage.toUpperCase()
+          }}</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
         </button>
 
         <div class="lang-dropdown" id="langDropdown" #langDropdown>
-          <a href="javascript:void(0)" class="active" data-lang="es" (click)="changeLanguage('es')">Español</a>
-          <a href="javascript:void(0)" data-lang="en" (click)="changeLanguage('en')">English</a>
+          <a
+            href="javascript:void(0)"
+            class="active"
+            data-lang="es"
+            (click)="changeLanguage('es')"
+            >Español</a
+          >
+          <a
+            href="javascript:void(0)"
+            data-lang="en"
+            (click)="changeLanguage('en')"
+            >English</a
+          >
         </div>
       </div>
     </div>
@@ -31,9 +60,16 @@
 <div class="header-text pulse-gray">
   {{ headerText }}
 </div>
+
 <!-- <app-playlistinfo
   [playlistInfo]="playlistInfo"
   [step]="step"
   >
 </app-playlistinfo> -->
+
+<!-- <app-card-band-mobile
+  [bandList]="bandList"
+  (hoverPosition)="updatePointerPosition($event)"
+  style="display: flex; flex-direction: column; flex: 1; margin-top: 20px;"
+></app-card-band-mobile> -->
 <router-outlet></router-outlet>

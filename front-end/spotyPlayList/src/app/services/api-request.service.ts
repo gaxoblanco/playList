@@ -19,12 +19,13 @@ export class ApiRequestService {
     private authService: AuthService
   ) {}
 
-  //convierto el access_token del localStorage en un string
-  spotify_token: string = this.authService.getToken() || '';
-  headers = new HttpHeaders({
-    Authorization: this.spotify_token,
-  });
-
+  // Método que devuelve los headers actualizados cada vez
+  private getHeaders(): HttpHeaders {
+    const token = this.authService.getToken() || '';
+    return new HttpHeaders({
+      Authorization: token,
+    });
+  }
   // Envio la img y obtengo el json
   postImg(img: FormData): Observable<any> {
     // console.log('img -->', img);
@@ -42,7 +43,7 @@ export class ApiRequestService {
     // console.log('headers -->', this.headers);
 
     return this.http.post<any>(`${this.apiUrl}/band_list`, data, {
-      headers: this.headers,
+      headers: this.getHeaders(),
     });
   }
 
@@ -50,13 +51,14 @@ export class ApiRequestService {
   getNameOptions(name: string): Observable<any> {
     //envio el name con headers
     console.log('getNameOptions - name -->', name);
+    console.log('tenemos header: ', this.getHeaders());
     // envuelvo el name en un objeto
     const names = { name: name };
 
     return this.http.post<any>(
       `${this.apiUrl}/search_options`,
       { data: name },
-      { headers: this.headers }
+      { headers: this.getHeaders() }
     );
   }
 
@@ -81,7 +83,7 @@ export class ApiRequestService {
 
     // Enviar la solicitud POST con FormData
     return this.http.post<any>(`${this.apiUrl}/create_playlist`, formData, {
-      headers: this.headers,
+      headers: this.getHeaders(),
     });
   }
 }

@@ -58,6 +58,9 @@ export class AppComponent implements OnInit {
       genres: ['Rock', 'Pop', 'Rock', 'Pop', 'Rock', 'Pop', 'Rock', 'Pop'],
     },
   ];
+  updatePointerPosition(position: number[]): void {
+    console.log('Pointer position updated:', position);
+  }
   step: number = 3;
   playlistInfo: PlaylistDate = {
       playlists: {
