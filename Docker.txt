@@ -23,7 +23,7 @@
 
 *** Reconstruir el contenedor del front-end
     docker-compose down
-    docker-compose up --build -d sora-playlist-frontend
+    docker-compose build sora-playlist-frontend
 
 
 /** MySQL directamente: localhost:3307

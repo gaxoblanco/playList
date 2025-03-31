@@ -267,7 +267,12 @@ mat-chip {
   margin: 0 auto;
   padding: 20px;
 }
-
+.popap {
+  text-align: center;
+  button {
+    padding: 8px 12px;
+  }
+}
 // Media queries
 @media (max-width: 960px) {
   .up_img_container {

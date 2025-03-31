@@ -130,6 +130,10 @@ export class CardBandComponent {
     img_url: '../../../assets/addBand.jpg',
   };
   addBandHtml: string = '';
+  private isDragging = false;
+  private startX: number = 0;
+  private scrollLeft: number = 0;
+
   constructor(
     private apiRequestService: ApiRequestService,
     private http: HttpClient
@@ -155,7 +159,10 @@ export class CardBandComponent {
   getOptions(name: string, img_zone: [number, number, number, number]): void {
     // cargo los componentes de carga mientras espero
     this.optionsBand = this.loadinOptionsBand;
-    console.log('Loading options with placeholder data:', this.optionsBand.length);
+    console.log(
+      'Loading options with placeholder data:',
+      this.optionsBand.length
+    );
     this.apiRequestService.getNameOptions(name).subscribe({
       // obtener el nombre correcto
       next: (data) => {
@@ -313,4 +320,34 @@ export class CardBandComponent {
       event.preventDefault();
     }
   }
+
+  onMouseDown(event: MouseEvent): void {
+    if (this.bandListOptions) {
+      this.isDragging = true;
+      this.startX = event.pageX - this.bandListOptions.nativeElement.offsetLeft;
+      this.scrollLeft = this.bandListOptions.nativeElement.scrollLeft;
+    }
+  }
+
+  onMouseMove(event: MouseEvent): void {
+    if (!this.isDragging) return;
+    event.preventDefault();
+    if (this.bandListOptions) {
+      const x = event.pageX - this.bandListOptions.nativeElement.offsetLeft;
+      const walk = (x - this.startX) * 2;
+      this.bandListOptions.nativeElement.scrollLeft = this.scrollLeft - walk;
+    }
+  }
+
+  onMouseUp(): void {
+    this.isDragging = false;
+  }
+
+  // onWheel(event: WheelEvent): void {
+  //   if (this.isHovered && this.bandListOptions) {
+  //     event.preventDefault();
+  //     const element = this.bandListOptions.nativeElement;
+  //     element.scrollLeft += event.deltaY;
+  //   }
+  // }
 }

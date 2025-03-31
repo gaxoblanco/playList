@@ -41,13 +41,14 @@
         <div class="lang-dropdown" id="langDropdown" #langDropdown>
           <a
             href="javascript:void(0)"
-            class="active"
+            [class.active]="currentLanguage === 'es'"
             data-lang="es"
             (click)="changeLanguage('es')"
             >Español</a
           >
           <a
             href="javascript:void(0)"
+            [class.active]="currentLanguage === 'en'"
             data-lang="en"
             (click)="changeLanguage('en')"
             >English</a
@@ -70,6 +71,6 @@
 <!-- <app-card-band-mobile
   [bandList]="bandList"
   (hoverPosition)="updatePointerPosition($event)"
-  style="display: flex; flex-direction: column; flex: 1; margin-top: 20px;"
+  style="display: flex; flex-direction: column; flex: 1; margin-top: 20px"
 ></app-card-band-mobile> -->
 <router-outlet></router-outlet>

@@ -1,4 +1,10 @@
-import { Component, ChangeDetectorRef, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  ChangeDetectorRef,
+  OnInit,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { environment } from '../environments/environment';
 import { HeaderService } from './services/header.service';
 import { ListBand } from './models/list_band';
@@ -63,22 +69,18 @@ export class AppComponent implements OnInit {
   }
   step: number = 3;
   playlistInfo: PlaylistDate = {
-      playlists: {
-        band_id: '',
-        name: 'Loading...',
-        href: '',
-        img: [''],
-      },
-      bandInfo: {
-        failed_bands: [
-          'loading...',
-          'loading...',
-          'loading...',
-        ],
-        top_add: 0,
-        top_failed: 0,
-      },
-    };
+    playlists: {
+      band_id: '',
+      name: 'Loading...',
+      href: '',
+      img: [''],
+    },
+    bandInfo: {
+      failed_bands: ['loading...', 'loading...', 'loading...'],
+      top_add: 0,
+      top_failed: 0,
+    },
+  };
   ngOnInit() {
     this.textHeader();
     this.languageService.language$.subscribe((language) => {
@@ -117,8 +119,8 @@ export class AppComponent implements OnInit {
     }
   }
   changeLanguage(lang: string): void {
-    this.languageService.setLanguage(lang); // Cambia el idioma globalmente
-    this.currentLanguage = lang; // Actualiza el idioma actual en el componente
+    this.languageService.setLanguage(lang);
+    this.currentLanguage = lang;
   }
   private updateButtonTexts(language: string): void {
     if (language === 'en') {

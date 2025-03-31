@@ -67,7 +67,10 @@
       class="band-list-options"
       (mouseenter)="onMouseEnter()"
       (mouseleave)="onMouseLeave()"
-
+      (wheel)="onWheel($event)"
+      (mousedown)="onMouseDown($event)"
+      (mousemove)="onMouseMove($event)"
+      (mouseup)="onMouseUp()"
     >
       <app-options-list
         *ngFor="let optionBand of optionsBand"

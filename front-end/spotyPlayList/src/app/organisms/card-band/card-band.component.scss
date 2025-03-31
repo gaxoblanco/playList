@@ -170,6 +170,10 @@ figure {
   position: absolute;
   bottom: -66px;
   z-index: 10; // Ensure options appear above other elements
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  scroll-behavior: smooth;
 
   &::-webkit-scrollbar {
     width: 0;
