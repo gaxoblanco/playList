@@ -121,6 +121,12 @@ export class AppComponent implements OnInit {
   changeLanguage(lang: string): void {
     this.languageService.setLanguage(lang);
     this.currentLanguage = lang;
+
+    // Cerrar el dropdown después de 3 segundos
+    setTimeout(() => {
+      const dropdown = this.langDropdown.nativeElement;
+      dropdown.classList.remove('show');
+    }, 3000);
   }
   private updateButtonTexts(language: string): void {
     if (language === 'en') {
