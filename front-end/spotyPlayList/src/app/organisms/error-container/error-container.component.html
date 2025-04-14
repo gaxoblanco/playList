@@ -1,9 +1,12 @@
 <div>
   <!-- mensaje de error al subir la img con re intento -->
   <div class="container-error" *ngIf="step == 0">
-    <span *ngIf="imgSelected" class="span--error" for="file-upload"
-      >Error to upload !</span
-    >
+    <span *ngIf="imgSelected" class="span--error" for="file-upload">
+      <ng-container *ngIf="errorMessages.length > 0; else defaultError">
+        {{ errorMessages[0] }}
+      </ng-container>
+      <ng-template #defaultError> Error to upload ! </ng-template>
+    </span>
     <button
       *ngIf="imgSelected"
       id="file-upload"
@@ -16,9 +19,14 @@
   </div>
   <!-- mensaje de error al obtener el listado con las correciones -->
   <div class="container-error" *ngIf="step == 1">
-    <span class="span--error" for="file-upload"
-      >Error - creating the list of artists !</span
-    >
+    <span class="span--error" for="file-upload">
+      <ng-container *ngIf="errorMessages.length > 0; else defaultError">
+        {{ errorMessages[0] }}
+      </ng-container>
+      <ng-template #defaultError>
+        Error - creating the list of artists !
+      </ng-template>
+    </span>
     <button
       *ngIf="imgSelected"
       id="file-upload"

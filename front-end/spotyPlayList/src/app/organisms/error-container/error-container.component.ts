@@ -12,6 +12,7 @@ export class ErrorContainerComponent {
   @Input() loading: string = '';
   @Input() step: number = 0;
   @Input() imgSelected: boolean = false;
+  @Input() errorMessages: string[] = [];
 
   // Emisores de eventos para las funciones
   @Output() trayAgain = new EventEmitter<void>();

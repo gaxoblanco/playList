@@ -22,7 +22,7 @@ import { environment } from '../../environments/environment';
 import { ErrorContainerComponent } from '../organisms/error-container/error-container.component';
 import { HeaderService } from '../services/header.service';
 import { PlaylistinfoComponent } from '../organisms/playlistinfo/playlistinfo.component';
-import { CardBandMobileComponent } from "../organisms/card-band-mobile/card-band-mobile.component";
+import { CardBandMobileComponent } from '../organisms/card-band-mobile/card-band-mobile.component';
 import { Subject, Subscription, take } from 'rxjs';
 import { LanguageService } from '../services/language.service';
 
@@ -44,8 +44,8 @@ import { LanguageService } from '../services/language.service';
     MatButtonModule,
     MatProgressSpinnerModule,
     PlaylistinfoComponent,
-    CardBandMobileComponent
-],
+    CardBandMobileComponent,
+  ],
 })
 export class UpImgComponent {
   @ViewChild('imgRef', { static: false }) imgRef!: ElementRef<HTMLImageElement>;
@@ -78,11 +78,7 @@ export class UpImgComponent {
       img: [''],
     },
     bandInfo: {
-      failed_bands: [
-        'loading...',
-        'loading...',
-        'loading...',
-      ],
+      failed_bands: ['loading...', 'loading...', 'loading...'],
       top_add: 0,
       top_failed: 0,
     },
@@ -131,7 +127,8 @@ export class UpImgComponent {
   }
   private initializeLanguage(): void {
     this.languageService.language$.subscribe((language) => {
-      this.uploadImageText = language === 'en' ? 'Upload Image' : 'Subir Imagen';
+      this.uploadImageText =
+        language === 'en' ? 'Upload Image' : 'Subir Imagen';
     });
   }
 
@@ -155,7 +152,7 @@ export class UpImgComponent {
     );
   }
   ngOnDestroy(): void {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
   checkScreenSize(): void {
     this.isMobile = window.innerWidth < this.breakpointMobile;
@@ -319,9 +316,8 @@ export class UpImgComponent {
   }
 
   trayAgain(): void {
-    this.loading = 'loading';
     if (this.imgSelected) {
-      this.uploadImageToAPI(this.imgSelected);
+      this.imgSelected = null;
     } else {
       this.loading = 'up';
       this.imgSelected = '';
@@ -338,6 +334,15 @@ export class UpImgComponent {
     this.apiRequestService.postImg(formData).subscribe({
       next: async (data: any) => {
         try {
+          // Verificar si la respuesta contiene un error 202
+          if (data && data.error === 202) {
+            console.error('Error 202:', data.message);
+            this.loading = 'error';
+            // Mostrar mensaje de error al usuario
+            this.currentErrors = [data.message];
+            return;
+          }
+
           // Verificar que data tenga la estructura esperada
           if (!data || !data.associated_data) {
             console.error('Respuesta de API inválida:', data);
@@ -365,17 +370,19 @@ export class UpImgComponent {
                 'El reconocimiento de texto se puede equivocar, creemos que estos nombres están mal escritos.'
               );
             }
-
           });
 
           // Usar take(1) para evitar múltiples suscripciones
-          this.observablesService.optionError$.pipe( // no requiere guardar referencia a la subscripción
-            take(1)
-          ).subscribe((options) => {
-            this.optionList = options;
-            this.adjustBandPositions();
-            // Auto-cancela
-          });
+          this.observablesService.optionError$
+            .pipe(
+              // no requiere guardar referencia a la subscripción
+              take(1)
+            )
+            .subscribe((options) => {
+              this.optionList = options;
+              this.adjustBandPositions();
+              // Auto-cancela
+            });
 
           // Posicionar el puntero en la primera banda
           if (bandList && bandList.length > 0 && bandList[0].img_zone) {
@@ -392,7 +399,7 @@ export class UpImgComponent {
       error: (error) => {
         this.loading = 'error';
         console.error('Error al enviar la imagen:', error);
-      }
+      },
     });
   }
   //----------------------------------------------------------------
@@ -484,9 +491,13 @@ export class UpImgComponent {
     return new Promise<void>((resolve) => {
       const button = document.getElementById('continue-button');
       if (button) {
-        button.addEventListener('click', () => {
-          resolve();
-        }, { once: true }); // 'once: true' para que el listener se elimine después de usarse
+        button.addEventListener(
+          'click',
+          () => {
+            resolve();
+          },
+          { once: true }
+        ); // 'once: true' para que el listener se elimine después de usarse
       } else {
         console.error('Button "continue-button" not found - agregar contador');
         // Timeout para evitar que se quede colgada para siempre
@@ -494,7 +505,6 @@ export class UpImgComponent {
       }
     });
   }
-
 
   createPlayList(): void {
     // activo el spinner
@@ -602,14 +612,13 @@ export class UpImgComponent {
         this.loading = 'loading';
 
         // Utilizo takeUntil
-        this.languageService.language$
-          .pipe(take(1))
-          .subscribe(language => {
-            const headerText = language === 'en'
+        this.languageService.language$.pipe(take(1)).subscribe((language) => {
+          const headerText =
+            language === 'en'
               ? 'Loading the next step'
               : 'Cargando el siguiente paso';
-            this.headerService.updateHeader(headerText);
-          });
+          this.headerService.updateHeader(headerText);
+        });
 
         // guardo el valor de postList en listb ------
         this.listb = this.apiRequestService.postList(
@@ -619,7 +628,11 @@ export class UpImgComponent {
 
         // le agrego styles min-height-0px a up_img_container
         if (this.upImgContainer) {
-          this.renderer.setStyle(this.upImgContainer.nativeElement, 'min-height', '0px');
+          this.renderer.setStyle(
+            this.upImgContainer.nativeElement,
+            'min-height',
+            '0px'
+          );
         }
         this.listb.subscribe({
           next: (data: any) => {
@@ -671,5 +684,29 @@ export class UpImgComponent {
       default:
         console.error('Paso no reconocido:', step);
     }
+  }
+
+  resetImageAndOpenFileDialog(): void {
+    // Resetear el estado
+    this.imgSelected = null;
+    this.selectedFile = null;
+    this.currentErrors = [];
+
+    // Si tienes una instancia de cropper activa, destrúyela
+    if (this.cropperInstance) {
+      this.cropperInstance.destroy();
+      this.cropperInstance = null;
+    }
+
+    // Usa setTimeout para permitir que ngIf se actualice primero
+    setTimeout(() => {
+      // Abre el diálogo de selección de archivo programáticamente
+      const fileInput = document.getElementById(
+        'file-upload'
+      ) as HTMLInputElement;
+      if (fileInput) {
+        fileInput.click();
+      }
+    }, 0);
   }
 }
