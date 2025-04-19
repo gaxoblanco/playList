@@ -87,6 +87,10 @@ def img_process(img64):
     print(f'Bandas procesadas: {len(bands)}')
     print(bands)
 
+    # valido que tenemos una lista de string, si no es asi devuelvo un mensaje de error 202, la img no contiene nombre de bandas
+    if not isinstance(bands, list) or len(bands) == 0:
+        return {"error": 202, "message": "La imagen no contiene nombres de bandas detectables"}
+
     # Detectar color predominante
     dominant_color = get_dominant_color(img_cv)
     print("Color predominante (fondo):\n")

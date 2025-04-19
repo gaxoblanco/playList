@@ -35,13 +35,13 @@ from logging.handlers import RotatingFileHandler
 from spotifyApi.dataBase_operations import db
 
 # # Configuración de orígenes permitidos
-# ALLOWED_ORIGINS = ["http://localhost:4200", "https://festivalmusic.gaxoblanco.com"]
+# ALLOWED_ORIGINS = ["http://localhost:4200", "https://lineup.gaxoblanco.com"]
 
 app = Flask(__name__, static_folder="static",
             static_url_path="", template_folder="static")
 # Configurar CORS para toda la aplicación
 CORS(app, resources={
-     r"/API/*": {"origins": ["http://localhost:4200", "http://localhost:8000", "https://festivalmusic.gaxoblanco.com"]}})
+     r"/API/*": {"origins": ["http://localhost:4200", "http://localhost:8000", "https://lineup.gaxoblanco.com"]}})
 
 app.secret_key = secrets.token_hex(16)
 
@@ -67,7 +67,7 @@ api = Blueprint("api", __name__)
 load_dotenv()
 # Variables para la base de datos
 DB_HOST = os.getenv("DB_HOST", "db")
-DB_NAME = os.getenv("DB_NAME", "festivalmusic")
+DB_NAME = os.getenv("DB_NAME", "lineup")
 DB_USER = os.getenv("DB_USER", "gaston")
 DB_PASSWORD = os.getenv("DB_PASSWORD", "blanco")
 DB_PORT = os.getenv("DB_PORT", "3306")
@@ -146,7 +146,6 @@ def up_img():
     # proceso la img con /img_process/img_process.main y espero la respuesta que va a demorar unos segundos
     img_json = img_process(img64)
     # print("img_json-->:", img_json)
-    # Antes de devolver el listado lo parseo
 
     # img_json contiene el listado de bandas con erres
     # le envio el json al front

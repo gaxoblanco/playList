@@ -12,12 +12,7 @@ import { ObservablesService } from 'src/app/services/observables.service';
   templateUrl: './options-list.component.html',
   styleUrls: ['./options-list.component.scss'],
   standalone: true,
-  imports: [
-    MatCardModule,
-    MatChipsModule,
-    MatIconModule,
-    CommonModule,
-  ],
+  imports: [MatCardModule, MatChipsModule, MatIconModule, CommonModule],
 })
 export class OptionsListComponent {
   @Input() band!: ListBand;
@@ -33,9 +28,7 @@ export class OptionsListComponent {
     img_url: '../../../assets/addBand.jpg',
   };
 
-  constructor(
-    private observablesService: ObservablesService,
-  ) {}
+  constructor(private observablesService: ObservablesService) {}
 
   changBand(index: number): void {
     // console.log('changBand->index:', index);
@@ -52,8 +45,14 @@ export class OptionsListComponent {
       this.upListByIndex = this.observablesService['bandListCorect'].getValue();
       // actualizo la lista temporal con el valor de this.band segun el index
       this.upListByIndex[index] = this.band;
-      // Agrego el obj para que el usuario agrege una banda mas
-      this.upListByIndex.push(this.addBand);
+      // Si ya no existe el elemento add band lo agrego
+      if (
+        this.upListByIndex.length > 0 &&
+        this.upListByIndex[this.upListByIndex.length - 1].img_url !==
+          '../../../assets/addBand.jpg'
+      ) {
+        this.upListByIndex.push(this.addBand);
+      }
 
       // actualizo la lista con la funcion updateBandListCorect
       this.observablesService.updateBandListCorect(this.upListByIndex);

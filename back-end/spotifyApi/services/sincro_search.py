@@ -9,7 +9,7 @@ from flask import Flask
 from spotifyApi.dataBase_operations import db
 # Crear la aplicación Flask
 # app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://gaston:blanco@localhost:3307/festivalmusic'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://gaston:blanco@localhost:3307/lineup'
 # db.init_app(app)
 
 
