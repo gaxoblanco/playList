@@ -1,7 +1,22 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, EventEmitter, HostListener, Input, Output, QueryList, ViewChildren } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  Output,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -19,34 +34,34 @@ import { ObservablesService } from 'src/app/services/observables.service';
   templateUrl: './card-band-mobile.component.html',
   styleUrls: ['./card-band-mobile.component.scss'],
   animations: [
-      trigger('toggleOptions', [
-        state(
-          'void',
-          style({
-            opacity: 0,
-            transform: 'translateY(-10px)',
-          })
-        ),
-        state(
-          '*',
-          style({
-            opacity: 1,
-            transform: 'translateY(0)',
-          })
-        ),
-        transition('void <=> *', [animate('300ms ease-in-out')]),
-      ]),
-    ],
-    imports: [
-      CommonModule,
-      MatCardModule,
-      MatChipsModule,
-      MatIconModule,
-      CommonModule,
-      OptionsListComponent,
-      FormsModule,
-      MobileClickDirective,
-    ],
+    trigger('toggleOptions', [
+      state(
+        'void',
+        style({
+          opacity: 0,
+          transform: 'translateY(-10px)',
+        })
+      ),
+      state(
+        '*',
+        style({
+          opacity: 1,
+          transform: 'translateY(0)',
+        })
+      ),
+      transition('void <=> *', [animate('300ms ease-in-out')]),
+    ]),
+  ],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatChipsModule,
+    MatIconModule,
+    CommonModule,
+    OptionsListComponent,
+    FormsModule,
+    MobileClickDirective,
+  ],
 })
 export class CardBandMobileComponent {
   @Input() bandList: ListBandEdit[] = []; // Se recibe desde el componente padre
@@ -155,12 +170,12 @@ export class CardBandMobileComponent {
     //   })
     // );
   }
-    // Importante: Limpiar la suscripción cuando el componente se destruya
-    ngOnDestroy(): void {
-      if (this.subscription) {
-        this.subscription.unsubscribe();
-      }
+  // Importante: Limpiar la suscripción cuando el componente se destruya
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
+  }
 
   // Detector de tamaño de pantalla
   @HostListener('window:resize', ['$event'])
@@ -192,14 +207,20 @@ export class CardBandMobileComponent {
           } else if (typeof response === 'object') {
             // La respuesta es un objeto, intentar extraer el array
             // Esto depende de la estructura exacta de tu respuesta
-            const possibleArrays = Object.values(response).filter(val => Array.isArray(val));
+            const possibleArrays = Object.values(response).filter((val) =>
+              Array.isArray(val)
+            );
 
             if (possibleArrays.length > 0) {
               // Usa el primer array encontrado
               processedData = possibleArrays[0] as ListBand[];
             } else {
               // Intenta convertir el objeto en un array si tiene una estructura compatible
-              if (response && typeof response === 'object' && 'band_id' in response) {
+              if (
+                response &&
+                typeof response === 'object' &&
+                'band_id' in response
+              ) {
                 // Si parece ser un solo elemento de ListBand
                 processedData = [response as ListBand];
               } else {
@@ -212,42 +233,55 @@ export class CardBandMobileComponent {
 
           // Ahora es seguro procesar los datos
           if (processedData.length > 0) {
-            processedData.forEach(element => {
+            processedData.forEach((element) => {
               element.img_zone = img_zone;
             });
             this.optionsBand = processedData;
+            // Iniciar el temporizador solo después de obtener los datos
+            this.startTimeout();
           } else {
             // Array vacío
-            this.optionsBand = [{
+            this.optionsBand = [
+              {
+                band_id: '0',
+                name: 'No se encontraron opciones',
+                genres: ['Intenta con otro nombre'],
+                img_zone: img_zone,
+                img_url: 'https://via.placeholder.com/150',
+              },
+            ];
+            // Iniciar el temporizador también para este caso
+            this.startTimeout();
+          }
+        } catch (error) {
+          console.error('Error procesando la respuesta:', error);
+          this.optionsBand = [
+            {
               band_id: '0',
-              name: 'No se encontraron opciones',
+              name: 'Error de formato en respuesta',
               genres: ['Intenta con otro nombre'],
               img_zone: img_zone,
               img_url: 'https://via.placeholder.com/150',
-            }];
-          }
-
-        } catch (error) {
-          console.error('Error procesando la respuesta:', error);
-          this.optionsBand = [{
-            band_id: '0',
-            name: 'Error de formato en respuesta',
-            genres: ['Intenta con otro nombre'],
-            img_zone: img_zone,
-            img_url: 'https://via.placeholder.com/150',
-          }];
+            },
+          ];
+          // Iniciar el temporizador también para este caso
+          this.startTimeout();
         }
       },
       error: (error) => {
         console.error('Error al obtener las opciones:', error);
         // En caso de error, mostrar mensaje amigable
-        this.optionsBand = [{
-          band_id: '0',
-          name: 'Error al cargar opciones',
-          genres: ['Intenta nuevamente'],
-          img_zone: img_zone,
-          img_url: 'https://via.placeholder.com/150',
-        }];
+        this.optionsBand = [
+          {
+            band_id: '0',
+            name: 'Error al cargar opciones',
+            genres: ['Intenta nuevamente'],
+            img_zone: img_zone,
+            img_url: 'https://via.placeholder.com/150',
+          },
+        ];
+        // Iniciar el temporizador también para este caso
+        this.startTimeout();
       },
     });
   }
@@ -270,7 +304,7 @@ export class CardBandMobileComponent {
       console.log('editetName-->', editedName);
       // limpio el formulario
       this.editedNames[index] = '';
-      this.startTimeout();
+      // Ya no iniciamos el temporizador aquí, se inicia en getOptions después de obtener los datos
     }
   }
 
@@ -281,13 +315,22 @@ export class CardBandMobileComponent {
       this.bandList[index].isEditing = false;
     }
     // valido que bandList tenga elementos y no sea el botón de añadir
-    if (this.bandList.length > 0 && !(index === this.bandList.length - 1 && this.bandList[index].name === 'Add band')) {
+    if (
+      this.bandList.length > 0 &&
+      !(
+        index === this.bandList.length - 1 &&
+        this.bandList[index].name === 'Add band'
+      )
+    ) {
       this.bandList.splice(index, 1);
 
       // Si se borra la banda activa, cerramos el panel de opciones
       if (this.activeCardIndex === index) {
         this.activeCardIndex = null;
-      } else if (this.activeCardIndex !== null && this.activeCardIndex > index) {
+      } else if (
+        this.activeCardIndex !== null &&
+        this.activeCardIndex > index
+      ) {
         // Ajustamos el índice activo si se elimina una banda anterior
         this.activeCardIndex--;
       }
@@ -303,7 +346,7 @@ export class CardBandMobileComponent {
     } else {
       console.error('Invalid position array:', positionArray);
     }
-      // Para desktop, podemos mostrar los botones de acción al hacer hover
+    // Para desktop, podemos mostrar los botones de acción al hacer hover
     if (this.isDesktop && this.activeCardIndex !== index) {
       // Activar el hover solo para mostrar las acciones, no para abrir opciones
       // Puedes usar una propiedad separada si no quieres afectar activeCardIndex
@@ -359,7 +402,9 @@ export class CardBandMobileComponent {
 
       // Enfoca el input solo si estamos en escritorio
       setTimeout(() => {
-        const input = cardElement?.querySelector('.band-name-input') as HTMLInputElement;
+        const input = cardElement?.querySelector(
+          '.band-name-input'
+        ) as HTMLInputElement;
         if (input) {
           input.focus();
           this.editedNames[i] = name; // Inicializar con el nombre actual
@@ -371,7 +416,6 @@ export class CardBandMobileComponent {
       if (headerElement) {
         headerElement.classList.remove('visible');
       }
-
     }
   }
 
@@ -426,7 +470,10 @@ export class CardBandMobileComponent {
 
   toggleEdit(index: number): void {
     // Ignorar el botón "Add band"
-    if (index === this.bandList.length - 1 && this.bandList[index].name === 'Add band') {
+    if (
+      index === this.bandList.length - 1 &&
+      this.bandList[index].name === 'Add band'
+    ) {
       return;
     }
 
@@ -452,7 +499,10 @@ export class CardBandMobileComponent {
 
       // Actualizar opciones si es necesario
       if (this.activeCardIndex === index) {
-        this.getOptions(this.bandList[index].name, this.bandList[index].img_zone);
+        this.getOptions(
+          this.bandList[index].name,
+          this.bandList[index].img_zone
+        );
       }
     }
 
@@ -465,7 +515,7 @@ export class CardBandMobileComponent {
 
   // Método para gestionar la edición con actualización automática
   onEditInput(index: number): void {
-    const  nameSearch : String = this.editedNames[index];
+    const nameSearch: String = this.editedNames[index];
     // Limpiar cualquier timer existente para esta banda
     if (this.updateTimers[index]) {
       clearTimeout(this.updateTimers[index]);
@@ -473,8 +523,11 @@ export class CardBandMobileComponent {
     // Configurar un nuevo timer que se activará después de 800ms de inactividad
     this.updateTimers[index] = setTimeout(() => {
       // Solo actualizar si el valor de editedNames ha cambiado y no está vacío, y this.getOptions
-      if (nameSearch && nameSearch.trim() !== '' &&
-      nameSearch.trim() !== this.bandList[index].name) {
+      if (
+        nameSearch &&
+        nameSearch.trim() !== '' &&
+        nameSearch.trim() !== this.bandList[index].name
+      ) {
         console.log(`Actualizando opciones para "${this.editedNames}"`);
         this.getOptions(nameSearch.trim(), this.bandList[index].img_zone);
       }
