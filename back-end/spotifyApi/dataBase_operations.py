@@ -4,6 +4,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from services.normalize_band_name import normalize_band_name
 from services.compare_dictstring import find_bands_dict_array
 
+
 # Inicializar SQLAlchemy
 db = SQLAlchemy()
 
@@ -18,6 +19,7 @@ class Band(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     id_spotify = db.Column(db.String(30), unique=True, nullable=False)
     names = db.Column(db.String(100), nullable=False)
+    names_normalize = db.Column(db.String(100), nullable=False)
     img_url = db.Column(db.String(255))
     popularity = db.Column(db.Integer)
     date_create = db.Column(
@@ -25,9 +27,10 @@ class Band(db.Model):
     date_up = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp(
     ), onupdate=db.func.current_timestamp())
 
-    def __init__(self, id_spotify: str, names: str, img_url: str, popularity=0):
+    def __init__(self, id_spotify: str, names: str, names_normalize: str,  img_url: str, popularity=0):
         self.id_spotify = id_spotify
         self.names = names
+        self.names_normalize = names_normalize
         self.img_url = img_url
         self.popularity = popularity
 
@@ -106,16 +109,12 @@ def search_bands_db_from_list(bands_list):
     if not bands_list or not isinstance(bands_list, list):
         return {"error": "La entrada debe ser una lista de bandas"}, 400
 
-    # imprimo el name de las bandas
-    # print('search_bands_db_from_list bands_list ->',[band["name"] for band in bands_list])
-
     # Extraer los nombres de las bandas de la lista
     band_names = [band["name"] for band in bands_list]
     # print('band_names ->', len(band_names))
     # Consulta a la base de datos
-    bands_query = Band.query.filter(Band.names.in_(band_names)).distinct(  # type: ignore
+    bands_query = Band.query.filter(Band.names_normalize.in_(band_names)).distinct(  # type: ignore
         Band.id_spotify).all()  # type: ignore
-    # print('bands_query len ->', len(bands_query))
 
     # Creamos diccionarios para búsqueda eficiente
     db_bands_by_name = {normalize_band_name(
@@ -193,6 +192,10 @@ def add_band(band_data):
     if not band_data or not all(key in band_data for key in ["id", "name", "img", "genres"]):
         return {"error": "Datos incompletos. Se requieren 'id', 'name', 'img' y 'genres'."}, 400
 
+    # Verifica que sean datos reales (no de error)
+    if band_data['img'] == 'img_error':
+        return {"message": "No se almacenará en la db"}, 408
+
     # Crear una nueva sesión para esta operación
     session = create_session()
 
@@ -203,10 +206,13 @@ def add_band(band_data):
         if existing_band:
             return {"message": "La banda ya existe", "id": existing_band.id}, 409
 
+        # Normalizar el nombre de la banda
+        normalized_name = normalize_band_name(band_data["name"])
         # Crear la nueva banda
         new_band = Band(
             id_spotify=band_data["id"],
             names=band_data["name"],
+            names_normalize=normalized_name,
             img_url=band_data["img"],
             # Usar .get para manejar casos donde no exista
             popularity=band_data.get("popularity", 0)

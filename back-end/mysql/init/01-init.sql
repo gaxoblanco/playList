@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS band_spotify (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_spotify VARCHAR(30) NOT NULL UNIQUE,
     names VARCHAR(100) NOT NULL,
+    names_normalize VARCHAR(100) NOT NULL,
     img_url VARCHAR(255),
     popularity INT,
     date_create TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
