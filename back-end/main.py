@@ -3,17 +3,20 @@ from asyncio.log import logger
 import base64
 from datetime import datetime
 import json
+
+import requests
 # from playlist_cover import update_playlist_cover
 from service_main.manage_login_token import manage_login_token
 from processList.processListBandAddToPlaylist import process_list_band_add_to_playlist
 from processList.processListBandId import process_list_band_id
 from processList.processListBandTop import process_list_band_top
-from spotifyApi.spotify_api import search_artist, get_top_tracks, create_playlist, get_user_id
+from spotifyApi.spotify_api import search_artist, get_top_tracks, create_playlist, get_user_id, upload_playlist_cover
 from spotifyApi.services.sincro_search import search_option_with_background_storage
 from spotifyApi.spotify_auth import get_access_token, get_authorization_code
 from detect_possible_errors import detect_possible_errors
 from img_process.img_process import img_process
-from random_info.information_loading import generet_random_info
+from img_process.img64 import image_to_base64
+# from random_info.information_loading import generet_random_info
 
 from flask import Flask
 # Importa la instancia de db desde el archivo de modelos
@@ -70,7 +73,8 @@ def main():
         print("7. Procesar lista de bandas para obtener las Top Tracks")
         print("8. Procesar lista de bandas para añadir a una lista de reproducción")
         print("9. Procesar imagen para obtener texto")
-        print("10. Obtener información de manera aleatoria")
+        print("10. Obtener ID de las listas de reproducción")
+        print("11. Subir imagen a la lista de reproducción")
         print("00. Salir")
 
         opcion = input("Selecciona una opción: ")
@@ -177,9 +181,82 @@ def main():
                 json.dump(img_result, file)
 
         elif opcion == '10':
-            # Funcion para obtener un information_loading random
-            info = generet_random_info(db.session)
-            print(f"Resultado de la información aleatoria: {info}")
+            # Funcion para obtener id de la playlist
+            print("\nObteniendo playlists del usuario...")
+
+            # Preparar el token
+            if "Bearer " in access_token:
+                auth_header = access_token
+            else:
+                auth_header = f'Bearer {access_token}'
+
+            headers = {'Authorization': auth_header}
+            user_id = get_user_id(access_token)
+            print(f"Tu User ID es: {user_id}")
+
+            # URL para obtener playlists del usuario
+            url = f"https://api.spotify.com/v1/users/{user_id}/playlists?limit={10}"
+            try:
+                response = requests.get(url, headers=headers)
+
+                if response.status_code != 200:
+                    print(
+                        f"Error al obtener playlists: {response.status_code}")
+                    print(f"Detalles: {response.text}")
+                    return
+
+                # Procesar la respuesta
+                playlists_data = response.json()
+                print(f"Playlists obtenidas: {len(playlists_data['items'])}")
+                if not playlists_data['items']:
+                    print("El usuario no tiene playlists o no tiene acceso a ellas.")
+                    return
+
+                # Mostrar las playlists y sus IDs
+                print("\n--- PLAYLISTS DEL USUARIO ---")
+                print("Nombre".ljust(40) + "| ID")
+                print("-" * 70)
+
+                for i, playlist in enumerate(playlists_data['items'], 1):
+                    playlist_name = playlist['name']
+                    playlist_id = playlist['id']
+                    print(
+                        f"{i}. {playlist_name[:36].ljust(36)} | {playlist_id}")
+
+                print("\nPara usar un ID en la carga de imagen:")
+                print("playlist_id = \"ID_DE_LA_PLAYLIST\"")
+
+            except Exception as e:
+                print(f"Error al obtener playlists: {e}")
+            break
+
+        elif opcion == '11':
+            #  Solicita el usuario un imagen
+            ruta_img = input(
+                "Introduce la ruta de la imagen a procesar con el nombre: ")
+            # Introduce el id de la playlist
+            playlist = input(
+                "Introduce el id de la playlist a la que se le va a agregar la imagen: ")
+            # Valido que exista, si no existe vuelvo a pedir la ruta
+            while True:
+                try:
+                    with open(ruta_img, "rb") as img_file:
+                        # Leo el archivo binario
+                        binary_data = img_file.read()
+                        # Codifico a base64
+                        base64_encoded = base64.b64encode(binary_data)
+                        # Convierto de bytes a string y agrego el prefijo de datos
+                        img_base64 = f"data:image/jpeg;base64,{base64_encoded.decode('utf-8')}"
+                    break  # Salir del bucle si la imagen se carga correctamente
+                except FileNotFoundError:
+                    print("El archivo no existe. Inténtalo de nuevo.")
+                    ruta_img = input(
+                        "Introduce la ruta de la imagen a procesar con el nombre: ")
+
+            img64 = image_to_base64(ruta_img)
+            img_status = upload_playlist_cover(
+                access_token, playlist, img64)
+            print("img_status -> :", img_status)
 
         elif opcion == '00':
             # Salir
