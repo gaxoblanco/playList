@@ -248,14 +248,23 @@ def create_playlist(access_token, user_id, playlist_name):
 def upload_playlist_cover(access_token, playlist_id, image_data):
     print("upload_playlist_cover access_token ->", access_token)
     print("upload_playlist_cover playlist_id ->", playlist_id)
-    print("upload_playlist_cover image_data ->", image_data)
+    # print("upload_playlist_cover image_data ->", image_data)
 
     url = f"https://api.spotify.com/v1/playlists/{playlist_id}/images"
-    headers = {
-        'Authorization': f'{access_token}',
-        "Content-Type": "image/jpeg"  # Spotify requiere que sea un JPEG
-    }
-
+    # Verifica si el token ya incluye "Bearer"
+    if "Bearer " in access_token:
+        # Si ya lo incluye, úsalo tal cual
+        headers = {
+            'Authorization': access_token,
+            'Content-Type': 'image/jpeg'
+        }
+    else:
+        # Si no lo incluye, añádelo
+        headers = {
+            'Authorization': f'Bearer {access_token}',
+            'Content-Type': 'image/jpeg'
+        }
+    print("Headers de autorización:", headers['Authorization'][:20] + "...")
     response = requests.put(url, headers=headers, data=image_data)
 
     # Manejo de la respuesta
@@ -264,7 +273,8 @@ def upload_playlist_cover(access_token, playlist_id, image_data):
     else:
         print(f"Error al cargar la imagen: {response.status_code}")
         try:
-            print(response.json())  # Detalles del error si están disponibles
+            # Detalles del error si están disponibles
+            print(f"Error mensaje -> {response.text}")
         except Exception as e:
             print(f"Error al decodificar la respuesta: {e}")
         return response.status_code
