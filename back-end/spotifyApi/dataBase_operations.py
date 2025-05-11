@@ -122,20 +122,18 @@ def search_bands_db_from_list(bands_list):
 
     # Consulta a la base de datos usando los nombres normalizados
     bands_query = Band.query.filter(
-        Band.names.in_(normalized_band_names)).distinct()  # type: ignore
+        Band.names_normalize.in_(normalized_band_names)).distinct()  # type: ignore
 
     # Creamos diccionarios para búsqueda eficiente
     db_bands_by_normalized_name = {}
     for band in bands_query:
-        db_bands_by_normalized_name[band.names] = band
+        db_bands_by_normalized_name[band.names_normalize] = band
 
     # Dividimos en encontradas y no encontradas
     found_bands = []
     not_found_bands = []
     id_work_processed = set()  # Para rastrear qué id_work han sido procesados
     print("resultado de la busqueda en la base de datos:")
-    print("found_bands:", found_bands[0:3])
-    print("not_found_bands:", not_found_bands[0:3])
 
     # Procesar cada banda original una sola vez
     for band in bands_list:
@@ -194,6 +192,8 @@ def search_bands_db_from_list(bands_list):
                 band["genres"] = band_genres.get(db_band.id, [])
                 result.append(band)
 
+    print("found_bands:", found_bands[0:3])
+    print("not_found_bands:", not_found_bands[0:3])
     return result, not_found_bands
 
 
