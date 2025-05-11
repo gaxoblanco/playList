@@ -568,10 +568,16 @@ export class UpImgComponent {
           this.playlistInfo.bandInfo = data[1];
           this.observablesService.incrementNextStep();
           this.observablesService.incrementNextStep();
-          // el valor de la img viene en base64, lo modifico para cargar en el html
-          this.playlistInfo.playlists.img = [
-            'data:image/jpeg;base64,' + this.playlistInfo.playlists.img[0],
-          ];
+          // cargo la imagen del localStorage en playlistInfo.playlists.img
+          // Obtener la imagen comprimida del localStorage
+          const uploadedImageBase64 = localStorage.getItem('uploadedImage');
+          console.log('uploadedImageBase64', uploadedImageBase64);
+
+          if (uploadedImageBase64) {
+            // Convertir base64 a File
+            this.playlistInfo.playlists.img = uploadedImageBase64.split(',');
+          }
+
           // Actualizo headerService con la informacion del paso a realizar
           this.headerService.updateHeader(
             `Check the final summary and consider supporting the project with a donation.`
