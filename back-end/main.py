@@ -3,6 +3,7 @@ from asyncio.log import logger
 import base64
 from datetime import datetime
 import json
+import os
 
 import requests
 # from playlist_cover import update_playlist_cover
@@ -228,7 +229,6 @@ def main():
 
             except Exception as e:
                 print(f"Error al obtener playlists: {e}")
-            break
 
         elif opcion == '11':
             #  Solicita el usuario un imagen
@@ -237,26 +237,24 @@ def main():
             # Introduce el id de la playlist
             playlist = input(
                 "Introduce el id de la playlist a la que se le va a agregar la imagen: ")
-            # Valido que exista, si no existe vuelvo a pedir la ruta
+            # Solicitar ruta de imagen y ID de playlist
             while True:
-                try:
-                    with open(ruta_img, "rb") as img_file:
-                        # Leo el archivo binario
-                        binary_data = img_file.read()
-                        # Codifico a base64
-                        base64_encoded = base64.b64encode(binary_data)
-                        # Convierto de bytes a string y agrego el prefijo de datos
-                        img_base64 = f"data:image/jpeg;base64,{base64_encoded.decode('utf-8')}"
-                    break  # Salir del bucle si la imagen se carga correctamente
-                except FileNotFoundError:
-                    print("El archivo no existe. Inténtalo de nuevo.")
-                    ruta_img = input(
-                        "Introduce la ruta de la imagen a procesar con el nombre: ")
+                ruta_img = input("Introduce la ruta de la imagen: ")
+                if os.path.exists(ruta_img):
+                    break
+                print("El archivo no existe. Inténtalo de nuevo.")
 
+            playlist = input("Introduce el ID de la playlist: ")
+
+            # Procesamiento directo de la imagen (sin abrir el archivo manualmente)
             img64 = image_to_base64(ruta_img)
-            img_status = upload_playlist_cover(
-                access_token, playlist, img64)
-            print("img_status -> :", img_status)
+
+            if img64:
+                img_status = upload_playlist_cover(
+                    access_token, playlist, img64)
+                print("img_status -> :", img_status)
+            else:
+                print("No se pudo procesar la imagen.")
 
         elif opcion == '00':
             # Salir
