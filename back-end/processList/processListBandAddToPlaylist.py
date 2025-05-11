@@ -12,7 +12,7 @@ def process_list_band_add_to_playlist(access_token, band_list_top_ten, playlist)
         playlist (dict): Información de la playlist creada en Spotify.
     """
 
-    playlist_id = playlist['band_id']
+    playlist_id = playlist['playlist_id']
     # print(f"playlist_id--*: {playlist_id}")
     # print(f"band_list_top_ten--*: {band_list_top_ten}")
 
