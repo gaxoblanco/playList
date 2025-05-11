@@ -25,6 +25,7 @@ import { PlaylistinfoComponent } from '../organisms/playlistinfo/playlistinfo.co
 import { CardBandMobileComponent } from '../organisms/card-band-mobile/card-band-mobile.component';
 import { Subject, Subscription, take } from 'rxjs';
 import { LanguageService } from '../services/language.service';
+import { ImgProcessingService } from '../services/img-processing.service';
 
 @Component({
   selector: 'app-up-img',
@@ -119,7 +120,8 @@ export class UpImgComponent {
     private apiRequestService: ApiRequestService,
     private observablesService: ObservablesService,
     private headerService: HeaderService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private imgProcessingService: ImgProcessingService,
   ) {
     // Check initial screen size
     this.checkScreenSize();
@@ -252,17 +254,20 @@ export class UpImgComponent {
     if (input.files && input.files.length > 0) {
       this.selectedFile = input.files[0];
 
+      // Para mostrar vista previa en la UI
       const reader = new FileReader();
       reader.onload = () => {
-        // Convierto la imagen a Base64
-        const base64 = reader.result as string;
-        this.imgSelected = base64; // Mostrar la imagen en la vista
-        localStorage.setItem('uploadedImage', base64 as string); // Guardar imagen en localStorage
-        // console.log('Base64 generado:', this.imgSelected);
-        // inicializar el Cropper
+        // Solo usar base64 para preview
+        this.imgSelected = reader.result as string;
+
+        // Inicializar el Cropper
         this.initializeCropper();
       };
       reader.readAsDataURL(this.selectedFile);
+      // considera comprimir antes de guardar
+      this.imgProcessingService.compressImage(this.selectedFile).then(compressedBase64 => {
+        localStorage.setItem('uploadedImage', compressedBase64);
+      });
     } else {
       console.log('No se ha seleccionado ningún archivo');
     }
@@ -538,6 +543,17 @@ export class UpImgComponent {
     formData.append('img', this.selectedFile);
     // console.log('formData-img create play', formData);
 
+    // Obtener la imagen comprimida del localStorage
+    const uploadedImageBase64 = localStorage.getItem('uploadedImage');
+
+    if (uploadedImageBase64) {
+      // Convertir base64 a File
+      this.selectedFile = this.imgProcessingService.base64ToFile(uploadedImageBase64, 'playlist_image.jpg');
+    }
+    console.log('this.bandListCards', this.bandListCards);
+    console.log("quiza this.observablesService", this.observablesService['bandListCorect$']);
+
+
     // Le paso a generatePlayList el valor del input playListName
     this.apiRequestService
       .generatePlayList(
@@ -637,6 +653,8 @@ export class UpImgComponent {
         this.listb.subscribe({
           next: (data: any) => {
             this.bandListCards = data;
+            console.log('bandListCards', this.bandListCards);
+
             this.loading = 'done';
             // Actualizo headerService con la informacion del paso a realizar
             this.headerService.updateHeader(
