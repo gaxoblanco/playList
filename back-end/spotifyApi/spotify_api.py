@@ -232,7 +232,7 @@ def create_playlist(access_token, user_id, playlist_name):
         # Extraer solo la información relevante
         relevant_data = {
             'href': playlist_data['external_urls']['spotify'],
-            'band_id': playlist_data['id'],
+            'playlist_id': playlist_data['id'],
             'img': playlist_data['images'],
             'name': playlist_data['name']
         }

@@ -25,7 +25,7 @@ from spotifyApi.dataBase_operations import db
 
 # Crear la aplicación Flask
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://gaston:blanco@localhost:3306/lineup'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://gaston:blanco@localhost:3308/lineup'
 db.init_app(app)
 
 
@@ -201,7 +201,7 @@ def main():
             print(f"Tu User ID es: {user_id}")
 
             # URL para obtener playlists del usuario
-            url = f"https://api.spotify.com/v1/users/{user_id}/playlists?limit={10}"
+            url = f"https://api.spotify.com/v1/me/playlists?limit={20}"
             try:
                 response = requests.get(url, headers=headers)
 

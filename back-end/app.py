@@ -75,7 +75,7 @@ DB_PORT = os.getenv("DB_PORT", "3308")
 CLIENT_ID = os.getenv("CLIENT_ID")
 REDIRECT_URI = os.getenv("REDIRECT_URI")  # os.getenv("REDIRECT_URI")
 SCOPE = (
-    "user-read-private user-read-email playlist-modify-public playlist-modify-private"
+    "user-read-private user-read-email playlist-modify-public playlist-modify-private ugc-image-upload"
 )
 
 AUTH_URL = "https://accounts.spotify.com/authorize"
@@ -235,6 +235,7 @@ def api_create_playlist():
 
     # Crear la lista de reproducción
     playlist = create_playlist(access_token, user_id, playlist_name)
+    print("playlist:", playlist)
     if not playlist:
         print(f"No se pudo crear la lista de reproducción: {playlist_name}")
         return jsonify({"error": "Failed to create playlist"}), 500
@@ -261,7 +262,7 @@ def api_create_playlist():
         img64 = image_to_base64(img)
         if img64:
             img_status = upload_playlist_cover(
-                access_token, playlist, img64)
+                access_token, playlist['playlist_id'], img64)
             print("img_status -> :", img_status)
         else:
             print("No se pudo procesar la imagen.")
