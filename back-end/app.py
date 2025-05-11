@@ -66,11 +66,11 @@ api = Blueprint("api", __name__)
 # Cargar variables de entorno
 load_dotenv()
 # Variables para la base de datos
-DB_HOST = os.getenv("DB_HOST", "db")
-DB_NAME = os.getenv("DB_NAME", "lineup")
-DB_USER = os.getenv("DB_USER", "gaston")
-DB_PASSWORD = os.getenv("DB_PASSWORD", "blanco")
-DB_PORT = os.getenv("DB_PORT", "3306")
+DB_HOST = os.getenv("DB_HOST")
+DB_NAME = os.getenv("DB_NAME")
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_PORT = os.getenv("DB_PORT", "3308")
 
 CLIENT_ID = os.getenv("CLIENT_ID")
 REDIRECT_URI = os.getenv("REDIRECT_URI")  # os.getenv("REDIRECT_URI")
@@ -176,9 +176,12 @@ def band_list():
     print("data_copy:", bands_list)
     # Ejecuta el procesamiento asincrónico de las bandas
     with app.app_context():
-        result = asyncio.run(process_list_band_id(access_token, bands_list))
-    # print("result:", result)
-    return jsonify(result)
+        try:
+            result = asyncio.run(
+                process_list_band_id(access_token, bands_list))
+            return jsonify(result)
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
 
 
 # ---------- search top 5 by name ----------
@@ -223,7 +226,7 @@ def api_create_playlist():
     band_list = request.form.get("bandList")
     img = request.files.get("img")
 
-    print("/create_playlist - img:", img)
+    print("/create_playlist - img:")
 
     # Obtener el User ID del usuario autenticado
     user_id = get_user_id(access_token)
@@ -239,6 +242,7 @@ def api_create_playlist():
     # Obtengo el top ten de las bandas
     if band_list:
         band_listJSON = json.loads(band_list)
+        print("band_listJSON:", band_listJSON)
         bandListTopTen = process_list_band_top(access_token, band_listJSON)
         print(
             "bandListTopTen -> :",
@@ -251,11 +255,16 @@ def api_create_playlist():
         return jsonify({"error": "Failed to add tracks to playlist"}), 500
 
     # Agregar portada del festival
+    print("playlist data :", playlist)
     if img:
+        print("img:", img)
         img64 = image_to_base64(img)
-        img_status = upload_playlist_cover(
-            access_token, playlist["band_id"], img64)
-        print("img_status -> :", img_status)
+        if img64:
+            img_status = upload_playlist_cover(
+                access_token, playlist, img64)
+            print("img_status -> :", img_status)
+        else:
+            print("No se pudo procesar la imagen.")
 
     return jsonify(playlist, res)
 

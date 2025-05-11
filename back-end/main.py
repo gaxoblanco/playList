@@ -135,8 +135,13 @@ def main():
                 with app.app_context():
                     result = asyncio.run(
                         process_list_band_id(access_token, bands_list))
-                    print(
-                        f"Resultado del procesamiento {len(result)} ->: {result}")
+                    try:
+                        result = asyncio.run(
+                            process_list_band_id(access_token, bands_list))
+                        print(
+                            f"Resultado del procesamiento {len(result)} ->: {result}")
+                    except Exception as e:
+                        print(f"Error al procesar la lista de bandas: {e}")
             except Exception as e:
                 logger.error(f"Error al procesar la lista de bandas: {e}")
 
