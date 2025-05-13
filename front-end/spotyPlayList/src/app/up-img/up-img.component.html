@@ -71,7 +71,7 @@
     *ngIf="imgSelected && bandListCards.length == 0 && loading == 'up'"
     (click)="waitForCrop()"
   >
-    Recortar y Enviar
+    {{cutSendImageText}}
   </button>
   <!-- Spinner to search bandErrorList -->
   <div class="loading" *ngIf="loading == 'loading' && step == 0">

@@ -45,9 +45,11 @@ export class AuthCallbackComponent implements OnInit {
 
         // le paso el authCode a handleCallback que es un observable y devuelve un array
         this.authService.handleCallback(code).subscribe((data) => {
-          // actualizo el token en el localStorage
-          // console.log('data**:', data.access_token);
+          // Actualizo el token en el localStorage
           this.authService.setToken(data.access_token);
+
+          // Redireccionar a la página /create-playlist después de completar la operación
+          window.location.href = '/create-playlist';
         });
       }
     });

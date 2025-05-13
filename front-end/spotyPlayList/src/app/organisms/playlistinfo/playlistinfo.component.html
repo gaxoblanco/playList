@@ -14,11 +14,11 @@
   <div>
     <div class="playlist--info-container">
       <h3 class="playlist--h3">Process information</h3>
-      <p>Bands: {{ playlistInfo.bandInfo.top_add }} added</p>
-      <p>{{ playlistInfo.bandInfo.top_failed }} couldn't be added</p>
+      <p>{{texts[currentLang].bandsAdded}} {{ playlistInfo.bandInfo.top_add }} added</p>
+      <p>{{ playlistInfo.bandInfo.top_failed }} {{ texts[currentLang].bandsNotAdded }}</p>
     </div>
     <div class="playlist--scroll-container">
-      <h3>Bands that could not been found</h3>
+      <h3>{{ texts[currentLang].notFoundTitle }}</h3>
       <div class="scrollable-container">
         <ul class="ul">
           <li
@@ -34,10 +34,10 @@
       class="mat-button btn-createPL pulse"
       [href]="playlistInfo.playlists.href"
       target="_blank"
-      >Listen to playlist</a
+      >{{ texts[currentLang].listenPlaylist }}</a
     >
     <p class="coffee-title">
-      If you found this useful, please consider donating to support the
+      {{ texts[currentLang].donationText }}
     </p>
     <div class="coffee-container">
       <a

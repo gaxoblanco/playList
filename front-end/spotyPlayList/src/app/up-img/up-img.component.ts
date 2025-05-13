@@ -113,6 +113,7 @@ export class UpImgComponent {
   cropperEnabled: boolean = false;
   private subscriptions: Subscription[] = []; // guardo las subscripciones para poder desuscribirme
   uploadImageText: string = 'Upload Image';
+  cutSendImageText: string = 'Cut and send image';
 
   constructor(
     private languageService: LanguageService,
@@ -131,6 +132,8 @@ export class UpImgComponent {
     this.languageService.language$.subscribe((language) => {
       this.uploadImageText =
         language === 'en' ? 'Upload Image' : 'Subir Imagen';
+      this.cutSendImageText =
+        language === 'en' ? 'Cut and send image' : 'Cortar y enviar imagen';
     });
   }
 
