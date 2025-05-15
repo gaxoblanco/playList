@@ -115,6 +115,23 @@ export class UpImgComponent {
   uploadImageText: string = 'Upload Image';
   cutSendImageText: string = 'Cut and send image';
 
+    public currentLang = 'en'; // Default to English
+  texts: { [key: string]: any } = {
+    en: {
+      placeholderPlaylistName: 'Enter playlist name',
+      handleCreate: 'Create',
+      discard: 'Discard this group of options',
+      handleAdd: 'Add band',
+      placeholderEnterBandName: 'Enter correct band name',
+    },
+    es: {
+      placeholderPlaylistName: 'Ingrese el nombre de la playlist',
+      handleCreate: 'Crear',
+      discard: 'Descartar este grupo de opciones',
+      handleAdd: 'Agregar banda',
+      placeholderEnterBandName: 'Escribe el nombre correcto',
+    }
+  };
   constructor(
     private languageService: LanguageService,
     private procesListService: ProcesListService,
@@ -134,8 +151,11 @@ export class UpImgComponent {
         language === 'en' ? 'Upload Image' : 'Subir Imagen';
       this.cutSendImageText =
         language === 'en' ? 'Cut and send image' : 'Cortar y enviar imagen';
+      // metodo mas global para cambiar el idioma del componente
+      this.currentLang = language;
     });
   }
+
 
   ngOnInit(): void {
     this.initializeHeader();
@@ -174,6 +194,7 @@ export class UpImgComponent {
           'Sube la imagen del lineup que quieres analizar.'
         );
       }
+      this.currentLang = language;
     });
   }
 

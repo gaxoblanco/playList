@@ -94,17 +94,17 @@
       >
         <input
           matInput
-          placeholder="Enter your option"
+          placeholder={{texts[currentLang].placeholderEnterBandName}}
           [(ngModel)]="userBandName"
           name="userBandName"
           required
         />
-        <button mat-raised-button type="submit">Add band</button>
+        <button mat-raised-button type="submit">{{texts[currentLang].handleAdd}}</button>
       </form>
     </div>
     <mat-chip-set>
       <mat-chip (click)="waitForUserConfirmation()" class="button--discard">
-        Discard this group of options
+        {{texts[currentLang].discard}}
       </mat-chip>
     </mat-chip-set>
     <!-- span to succes onSubmitUserBandName + userBandaName -->
@@ -159,14 +159,14 @@
       >
         <input
           matInput
-          placeholder="Enter your option"
+          placeholder={{texts[currentLang].placeholderPlaylistName}}
           [(ngModel)]="playListName"
           name="userBandName"
           required
         />
         <button mat-raised-button type="submit">
           <p style="margin: 0; display: flex">
-            Create
+            {{texts[currentLang].handleCreate}}
             <!-- Componente de Icon: Icono SVG -->
             <svg class="icon" viewBox="0 0 24 24">
               <path
